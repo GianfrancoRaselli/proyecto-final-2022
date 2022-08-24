@@ -1,0 +1,46 @@
+{
+  "connectMetaMask": {
+    "English": "Connect to MetaMask",
+    "Español": "Conectarse a MetaMask"
+  },
+  "installMetaMask": {
+    "English": "You need to install MetaMask",
+    "Español": "Necesitas instalar MetaMask"
+  },
+  "loading": {
+    "English": "loading",
+    "Español": "cargando"
+  },
+  "account": {
+    "English": "Account",
+    "Español": "Cuenta"
+  },
+  "connected": {
+    "English": "Connected",
+    "Español": "Conectado"
+  },
+  "desconnected": {
+    "English": "Desconnected",
+    "Español": "Desconectado"
+  },
+  "disconnect": {
+    "English": "Disconnect",
+    "Español": "Desconectarse"
+  },
+  "change": {
+    "English": "Change to",
+    "Español": "Cambiar a"
+  }, 
+  "to": {
+    "English": "to",
+    "Español": "a"
+  },
+  "copyAddress": {
+    "English": "Copy address",
+    "Español": "Copiar dirección"
+  },
+  "viewExplorer": {
+    "English": "View on explorer",
+    "Español": "Ver en el explorador"
+  }
+}
