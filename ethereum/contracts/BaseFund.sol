@@ -11,7 +11,7 @@ contract BaseFundFactory {
   }
 
   /*function createBaseFund(uint _minimum) public {
-    BaseFund newBaseFund = new BaseFund(msg.sender, _minimum);
+    BaseFund newBaseFund = new BaseFund();
     deployedBaseFunds.push(newBaseFund);
   }*/
 
