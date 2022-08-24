@@ -4,21 +4,32 @@ pragma solidity 0.8.16;
 
 contract BaseFundFactory {
 
-  address[] public deployedBaseFunds;
+  BaseFund[] public deployedBaseFunds;
 
-  function getDeployedBaseFunds() public view returns (address[] memory) {
+  function getDeployedBaseFunds() public view returns (BaseFund[] memory) {
     return deployedBaseFunds;
   }
 
-  function createBaseFund(uint _minimum) public {
+  /*function createBaseFund(uint _minimum) public {
     BaseFund newBaseFund = new BaseFund(msg.sender, _minimum);
-    deployedBaseFunds.push(address(newBaseFund));
-  }
+    deployedBaseFunds.push(newBaseFund);
+  }*/
 
 }
 
 
 contract BaseFund {
+
+  mapping(address => bool) public managers;
+  bool public newManagersCanBeAdded;
+  string public name;
+  string public description;
+  bool public managersCanSpendMoneyWithoutARequest;
+  bool public onlyManagersCanCreateARequest;
+  bool public onlyManagersCanVote;
+  uint public minimumPercentageOfVotes;
+  uint public minimumContributionToVote;
+
 
   struct Request {
     string description;
@@ -28,42 +39,62 @@ contract BaseFund {
     mapping(address => bool) approvals;
     uint approvalsCount;
   }
-
-  address public manager;
-  uint public minimumContribution;
+  
   mapping(address => bool) public approvers;
   uint public approversCount;
   Request[] public requests;
 
-  modifier onlyManager() {
-    require(manager == msg.sender, 'Only manager can access');
+
+  modifier onlyManagers() {
+    require(managers[msg.sender], 'Only managers can access');
     _;
   }
 
-  modifier notManager() {
-    require(manager != msg.sender, 'The manager can not access');
-    _;
+
+  constructor(
+    address[] memory _managers,
+    bool _newManagersCanBeAdded,
+    string memory _name,
+    string memory _description,
+    bool _managersCanSpendMoneyWithoutARequest,
+    bool _onlyManagersCanCreateARequest,
+    bool _onlyManagersCanVote,
+    uint _minimumPercentageOfVotes,
+    uint _minimumContributionToVote) {
+      require(_minimumPercentageOfVotes < 101, 'Incorrect percentage');
+
+      for (uint i; i < _managers.length;) {
+        managers[_managers[i]] = true;
+
+        unchecked {
+          i++;
+        }
+      }
+      newManagersCanBeAdded = _newManagersCanBeAdded;
+      name = _name;
+      description = _description;
+      managersCanSpendMoneyWithoutARequest = _managersCanSpendMoneyWithoutARequest;
+      onlyManagersCanCreateARequest = _onlyManagersCanCreateARequest;
+      onlyManagersCanVote = _onlyManagersCanVote;
+      minimumPercentageOfVotes = _minimumPercentageOfVotes;
+      minimumContributionToVote = _minimumContributionToVote;
   }
 
-  constructor(address _manager, uint _minimumContribution) {
-    manager = _manager;
-    minimumContribution = _minimumContribution;
-  }
 
-  function contribute() public payable notManager {
+  /*function contribute() public payable notManager {
     require(minimumContribution <= msg.value);
 
     if (!approvers[msg.sender]) {
       approvers[msg.sender] = true;
       approversCount++;
     }
-  }
+  }*/
 
   function getRequestsCount() public view returns (uint) {
     return requests.length;
   }
 
-  function createRequest(string memory _description, address _recipient, uint _value) public onlyManager {
+  /*function createRequest(string memory _description, address _recipient, uint _value) public onlyManager {
     Request storage newRequest = requests.push();
 
     newRequest.description = _description;
@@ -92,18 +123,6 @@ contract BaseFund {
 
     payable(request.recipient).transfer(request.value);
     request.complete = true;
-  }
-
-  function getSummary() public view returns (
-    uint, uint, uint, uint, address
-  ) {
-    return (
-      minimumContribution,
-      address(this).balance,
-      requests.length,
-      approversCount,
-      manager
-    );
-  }
+  }*/
 
 }
