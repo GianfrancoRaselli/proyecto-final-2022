@@ -10,119 +10,206 @@ contract BaseFundFactory {
     return deployedBaseFunds;
   }
 
-  /*function createBaseFund(uint _minimum) public {
-    BaseFund newBaseFund = new BaseFund();
+  function createBaseFund(
+    string memory _name,
+    string memory _description,
+    address[] memory _managers,
+    bool _newManagersCanBeAdded,
+    bool _managersCanTransferMoneyWithoutARequest,
+    bool _onlyManagersCanCreateARequest,
+    bool _onlyContributorsCanApproveARequest,
+    uint _minimumContributionPercentageRequired,
+    uint _minimumApprovalsPercentageRequired
+  ) public {
+    require(_minimumContributionPercentageRequired < 101, 'Incorrect contribution percentage');
+    require(_minimumApprovalsPercentageRequired < 101, 'Incorrect approvals percentage');
+
+    BaseFund newBaseFund = new BaseFund(
+      _name,
+      _description,
+      _managers,
+      _newManagersCanBeAdded,
+      _managersCanTransferMoneyWithoutARequest,
+      _onlyManagersCanCreateARequest,
+      _onlyContributorsCanApproveARequest,
+      _minimumContributionPercentageRequired,
+      _minimumApprovalsPercentageRequired
+    );
     deployedBaseFunds.push(newBaseFund);
-  }*/
+  }
 
 }
 
 
 contract BaseFund {
 
-  mapping(address => bool) public managers;
-  bool public newManagersCanBeAdded;
-  string public name;
-  string public description;
-  bool public managersCanSpendMoneyWithoutARequest;
-  bool public onlyManagersCanCreateARequest;
-  bool public onlyManagersCanVote;
-  uint public minimumPercentageOfVotes;
-  uint public minimumContributionToVote;
-
-
   struct Request {
     string description;
+    address petitioner;
     address recipient;
-    uint value;
+    uint valueToTransfer;
+    uint transferredValue;
     bool complete;
     mapping(address => bool) approvals;
     uint approvalsCount;
   }
-  
-  mapping(address => bool) public approvers;
-  uint public approversCount;
+
+  string public name;
+  string public description;
+
+  address[] public managers;
+  mapping(address => bool) public isManager;
+  bool public newManagersCanBeAdded;
+
+  address[] public contributors;
+  mapping(address => uint) public contributions;
+  uint public totalContributions;
+
+  bool public managersCanTransferMoneyWithoutARequest;
+
   Request[] public requests;
+  bool public onlyManagersCanCreateARequest;
+  bool public onlyContributorsCanApproveARequest;
+  uint public minimumContributionPercentageRequired;
+  uint public minimumApprovalsPercentageRequired;
 
 
   modifier onlyManagers() {
-    require(managers[msg.sender], 'Only managers can access');
+    require(isManager[msg.sender], 'Only managers can access');
+    _;
+  }
+
+  modifier notManagers() {
+    require(!isManager[msg.sender], 'Managers can not access');
     _;
   }
 
 
   constructor(
-    address[] memory _managers,
-    bool _newManagersCanBeAdded,
     string memory _name,
     string memory _description,
-    bool _managersCanSpendMoneyWithoutARequest,
+    address[] memory _managers,
+    bool _newManagersCanBeAdded,
+    bool _managersCanTransferMoneyWithoutARequest,
     bool _onlyManagersCanCreateARequest,
-    bool _onlyManagersCanVote,
-    uint _minimumPercentageOfVotes,
-    uint _minimumContributionToVote) {
-      require(_minimumPercentageOfVotes < 101, 'Incorrect percentage');
-
-      for (uint i; i < _managers.length;) {
-        managers[_managers[i]] = true;
-
-        unchecked {
-          i++;
-        }
-      }
-      newManagersCanBeAdded = _newManagersCanBeAdded;
-      name = _name;
-      description = _description;
-      managersCanSpendMoneyWithoutARequest = _managersCanSpendMoneyWithoutARequest;
-      onlyManagersCanCreateARequest = _onlyManagersCanCreateARequest;
-      onlyManagersCanVote = _onlyManagersCanVote;
-      minimumPercentageOfVotes = _minimumPercentageOfVotes;
-      minimumContributionToVote = _minimumContributionToVote;
+    bool _onlyContributorsCanApproveARequest,
+    uint _minimumContributionPercentageRequired,
+    uint _minimumApprovalsPercentageRequired
+  ) {
+    name = _name;
+    description = _description;
+    _addManagers(_managers);
+    newManagersCanBeAdded = _newManagersCanBeAdded;
+    managersCanTransferMoneyWithoutARequest = _managersCanTransferMoneyWithoutARequest;
+    onlyManagersCanCreateARequest = _onlyManagersCanCreateARequest;
+    onlyContributorsCanApproveARequest = _onlyContributorsCanApproveARequest;
+    minimumContributionPercentageRequired = _minimumContributionPercentageRequired;
+    minimumApprovalsPercentageRequired = _minimumApprovalsPercentageRequired;
   }
 
+  function addNewManagers(address[] memory _managers) public {
+    require(newManagersCanBeAdded, 'New managers can not be added');
 
-  /*function contribute() public payable notManager {
-    require(minimumContribution <= msg.value);
-
-    if (!approvers[msg.sender]) {
-      approvers[msg.sender] = true;
-      approversCount++;
-    }
-  }*/
-
-  function getRequestsCount() public view returns (uint) {
-    return requests.length;
+    _addManagers(_managers);
   }
 
-  /*function createRequest(string memory _description, address _recipient, uint _value) public onlyManager {
+  function managersCount() public view returns (uint) {
+    return managers.length;
+  }
+
+  function contribute() public payable {
+    _contribute(msg.sender);
+  }
+
+  function contributeFor(address _for) public payable {
+    _contribute(_for);
+  }
+
+  function contributorsCount() public view returns (uint) {
+    return contributors.length;
+  }
+
+  function balance() public view returns (uint) {
+    return address(this).balance;
+  }
+
+  function transfer(address _to, uint _value) public {
+    require(managersCanTransferMoneyWithoutARequest, 'Managers can not transfer money without a request');
+    require(isManager[msg.sender], 'Only managers can access');
+
+    payable(_to).transfer(_value);
+  }
+
+  function createRequest(string memory _description, address _recipient, uint _valueToTransfer) public {
+    bool _isManager = isManager[msg.sender];
+
+    require(!onlyManagersCanCreateARequest || (onlyManagersCanCreateARequest && _isManager), 'Only managers can create a request');
+
     Request storage newRequest = requests.push();
 
     newRequest.description = _description;
+    newRequest.petitioner = msg.sender;
     newRequest.recipient = _recipient;
-    newRequest.value = _value;
-    newRequest.complete = false;
-    newRequest.approvalsCount = 0;
+    newRequest.valueToTransfer = _valueToTransfer;
   }
 
-  function approveRequest(uint _index) public notManager {
+  function requestsCount() public view returns (uint) {
+    return requests.length;
+  }
+
+  function approveRequest(uint _index) public {
     Request storage request = requests[_index];
 
-    require(approvers[msg.sender]);
-    require(!request.complete);
-    require(!request.approvals[msg.sender]);
+    require(!request.complete, 'The request has already been completed');
+    require((contributions[msg.sender] / totalContributions) * 100 >= minimumContributionPercentageRequired || (!onlyContributorsCanApproveARequest && isManager[msg.sender]), 'You can not approve a request');
+    require(!request.approvals[msg.sender], 'You have already approved this request');
 
     request.approvals[msg.sender] = true;
     request.approvalsCount++;
   }
 
-  function finalizeRequest(uint _index) public onlyManager {
+  function finalizeRequest(uint _index) public {
     Request storage request = requests[_index];
 
-    require(!request.complete);
-    require(request.approvalsCount > (approversCount / 2));
+    require(request.petitioner == msg.sender, 'You are not the petitioner of the request');
+    require(!request.complete, 'The request has already been completed');
+    if (onlyContributorsCanApproveARequest) {
+      require((request.approvalsCount / contributorsCount()) * 100 >= minimumApprovalsPercentageRequired, 'The request has not been approved yet');
+    } else {
+      require((request.approvalsCount / (managersCount() + contributorsCount())) * 100 >= minimumApprovalsPercentageRequired, 'The request has not been approved yet');
+    }
 
-    payable(request.recipient).transfer(request.value);
+    uint _valueToTransfer = request.valueToTransfer;
+    if (_valueToTransfer > balance()) {
+      _valueToTransfer = balance();
+    }
+
+    payable(request.recipient).transfer(_valueToTransfer);
+    request.transferredValue = _valueToTransfer;
     request.complete = true;
-  }*/
+  }
+
+  function _addManagers(address[] memory _managers) private {
+    for (uint i; i < _managers.length;) {
+      if (!isManager[msg.sender]) {
+        managers.push(_managers[i]);
+        isManager[_managers[i]] = true;
+      }
+
+      unchecked {
+        i++;
+      }
+    }
+  }
+
+  function _contribute(address _contributor) private {
+    require(msg.value > 0, 'The contribution must be greater than zero');
+
+    if (contributions[_contributor] == 0) {
+      contributors.push(_contributor);
+    }
+    contributions[_contributor] += msg.value;
+    totalContributions += msg.value;
+  }  
 
 }
