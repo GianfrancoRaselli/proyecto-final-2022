@@ -20,14 +20,8 @@ contract BaseFundFactory {
     uint256 _minimumContributionPercentageRequired,
     uint256 _minimumApprovalsPercentageRequired
   ) public {
-    require(
-      _minimumContributionPercentageRequired < 101,
-      "Incorrect contribution percentage"
-    );
-    require(
-      _minimumApprovalsPercentageRequired < 101,
-      "Incorrect approvals percentage"
-    );
+    require(_minimumContributionPercentageRequired < 101, "Incorrect contribution percentage");
+    require(_minimumApprovalsPercentageRequired < 101, "Incorrect approvals percentage");
 
     BaseFund newBaseFund = new BaseFund(
       _name,
@@ -134,10 +128,7 @@ contract BaseFund {
   }
 
   function transfer(address _to, uint256 _value) public {
-    require(
-      managersCanTransferMoneyWithoutARequest,
-      "Managers can not transfer money without a request"
-    );
+    require(managersCanTransferMoneyWithoutARequest, "Managers can not transfer money without a request");
     require(isManager[msg.sender], "Only managers can access");
 
     payable(_to).transfer(_value);
@@ -151,8 +142,7 @@ contract BaseFund {
     bool _isManager = isManager[msg.sender];
 
     require(
-      !onlyManagersCanCreateARequest ||
-        (onlyManagersCanCreateARequest && _isManager),
+      !onlyManagersCanCreateARequest || (onlyManagersCanCreateARequest && _isManager),
       "Only managers can create a request"
     );
 
@@ -173,15 +163,11 @@ contract BaseFund {
 
     require(!request.complete, "The request has already been completed");
     require(
-      (contributions[msg.sender] / totalContributions) * 100 >=
-        minimumContributionPercentageRequired ||
+      (contributions[msg.sender] / totalContributions) * 100 >= minimumContributionPercentageRequired ||
         (!onlyContributorsCanApproveARequest && isManager[msg.sender]),
       "You can not approve a request"
     );
-    require(
-      !request.approvals[msg.sender],
-      "You have already approved this request"
-    );
+    require(!request.approvals[msg.sender], "You have already approved this request");
 
     request.approvals[msg.sender] = true;
     request.approvalsCount++;
@@ -190,22 +176,16 @@ contract BaseFund {
   function finalizeRequest(uint256 _index) public {
     Request storage request = requests[_index];
 
-    require(
-      request.petitioner == msg.sender,
-      "You are not the petitioner of the request"
-    );
+    require(request.petitioner == msg.sender, "You are not the petitioner of the request");
     require(!request.complete, "The request has already been completed");
     if (onlyContributorsCanApproveARequest) {
       require(
-        (request.approvalsCount / contributorsCount()) * 100 >=
-          minimumApprovalsPercentageRequired,
+        (request.approvalsCount / contributorsCount()) * 100 >= minimumApprovalsPercentageRequired,
         "The request has not been approved yet"
       );
     } else {
       require(
-        (request.approvalsCount / (managersCount() + contributorsCount())) *
-          100 >=
-          minimumApprovalsPercentageRequired,
+        (request.approvalsCount / (managersCount() + contributorsCount())) * 100 >= minimumApprovalsPercentageRequired,
         "The request has not been approved yet"
       );
     }

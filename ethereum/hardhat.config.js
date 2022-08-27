@@ -1,9 +1,10 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-etherscan");
+require("@nomiclabs/hardhat-solhint");
 require("solidity-coverage");
+require("hardhat-tracer");
 require("hardhat-gas-reporter");
 require("hardhat-watcher");
-require("hardhat-tracer");
 require("hardhat-spdx-license-identifier");
 
 require("dotenv").config();
