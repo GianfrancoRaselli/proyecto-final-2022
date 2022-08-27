@@ -7,9 +7,9 @@
     "test": "npx hardhat test",
     "compile": "npx hardhat compile",
     "clean": "npx hardhat clean --global",
-    "local-deploy": "npx hardhat run scripts/deploy.js --network ganache",
-    "test-deploy": "npx hardhat run scripts/deploy.js --network goerli",
-    "production-deploy": "npx hardhat run scripts/deploy.js --network ethereum"
+    "deploy:local": "npx hardhat run scripts/deploy.js --network ganache",
+    "deploy:test": "npx hardhat run scripts/deploy.js --network goerli",
+    "deploy:production": "npx hardhat run scripts/deploy.js --network ethereum"
   },
   "keywords": [],
   "author": "",
