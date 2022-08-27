@@ -4,6 +4,7 @@ require("solidity-coverage");
 require("hardhat-gas-reporter");
 require("hardhat-watcher");
 require("hardhat-tracer");
+require("hardhat-spdx-license-identifier");
 
 require("dotenv").config();
 
@@ -60,4 +61,8 @@ module.exports = {
       ],
     },
   },
+  /*spdxLicenseIdentifier: {
+    overwrite: true,
+    runOnCompile: true,
+  }*/
 };
