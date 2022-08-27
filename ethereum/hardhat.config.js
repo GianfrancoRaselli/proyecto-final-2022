@@ -1,8 +1,7 @@
 require("@nomiclabs/hardhat-waffle");
-require("dotenv").config();
+require("@nomiclabs/hardhat-etherscan");
 
-const fs = require('fs')
-const privateKey = fs.readFileSync(".secret").toString().trim();
+require("dotenv").config();
 
 module.exports = {
   solidity: "0.8.16",
@@ -17,9 +16,24 @@ module.exports = {
     ganache: {
       url: "http://127.0.0.1:7545"
     },
-    rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${process.env.RINKEBY_INFURA_KEY}`,
+    goerli: {
+      url: `https://goerli.infura.io/v3/${process.env.INFURA_KEY}`,
       accounts: [process.env.PRIVATE_KEY]
     }
+  },
+  etherscan: {
+    apiKey: {
+      goerli: process.env.ETHERSCAN_KEY
+    },
+    customChains: [
+      {
+        network: "goerli",
+        chainId: 5,
+        urls: {
+          apiURL: "https://api-goerli.etherscan.io/api",
+          browserURL: "https://goerli.etherscan.io"
+        }
+      }
+    ]
   }
 };
