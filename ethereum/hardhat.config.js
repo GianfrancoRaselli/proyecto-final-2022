@@ -3,6 +3,7 @@ require("@nomiclabs/hardhat-etherscan");
 require("solidity-coverage");
 require("hardhat-gas-reporter");
 require("hardhat-watcher");
+require("hardhat-tracer");
 
 require("dotenv").config();
 
