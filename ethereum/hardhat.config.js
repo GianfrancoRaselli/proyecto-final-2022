@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require("dotenv").config();
 
 const fs = require('fs')
 const privateKey = fs.readFileSync(".secret").toString().trim();
@@ -17,8 +18,8 @@ module.exports = {
       url: "http://127.0.0.1:7545"
     },
     rinkeby: {
-      url: "https://rinkeby.infura.io/v3/c2c820555fad43838ab62145a03e4a2a",
-      accounts: [privateKey]
+      url: `https://rinkeby.infura.io/v3/${process.env.RINKEBY_INFURA_KEY}`,
+      accounts: [process.env.PRIVATE_KEY]
     }
   }
 };
