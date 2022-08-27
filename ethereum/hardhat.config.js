@@ -2,6 +2,7 @@ require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-etherscan");
 require("solidity-coverage");
 require("hardhat-gas-reporter");
+require("hardhat-watcher");
 
 require("dotenv").config();
 
@@ -37,5 +38,25 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  gasReporter: {
+    enabled: (process.env.REPORT_GAS) ? true : false
+  },
+  watcher: {
+    compilation: {
+      tasks: ['compile'],
+      files: ['./contracts'],
+      ignoredFiles: ['**/.vscode'],
+      verbose: true,
+      clearOnStart: true,
+      start: 'echo Running my compilation task now...',
+    },
+    ci: {
+      tasks: [
+        'clean',
+        { command: 'compile', params: { quiet: true } },
+        { command: 'test', params: { noCompile: true } },
+      ],
+    },
+  },
 };
