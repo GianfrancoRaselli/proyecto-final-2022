@@ -5,9 +5,9 @@ pragma solidity 0.8.16;
 
 // Imports
 
-import "@openzeppelin/contracts@4.7.3/utils/Context.sol";
-import "@openzeppelin/contracts@4.7.3/utils/Counters.sol";
-import "@openzeppelin/contracts@4.7.3/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/Context.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 // Contract factory -> contract to deploy
 contract FundFactory {
@@ -47,7 +47,7 @@ contract FundFactory {
     emit NewFund(_name, _description);
   }
 
-  function getDeployedFundsCount() public view returns (Fund[] memory) {
+  function getDeployedFundsCount() public view returns (uint256) {
     return deployedFunds.length;
   }
 
@@ -222,9 +222,9 @@ contract Fund is Context, ReentrancyGuard {
     return requests.length;
   }
 
-  function getRequests() public view returns (Request[] memory) {
+  /*function getRequests() public view returns (Request[] memory) {
     return requests;
-  }
+  }*/
 
   function approveRequest(uint256 _index) public {
     Request storage request = requests[_index];
