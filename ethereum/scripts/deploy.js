@@ -3,7 +3,7 @@
 //
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
-const hre = require("hardhat");
+const hre = require('hardhat');
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -12,31 +12,31 @@ async function main() {
   // If this script is run directly using `node` you may want to call compile
   // manually to make sure everything is compiled
   await hre.run('compile');
-  
+
   // We get the contract to deploy
-  const BaseFundFactory = await hre.ethers.getContractFactory("BaseFundFactory");
+  const BaseFundFactory = await hre.ethers.getContractFactory('BaseFundFactory');
   const baseFundFactory = await BaseFundFactory.deploy();
   await baseFundFactory.deployed();
-  console.log("BaseFundFactory deployed to:", baseFundFactory.address);
+  console.log('BaseFundFactory deployed to:', baseFundFactory.address);
 
-  if (hre.network.name === "goerli") {
+  if (hre.network.name === 'goerli') {
     // Verify deployed contract in Etherscan
-    console.log("Waiting 5 block confirmations...");
+    console.log('Waiting 5 block confirmations...');
     await baseFundFactory.deployTransaction.wait(5); // needed if verifyContract() is called immediately after deployment
     try {
-      console.log("Verifying contract...");
-      await hre.run("verify:verify", {
+      console.log('Verifying contract...');
+      await hre.run('verify:verify', {
         address: baseFundFactory.address,
         constructorArguments: [],
       });
     } catch (err) {
-      if (err.message.includes("Reason: Already Verified")) {
-        console.log("Contract is already verified");
+      if (err.message.includes('Reason: Already Verified')) {
+        console.log('Contract is already verified');
       } else {
         throw err;
       }
     }
-    console.log("Deployed contract verified");
+    console.log('Deployed contract verified');
   }
 }
 
