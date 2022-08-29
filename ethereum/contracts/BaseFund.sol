@@ -63,7 +63,7 @@ contract BaseFund {
   uint256 public totalContributions;
 
   bool public managersCanTransferMoneyWithoutARequest;
-  
+
   Request[] public requests;
   bool public onlyManagersCanCreateARequest;
   bool public onlyContributorsCanApproveARequest;
