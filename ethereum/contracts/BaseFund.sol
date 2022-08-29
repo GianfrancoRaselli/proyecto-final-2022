@@ -5,9 +5,7 @@ pragma solidity 0.8.16;
 contract BaseFundFactory {
   BaseFund[] public deployedBaseFunds;
 
-  function getDeployedBaseFunds() public view returns (BaseFund[] memory) {
-    return deployedBaseFunds;
-  }
+  event NewBaseFund(string name, string description);
 
   function createBaseFund(
     string memory _name,
@@ -35,6 +33,12 @@ contract BaseFundFactory {
       _minimumApprovalsPercentageRequired
     );
     deployedBaseFunds.push(newBaseFund);
+
+    emit NewBaseFund(_name, _description);
+  }
+
+  function getDeployedBaseFunds() public view returns (BaseFund[] memory) {
+    return deployedBaseFunds;
   }
 }
 
@@ -69,8 +73,6 @@ contract BaseFund {
   bool public onlyContributorsCanApproveARequest;
   uint256 public minimumContributionPercentageRequired;
   uint256 public minimumApprovalsPercentageRequired;
-
-  event NewBaseFund(string name, string description);
 
   event NewManager(address indexed manager);
 
@@ -114,8 +116,6 @@ contract BaseFund {
     onlyContributorsCanApproveARequest = _onlyContributorsCanApproveARequest;
     minimumContributionPercentageRequired = _minimumContributionPercentageRequired;
     minimumApprovalsPercentageRequired = _minimumApprovalsPercentageRequired;
-
-    emit NewBaseFund(_name, _description);
   }
 
   function addNewManagers(address[] memory _managers) public {
