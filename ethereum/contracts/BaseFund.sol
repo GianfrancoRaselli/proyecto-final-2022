@@ -3,6 +3,13 @@
 // Solidity compiler version
 pragma solidity 0.8.16;
 
+// Imports
+
+import "@openzeppelin/contracts@4.7.3/utils/Context.sol";
+import "@openzeppelin/contracts@4.7.3/utils/Counters.sol";
+import "@openzeppelin/contracts@4.7.3/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts@4.7.3/security/Pausable.sol";
+
 // Contract factory -> contract to deploy
 contract BaseFundFactory {
   // All contracts created are stored here
