@@ -222,7 +222,7 @@ contract BaseFund is Context, ReentrancyGuard {
     require(!request.approvals[_msgSender()], "You have already approved this request");
 
     request.approvals[_msgSender()] = true;
-    request.approvalsCount++;
+    request.approvalsCount.increment();
 
     emit ApproveRequest(_index, _msgSender());
   }
@@ -234,12 +234,12 @@ contract BaseFund is Context, ReentrancyGuard {
     require(!request.complete, "The request has already been completed");
     if (onlyContributorsCanApproveARequest) {
       require(
-        (request.approvalsCount / contributorsCount()) * 100 >= minimumApprovalsPercentageRequired,
+        (request.approvalsCount.current() / contributorsCount()) * 100 >= minimumApprovalsPercentageRequired,
         "The request has not been approved yet"
       );
     } else {
       require(
-        (request.approvalsCount / (managersCount() + contributorsCount())) * 100 >= minimumApprovalsPercentageRequired,
+        (request.approvalsCount.current() / (managersCount() + contributorsCount())) * 100 >= minimumApprovalsPercentageRequired,
         "The request has not been approved yet"
       );
     }
