@@ -52,6 +52,7 @@ contract BaseFund {
 
   string public name;
   string public description;
+  uint256 public createdAt = block.timestamp;
 
   address[] public managers;
   mapping(address => bool) public isManager;
@@ -62,12 +63,26 @@ contract BaseFund {
   uint256 public totalContributions;
 
   bool public managersCanTransferMoneyWithoutARequest;
-
+  
   Request[] public requests;
   bool public onlyManagersCanCreateARequest;
   bool public onlyContributorsCanApproveARequest;
   uint256 public minimumContributionPercentageRequired;
   uint256 public minimumApprovalsPercentageRequired;
+
+  event NewBaseFund(string name, string description);
+
+  event NewManager(address indexed manager);
+
+  event Contribute(address indexed contributor, uint256 value);
+
+  event Transfer(address indexed sender, address indexed to, uint256 value);
+
+  event NewRequest(string description, address indexed petitioner, address indexed recipient, uint256 valueToTransfer);
+
+  event ApproveRequest(uint256 requestIndex, address indexed approver);
+
+  event FinalizeRequest(uint256 requestIndex, uint256 transferredValue);
 
   modifier onlyManagers() {
     require(isManager[msg.sender], "Only managers can access");
@@ -99,6 +114,8 @@ contract BaseFund {
     onlyContributorsCanApproveARequest = _onlyContributorsCanApproveARequest;
     minimumContributionPercentageRequired = _minimumContributionPercentageRequired;
     minimumApprovalsPercentageRequired = _minimumApprovalsPercentageRequired;
+
+    emit NewBaseFund(_name, _description);
   }
 
   function addNewManagers(address[] memory _managers) public {
@@ -132,6 +149,8 @@ contract BaseFund {
     require(isManager[msg.sender], "Only managers can access");
 
     payable(_to).transfer(_value);
+
+    emit Transfer(msg.sender, _to, _value);
   }
 
   function createRequest(
@@ -152,6 +171,8 @@ contract BaseFund {
     newRequest.petitioner = msg.sender;
     newRequest.recipient = _recipient;
     newRequest.valueToTransfer = _valueToTransfer;
+
+    emit NewRequest(_description, msg.sender, _recipient, _valueToTransfer);
   }
 
   function requestsCount() public view returns (uint256) {
@@ -171,6 +192,8 @@ contract BaseFund {
 
     request.approvals[msg.sender] = true;
     request.approvalsCount++;
+
+    emit ApproveRequest(_index, msg.sender);
   }
 
   function finalizeRequest(uint256 _index) public {
@@ -198,6 +221,8 @@ contract BaseFund {
     payable(request.recipient).transfer(_valueToTransfer);
     request.transferredValue = _valueToTransfer;
     request.complete = true;
+
+    emit FinalizeRequest(_index, _valueToTransfer);
   }
 
   function _addManagers(address[] memory _managers) private {
@@ -205,6 +230,8 @@ contract BaseFund {
       if (!isManager[msg.sender]) {
         managers.push(_managers[i]);
         isManager[_managers[i]] = true;
+
+        emit NewManager(_managers[i]);
       }
 
       unchecked {
@@ -221,5 +248,7 @@ contract BaseFund {
     }
     contributions[_contributor] += msg.value;
     totalContributions += msg.value;
+
+    emit Contribute(_contributor, msg.value);
   }
 }
