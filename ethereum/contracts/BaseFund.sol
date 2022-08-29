@@ -55,6 +55,10 @@ contract BaseFundFactory {
 
 // Base func contract -> they are deployed by the factory
 contract BaseFund is Context {
+  // Libraries
+
+  using Counters for Counters.Counter;
+
   // Structs
 
   struct Request {
@@ -65,7 +69,7 @@ contract BaseFund is Context {
     uint256 transferredValue;
     bool complete;
     mapping(address => bool) approvals;
-    uint256 approvalsCount;
+    Counters.Counter approvalsCount;
   }
 
   // Base Fund data
