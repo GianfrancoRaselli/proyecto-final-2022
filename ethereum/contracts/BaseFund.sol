@@ -47,6 +47,10 @@ contract BaseFundFactory {
     emit NewBaseFund(_name, _description);
   }
 
+  function getDeployedBaseFundsCount() public view returns (BaseFund[] memory) {
+    return deployedBaseFunds.length;
+  }
+
   function getDeployedBaseFunds() public view returns (BaseFund[] memory) {
     return deployedBaseFunds;
   }
@@ -159,6 +163,10 @@ contract BaseFund is Context, ReentrancyGuard {
     return managers.length;
   }
 
+  function getManagers() public view returns (address[] memory) {
+    return managers;
+  }
+
   function contribute() public payable {
     _contribute(_msgSender());
   }
@@ -169,6 +177,10 @@ contract BaseFund is Context, ReentrancyGuard {
 
   function contributorsCount() public view returns (uint256) {
     return contributors.length;
+  }
+
+  function getContributors() public view returns (address[] memory) {
+    return contributors;
   }
 
   function balance() public view returns (uint256) {
@@ -208,6 +220,10 @@ contract BaseFund is Context, ReentrancyGuard {
 
   function requestsCount() public view returns (uint256) {
     return requests.length;
+  }
+
+  function getRequests() public view returns (Request[] memory) {
+    return requests;
   }
 
   function approveRequest(uint256 _index) public {
