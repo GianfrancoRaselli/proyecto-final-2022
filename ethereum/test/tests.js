@@ -1,18 +1,18 @@
 const { expect } = require('chai');
 const { ethers } = require('hardhat');
 
-describe('BaseFundFactory', function () {
-  let baseFundFactory;
+describe('FundFactory', function () {
+  let fundFactory;
   let deploymentAccount;
 
   beforeEach(async function () {
-    const BaseFundFactory = await ethers.getContractFactory('BaseFundFactory');
-    baseFundFactory = await BaseFundFactory.deploy();
+    const FundFactory = await ethers.getContractFactory('FundFactory');
+    fundFactory = await FundFactory.deploy();
 
     deploymentAccount = (await ethers.getSigners())[0];
   });
 
   it('Contract deployed', async function () {
-    expect(await baseFundFactory.address).to.not.equal(null || undefined);
+    expect(await fundFactory.address).to.not.equal(null || undefined);
   });
 });

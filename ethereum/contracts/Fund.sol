@@ -10,14 +10,14 @@ import "@openzeppelin/contracts@4.7.3/utils/Counters.sol";
 import "@openzeppelin/contracts@4.7.3/security/ReentrancyGuard.sol";
 
 // Contract factory -> contract to deploy
-contract BaseFundFactory {
-  // All contracts created are stored here
-  BaseFund[] public deployedBaseFunds;
+contract FundFactory {
+  // All fund contracts created are stored here
+  Fund[] public deployedFunds;
 
-  event NewBaseFund(string name, string description);
+  event NewFund(string name, string description);
 
-  // Function to create new base fund and store it in the factory
-  function createBaseFund(
+  // Function to create new fund and store it in the factory
+  function createFund(
     string memory _name,
     string memory _description,
     address[] memory _managers,
@@ -31,7 +31,7 @@ contract BaseFundFactory {
     require(_minimumContributionPercentageRequired < 101, "Incorrect contribution percentage");
     require(_minimumApprovalsPercentageRequired < 101, "Incorrect approvals percentage");
 
-    BaseFund newBaseFund = new BaseFund(
+    Fund newFund = new Fund(
       _name,
       _description,
       _managers,
@@ -42,22 +42,22 @@ contract BaseFundFactory {
       _minimumContributionPercentageRequired,
       _minimumApprovalsPercentageRequired
     );
-    deployedBaseFunds.push(newBaseFund);
+    deployedFunds.push(newFund);
 
-    emit NewBaseFund(_name, _description);
+    emit NewFund(_name, _description);
   }
 
-  function getDeployedBaseFundsCount() public view returns (BaseFund[] memory) {
-    return deployedBaseFunds.length;
+  function getDeployedFundsCount() public view returns (Fund[] memory) {
+    return deployedFunds.length;
   }
 
-  function getDeployedBaseFunds() public view returns (BaseFund[] memory) {
-    return deployedBaseFunds;
+  function getDeployedFunds() public view returns (Fund[] memory) {
+    return deployedFunds;
   }
 }
 
-// Base func contract -> they are deployed by the factory
-contract BaseFund is Context, ReentrancyGuard {
+// Fund contract -> they are deployed by the factory
+contract Fund is Context, ReentrancyGuard {
   // Libraries
 
   using Counters for Counters.Counter;
@@ -75,7 +75,7 @@ contract BaseFund is Context, ReentrancyGuard {
     Counters.Counter approvalsCount;
   }
 
-  // Base Fund data
+  // Fund data
 
   string public name;
   string public description;
