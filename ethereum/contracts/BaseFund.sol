@@ -54,7 +54,7 @@ contract BaseFundFactory {
 }
 
 // Base func contract -> they are deployed by the factory
-contract BaseFund {
+contract BaseFund is Context {
   // Structs
 
   struct Request {
@@ -113,12 +113,12 @@ contract BaseFund {
   // Modifiers
 
   modifier onlyManagers() {
-    require(isManager[msg.sender], "Only managers can access");
+    require(isManager[_msgSender()], "Only managers can access");
     _;
   }
 
   modifier notManagers() {
-    require(!isManager[msg.sender], "Managers can not access");
+    require(!isManager[_msgSender()], "Managers can not access");
     _;
   }
 
@@ -157,7 +157,7 @@ contract BaseFund {
   }
 
   function contribute() public payable {
-    _contribute(msg.sender);
+    _contribute(_msgSender());
   }
 
   function contributeFor(address _for) public payable {
@@ -174,11 +174,11 @@ contract BaseFund {
 
   function transfer(address _to, uint256 _value) public {
     require(managersCanTransferMoneyWithoutARequest, "Managers can not transfer money without a request");
-    require(isManager[msg.sender], "Only managers can access");
+    require(isManager[_msgSender()], "Only managers can access");
 
     payable(_to).transfer(_value);
 
-    emit Transfer(msg.sender, _to, _value);
+    emit Transfer(_msgSender(), _to, _value);
   }
 
   function createRequest(
@@ -186,7 +186,7 @@ contract BaseFund {
     address _recipient,
     uint256 _valueToTransfer
   ) public {
-    bool _isManager = isManager[msg.sender];
+    bool _isManager = isManager[_msgSender()];
 
     require(
       !onlyManagersCanCreateARequest || (onlyManagersCanCreateARequest && _isManager),
@@ -196,11 +196,11 @@ contract BaseFund {
     Request storage newRequest = requests.push();
 
     newRequest.description = _description;
-    newRequest.petitioner = msg.sender;
+    newRequest.petitioner = _msgSender();
     newRequest.recipient = _recipient;
     newRequest.valueToTransfer = _valueToTransfer;
 
-    emit NewRequest(_description, msg.sender, _recipient, _valueToTransfer);
+    emit NewRequest(_description, _msgSender(), _recipient, _valueToTransfer);
   }
 
   function requestsCount() public view returns (uint256) {
@@ -212,22 +212,22 @@ contract BaseFund {
 
     require(!request.complete, "The request has already been completed");
     require(
-      (contributions[msg.sender] / totalContributions) * 100 >= minimumContributionPercentageRequired ||
-        (!onlyContributorsCanApproveARequest && isManager[msg.sender]),
+      (contributions[_msgSender()] / totalContributions) * 100 >= minimumContributionPercentageRequired ||
+        (!onlyContributorsCanApproveARequest && isManager[_msgSender()]),
       "You can not approve a request"
     );
-    require(!request.approvals[msg.sender], "You have already approved this request");
+    require(!request.approvals[_msgSender()], "You have already approved this request");
 
-    request.approvals[msg.sender] = true;
+    request.approvals[_msgSender()] = true;
     request.approvalsCount++;
 
-    emit ApproveRequest(_index, msg.sender);
+    emit ApproveRequest(_index, _msgSender());
   }
 
   function finalizeRequest(uint256 _index) public {
     Request storage request = requests[_index];
 
-    require(request.petitioner == msg.sender, "You are not the petitioner of the request");
+    require(request.petitioner == _msgSender(), "You are not the petitioner of the request");
     require(!request.complete, "The request has already been completed");
     if (onlyContributorsCanApproveARequest) {
       require(
@@ -257,7 +257,7 @@ contract BaseFund {
 
   function _addManagers(address[] memory _managers) private {
     for (uint256 i; i < _managers.length; ) {
-      if (!isManager[msg.sender]) {
+      if (!isManager[_msgSender()]) {
         managers.push(_managers[i]);
         isManager[_managers[i]] = true;
 
