@@ -8,7 +8,6 @@ pragma solidity 0.8.16;
 import "@openzeppelin/contracts@4.7.3/utils/Context.sol";
 import "@openzeppelin/contracts@4.7.3/utils/Counters.sol";
 import "@openzeppelin/contracts@4.7.3/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts@4.7.3/security/Pausable.sol";
 
 // Contract factory -> contract to deploy
 contract BaseFundFactory {
@@ -54,7 +53,7 @@ contract BaseFundFactory {
 }
 
 // Base func contract -> they are deployed by the factory
-contract BaseFund is Context {
+contract BaseFund is Context, ReentrancyGuard {
   // Libraries
 
   using Counters for Counters.Counter;
@@ -228,7 +227,7 @@ contract BaseFund is Context {
     emit ApproveRequest(_index, _msgSender());
   }
 
-  function finalizeRequest(uint256 _index) public {
+  function finalizeRequest(uint256 _index) public nonReentrant {
     Request storage request = requests[_index];
 
     require(request.petitioner == _msgSender(), "You are not the petitioner of the request");
