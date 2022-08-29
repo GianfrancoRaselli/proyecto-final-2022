@@ -1,12 +1,16 @@
 // SPDX-License-Identifier: ISC
 
+// Solidity compiler version
 pragma solidity 0.8.16;
 
+// Contract factory -> contract to deploy
 contract BaseFundFactory {
+  // All contracts created are stored here
   BaseFund[] public deployedBaseFunds;
 
   event NewBaseFund(string name, string description);
 
+  // Function to create new base fund and store it in the factory
   function createBaseFund(
     string memory _name,
     string memory _description,
@@ -42,7 +46,10 @@ contract BaseFundFactory {
   }
 }
 
+// Base func contract -> they are deployed by the factory
 contract BaseFund {
+  // Structs
+
   struct Request {
     string description;
     address petitioner;
@@ -54,17 +61,25 @@ contract BaseFund {
     uint256 approvalsCount;
   }
 
+  // Base Fund data
+
   string public name;
   string public description;
   uint256 public createdAt = block.timestamp;
+
+  // Managers data
 
   address[] public managers;
   mapping(address => bool) public isManager;
   bool public newManagersCanBeAdded;
 
+  // Contributors data
+
   address[] public contributors;
   mapping(address => uint256) public contributions;
   uint256 public totalContributions;
+
+  // Requests data
 
   bool public managersCanTransferMoneyWithoutARequest;
 
@@ -73,6 +88,8 @@ contract BaseFund {
   bool public onlyContributorsCanApproveARequest;
   uint256 public minimumContributionPercentageRequired;
   uint256 public minimumApprovalsPercentageRequired;
+
+  // Events
 
   event NewManager(address indexed manager);
 
@@ -85,6 +102,8 @@ contract BaseFund {
   event ApproveRequest(uint256 requestIndex, address indexed approver);
 
   event FinalizeRequest(uint256 requestIndex, uint256 transferredValue);
+
+  // Modifiers
 
   modifier onlyManagers() {
     require(isManager[msg.sender], "Only managers can access");
@@ -117,6 +136,8 @@ contract BaseFund {
     minimumContributionPercentageRequired = _minimumContributionPercentageRequired;
     minimumApprovalsPercentageRequired = _minimumApprovalsPercentageRequired;
   }
+
+  // Public functions
 
   function addNewManagers(address[] memory _managers) public {
     require(newManagersCanBeAdded, "New managers can not be added");
@@ -224,6 +245,8 @@ contract BaseFund {
 
     emit FinalizeRequest(_index, _valueToTransfer);
   }
+
+  // Private functions
 
   function _addManagers(address[] memory _managers) private {
     for (uint256 i; i < _managers.length; ) {
