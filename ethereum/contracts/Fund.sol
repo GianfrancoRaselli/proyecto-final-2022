@@ -21,14 +21,19 @@ contract FundFactory {
     string memory _name,
     string memory _description,
     address[] memory _managers,
-    bool _newManagersCanBeAdded,
+    bool _managersCanBeAddedOrRemoved,
     bool _managersCanTransferMoneyWithoutARequest,
+    bool _requestsCanBeCreated,
     bool _onlyManagersCanCreateARequest,
     bool _onlyContributorsCanApproveARequest,
     uint256 _minimumContributionPercentageRequired,
     uint256 _minimumApprovalsPercentageRequired
   ) public {
-    require(_managers.length > 0 || !_onlyManagersCanCreateARequest, "There should be at least one manager or everyone should be able to create a request");
+    require(
+      (_managersCanTransferMoneyWithoutARequest && _managers.length > 0) ||
+        (_requestsCanBeCreated && (!_onlyManagersCanCreateARequest || _managers.length > 0)),
+      "There would be no way to withdraw the money from the contract"
+    );
     require(_minimumContributionPercentageRequired < 101, "Incorrect contribution percentage");
     require(_minimumApprovalsPercentageRequired < 101, "Incorrect approvals percentage");
 
@@ -36,8 +41,9 @@ contract FundFactory {
       _name,
       _description,
       _managers,
-      _newManagersCanBeAdded,
+      _managersCanBeAddedOrRemoved,
       _managersCanTransferMoneyWithoutARequest,
+      _requestsCanBeCreated,
       _onlyManagersCanCreateARequest,
       _onlyContributorsCanApproveARequest,
       _minimumContributionPercentageRequired,
@@ -86,7 +92,7 @@ contract Fund is Context, ReentrancyGuard {
 
   address[] public managers;
   mapping(address => bool) public isManager;
-  bool public newManagersCanBeAdded;
+  bool public managersCanBeAddedOrRemoved;
 
   // Contributors data
 
@@ -99,6 +105,7 @@ contract Fund is Context, ReentrancyGuard {
   bool public managersCanTransferMoneyWithoutARequest;
 
   Request[] public requests;
+  bool public requestsCanBeCreated;
   bool public onlyManagersCanCreateARequest;
   bool public onlyContributorsCanApproveARequest;
   uint256 public minimumContributionPercentageRequired;
@@ -131,8 +138,9 @@ contract Fund is Context, ReentrancyGuard {
     string memory _name,
     string memory _description,
     address[] memory _managers,
-    bool _newManagersCanBeAdded,
+    bool _managersCanBeAddedOrRemoved,
     bool _managersCanTransferMoneyWithoutARequest,
+    bool _requestsCanBeCreated,
     bool _onlyManagersCanCreateARequest,
     bool _onlyContributorsCanApproveARequest,
     uint256 _minimumContributionPercentageRequired,
@@ -141,8 +149,9 @@ contract Fund is Context, ReentrancyGuard {
     name = _name;
     description = _description;
     _addManagers(_managers);
-    newManagersCanBeAdded = _newManagersCanBeAdded;
+    managersCanBeAddedOrRemoved = _managersCanBeAddedOrRemoved;
     managersCanTransferMoneyWithoutARequest = _managersCanTransferMoneyWithoutARequest;
+    requestsCanBeCreated = _requestsCanBeCreated;
     onlyManagersCanCreateARequest = _onlyManagersCanCreateARequest;
     onlyContributorsCanApproveARequest = _onlyContributorsCanApproveARequest;
     minimumContributionPercentageRequired = _minimumContributionPercentageRequired;
@@ -152,7 +161,7 @@ contract Fund is Context, ReentrancyGuard {
   // Public functions
 
   function addNewManagers(address[] memory _managers) public {
-    require(newManagersCanBeAdded, "New managers can not be added");
+    require(managersCanBeAddedOrRemoved, "New managers can not be added");
     require(isManager[_msgSender()], "Only managers can access");
     require(_managers.length > 0, "You have to send one or more addresses");
 
@@ -160,14 +169,19 @@ contract Fund is Context, ReentrancyGuard {
   }
 
   function removeManager(uint256 _index) public {
-    require(newManagersCanBeAdded, "Managers can not be removed");
+    require(managersCanBeAddedOrRemoved, "Managers can not be removed");
     require(isManager[_msgSender()], "Only managers can access");
+    uint256 _managersCount = managersCount();
+    require(
+      _managersCount > 1 || (requestsCanBeCreated && !onlyManagersCanCreateARequest),
+      "There would be no way to withdraw the money from the contract"
+    );
 
     address _manager = managers[_index];
 
     delete isManager[_manager];
     unchecked {
-      for (uint256 i = _index; i < managers.length - 1; i++) {
+      for (uint256 i = _index; i < _managersCount - 1; i++) {
         managers[i] = managers[i + 1];
       }
     }
@@ -218,8 +232,9 @@ contract Fund is Context, ReentrancyGuard {
     address _recipient,
     uint256 _valueToTransfer
   ) public {
-    bool _isManager = isManager[_msgSender()];
+    require(requestsCanBeCreated, "Requests can not be created");
 
+    bool _isManager = isManager[_msgSender()];
     require(
       !onlyManagersCanCreateARequest || (onlyManagersCanCreateARequest && _isManager),
       "Only managers can create a request"
