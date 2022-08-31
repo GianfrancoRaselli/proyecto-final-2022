@@ -28,6 +28,7 @@ contract FundFactory {
     uint256 _minimumContributionPercentageRequired,
     uint256 _minimumApprovalsPercentageRequired
   ) public {
+    require(_managers.length > 0, "There should be at least one manager");
     require(_minimumContributionPercentageRequired < 101, "Incorrect contribution percentage");
     require(_minimumApprovalsPercentageRequired < 101, "Incorrect approvals percentage");
 
@@ -124,11 +125,6 @@ contract Fund is Context, ReentrancyGuard {
     _;
   }
 
-  modifier notManagers() {
-    require(!isManager[_msgSender()], "Managers can not access");
-    _;
-  }
-
   constructor(
     string memory _name,
     string memory _description,
@@ -155,6 +151,7 @@ contract Fund is Context, ReentrancyGuard {
 
   function addNewManagers(address[] memory _managers) public {
     require(newManagersCanBeAdded, "New managers can not be added");
+    require(isManager[_msgSender()], "Only managers can access");
 
     _addManagers(_managers);
   }
