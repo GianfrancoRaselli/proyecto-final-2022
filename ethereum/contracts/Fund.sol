@@ -28,7 +28,7 @@ contract FundFactory {
     uint256 _minimumContributionPercentageRequired,
     uint256 _minimumApprovalsPercentageRequired
   ) public {
-    require(_managers.length > 0, "There should be at least one manager");
+    require(_managers.length > 0 || !_onlyManagersCanCreateARequest, "There should be at least one manager or everyone should be able to create a request");
     require(_minimumContributionPercentageRequired < 101, "Incorrect contribution percentage");
     require(_minimumApprovalsPercentageRequired < 101, "Incorrect approvals percentage");
 
@@ -152,6 +152,7 @@ contract Fund is Context, ReentrancyGuard {
   function addNewManagers(address[] memory _managers) public {
     require(newManagersCanBeAdded, "New managers can not be added");
     require(isManager[_msgSender()], "Only managers can access");
+    require(_managers.length > 0, "You have to send one or more addresses");
 
     _addManagers(_managers);
   }
@@ -273,7 +274,7 @@ contract Fund is Context, ReentrancyGuard {
 
   function _addManagers(address[] memory _managers) private {
     for (uint256 i; i < _managers.length; ) {
-      if (!isManager[_msgSender()]) {
+      if (!isManager[_managers[i]]) {
         managers.push(_managers[i]);
         isManager[_managers[i]] = true;
 
