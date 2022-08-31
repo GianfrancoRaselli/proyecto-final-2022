@@ -108,6 +108,8 @@ contract Fund is Context, ReentrancyGuard {
 
   event NewManager(address indexed manager);
 
+  event RemoveManager(address indexed manager);
+
   event Contribute(address indexed contributor, uint256 value);
 
   event Transfer(address indexed sender, address indexed to, uint256 value);
@@ -155,6 +157,23 @@ contract Fund is Context, ReentrancyGuard {
     require(_managers.length > 0, "You have to send one or more addresses");
 
     _addManagers(_managers);
+  }
+
+  function removeManager(uint256 _index) public {
+    require(newManagersCanBeAdded, "Managers can not be removed");
+    require(isManager[_msgSender()], "Only managers can access");
+
+    address _manager = managers[_index];
+
+    delete isManager[_manager];
+    unchecked {
+      for (uint256 i = _index; i < managers.length - 1; i++) {
+        managers[i] = managers[i + 1];
+      }
+    }
+    managers.pop();
+
+    emit RemoveManager(_manager);
   }
 
   function managersCount() public view returns (uint256) {
