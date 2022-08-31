@@ -1,0 +1,23 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: FundFactory
+    network: goerli
+    source:
+      address: "0x4Ab7bfEaD6D8D814540cBF5Bb41ddEc514E4Be21"
+      abi: FundFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - NewFund
+      abis:
+        - name: FundFactory
+          file: ./abis/FundFactory.json
+      eventHandlers:
+        - event: NewFund(string,string)
+          handler: handleNewFund
+      file: ./src/fund-factory.ts
