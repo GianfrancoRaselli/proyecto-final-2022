@@ -51,11 +51,47 @@ describe('FundFactory', function() {
 });
 
 describe('Fund', function() {
-  describe('NewManagersCanBeAdded: true, managersCanTransferMoneyWithoutARequest: true, OnlyManagersCanCreateARequest: false, OnlyContributorsCanApproveARequest: false', function() {
+  describe('Friends fund', function() {
     let fund;
 
     beforeEach(async function() {
       const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, false, false, 5, 50];
+      await fundFactory.createFund(...args);
+
+      const Fund = await ethers.getContractFactory('Fund');
+      fund = Fund.attach(await fundFactory.deployedFunds(0));
+    });
+
+    it('Contract deployed', async function() {
+      expect(await fund.address).to.not.equal(null || undefined);
+      expect(await fund.address).to.equal(await fundFactory.deployedFunds(0));
+      expect(await fund.balance()).to.equal(0);
+    });
+  });
+
+  describe('Campaign fund', function() {
+    let fund;
+
+    beforeEach(async function() {
+      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], false, false, true, true, 5, 50];
+      await fundFactory.createFund(...args);
+
+      const Fund = await ethers.getContractFactory('Fund');
+      fund = Fund.attach(await fundFactory.deployedFunds(0));
+    });
+
+    it('Contract deployed', async function() {
+      expect(await fund.address).to.not.equal(null || undefined);
+      expect(await fund.address).to.equal(await fundFactory.deployedFunds(0));
+      expect(await fund.balance()).to.equal(0);
+    });
+  });
+
+  describe('Donation fund', function() {
+    let fund;
+
+    beforeEach(async function() {
+      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, true, true, 5, 50];
       await fundFactory.createFund(...args);
 
       const Fund = await ethers.getContractFactory('Fund');
