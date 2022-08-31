@@ -1,30 +1,71 @@
 const { expect } = require('chai');
 const { ethers } = require('hardhat');
 
+let fundFactory;
+
+beforeEach(async function() {
+  const FundFactory = await ethers.getContractFactory('FundFactory');
+  fundFactory = await FundFactory.deploy();
+});
+
 describe('FundFactory', function() {
-  let fundFactory;
-
-  beforeEach(async function() {
-    const FundFactory = await ethers.getContractFactory('FundFactory');
-    fundFactory = await FundFactory.deploy();
-  });
-
   it('Contract deployed', async function() {
     expect(await fundFactory.address).to.not.equal(null || undefined);
+    expect(await fundFactory.getDeployedFundsCount()).to.equal(0);
+  });
+
+  describe('Create fund', function() {
+    it('Incorrect contribution percentage', async function() {
+      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, false, false, 105, 50];
+
+      await expect(fundFactory.createFund(...args)).to.be.revertedWith('Incorrect contribution percentage');
+      expect(await fundFactory.getDeployedFundsCount()).to.equal(0);
+    });
+
+    it('Incorrect approvals percentage', async function() {
+      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, false, false, 5, 105];
+
+      await expect(fundFactory.createFund(...args)).to.be.revertedWith('Incorrect approvals percentage');
+      expect(await fundFactory.getDeployedFundsCount()).to.equal(0);
+    });
+
+    it('Create new fund', async function() {
+      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, false, false, 5, 50];
+
+      await expect(fundFactory.createFund(...args))
+        .to.emit(fundFactory, 'NewFund')
+        .withArgs(args[0], args[1]);
+      // Not supported yet
+      /*
+      .withNamedArgs({
+        name: args[0],
+        description: args[1],
+      })
+    */
+      // Not supported yet
+      //expect('createFund').to.be.calledOnContractWith(fundFactory, [...args]);
+      expect(await fundFactory.getDeployedFundsCount()).to.equal(1);
+      expect(await fundFactory.deployedFunds(0)).to.equal((await fundFactory.getDeployedFunds())[0]);
+    });
   });
 });
 
 describe('Fund', function() {
-  let fund;
+  describe('NewManagersCanBeAdded: true, managersCanTransferMoneyWithoutARequest: true, OnlyManagersCanCreateARequest: false, OnlyContributorsCanApproveARequest: false', function() {
+    let fund;
 
-  it('Create fund', async function() {
-    const FundFactory = await ethers.getContractFactory('FundFactory');
-    fundFactory = await FundFactory.deploy();
+    beforeEach(async function() {
+      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, false, false, 5, 50];
+      await fundFactory.createFund(...args);
 
-    const createFundTx = await fundFactory.createFund('Name', 'Description', [(await ethers.getSigners())[0].address], true, true, false, false, 5, 50);
-    await createFundTx.wait();
+      const Fund = await ethers.getContractFactory('Fund');
+      fund = Fund.attach(await fundFactory.deployedFunds(0));
+    });
 
-    expect(await fundFactory.address).to.not.equal(null || undefined);
-    expect(await fundFactory.getDeployedFundsCount()).to.equal(1);
+    it('Contract deployed', async function() {
+      expect(await fund.address).to.not.equal(null || undefined);
+      expect(await fund.address).to.equal(await fundFactory.deployedFunds(0));
+      expect(await fund.balance()).to.equal(0);
+    });
   });
 });
