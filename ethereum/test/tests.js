@@ -16,21 +16,21 @@ describe('FundFactory', function() {
 
   describe('Create fund', function() {
     it('Incorrect contribution percentage', async function() {
-      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, false, false, 105, 50];
+      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, true, false, false, 105, 50];
 
       await expect(fundFactory.createFund(...args)).to.be.revertedWith('Incorrect contribution percentage');
       expect(await fundFactory.getDeployedFundsCount()).to.equal(0);
     });
 
     it('Incorrect approvals percentage', async function() {
-      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, false, false, 5, 105];
+      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, true, false, false, 5, 105];
 
       await expect(fundFactory.createFund(...args)).to.be.revertedWith('Incorrect approvals percentage');
       expect(await fundFactory.getDeployedFundsCount()).to.equal(0);
     });
 
     it('Create new fund', async function() {
-      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, false, false, 5, 50];
+      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, true, false, false, 5, 50];
 
       await expect(fundFactory.createFund(...args))
         .to.emit(fundFactory, 'NewFund')
@@ -55,7 +55,7 @@ describe('Fund', function() {
     let fund;
 
     beforeEach(async function() {
-      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, false, false, 5, 50];
+      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, true, false, false, 0, 50];
       await fundFactory.createFund(...args);
 
       const Fund = await ethers.getContractFactory('Fund');
@@ -73,7 +73,7 @@ describe('Fund', function() {
     let fund;
 
     beforeEach(async function() {
-      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], false, false, true, true, 5, 50];
+      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], false, false, true, true, true, 5, 50];
       await fundFactory.createFund(...args);
 
       const Fund = await ethers.getContractFactory('Fund');
@@ -91,7 +91,7 @@ describe('Fund', function() {
     let fund;
 
     beforeEach(async function() {
-      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, true, true, 5, 50];
+      const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, true, true, true, 5, 50];
       await fundFactory.createFund(...args);
 
       const Fund = await ethers.getContractFactory('Fund');
