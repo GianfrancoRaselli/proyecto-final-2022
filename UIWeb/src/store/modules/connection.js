@@ -7,8 +7,9 @@ export default {
       provider: null,
       web3: null,
       validChain: {
-        id: '0x4',
-        name: 'Rinkeby Testnet'
+        id: '0x5',
+        name: 'Goerli Testnet',
+        explorer: 'https://goerli.etherscan.io'
       }
     }
   },
@@ -26,6 +27,10 @@ export default {
 
     validChainName(state) {
       return state.validChain.name;
+    },
+
+    validChainExplorer(state) {
+      return state.validChain.explorer;
     },
   },
 
