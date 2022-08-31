@@ -4,6 +4,7 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 const hre = require('hardhat');
+const fs = require('fs');
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -18,6 +19,9 @@ async function main() {
   const fundFactory = await FundFactory.deploy();
   await fundFactory.deployed();
   console.log('FundFactory deployed to:', fundFactory.address);
+
+  // Save the last address deployed
+  fs.writeFileSync('.lastAddressDeployed', fundFactory.address);
 
   if (hre.network.name === 'goerli') {
     // Verify deployed contract in Etherscan
@@ -44,7 +48,7 @@ async function main() {
 // and properly handle errors.
 main()
   .then(() => process.exit(0))
-  .catch((error) => {
+  .catch(error => {
     console.error(error);
     process.exit(1);
   });
