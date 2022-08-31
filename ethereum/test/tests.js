@@ -8,7 +8,7 @@ beforeEach(async function() {
   fundFactory = await FundFactory.deploy();
 });
 
-describe('FundFactory', function() {
+describe('FundFactory contract', function() {
   it('Contract deployed', async function() {
     expect(await fundFactory.address).to.not.equal(null || undefined);
     expect(await fundFactory.getDeployedFundsCount()).to.equal(0);
@@ -50,7 +50,7 @@ describe('FundFactory', function() {
   });
 });
 
-describe('Fund', function() {
+describe('Fund contract', function() {
   describe('Friends fund', function() {
     let fund;
 
