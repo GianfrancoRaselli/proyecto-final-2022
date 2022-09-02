@@ -70,9 +70,9 @@ contract Fund is Context, ReentrancyGuard {
 
   event NewRequest(string description, address indexed petitioner, address indexed recipient, uint256 valueToTransfer);
 
-  event ApproveRequest(uint256 requestIndex, address indexed approver);
+  event ApproveRequest(uint256 indexed requestIndex, address indexed approver);
 
-  event FinalizeRequest(uint256 requestIndex, uint256 transferredValue);
+  event FinalizeRequest(uint256 indexed requestIndex, uint256 transferredValue);
 
   // Modifiers
 

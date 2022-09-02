@@ -14,7 +14,7 @@ contract FundFactory {
   // All fund contracts created are stored here
   Fund[] public deployedFunds;
 
-  event NewFund(string name, string description, address indexed creator, uint256 createdAt);
+  event NewFund(string indexed name, string description, address indexed creator, uint256 createdAt);
 
   // Function to create new fund and store it in the factory
   function createFund(
