@@ -14,7 +14,7 @@ contract FundFactory {
   // All fund contracts created are stored here
   Fund[] public deployedFunds;
 
-  event NewFund(string indexed name, string description, address indexed creator, uint256 createdAt);
+  event NewFund(address indexed fundAddress, string indexed name, string description, address indexed creator, uint256 createdAt);
 
   // Function to create new fund and store it in the factory
   function createFund(
@@ -37,7 +37,7 @@ contract FundFactory {
     require(_minimumContributionPercentageRequired < 101, "Incorrect contribution percentage");
     require(_minimumApprovalsPercentageRequired < 101, "Incorrect approvals percentage");
 
-    Fund newFund = new Fund(
+    Fund _newFund = new Fund(
       _name,
       _description,
       msg.sender,
@@ -50,9 +50,9 @@ contract FundFactory {
       _minimumContributionPercentageRequired,
       _minimumApprovalsPercentageRequired
     );
-    deployedFunds.push(newFund);
+    deployedFunds.push(_newFund);
 
-    emit NewFund(_name, _description, msg.sender, block.timestamp);
+    emit NewFund(address(_newFund), _name, _description, msg.sender, block.timestamp);
   }
 
   function getDeployedFundsCount() public view returns (uint256) {
