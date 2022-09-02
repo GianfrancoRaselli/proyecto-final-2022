@@ -1,13 +1,13 @@
 {
-  "name": "proyecto-final-2022",
+  "name": "proyecto-final",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ proyecto-final-2022",
-    "create-local": "graph create --node http://localhost:8020/ proyecto-final-2022",
-    "remove-local": "graph remove --node http://localhost:8020/ proyecto-final-2022",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 proyecto-final-2022",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ proyecto-final",
+    "create-local": "graph create --node http://localhost:8020/ proyecto-final",
+    "remove-local": "graph remove --node http://localhost:8020/ proyecto-final",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 proyecto-final",
     "test": "graph test"
   },
   "dependencies": {

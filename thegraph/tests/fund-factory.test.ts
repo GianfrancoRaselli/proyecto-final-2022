@@ -6,7 +6,7 @@ import {
   beforeAll,
   afterAll
 } from "matchstick-as/assembly/index"
-import {} from "@graphprotocol/graph-ts"
+import { Address, BigInt } from "@graphprotocol/graph-ts"
 import { ExampleEntity } from "../generated/schema"
 import { NewFund } from "../generated/FundFactory/FundFactory"
 import { handleNewFund } from "../src/fund-factory"
@@ -17,9 +17,22 @@ import { createNewFundEvent } from "./fund-factory-utils"
 
 describe("Describe entity assertions", () => {
   beforeAll(() => {
+    let fundAddress = Address.fromString(
+      "0x0000000000000000000000000000000000000001"
+    )
     let name = "Example string value"
     let description = "Example string value"
-    let newNewFundEvent = createNewFundEvent(name, description)
+    let creator = Address.fromString(
+      "0x0000000000000000000000000000000000000001"
+    )
+    let createdAt = BigInt.fromI32(234)
+    let newNewFundEvent = createNewFundEvent(
+      fundAddress,
+      name,
+      description,
+      creator,
+      createdAt
+    )
     handleNewFund(newNewFundEvent)
   })
 
@@ -37,6 +50,12 @@ describe("Describe entity assertions", () => {
     assert.fieldEquals(
       "ExampleEntity",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
+      "fundAddress",
+      "0x0000000000000000000000000000000000000001"
+    )
+    assert.fieldEquals(
+      "ExampleEntity",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
       "name",
       "Example string value"
     )
@@ -45,6 +64,18 @@ describe("Describe entity assertions", () => {
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
       "description",
       "Example string value"
+    )
+    assert.fieldEquals(
+      "ExampleEntity",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
+      "creator",
+      "0x0000000000000000000000000000000000000001"
+    )
+    assert.fieldEquals(
+      "ExampleEntity",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
+      "createdAt",
+      "234"
     )
 
     // More assert options:
