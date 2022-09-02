@@ -15,7 +15,8 @@
     "deploy:test": "npx hardhat run scripts/deploy.js --network rinkeby",
     "deploy:production": "npx hardhat run scripts/deploy.js --network ethereum",
     "watch:compilation": "npx hardhat watch compilation",
-    "watch:ci": "npx hardhat watch ci"
+    "watch:ci": "npx hardhat watch ci",
+    "transaction:createFund": "npx hardhat run scripts/transactions/createFund.js --network rinkeby"
   },
   "keywords": [],
   "author": "",
