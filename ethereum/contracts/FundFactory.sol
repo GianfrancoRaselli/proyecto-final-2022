@@ -5,6 +5,8 @@ pragma solidity 0.8.16;
 
 // Imports
 
+// Import this file to use console.log
+//import "hardhat/console.sol"; // console.log("Block timestamp is %o", block.timestamp);
 import {Fund} from "./Fund.sol";
 
 // Contract factory -> contract to deploy
@@ -12,7 +14,7 @@ contract FundFactory {
   // All fund contracts created are stored here
   Fund[] public deployedFunds;
 
-  event NewFund(string name, string description);
+  event NewFund(string name, string description, address indexed creator, uint256 createdAt);
 
   // Function to create new fund and store it in the factory
   function createFund(
@@ -38,6 +40,7 @@ contract FundFactory {
     Fund newFund = new Fund(
       _name,
       _description,
+      msg.sender,
       _managers,
       _managersCanBeAddedOrRemoved,
       _managersCanTransferMoneyWithoutARequest,
@@ -49,7 +52,7 @@ contract FundFactory {
     );
     deployedFunds.push(newFund);
 
-    emit NewFund(_name, _description);
+    emit NewFund(_name, _description, msg.sender, block.timestamp);
   }
 
   function getDeployedFundsCount() public view returns (uint256) {

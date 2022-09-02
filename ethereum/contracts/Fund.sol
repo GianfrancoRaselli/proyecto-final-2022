@@ -32,6 +32,7 @@ contract Fund is Context, ReentrancyGuard {
 
   string public name;
   string public description;
+  address public creator;
   uint256 public createdAt = block.timestamp;
 
   // Managers data
@@ -83,6 +84,7 @@ contract Fund is Context, ReentrancyGuard {
   constructor(
     string memory _name,
     string memory _description,
+    address _creator,
     address[] memory _managers,
     bool _managersCanBeAddedOrRemoved,
     bool _managersCanTransferMoneyWithoutARequest,
@@ -94,6 +96,7 @@ contract Fund is Context, ReentrancyGuard {
   ) {
     name = _name;
     description = _description;
+    creator = _creator;
     _addManagers(_managers);
     managersCanBeAddedOrRemoved = _managersCanBeAddedOrRemoved;
     managersCanTransferMoneyWithoutARequest = _managersCanTransferMoneyWithoutARequest;

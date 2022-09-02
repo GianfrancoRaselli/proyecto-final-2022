@@ -6,7 +6,7 @@
   "scripts": {
     "check": "npx hardhat check",
     "compile": "npx hardhat compile",
-    "clean": "npx hardhat clean --global",
+    "clean": "npx hardhat clean",
     "test": "npx hardhat test",
     "test:coverage": "npx hardhat coverage",
     "test:trace": "npx hardhat test --trace",

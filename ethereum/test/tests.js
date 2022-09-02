@@ -31,15 +31,18 @@ describe('FundFactory contract', function() {
 
     it('Create new fund', async function() {
       const args = ['Name', 'Description', [(await ethers.getSigners())[0].address], true, true, true, false, false, 5, 50];
-
-      await expect(fundFactory.createFund(...args))
+      const createFundTx = await fundFactory.createFund(...args);
+      
+      await expect(createFundTx)
         .to.emit(fundFactory, 'NewFund')
-        .withArgs(args[0], args[1]);
+        .withArgs(args[0], args[1], (await ethers.getSigners())[0].address, (await ethers.provider.getBlock(createFundTx.blockNumber)).timestamp);
       // Not supported yet
       /*
       .withNamedArgs({
         name: args[0],
         description: args[1],
+        creator: (await ethers.getSigners())[0].address,
+        createdAt: createFundTx.timestamp,
       })
     */
       // Not supported yet
