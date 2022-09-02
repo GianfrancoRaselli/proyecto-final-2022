@@ -12,7 +12,7 @@
     "test:trace": "npx hardhat test --trace",
     "test:fulltrace": "npx hardhat test --fulltrace",
     "deploy:local": "npx hardhat run scripts/deploy.js --network ganache",
-    "deploy:test": "npx hardhat run scripts/deploy.js --network goerli",
+    "deploy:test": "npx hardhat run scripts/deploy.js --network rinkeby",
     "deploy:production": "npx hardhat run scripts/deploy.js --network ethereum",
     "watch:compilation": "npx hardhat watch compilation",
     "watch:ci": "npx hardhat watch ci"

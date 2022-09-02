@@ -1,7 +1,7 @@
 {
-  "goerli": {
+  "rinkeby": {
     "FundFactory": {
-      "address": "0x4Ab7bfEaD6D8D814540cBF5Bb41ddEc514E4Be21"
+      "address": "0x3228E8F0223F50D028b5d8544a82BfD6cB446951"
     }
   }
 }

@@ -1,0 +1,142 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "fundAddress",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "creator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "createdAt",
+        "type": "uint256"
+      }
+    ],
+    "name": "NewFund",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_description",
+        "type": "string"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_managers",
+        "type": "address[]"
+      },
+      {
+        "internalType": "bool",
+        "name": "_managersCanBeAddedOrRemoved",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "_managersCanTransferMoneyWithoutARequest",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "_requestsCanBeCreated",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "_onlyManagersCanCreateARequest",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "_onlyContributorsCanApproveARequest",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_minimumContributionPercentageRequired",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_minimumApprovalsPercentageRequired",
+        "type": "uint256"
+      }
+    ],
+    "name": "createFund",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "deployedFunds",
+    "outputs": [
+      {
+        "internalType": "contract Fund",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getDeployedFunds",
+    "outputs": [
+      {
+        "internalType": "contract Fund[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getDeployedFundsCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

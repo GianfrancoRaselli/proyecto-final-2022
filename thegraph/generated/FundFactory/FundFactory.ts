@@ -23,12 +23,24 @@ export class NewFund__Params {
     this._event = event;
   }
 
-  get name(): string {
-    return this._event.parameters[0].value.toString();
+  get fundAddress(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get name(): Bytes {
+    return this._event.parameters[1].value.toBytes();
   }
 
   get description(): string {
-    return this._event.parameters[1].value.toString();
+    return this._event.parameters[2].value.toString();
+  }
+
+  get creator(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get createdAt(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
   }
 }
 
@@ -136,7 +148,7 @@ export class CreateFundCall__Inputs {
     return this._call.inputValues[2].value.toAddressArray();
   }
 
-  get _newManagersCanBeAdded(): boolean {
+  get _managersCanBeAddedOrRemoved(): boolean {
     return this._call.inputValues[3].value.toBoolean();
   }
 
@@ -144,20 +156,24 @@ export class CreateFundCall__Inputs {
     return this._call.inputValues[4].value.toBoolean();
   }
 
-  get _onlyManagersCanCreateARequest(): boolean {
+  get _requestsCanBeCreated(): boolean {
     return this._call.inputValues[5].value.toBoolean();
   }
 
-  get _onlyContributorsCanApproveARequest(): boolean {
+  get _onlyManagersCanCreateARequest(): boolean {
     return this._call.inputValues[6].value.toBoolean();
   }
 
+  get _onlyContributorsCanApproveARequest(): boolean {
+    return this._call.inputValues[7].value.toBoolean();
+  }
+
   get _minimumContributionPercentageRequired(): BigInt {
-    return this._call.inputValues[7].value.toBigInt();
+    return this._call.inputValues[8].value.toBigInt();
   }
 
   get _minimumApprovalsPercentageRequired(): BigInt {
-    return this._call.inputValues[8].value.toBigInt();
+    return this._call.inputValues[9].value.toBigInt();
   }
 }
 

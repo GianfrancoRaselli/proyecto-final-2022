@@ -1,6 +1,6 @@
 specVersion: 0.0.4
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: FundFactory
@@ -16,8 +16,8 @@ dataSources:
         - Fund
       abis:
         - name: FundFactory
-          file: ./abis/FundFactory.json
+          file: FundFactory\abis\FundFactory.json
       eventHandlers:
         - event: NewFund(indexed address,indexed string,string,indexed address,uint256)
           handler: handleNewFund
-      file: ./src/fund-factory.ts
+      file: FundFactory\FundFactory.wasm
