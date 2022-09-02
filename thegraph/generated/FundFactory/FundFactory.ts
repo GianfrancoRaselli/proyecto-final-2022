@@ -27,8 +27,8 @@ export class NewFund__Params {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get name(): Bytes {
-    return this._event.parameters[1].value.toBytes();
+  get name(): string {
+    return this._event.parameters[1].value.toString();
   }
 
   get description(): string {

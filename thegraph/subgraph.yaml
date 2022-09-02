@@ -6,7 +6,7 @@ dataSources:
     name: FundFactory
     network: rinkeby
     source:
-      address: "0x07dbDF749035D5645bc5e1Ec4d2987F7b9F02843"
+      address: "0x3228E8F0223F50D028b5d8544a82BfD6cB446951"
       abi: FundFactory
       startBlock: 11312025
     mapping:
@@ -19,6 +19,6 @@ dataSources:
         - name: FundFactory
           file: ./abis/FundFactory.json
       eventHandlers:
-        - event: NewFund(indexed address,indexed string,string,indexed address,uint256)
+        - event: NewFund(indexed address,string,string,indexed address,uint256)
           handler: handleNewFund
       file: ./src/fund-factory.ts
