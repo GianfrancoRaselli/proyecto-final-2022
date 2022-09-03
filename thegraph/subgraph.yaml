@@ -6,7 +6,7 @@ dataSources:
     name: FundFactory
     network: rinkeby
     source:
-      address: "0x3228E8F0223F50D028b5d8544a82BfD6cB446951"
+      address: "0x9D4E76454653ef0FF6C19C49a1858B7B1BAB9dcB"
       abi: FundFactory
       startBlock: 11312025
     mapping:
