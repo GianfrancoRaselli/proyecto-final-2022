@@ -97,7 +97,7 @@ contract Fund is Context, ReentrancyGuard {
     name = _name;
     description = _description;
     creator = _creator;
-    _addManagers(_managers);
+    managers = _managers;
     managersCanBeAddedOrRemoved = _managersCanBeAddedOrRemoved;
     managersCanTransferMoneyWithoutARequest = _managersCanTransferMoneyWithoutARequest;
     requestsCanBeCreated = _requestsCanBeCreated;
@@ -114,7 +114,18 @@ contract Fund is Context, ReentrancyGuard {
     require(isManager[_msgSender()], "Only managers can access");
     require(_managers.length > 0, "You have to send one or more addresses");
 
-    _addManagers(_managers);
+    for (uint256 i; i < _managers.length; ) {
+      if (!isManager[_managers[i]]) {
+        managers.push(_managers[i]);
+        isManager[_managers[i]] = true;
+
+        emit NewManager(_managers[i]);
+      }
+
+      unchecked {
+        i++;
+      }
+    }
   }
 
   function removeManager(uint256 _index) public {
@@ -254,21 +265,6 @@ contract Fund is Context, ReentrancyGuard {
   }
 
   // Private functions
-
-  function _addManagers(address[] memory _managers) private {
-    for (uint256 i; i < _managers.length; ) {
-      if (!isManager[_managers[i]]) {
-        managers.push(_managers[i]);
-        isManager[_managers[i]] = true;
-
-        emit NewManager(_managers[i]);
-      }
-
-      unchecked {
-        i++;
-      }
-    }
-  }
 
   function _contribute(address _contributor) private {
     require(msg.value > 0, "The contribution must be greater than zero");

@@ -44,6 +44,7 @@ describe('FundFactory contract', function() {
       await expect(createFundTx)
         .to.emit(fundFactory, 'NewFund')
         .withArgs(
+          await fundFactory.deployedFunds(0),
           createFundArgs[0],
           createFundArgs[1],
           (await ethers.getSigners())[0].address,
@@ -52,6 +53,7 @@ describe('FundFactory contract', function() {
       // Not supported yet
       /*
       .withNamedArgs({
+        fundAddress: await fundFactory.deployedFunds(0),
         name: createFundArgs[0],
         description: createFundArgs[1],
         creator: (await ethers.getSigners())[0].address,
