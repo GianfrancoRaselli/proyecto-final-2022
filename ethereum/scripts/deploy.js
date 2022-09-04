@@ -23,7 +23,7 @@ async function main() {
   // Save the last address deployed
   fs.writeFileSync('.lastAddressDeployed', fundFactory.address);
 
-  if (hre.network.name === 'rinkeby') {
+  if (hre.network.name === 'goerli') {
     // Verify deployed contract in Etherscan
     console.log('Waiting 5 block confirmations...');
     await fundFactory.deployTransaction.wait(5); // needed if verifyContract() is called immediately after deployment

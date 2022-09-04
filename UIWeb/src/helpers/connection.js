@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 //import detectEthereumProvider from '@metamask/detect-provider';
 
 import Web3 from "web3";
-const infuraPath = "https://rinkeby.infura.io/v3/c2c820555fad43838ab62145a03e4a2a";
+const infuraPath = "https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a";
 
 
 const hasMetamask = () => {

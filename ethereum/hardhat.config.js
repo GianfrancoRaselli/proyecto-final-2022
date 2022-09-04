@@ -22,22 +22,22 @@ module.exports = {
     ganache: {
       url: 'http://127.0.0.1:7545',
     },
-    rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_KEY}`,
+    goerli: {
+      url: `https://goerli.infura.io/v3/${process.env.INFURA_KEY}`,
       accounts: [process.env.PRIVATE_KEY],
     },
   },
   etherscan: {
     apiKey: {
-      rinkeby: process.env.ETHERSCAN_KEY,
+      goerli: process.env.ETHERSCAN_KEY,
     },
     customChains: [
       {
-        network: 'rinkeby',
-        chainId: 4,
+        network: 'goerli',
+        chainId: 5,
         urls: {
-          apiURL: 'https://api-rinkeby.etherscan.io/api',
-          browserURL: 'https://rinkeby.etherscan.io',
+          apiURL: 'https://api-goerli.etherscan.io/api',
+          browserURL: 'https://goerli.etherscan.io',
         },
       },
     ],

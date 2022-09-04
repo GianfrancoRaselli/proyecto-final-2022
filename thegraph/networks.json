@@ -1,5 +1,5 @@
 {
-  "rinkeby": {
+  "goerli": {
     "FundFactory": {
       "address": "0x9D4E76454653ef0FF6C19C49a1858B7B1BAB9dcB"
     }
