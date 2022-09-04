@@ -13,7 +13,7 @@ contract FundToken is Ownable, ERC20 {
   constructor() ERC20("Fund Token", "FT") {}
 
   function decimals() public pure override returns (uint8) {
-    return 18;
+    return 2;
   }
 
   function mint(address _account, uint256 _amount) public onlyOwner {
