@@ -5,6 +5,7 @@ let FundFactory;
 let Fund;
 let fundFactory;
 let defaultCreateFundArgs;
+const fundTokenPrice = 100;
 
 before(async function() {
   FundFactory = await ethers.getContractFactory('FundFactory');
@@ -13,7 +14,7 @@ before(async function() {
 });
 
 beforeEach(async function() {
-  fundFactory = await FundFactory.deploy();
+  fundFactory = await FundFactory.deploy(fundTokenPrice);
 });
 
 describe('FundFactory contract', function() {
@@ -23,6 +24,10 @@ describe('FundFactory contract', function() {
   });
 
   describe('Create fund', function() {
+    beforeEach(async function() {
+      await fundFactory.buyFundTokens(1, { value: fundTokenPrice });
+    });
+
     it('Incorrect contribution percentage', async function() {
       const createFundArgs = [...defaultCreateFundArgs, true, true, true, false, false, 105, 50];
 
@@ -70,6 +75,10 @@ describe('FundFactory contract', function() {
 
 describe('Fund contract', function() {
   let fund;
+
+  beforeEach(async function() {
+    await fundFactory.buyFundTokens(1, { value: fundTokenPrice });
+  });
 
   describe('Friends fund', function() {
     beforeEach(async function() {
