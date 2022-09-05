@@ -6,11 +6,10 @@ pragma solidity 0.8.16;
 // Imports
 
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 // Fund contract -> they are deployed by the factory
-contract Fund is Context, ReentrancyGuard {
+contract Fund is ReentrancyGuard {
   // Libraries
 
   using Counters for Counters.Counter;
@@ -77,7 +76,7 @@ contract Fund is Context, ReentrancyGuard {
   // Modifiers
 
   modifier onlyManagers() {
-    require(isManager[_msgSender()], "Only managers can access");
+    require(isManager[msg.sender], "Only managers can access");
     _;
   }
 
@@ -111,7 +110,7 @@ contract Fund is Context, ReentrancyGuard {
 
   function addNewManagers(address[] memory _managers) public {
     require(managersCanBeAddedOrRemoved, "New managers can not be added");
-    require(isManager[_msgSender()], "Only managers can access");
+    require(isManager[msg.sender], "Only managers can access");
     require(_managers.length > 0, "You have to send one or more addresses");
 
     for (uint256 i; i < _managers.length; ) {
@@ -130,7 +129,7 @@ contract Fund is Context, ReentrancyGuard {
 
   function removeManager(uint256 _index) public {
     require(managersCanBeAddedOrRemoved, "Managers can not be removed");
-    require(isManager[_msgSender()], "Only managers can access");
+    require(isManager[msg.sender], "Only managers can access");
     uint256 _managersCount = managersCount();
     require(
       _managersCount > 1 || (requestsCanBeCreated && !onlyManagersCanCreateARequest),
@@ -159,7 +158,7 @@ contract Fund is Context, ReentrancyGuard {
   }
 
   function contribute() public payable {
-    _contribute(_msgSender());
+    _contribute(msg.sender);
   }
 
   function contributeFor(address _for) public payable {
@@ -180,11 +179,11 @@ contract Fund is Context, ReentrancyGuard {
 
   function transfer(address _to, uint256 _value) public {
     require(managersCanTransferMoneyWithoutARequest, "Managers can not transfer money without a request");
-    require(isManager[_msgSender()], "Only managers can access");
+    require(isManager[msg.sender], "Only managers can access");
 
     payable(_to).transfer(_value);
 
-    emit Transfer(_msgSender(), _to, _value);
+    emit Transfer(msg.sender, _to, _value);
   }
 
   function createRequest(
@@ -194,7 +193,7 @@ contract Fund is Context, ReentrancyGuard {
   ) public {
     require(requestsCanBeCreated, "Requests can not be created");
 
-    bool _isManager = isManager[_msgSender()];
+    bool _isManager = isManager[msg.sender];
     require(
       !onlyManagersCanCreateARequest || (onlyManagersCanCreateARequest && _isManager),
       "Only managers can create a request"
@@ -203,11 +202,11 @@ contract Fund is Context, ReentrancyGuard {
     Request storage newRequest = requests.push();
 
     newRequest.description = _description;
-    newRequest.petitioner = _msgSender();
+    newRequest.petitioner = msg.sender;
     newRequest.recipient = _recipient;
     newRequest.valueToTransfer = _valueToTransfer;
 
-    emit NewRequest(_description, _msgSender(), _recipient, _valueToTransfer);
+    emit NewRequest(_description, msg.sender, _recipient, _valueToTransfer);
   }
 
   function requestsCount() public view returns (uint256) {
@@ -223,22 +222,22 @@ contract Fund is Context, ReentrancyGuard {
 
     require(!request.complete, "The request has already been completed");
     require(
-      (contributions[_msgSender()] / totalContributions) * 100 >= minimumContributionPercentageRequired ||
-        (!onlyContributorsCanApproveARequest && isManager[_msgSender()]),
+      (contributions[msg.sender] / totalContributions) * 100 >= minimumContributionPercentageRequired ||
+        (!onlyContributorsCanApproveARequest && isManager[msg.sender]),
       "You can not approve a request"
     );
-    require(!request.approvals[_msgSender()], "You have already approved this request");
+    require(!request.approvals[msg.sender], "You have already approved this request");
 
-    request.approvals[_msgSender()] = true;
+    request.approvals[msg.sender] = true;
     request.approvalsCount.increment();
 
-    emit ApproveRequest(_index, _msgSender());
+    emit ApproveRequest(_index, msg.sender);
   }
 
   function finalizeRequest(uint256 _index) public nonReentrant {
     Request storage request = requests[_index];
 
-    require(request.petitioner == _msgSender(), "You are not the petitioner of the request");
+    require(request.petitioner == msg.sender, "You are not the petitioner of the request");
     require(!request.complete, "The request has already been completed");
     if (onlyContributorsCanApproveARequest) {
       require(
