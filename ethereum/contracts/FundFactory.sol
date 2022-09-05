@@ -15,10 +15,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract FundFactory is Ownable {
   // FundToken data
 
-  FundToken public fundToken;
+  FundToken public immutable fundToken;
   uint256 public fundTokenPrice; // price in weis
 
-  uint256 public createFundPrice = 1; // price in fundTokens
+  uint256 public constant createFundPrice = 1; // price in fundTokens
 
   // All fund contracts created are stored here
   Fund[] public deployedFunds;

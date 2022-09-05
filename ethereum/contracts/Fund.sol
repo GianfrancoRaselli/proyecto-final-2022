@@ -31,14 +31,14 @@ contract Fund is ReentrancyGuard {
 
   string public name;
   string public description;
-  address public creator;
-  uint256 public createdAt = block.timestamp;
+  address public immutable creator;
+  uint256 public immutable createdAt = block.timestamp;
 
   // Managers data
 
   address[] public managers;
   mapping(address => bool) public isManager;
-  bool public managersCanBeAddedOrRemoved;
+  bool public immutable managersCanBeAddedOrRemoved;
 
   // Contributors data
 
@@ -48,14 +48,14 @@ contract Fund is ReentrancyGuard {
 
   // Requests data
 
-  bool public managersCanTransferMoneyWithoutARequest;
+  bool public immutable managersCanTransferMoneyWithoutARequest;
 
   Request[] public requests;
-  bool public requestsCanBeCreated;
-  bool public onlyManagersCanCreateARequest;
-  bool public onlyContributorsCanApproveARequest;
-  uint256 public minimumContributionPercentageRequired;
-  uint256 public minimumApprovalsPercentageRequired;
+  bool public immutable requestsCanBeCreated;
+  bool public immutable onlyManagersCanCreateARequest;
+  bool public immutable onlyContributorsCanApproveARequest;
+  uint256 public immutable minimumContributionPercentageRequired;
+  uint256 public immutable minimumApprovalsPercentageRequired;
 
   // Events
 
