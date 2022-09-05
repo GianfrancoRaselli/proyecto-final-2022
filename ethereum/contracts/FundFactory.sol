@@ -7,14 +7,53 @@ pragma solidity 0.8.16;
 
 // Import this file to use console.log
 //import "hardhat/console.sol"; // console.log("Block timestamp is %o", block.timestamp);
+import {FundToken} from "./FundToken.sol";
 import {Fund} from "./Fund.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 // Contract factory -> contract to deploy
-contract FundFactory {
+contract FundFactory is Ownable {
+  // FundToken data
+
+  FundToken public fundToken;
+  uint256 public fundTokenPrice; // price in weis
+
+  uint256 public createFundPrice = 1; // price in fundTokens
+
   // All fund contracts created are stored here
   Fund[] public deployedFunds;
 
+  // Events
+
+  event NewFundTokenPrice(uint fundTokenPrice);
+
+  event FundTokensBuyed(address indexed buyer, uint fundTokensBuyed);
+
   event NewFund(address indexed fundAddress, string name, string description, address indexed creator, uint256 createdAt);
+
+  constructor(uint256 _fundTokenPrice) {
+    fundToken = new FundToken();
+    fundTokenPrice = _fundTokenPrice;
+  }
+
+  function changeFundTokenPrice(uint256 _newFundTokenPrice) public onlyOwner {
+    fundTokenPrice = _newFundTokenPrice;
+
+    emit NewFundTokenPrice(_newFundTokenPrice);
+  }
+
+  function buyFundTokens(uint256 _fundTokens) public payable {
+    require(msg.value == _fundTokens * fundTokenPrice);
+
+    FundToken _fundToken = fundToken;
+    _fundToken.mint(msg.sender, _fundTokens);
+    
+    emit FundTokensBuyed(msg.sender, _fundTokens);
+  }
+
+  function withdrawMoney() public onlyOwner {
+    payable(owner()).transfer(address(this).balance);
+  }
 
   // Function to create new fund and store it in the factory
   function createFund(
@@ -36,6 +75,8 @@ contract FundFactory {
     );
     require(_minimumContributionPercentageRequired < 101, "Incorrect contribution percentage");
     require(_minimumApprovalsPercentageRequired < 101, "Incorrect approvals percentage");
+
+    fundToken.burn(msg.sender, createFundPrice);
 
     Fund _newFund = new Fund(
       _name,
