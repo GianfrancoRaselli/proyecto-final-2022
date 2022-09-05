@@ -36,6 +36,8 @@ contract FundFactory is Ownable {
     fundTokenPrice = _fundTokenPrice;
   }
 
+  // Functions
+
   function changeFundTokenPrice(uint256 _newFundTokenPrice) public onlyOwner {
     fundTokenPrice = _newFundTokenPrice;
 
