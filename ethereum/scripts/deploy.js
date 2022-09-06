@@ -16,7 +16,7 @@ async function main() {
 
   // We get the contract to deploy
   const FundFactory = await hre.ethers.getContractFactory('FundFactory');
-  const fundFactory = await FundFactory.deploy();
+  const fundFactory = await FundFactory.deploy(100);
   await fundFactory.deployed();
   console.log('FundFactory deployed to:', fundFactory.address);
 
