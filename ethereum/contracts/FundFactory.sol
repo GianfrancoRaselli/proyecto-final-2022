@@ -29,7 +29,7 @@ contract FundFactory is Ownable {
 
   event FundTokensBuyed(address indexed buyer, uint fundTokensBuyed);
 
-  event NewFund(address indexed fundAddress, string name, string description, address indexed creator, uint256 createdAt);
+  event NewFund(address fundAddress, string name, string description, address indexed creator, uint256 createdAt);
 
   constructor(uint256 _fundTokenPrice) {
     fundToken = new FundToken();
