@@ -16,7 +16,8 @@ async function main() {
 
   // We get the contract to deploy
   const FundFactory = await hre.ethers.getContractFactory('FundFactory');
-  const fundFactory = await FundFactory.deploy(100);
+  const fundTokenPrice = 100;
+  const fundFactory = await FundFactory.deploy(fundTokenPrice);
   await fundFactory.deployed();
   console.log('FundFactory deployed to:', fundFactory.address);
 
@@ -31,7 +32,7 @@ async function main() {
       console.log('Verifying contract...');
       await hre.run('verify:verify', {
         address: fundFactory.address,
-        constructorArguments: [],
+        constructorArguments: [fundTokenPrice],
       });
     } catch (err) {
       if (err.message.includes('Reason: Already Verified')) {
