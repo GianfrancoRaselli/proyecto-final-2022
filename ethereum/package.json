@@ -16,6 +16,7 @@
     "deploy:production": "npx hardhat run scripts/deploy.js --network ethereum",
     "watch:compilation": "npx hardhat watch compilation",
     "watch:ci": "npx hardhat watch ci",
+    "transaction:changeFundTokenPrice": "npx hardhat run scripts/transactions/changeFundTokenPrice.js --network goerli",
     "transaction:createFund": "npx hardhat run scripts/transactions/createFund.js --network goerli"
   },
   "keywords": [],
