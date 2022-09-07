@@ -45,7 +45,7 @@ contract FundFactory is Ownable {
   }
 
   function buyFundTokens(uint256 _fundTokens) public payable {
-    require(msg.value == _fundTokens * fundTokenPrice);
+    require(msg.value == _fundTokens * fundTokenPrice, "Underpayment");
 
     FundToken _fundToken = fundToken;
     _fundToken.mint(msg.sender, _fundTokens);
