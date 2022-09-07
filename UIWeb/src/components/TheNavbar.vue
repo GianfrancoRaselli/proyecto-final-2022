@@ -1,5 +1,41 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-0">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <router-link class="navbar-brand" :to="{ name: 'Home' }">Fund</router-link>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <router-link
+            class="nav-link"
+            :to="{ name: 'CreateFund' }"
+            v-text="createFundMsg"
+          />
+        </li>
+        <li class="nav-item">
+          <router-link
+            class="nav-link"
+            :to="{ name: 'Funds' }"
+            v-text="fundsMsg"
+          />
+        </li>
+        <li class="nav-item">
+          <router-link
+            class="nav-link"
+            :to="{ name: 'MyFunds' }"
+            v-text="myFundsMsg"
+          />
+        </li>
+        <li class="nav-item">
+          <span
+            class="pointer nav-link"
+            data-toggle="modal"
+            data-target="#buyFundTokensModal"
+            v-text="buyFundTokensMsg"
+          />
+        </li>
+      </ul>
+    </div>
+
     <div class="navbar--menu ml-auto">
       <div v-if="hasMetamask">
         <button
@@ -7,7 +43,6 @@
           data-toggle="modal"
           data-target="#walletModal"
           v-if="isConnected"
-          @click="openWalletModal"
         >
           <fa-icon
             icon="wallet"
@@ -75,14 +110,21 @@ import { mapState, mapGetters } from "vuex";
 import { hasMetamask, connectToMetamask } from "@/helpers/connection";
 
 export default {
-  name: "MetamaskNavbarComponent",
+  name: "TheNavbarComponent",
   data() {
     return {
       languages: ["English", "Español"],
     };
   },
   computed: {
-    ...getMessages(["connectMetaMask", "installMetaMask"]),
+    ...getMessages([
+      "createFund",
+      "funds",
+      "myFunds",
+      "buyFundTokens",
+      "connectMetaMask",
+      "installMetaMask",
+    ]),
 
     ...mapState({
       selectedLanguage: (state) => state.config.selectedLanguage,
@@ -162,6 +204,10 @@ nav {
 
 .bold {
   font-weight: bold;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 @media (max-width: 530px) {

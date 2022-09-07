@@ -7,7 +7,7 @@ import Web3 from "web3";
 const infuraPath = "https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a";
 
 import FundFactory from '../assets/abis/FundFactory.json';
-const fundFactoryAddress = '0x00a351d668B78bf784E2969b86C50F3A06865d02';
+const fundFactoryAddress = '0x54000d34DF191e487f8C28E3C9205acc5DC4d78b';
 
 
 const hasMetamask = () => {

@@ -95,10 +95,9 @@ export default {
     return {};
   },
   computed: {
-    ...getMessages(["account", "connected", "desconnected", "to", "connectMetaMask", "disconnect", "change", "copyAddress", "viewExplorer"]),
+    ...getMessages(["account", "connected", "desconnected", "to", "connectMetaMask", "disconnect", "change", "copyAddress", "addressCopied", "viewExplorer"]),
 
     ...mapState({
-      selectedLanguage: (state) => state.config.selectedLanguage,
       address: (state) => state.connection.address,
     }),
     ...mapGetters([
@@ -138,7 +137,7 @@ export default {
     copyAddress() {
       navigator.clipboard.writeText(this.address);
       addNotification({
-        message: "Address copied to clipboard",
+        message: this.addressCopiedMsg,
         type: "success",
       });
     },

@@ -39,8 +39,28 @@
     "English": "Copy address",
     "Español": "Copiar dirección"
   },
+  "addressCopied": {
+    "English": "Address copied to clipboard",
+    "Español": "Dirección copiada al portapapeles"
+  },
   "viewExplorer": {
     "English": "View on explorer",
     "Español": "Ver en el explorador"
+  },
+  "createFund": {
+    "English": "Create fund",
+    "Español": "Crear fondo"
+  },
+  "funds": {
+    "English": "Funds",
+    "Español": "Fondos"
+  },
+  "myFunds": {
+    "English": "My funds",
+    "Español": "Mis fondos"
+  },
+  "buyFundTokens": {
+    "English": "Buy FundTokens",
+    "Español": "Comprar FundTokens"
   }
 }

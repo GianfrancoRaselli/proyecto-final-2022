@@ -1,8 +1,9 @@
 <template>
   <div class="page-content">
     <header class="page-content__header">
-      <MetamaskNavbar class="header__nav--metamask" />
+      <TheNavbar class="header__navbar" />
       <WalletModal />
+      <BuyFundTokensModal />
     </header>
     <main class="page-content__main">
       <router-view :key="`${$route.path}${JSON.stringify($route.query)}`" />
@@ -13,8 +14,9 @@
 </template>
 
 <script>
-import MetamaskNavbar from "@/components/MetamaskNavbar";
-import WalletModal from "@/components/WalletModal";
+import TheNavbar from "@/components/TheNavbar";
+import WalletModal from "@/components/modals/WalletModal";
+import BuyFundTokensModal from "@/components/modals/BuyFundTokensModal";
 import AppNotifications from "@/components/global/AppNotifications";
 
 import { connectToMetamask } from "@/helpers/connection";
@@ -22,10 +24,11 @@ import { connectToMetamask } from "@/helpers/connection";
 export default {
   name: "App",
   components: {
-    MetamaskNavbar,
+    TheNavbar,
     WalletModal,
-    AppNotifications,
-  },
+    BuyFundTokensModal,
+    AppNotifications
+},
   computed: {
   },
   created() {
@@ -47,7 +50,6 @@ body {
 }
 
 .page-content {
-  --metamask-nav-height: 50px;
   min-width: 100%;
   height: 100vh;
   display: flex;
@@ -59,8 +61,7 @@ body {
   user-select: none;
 }
 
-.header__nav--metamask {
-  height: var(--metamask-nav-height);
+.header__navbar {
   width: 100%;
   position: fixed;
   top: 0;
@@ -73,6 +74,6 @@ body {
   flex-basis: 100%;
   max-width: 1000px;
   margin: auto;
-  padding: calc(var(--metamask-nav-height) + 10px) 12px 10px 12px;
+  padding: 70px 12px 10px 12px;
 }
 </style>

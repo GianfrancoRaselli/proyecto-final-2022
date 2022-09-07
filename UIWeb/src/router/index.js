@@ -14,8 +14,8 @@ const routes = [
   },
   {
     path: "/fund/:fundAddress",
-    name: "CreateFund",
-    component: () => import("@/views/CreateFund"),
+    name: "Fund",
+    component: () => import("@/views/Fund"),
   },
   {
     path: "/funds",
@@ -24,8 +24,8 @@ const routes = [
   },
   {
     path: "/myFunds",
-    name: "Home",
-    component: () => import("@/views/Home"),
+    name: "MyFunds",
+    component: () => import("@/views/MyFunds"),
     meta: {
      connected: true
     }
