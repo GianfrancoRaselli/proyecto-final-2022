@@ -1,12 +1,12 @@
 <template>
   <div class="welcome">
-    <span class="welcome-text">Home</span>
+    <span class="welcome-text">My Funds</span>
   </div>
 </template>
 
 <script>
 export default {
-  name: "HomeView",
+  name: "MyFundsView",
   data() {
     return {
       

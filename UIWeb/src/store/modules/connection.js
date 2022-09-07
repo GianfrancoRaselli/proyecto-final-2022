@@ -2,15 +2,16 @@ export default {
   state () {
     return {
       chainId: '',
-      address: '',
-      disconnected: false,
-      provider: null,
-      web3: null,
       validChain: {
         id: '0x5',
         name: 'Goerli Testnet',
         explorer: 'https://goerli.etherscan.io'
-      }
+      },
+      address: '',
+      disconnected: false,
+      provider: null,
+      web3: null,
+      fundFactory: null,
     }
   },
 
@@ -53,6 +54,10 @@ export default {
 
     setWeb3(state, web3) {
       state.web3 = web3;
+    },
+
+    setFundFactory(state, fundFactory) {
+      state.fundFactory = fundFactory;
     },
   },
 

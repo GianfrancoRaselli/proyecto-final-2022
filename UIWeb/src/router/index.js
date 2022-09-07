@@ -1,10 +1,34 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "@/store";
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: () => import("@/views/Home"),
+  },
+  {
+    path: "/createFund",
+    name: "CreateFund",
+    component: () => import("@/views/CreateFund"),
+  },
+  {
+    path: "/fund/:fundAddress",
+    name: "CreateFund",
+    component: () => import("@/views/CreateFund"),
+  },
+  {
+    path: "/funds",
+    name: "Funds",
+    component: () => import("@/views/Funds"),
+  },
+  {
+    path: "/myFunds",
+    name: "Home",
+    component: () => import("@/views/Home"),
+    meta: {
+     connected: true
+    }
   },
   {
     path: "/:pathMatch(.*)*",
@@ -25,8 +49,10 @@ const router = createRouter({
   },
 });
 
-router.beforeEach((/*to*/) => {
-  /* */
+router.beforeEach((to) => {
+  if (to.meta.connected && !store.getters.isConnected) {
+    return { name: 'Home' };
+  }
 });
 
 export default router;
