@@ -48,6 +48,7 @@ export default {
   position: fixed;
   bottom: 20px;
   right: 0;
+  z-index: 10000; /* to keep it above modals */
 }
 
 .notification {
@@ -86,6 +87,7 @@ export default {
 }
 
 .btn-remove-all {
+  color: #003eb2;
   float: right;
 }
 </style>
