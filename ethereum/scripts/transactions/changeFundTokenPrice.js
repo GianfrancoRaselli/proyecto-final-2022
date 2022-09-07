@@ -10,7 +10,7 @@ async function main() {
       .trim(),
   );
 
-  await fundFactory.changeFundTokenPrice(1000000000000000);
+  await fundFactory.changeFundTokenPrice("1000000000000000");
 }
 
 main()

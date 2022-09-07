@@ -25,9 +25,9 @@ contract FundFactory is Ownable {
 
   // Events
 
-  event NewFundTokenPrice(uint fundTokenPrice);
+  event NewFundTokenPrice(uint256 fundTokenPrice);
 
-  event FundTokensBuyed(address indexed buyer, uint fundTokensBuyed);
+  event FundTokensBuyed(address indexed buyer, uint256 fundTokensBuyed);
 
   event NewFund(address fundAddress, string name, string description, address indexed creator, uint256 createdAt);
 
@@ -49,7 +49,7 @@ contract FundFactory is Ownable {
 
     FundToken _fundToken = fundToken;
     _fundToken.mint(msg.sender, _fundTokens);
-    
+
     emit FundTokensBuyed(msg.sender, _fundTokens);
   }
 
