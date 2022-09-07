@@ -67,6 +67,10 @@ export default {
   border-left: 5px solid rgb(15, 109, 38);
 }
 
+.notification.notification-type-warning {
+  border-left: 5px solid rgb(177, 106, 0);
+}
+
 .notification.notification-type-error {
   border-left: 5px solid rgb(146, 5, 5);
 }

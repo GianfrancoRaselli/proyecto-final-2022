@@ -51,6 +51,7 @@
 import $ from 'jquery';
 import Web3 from 'web3';
 import { getMessages } from '@/dictionary';
+import { mapGetters } from 'vuex';
 import { addNotification } from '@/composables/useNotifications';
 import { call, transaction, event, ethPriceInUSD } from '@/helpers/helpers';
 
@@ -68,6 +69,8 @@ export default {
   },
   computed: {
     ...getMessages(['buyFundTokens']),
+
+    ...mapGetters(['isConnected']),
 
     fundTokenPriceInEth() {
       return parseFloat(Web3.utils.fromWei(this.fundTokenPriceInWeis.toString(), 'ether'));
@@ -92,18 +95,25 @@ export default {
   methods: {
     async handleSumbit() {
       if (Number.isInteger(this.fundTokens)) {
-        try {
-          this.loading = true;
-          await transaction('fundFactory', 'buyFundTokens', [this.fundTokens], {
-            value: this.fundTokens * this.fundTokenPriceInWeis,
-          });
+        if (this.isConnected) {
+          try {
+            this.loading = true;
+            await transaction('fundFactory', 'buyFundTokens', [this.fundTokens], {
+              value: this.fundTokens * this.fundTokenPriceInWeis,
+            });
+            addNotification({
+              message: 'You have bought ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
+              type: 'success',
+            });
+            $('#buyFundTokensModal').modal('hide');
+          } finally {
+            this.loading = false;
+          }
+        } else {
           addNotification({
-            message: 'You have bought ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
-            type: 'success',
+            message: 'You have to be connected to MetaMask to send a transaction',
+            type: 'warning',
           });
-          $('#buyFundTokensModal').modal('hide');
-        } finally {
-          this.loading = false;
         }
       } else {
         addNotification({
