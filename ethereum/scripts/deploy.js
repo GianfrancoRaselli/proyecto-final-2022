@@ -7,8 +7,7 @@ const hre = require('hardhat');
 const fs = require('fs');
 
 async function main() {
-  // Hardhat always runs the compile task when running scripts with its command
-  // line interface.
+  // Hardhat always runs the compile task when running scripts with its command line interface.
   //
   // If this script is run directly using `node` you may want to call compile
   // manually to make sure everything is compiled
@@ -24,6 +23,7 @@ async function main() {
 
   // Save the last addresses deployed
   fs.writeFileSync('.lastFundFactoryAddress', fundFactory.address);
+  fs.writeFileSync('../UIWeb/src/assets/lastAddresses.json', JSON.stringify({ fundFactoryAddress: fundFactory.address }));
   fs.writeFileSync('.lastFundTokenAddress', await fundFactory.fundToken());
 
   /*if (hre.network.name === 'goerli') {

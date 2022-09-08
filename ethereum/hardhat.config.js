@@ -1,4 +1,5 @@
-require("@nomicfoundation/hardhat-chai-matchers");
+require('@nomicfoundation/hardhat-chai-matchers');
+require('hardhat-abi-exporter');
 require('@nomiclabs/hardhat-etherscan');
 require('@nomiclabs/hardhat-solhint');
 require('solidity-coverage');
@@ -26,6 +27,16 @@ module.exports = {
       url: `https://goerli.infura.io/v3/${process.env.INFURA_KEY}`,
       accounts: [process.env.PRIVATE_KEY],
     },
+  },
+  abiExporter: {
+    path: '../UIWeb/src/assets/abis',
+    runOnCompile: true,
+    clear: true,
+    flat: true,
+    only: ["FundFactory", "FundToken", "Fund"],
+    spacing: 2,
+    pretty: false,
+    format: 'json', // Alternative to pretty
   },
   etherscan: {
     apiKey: {
