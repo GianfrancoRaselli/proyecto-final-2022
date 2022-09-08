@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import Web3 from "web3";
 const infuraPath = "https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a";
 
-import FundFactory from '../assets/abis/FundFactory.json';
+import FundFactory from '../assets/abis/FundFactory';
 const fundFactoryAddress = '0x54000d34DF191e487f8C28E3C9205acc5DC4d78b';
 
 

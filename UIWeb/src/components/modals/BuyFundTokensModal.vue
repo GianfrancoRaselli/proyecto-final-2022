@@ -98,7 +98,7 @@ export default {
         if (this.isConnected) {
           try {
             this.loading = true;
-            await transaction('fundFactory', 'buyFundTokens', [this.fundTokens], {
+            await transaction('FundFactory', 'buyFundTokens', [this.fundTokens], {
               value: this.fundTokens * this.fundTokenPriceInWeis,
             });
             addNotification({
@@ -124,9 +124,9 @@ export default {
     },
   },
   async created() {
-    call('fundFactory', 'fundTokenPrice').then((res) => {
+    call('FundFactory', 'fundTokenPrice').then(async (res) => {
       this.fundTokenPriceInWeis = res;
-      this.newFundTokenPriceSubscription = event('fundFactory', 'NewFundTokenPrice', undefined, (err, event) => {
+      this.newFundTokenPriceSubscription = await event('FundFactory', 'NewFundTokenPrice', undefined, (err, event) => {
         this.fundTokenPriceInWeis = event.returnValues.fundTokenPrice;
       });
     });
