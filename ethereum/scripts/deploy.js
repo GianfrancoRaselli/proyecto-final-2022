@@ -16,15 +16,17 @@ async function main() {
 
   // We get the contract to deploy
   const FundFactory = await hre.ethers.getContractFactory('FundFactory');
-  const fundTokenPrice = 1000000000000000;
+  const fundTokenPrice = '1000000000000000';
   const fundFactory = await FundFactory.deploy(fundTokenPrice);
   await fundFactory.deployed();
   console.log('FundFactory deployed to:', fundFactory.address);
+  console.log('FundToken deployed to:', await fundFactory.fundToken());
 
-  // Save the last address deployed
-  fs.writeFileSync('.lastAddressDeployed', fundFactory.address);
+  // Save the last addresses deployed
+  fs.writeFileSync('.lastFundFactoryAddress', fundFactory.address);
+  fs.writeFileSync('.lastFundTokenAddress', await fundFactory.fundToken());
 
-  if (hre.network.name === 'goerli') {
+  /*if (hre.network.name === 'goerli') {
     // Verify deployed contract in Etherscan
     console.log('Waiting 5 block confirmations...');
     await fundFactory.deployTransaction.wait(5); // needed if verifyContract() is called immediately after deployment
@@ -42,7 +44,7 @@ async function main() {
       }
     }
     console.log('Deployed contract verified');
-  }
+  }*/
 }
 
 // We recommend this pattern to be able to use async/await everywhere

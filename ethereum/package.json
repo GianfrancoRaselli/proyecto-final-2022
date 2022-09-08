@@ -14,10 +14,12 @@
     "deploy:local": "npx hardhat run scripts/deploy.js --network ganache",
     "deploy:test": "npx hardhat run scripts/deploy.js --network goerli",
     "deploy:production": "npx hardhat run scripts/deploy.js --network ethereum",
-    "watch:compilation": "npx hardhat watch compilation",
-    "watch:ci": "npx hardhat watch ci",
     "transaction:changeFundTokenPrice": "npx hardhat run scripts/transactions/changeFundTokenPrice.js --network goerli",
-    "transaction:createFund": "npx hardhat run scripts/transactions/createFund.js --network goerli"
+    "transaction:buyFundTokens": "npx hardhat run scripts/transactions/buyFundTokens.js --network goerli",
+    "transaction:withdrawMoney": "npx hardhat run scripts/transactions/withdrawMoney.js --network goerli",
+    "transaction:createFund": "npx hardhat run scripts/transactions/createFund.js --network goerli",
+    "watch:compilation": "npx hardhat watch compilation",
+    "watch:ci": "npx hardhat watch ci"
   },
   "keywords": [],
   "author": "",

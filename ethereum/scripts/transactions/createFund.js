@@ -5,7 +5,7 @@ async function main() {
   const FundFactory = await hre.ethers.getContractFactory('FundFactory');
   const fundFactory = FundFactory.attach(
     fs
-      .readFileSync('.lastAddressDeployed')
+      .readFileSync('.lastFundFactoryAddress')
       .toString()
       .trim(),
   );
