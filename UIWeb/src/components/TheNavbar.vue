@@ -22,7 +22,9 @@
     <div class="navbar--menu ml-auto">
       <div v-if="hasMetamask">
         <button class="btn btn-light btn-wallet" data-toggle="modal" data-target="#walletModal" v-if="isConnected">
-          <fa-icon icon="wallet" class="icon mr-2 wallet-icon" size="2x"></fa-icon>{{ splitAddress }}
+          <fa-icon icon="wallet" class="icon mr-2 wallet-icon" size="2x" v-if="isConnectedToTheValidChain"></fa-icon
+          ><fa-icon icon="triangle-exclamation" class="icon mr-2 wallet-icon wallet-warning-icon" size="2x" v-else></fa-icon
+          >{{ splitAddress }}
         </button>
 
         <AppButton classes="btn-sm btn-success" :text="connectMetaMaskMsg" v-if="!isConnected" @click="connectToMetamask" />
@@ -85,7 +87,7 @@ export default {
       selectedLanguage: (state) => state.config.selectedLanguage,
       address: (state) => state.connection.address,
     }),
-    ...mapGetters(['isConnected']),
+    ...mapGetters(['isConnected', 'isConnectedToTheValidChain']),
 
     hasMetamask,
 
@@ -142,6 +144,11 @@ nav {
   border: 1px solid black;
   padding: 7px;
   border-radius: 50px;
+}
+
+.wallet-warning-icon {
+  color: rgb(243, 166, 0);
+  border-color: rgb(243, 166, 0);
 }
 
 .dropdown-item--language {

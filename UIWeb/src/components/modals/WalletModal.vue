@@ -16,7 +16,7 @@
             <span class="text-muted" v-if="!isConnected" v-text="disconnectedMsg" />
             <div class="first-line-btns">
               <AppButton
-                classes="btn-sm btn-secondary btn-radius mr-2"
+                classes="btn-sm btn-warning btn-radius mr-2"
                 :text="changeMsg + ' ' + validChainName"
                 v-if="isConnected && !isConnectedToTheValidChain"
                 @click="changeToTheValidChain"
