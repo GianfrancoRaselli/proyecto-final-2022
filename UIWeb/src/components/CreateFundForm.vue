@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="handleSubmit">
     <div class="form-group">
-      <span class="h3">Create Fund</span>
+      <span class="h3 text-underline">Create Fund</span>
     </div>
 
     <div class="form-group">
@@ -375,7 +375,11 @@ export default {
 </script>
 
 <style scoped>
+.text-underline {
+  text-decoration: underline;
+}
+
 .icon {
-  color: #1d91a8;
+  color: #1d6aa8;
 }
 </style>
