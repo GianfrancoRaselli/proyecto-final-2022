@@ -6,19 +6,20 @@ import { hasMetamask } from './connection';
 import fundTokenABI from '../assets/abis/FundToken';
 import { fundTokenAddress } from '../assets/lastAddresses';
 
-const call = async (contract, method, params = [], options) => {
+const call = async (contract, method, params = [], options, showContractError = true) => {
   const contractInstance = await getContractInstance(contract, 'infura');
   if (contractInstance) {
     try {
       return contractInstance.methods[method](...params).call({ from: store.state.connection.address, ...options });
     } catch (err) {
-      showErrorNotification(err);
-      throw err;
+      const errMessage = getErrorMessage(err);
+      if (showContractError) addNotification({ message: errMessage, type: 'error' });
+      throw new Error(errMessage);
     }
   }
 };
 
-const transaction = async (contract, method, params = [], options) => {
+const transaction = async (contract, method, params = [], options, showContractError = true) => {
   if (hasMetamask()) {
     if (store.getters.isConnected) {
       if (store.getters.isConnectedToTheValidChain) {
@@ -27,8 +28,9 @@ const transaction = async (contract, method, params = [], options) => {
           try {
             await contractInstance.methods[method](...params).call({ from: store.state.connection.address, ...options });
           } catch (err) {
-            showErrorNotification(err);
-            throw err;
+            const errMessage = getErrorMessage(err);
+            if (showContractError) addNotification({ message: errMessage, type: 'error' });
+            throw new Error(errMessage);
           }
           return contractInstance.methods[method](...params).send({ from: store.state.connection.address, ...options });
         }
@@ -74,16 +76,11 @@ async function getContractInstance(contract, provider = 'metamask') {
   }
 }
 
-function showErrorNotification(err) {
+function getErrorMessage(err) {
   const endIndex = err.message.search('{');
   let message = err.message;
   if (endIndex >= 0) message = err.message.substring(0, endIndex);
-  message = message.charAt(0).toUpperCase() + message.slice(1);
-
-  addNotification({
-    message: message,
-    type: 'error',
-  });
+  return message.charAt(0).toUpperCase() + message.slice(1);
 }
 
 const addTokenToMetaMask = (type = 'ERC20', options = { address: fundTokenAddress, symbol: 'FT', decimals: 0 }) => {

@@ -4,6 +4,7 @@ import {
   faGlobe,
   faCheck,
   faWallet,
+  faCircleInfo,
   faCircleExclamation,
   faTriangleExclamation,
   faCopy,
@@ -14,6 +15,7 @@ import {
 library.add(faGlobe);
 library.add(faCheck);
 library.add(faWallet);
+library.add(faCircleInfo);
 library.add(faCircleExclamation);
 library.add(faTriangleExclamation);
 library.add(faCopy);

@@ -16,13 +16,15 @@
               ><span v-if="myBalance > 1"> FundTokens</span><span v-else> FundToken</span></small
             >
           </div>
+
           <div class="form-group">
             <small>
               <span class="h6 font-weight-bolder">FundToken price: </span><span v-text="fundTokenPriceInEth"></span
               ><span> ETH</span><span> ≈ </span><span v-text="fundTokenPriceInUSD"></span><span> USD</span></small
             >
           </div>
-          <form @submit.prevent="handleSumbit">
+
+          <form @submit.prevent="handleSubmit">
             <div class="form-group">
               <label for="tokensInput">Enter the amount of tokens to buy</label>
               <input
@@ -42,6 +44,7 @@
                 ><span> ≈ </span><span v-text="fundTokensPriceInUSD"></span><span> USD</span></small
               >
             </div>
+
             <button type="submit" class="btn btn-primary" v-if="!loading">Buy</button>
             <button class="btn btn-primary" type="button" disabled v-if="loading">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -107,8 +110,13 @@ export default {
       }
     },
   },
+  watch: {
+    address() {
+      this.searchMyBalance();
+    },
+  },
   methods: {
-    async handleSumbit() {
+    async handleSubmit() {
       if (Number.isInteger(this.fundTokens)) {
         try {
           this.loading = true;
@@ -119,6 +127,7 @@ export default {
             message: 'You have bought ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
             type: 'success',
           });
+          this.fundTokens = 1;
           //$('#buyFundTokensModal').modal('hide');
         } finally {
           this.loading = false;
@@ -147,11 +156,6 @@ export default {
           );
         });
       }
-    },
-  },
-  watch: {
-    address() {
-      this.searchMyBalance();
     },
   },
   async created() {
