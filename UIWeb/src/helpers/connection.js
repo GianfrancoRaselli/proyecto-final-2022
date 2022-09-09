@@ -6,8 +6,8 @@ import Swal from 'sweetalert2';
 import Web3 from 'web3';
 const infuraPath = 'https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a';
 
-import FundFactoryABI from '../assets/abis/FundFactory';
-import lastAddresses from '../assets/lastAddresses';
+import fundFactoryABI from '../assets/abis/FundFactory';
+import { fundFactoryAddress } from '../assets/lastAddresses';
 
 const hasMetamask = () => {
   const ethereumProvider = window.ethereum;
@@ -63,7 +63,7 @@ const connectToMetamask = async () => {
 
 const setWeb3AndContracts = (provider) => {
   store.commit('setWeb3', new Web3(provider));
-  store.commit('setFundFactory', new store.state.connection.web3.eth.Contract(FundFactoryABI, lastAddresses.fundFactoryAddress));
+  store.commit('setFundFactory', new store.state.connection.web3.eth.Contract(fundFactoryABI, fundFactoryAddress));
 };
 
 const handleAccountsChanged = async (accounts) => {

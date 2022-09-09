@@ -23,8 +23,11 @@ async function main() {
 
   // Save the last addresses deployed
   fs.writeFileSync('.lastFundFactoryAddress', fundFactory.address);
-  fs.writeFileSync('../UIWeb/src/assets/lastAddresses.json', JSON.stringify({ fundFactoryAddress: fundFactory.address }));
   fs.writeFileSync('.lastFundTokenAddress', await fundFactory.fundToken());
+  fs.writeFileSync(
+    '../UIWeb/src/assets/lastAddresses.json',
+    JSON.stringify({ fundFactoryAddress: fundFactory.address, fundTokenAddress: await fundFactory.fundToken() }),
+  );
 
   /*if (hre.network.name === 'goerli') {
     // Verify deployed contract in Etherscan

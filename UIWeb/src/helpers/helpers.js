@@ -30,8 +30,13 @@ const event = async (contract, event, options, func) => {
 
 async function getContractInstance(contract) {
   if (contract === 'FundFactory') return store.state.connection.fundFactory;
-  const contractJSON = await import('../assets/abis/' + contract.name);
-  return new store.state.connection.web3.eth.Contract(contractJSON.abi, contract.address);
+  if (contract === 'FundToken') {
+    const fundTokenABI = await import('../assets/abis/FundToken');
+    const { fundTokenAddress } = await import('../assets/lastAddresses');
+    return new store.state.connection.web3.eth.Contract(fundTokenABI, fundTokenAddress);
+  }
+  const contractABI = await import('../assets/abis/' + contract.name);
+  return new store.state.connection.web3.eth.Contract(contractABI, contract.address);
 }
 
 function showErrorNotification(err) {
