@@ -1,5 +1,4 @@
 import store from '@/store';
-import router from '@/router';
 import Swal from 'sweetalert2';
 //import detectEthereumProvider from '@metamask/detect-provider';
 
@@ -49,7 +48,7 @@ const connectToMetamask = async () => {
     store.state.connection.provider.on('chainChanged', handleChainChanged);
     checkValidChain();
   } else {
-    setWeb3AndContracts(infuraPath);
+    setWeb3AndContracts();
 
     Swal.fire({
       position: 'center',
@@ -62,8 +61,12 @@ const connectToMetamask = async () => {
 };
 
 const setWeb3AndContracts = (provider) => {
-  store.commit('setWeb3', new Web3(provider));
-  store.commit('setFundFactory', new store.state.connection.web3.eth.Contract(fundFactoryABI, fundFactoryAddress));
+  if (provider) {
+    store.commit('setWeb3', new Web3(provider));
+    store.commit('setFundFactory', new store.state.connection.web3.eth.Contract(fundFactoryABI, fundFactoryAddress));
+  }
+  store.commit('setInfuraWeb3', new Web3(infuraPath));
+  store.commit('setInfuraFundFactory', new store.state.connection.infuraWeb3.eth.Contract(fundFactoryABI, fundFactoryAddress));
 };
 
 const handleAccountsChanged = async (accounts) => {
@@ -73,13 +76,10 @@ const handleAccountsChanged = async (accounts) => {
     store.state.connection.provider.removeListener('accountsChanged', handleAccountsChanged);
     store.state.connection.provider.removeListener('chainChanged', handleChainChanged);
   }
-
-  router.push('/');
 };
 
 const handleChainChanged = (chainId) => {
   store.commit('setChainId', chainId);
-  checkValidChain();
 };
 
 const checkValidChain = async () => {
@@ -98,11 +98,6 @@ const checkValidChain = async () => {
 const disconnect = () => {
   store.state.connection.provider.removeListener('accountsChanged', handleAccountsChanged);
   store.state.connection.provider.removeListener('chainChanged', handleChainChanged);
-
-  store.commit('setChainId', '');
-  store.commit('setAddress', '');
-
-  router.push('/');
 };
 
 export { hasMetamask, connectToMetamask, handleAccountsChanged, handleChainChanged, checkValidChain, disconnect };

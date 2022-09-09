@@ -5,59 +5,27 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <router-link
-            class="nav-link"
-            :to="{ name: 'CreateFund' }"
-            v-text="createFundMsg"
-          />
+          <router-link class="nav-link" :to="{ name: 'CreateFund' }" v-text="createFundMsg" />
         </li>
         <li class="nav-item">
-          <router-link
-            class="nav-link"
-            :to="{ name: 'Funds' }"
-            v-text="fundsMsg"
-          />
+          <router-link class="nav-link" :to="{ name: 'Funds' }" v-text="fundsMsg" />
         </li>
         <li class="nav-item">
-          <router-link
-            class="nav-link"
-            :to="{ name: 'MyFunds' }"
-            v-text="myFundsMsg"
-          />
+          <router-link class="nav-link" :to="{ name: 'MyFunds' }" v-text="myFundsMsg" />
         </li>
         <li class="nav-item">
-          <span
-            class="pointer nav-link"
-            data-toggle="modal"
-            data-target="#buyFundTokensModal"
-            v-text="buyFundTokensMsg"
-          />
+          <span class="pointer nav-link" data-toggle="modal" data-target="#buyFundTokensModal" v-text="buyFundTokensMsg" />
         </li>
       </ul>
     </div>
 
     <div class="navbar--menu ml-auto">
       <div v-if="hasMetamask">
-        <button
-          class="btn btn-light btn-wallet"
-          data-toggle="modal"
-          data-target="#walletModal"
-          v-if="isConnected"
-        >
-          <fa-icon
-            icon="wallet"
-            class="icon mr-2 wallet-icon"
-            size="2x"
-          ></fa-icon
-          >{{ splitAddress }}
+        <button class="btn btn-light btn-wallet" data-toggle="modal" data-target="#walletModal" v-if="isConnected">
+          <fa-icon icon="wallet" class="icon mr-2 wallet-icon" size="2x"></fa-icon>{{ splitAddress }}
         </button>
 
-        <AppButton
-          classes="btn-sm btn-success"
-          :text="connectMetaMaskMsg"
-          v-if="!isConnected"
-          @click="connectToMetamask"
-        />
+        <AppButton classes="btn-sm btn-success" :text="connectMetaMaskMsg" v-if="!isConnected" @click="connectToMetamask" />
       </div>
       <div v-else v-text="installMetaMaskMsg"></div>
 
@@ -72,20 +40,14 @@
           aria-haspopup="true"
           aria-expanded="false"
         ></fa-icon>
-        <div
-          class="dropdown-menu dropdown-menu-right"
-          aria-labelledby="dropdownMenuButton"
-        >
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
           <div
             class="dropdown-item dropdown-item--language"
             v-for="(language, index) in languages"
             :key="index"
             @click="changeLanguage(language)"
           >
-            <span
-              :class="{ bold: selectedLanguage === language }"
-              v-text="language"
-            />
+            <span :class="{ bold: selectedLanguage === language }" v-text="language" />
             <fa-icon
               icon="check"
               class="dropdown-toggle icon mr-1"
@@ -105,42 +67,35 @@
 </template>
 
 <script>
-import { getMessages } from "@/dictionary";
-import { mapState, mapGetters } from "vuex";
-import { hasMetamask, connectToMetamask } from "@/helpers/connection";
+import { getMessages } from '@/dictionary';
+import { mapState, mapGetters } from 'vuex';
+import { hasMetamask, connectToMetamask } from '@/helpers/connection';
 
 export default {
-  name: "TheNavbarComponent",
+  name: 'TheNavbarComponent',
   data() {
     return {
-      languages: ["English", "Español"],
+      languages: ['English', 'Español'],
     };
   },
   computed: {
-    ...getMessages([
-      "createFund",
-      "funds",
-      "myFunds",
-      "buyFundTokens",
-      "connectMetaMask",
-      "installMetaMask",
-    ]),
+    ...getMessages(['createFund', 'funds', 'myFunds', 'buyFundTokens', 'connectMetaMask', 'installMetaMask']),
 
     ...mapState({
       selectedLanguage: (state) => state.config.selectedLanguage,
       address: (state) => state.connection.address,
     }),
-    ...mapGetters(["isConnected"]),
+    ...mapGetters(['isConnected']),
 
     hasMetamask,
 
     splitAddress() {
-      let splitAccount = "";
+      let splitAccount = '';
 
       for (let i = 0; i < 4; i++) {
         splitAccount += this.address.charAt(i);
       }
-      splitAccount += "...";
+      splitAccount += '...';
       for (let i = this.address.length - 4; i < this.address.length; i++) {
         splitAccount += this.address.charAt(i);
       }
@@ -150,16 +105,12 @@ export default {
   },
   methods: {
     changeLanguage(language) {
-      this.$store.commit("setSelectedLanguage", language);
+      this.$store.commit('setSelectedLanguage', language);
     },
 
     async connectToMetamask() {
-      this.$store.commit("setDisconnected", false);
-      try {
-        await connectToMetamask();
-      } catch {
-        this.$store.commit("setDisconnected", true);
-      }
+      await connectToMetamask();
+      this.$store.commit('setDisconnected', false);
     },
   },
 };

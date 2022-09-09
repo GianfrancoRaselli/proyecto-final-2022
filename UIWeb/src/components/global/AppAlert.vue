@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "AppAvatarComponent",
+  name: "AppAlertComponent",
   props: {
     msg: { type: String, require: true },
     type: { type: String, default: 'alert-primary' },

@@ -3,13 +3,14 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="buyFundTokensModalLabel">FundToken</h4>
+          <h4 class="modal-title mr-2" id="buyFundTokensModalLabel">FundToken</h4>
+          <span class="add-token" @click="addFundTokenToMetaMask" v-if="hasMetamask">Add FundToken to MetaMask</span>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="form-group">
+          <div class="form-group" v-if="address">
             <small>
               <span class="h6 font-weight-bolder">My balance: </span><span v-text="myBalance"></span
               ><span v-if="myBalance > 1"> FundTokens</span><span v-else> FundToken</span></small
@@ -59,7 +60,8 @@ import Web3 from 'web3';
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { addNotification } from '@/composables/useNotifications';
-import { call, transaction, event, ethPriceInUSD } from '@/helpers/helpers';
+import { hasMetamask } from '@/helpers/connection';
+import { call, transaction, event, addTokenToMetaMask, ethPriceInUSD } from '@/helpers/helpers';
 
 export default {
   name: 'BuyFundTokensModalComponent',
@@ -82,6 +84,8 @@ export default {
       address: (state) => state.connection.address,
     }),
     ...mapGetters(['isConnected']),
+
+    hasMetamask,
 
     fundTokenPriceInEth() {
       return parseFloat(Web3.utils.fromWei(this.fundTokenPriceInWeis.toString(), 'ether'));
@@ -106,25 +110,18 @@ export default {
   methods: {
     async handleSumbit() {
       if (Number.isInteger(this.fundTokens)) {
-        if (this.isConnected) {
-          try {
-            this.loading = true;
-            await transaction('FundFactory', 'buyFundTokens', [this.fundTokens], {
-              value: this.fundTokens * this.fundTokenPriceInWeis,
-            });
-            addNotification({
-              message: 'You have bought ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
-              type: 'success',
-            });
-            //$('#buyFundTokensModal').modal('hide');
-          } finally {
-            this.loading = false;
-          }
-        } else {
-          addNotification({
-            message: 'You have to be connected to MetaMask to send a transaction',
-            type: 'warning',
+        try {
+          this.loading = true;
+          await transaction('FundFactory', 'buyFundTokens', [this.fundTokens], {
+            value: this.fundTokens * this.fundTokenPriceInWeis,
           });
+          addNotification({
+            message: 'You have bought ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
+            type: 'success',
+          });
+          //$('#buyFundTokensModal').modal('hide');
+        } finally {
+          this.loading = false;
         }
       } else {
         addNotification({
@@ -133,19 +130,32 @@ export default {
         });
       }
     },
+    addFundTokenToMetaMask() {
+      addTokenToMetaMask();
+    },
+    searchMyBalance() {
+      if (this.address) {
+        call('FundToken', 'balanceOf', [this.address]).then(async (res) => {
+          this.myBalance = res;
+          this.transferSubscription = await event(
+            'FundToken',
+            'Transfer',
+            { filter: { from: this.address, to: this.address } },
+            async () => {
+              this.myBalance = await call('FundToken', 'balanceOf', [this.address]);
+            },
+          );
+        });
+      }
+    },
+  },
+  watch: {
+    address() {
+      this.searchMyBalance();
+    },
   },
   async created() {
-    call('FundToken', 'balanceOf', [this.address]).then(async (res) => {
-      this.myBalance = res;
-      this.transferSubscription = await event(
-        'FundToken',
-        'Transfer',
-        { filter: { from: this.address, to: this.address } },
-        async () => {
-          this.myBalance = await call('FundToken', 'balanceOf', [this.address]);
-        },
-      );
-    });
+    this.searchMyBalance();
     call('FundFactory', 'fundTokenPrice').then(async (res) => {
       this.fundTokenPriceInWeis = res;
       this.newFundTokenPriceSubscription = await event('FundFactory', 'NewFundTokenPrice', undefined, (err, event) => {
@@ -165,4 +175,20 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.modal-header {
+  display: flex;
+  align-items: baseline;
+}
+
+.add-token {
+  font-size: small;
+  cursor: pointer;
+  color: #0645ad;
+}
+
+.add-token:hover {
+  text-decoration: underline;
+  color: #3366bb;
+}
+</style>

@@ -1,33 +1,19 @@
 <template>
-  <div
-    class="modal fade"
-    id="walletModal"
-    tabindex="-1"
-    aria-labelledby="walletModalLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="walletModal" tabindex="-1" aria-labelledby="walletModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="walletModalLabel" v-text="accountMsg" />
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="first-line">
             <span class="text-muted" v-if="isConnected"
-              >{{ connectedMsg }}
-              <span v-if="isConnectedToTheValidChain"
-                >{{ toMsg }} {{ validChainName }}</span
-              ></span
+              >{{ connectedMsg }} <span v-if="isConnectedToTheValidChain">{{ toMsg }} {{ validChainName }}</span></span
             >
-            <span class="text-muted" v-if="!isConnected" v-text="desconnected" />
+            <span class="text-muted" v-if="!isConnected" v-text="disconnectedMsg" />
             <div class="first-line-btns">
               <AppButton
                 classes="btn-sm btn-secondary btn-radius mr-2"
@@ -35,12 +21,7 @@
                 v-if="isConnected && !isConnectedToTheValidChain"
                 @click="changeToTheValidChain"
               />
-              <AppButton
-                classes="btn-sm btn-danger btn-radius"
-                :text="disconnectMsg"
-                v-if="isConnected"
-                @click="disconnect"
-              />
+              <AppButton classes="btn-sm btn-danger btn-radius" :text="disconnectMsg" v-if="isConnected" @click="disconnect" />
               <AppButton
                 classes="btn-sm btn-success btn-radius"
                 :text="connectMetaMaskMsg"
@@ -62,15 +43,8 @@
               @click="copyAddress"
             />
 
-            <a
-              :href="validChainExplorer + '/address/' + address"
-              target="_blank"
-            >
-              <AppButton
-                classes="btn-sm btn-link btn-radius"
-                :text="viewExplorerMsg"
-                icon="arrow-up-right-from-square"
-              />
+            <a :href="validChainExplorer + '/address/' + address" target="_blank">
+              <AppButton classes="btn-sm btn-link btn-radius" :text="viewExplorerMsg" icon="arrow-up-right-from-square" />
             </a>
           </div>
         </div>
@@ -80,38 +54,40 @@
 </template>
 
 <script>
-import { getMessages } from "@/dictionary";
-import { addNotification } from "@/composables/useNotifications";
-import { mapState, mapGetters } from "vuex";
-import {
-  connectToMetamask,
-  checkValidChain,
-  disconnect,
-} from "@/helpers/connection";
+import { getMessages } from '@/dictionary';
+import { addNotification } from '@/composables/useNotifications';
+import { mapState, mapGetters } from 'vuex';
+import { connectToMetamask, checkValidChain, disconnect } from '@/helpers/connection';
 
 export default {
-  name: "WalletModalComponent",
+  name: 'WalletModalComponent',
   data() {
     return {};
   },
   computed: {
-    ...getMessages(["account", "connected", "desconnected", "to", "connectMetaMask", "disconnect", "change", "copyAddress", "addressCopied", "viewExplorer"]),
+    ...getMessages([
+      'account',
+      'connected',
+      'disconnected',
+      'to',
+      'connectMetaMask',
+      'disconnect',
+      'change',
+      'copyAddress',
+      'addressCopied',
+      'viewExplorer',
+    ]),
 
     ...mapState({
       address: (state) => state.connection.address,
     }),
-    ...mapGetters([
-      "isConnected",
-      "isConnectedToTheValidChain",
-      "validChainName",
-      "validChainExplorer",
-    ]),
+    ...mapGetters(['isConnected', 'isConnectedToTheValidChain', 'validChainName', 'validChainExplorer']),
     splitAddress() {
-      let splitAccount = "";
+      let splitAccount = '';
       for (let i = 0; i < 4; i++) {
         splitAccount += this.address.charAt(i);
       }
-      splitAccount += "...";
+      splitAccount += '...';
       for (let i = this.address.length - 4; i < this.address.length; i++) {
         splitAccount += this.address.charAt(i);
       }
@@ -120,25 +96,21 @@ export default {
   },
   methods: {
     async connectToMetamask() {
-      this.$store.commit("setDisconnected", false);
-      try {
-        await connectToMetamask();
-      } catch {
-        this.$store.commit("setDisconnected", true);
-      }
+      await connectToMetamask();
+      this.$store.commit('setDisconnected', false);
     },
     changeToTheValidChain() {
       checkValidChain();
     },
     disconnect() {
-      this.$store.commit("setDisconnected", true);
       disconnect();
+      this.$store.commit('setDisconnected', true);
     },
     copyAddress() {
       navigator.clipboard.writeText(this.address);
       addNotification({
         message: this.addressCopiedMsg,
-        type: "success",
+        type: 'success',
       });
     },
   },

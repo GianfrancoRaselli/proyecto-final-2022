@@ -19,8 +19,8 @@
     "English": "Connected",
     "Español": "Conectado"
   },
-  "desconnected": {
-    "English": "Desconnected",
+  "disconnected": {
+    "English": "Disconnected",
     "Español": "Desconectado"
   },
   "disconnect": {

@@ -1,9 +1,13 @@
 import store from '@/store';
-import { addNotification } from '@/composables/useNotifications';
 import axios from 'axios';
+import { addNotification } from '@/composables/useNotifications';
+import { hasMetamask } from './connection';
+
+import fundTokenABI from '../assets/abis/FundToken';
+import { fundTokenAddress } from '../assets/lastAddresses';
 
 const call = async (contract, method, params = [], options) => {
-  const contractInstance = await getContractInstance(contract);
+  const contractInstance = await getContractInstance(contract, 'call');
   try {
     return contractInstance.methods[method](...params).call({ from: store.state.connection.address, ...options });
   } catch (err) {
@@ -13,30 +17,55 @@ const call = async (contract, method, params = [], options) => {
 };
 
 const transaction = async (contract, method, params = [], options) => {
-  const contractInstance = await getContractInstance(contract);
-  try {
-    await contractInstance.methods[method](...params).call({ from: store.state.connection.address, ...options });
-  } catch (err) {
-    showErrorNotification(err);
-    throw err;
+  if (hasMetamask()) {
+    if (store.getters.isConnected) {
+      if (store.getters.isConnectedToTheValidChain) {
+        const contractInstance = await getContractInstance(contract, 'transaction');
+        try {
+          await contractInstance.methods[method](...params).call({ from: store.state.connection.address, ...options });
+        } catch (err) {
+          showErrorNotification(err);
+          throw err;
+        }
+        return contractInstance.methods[method](...params).send({ from: store.state.connection.address, ...options });
+      } else {
+        addNotification({
+          message: 'You have to be connected to ' + store.getters.validChainName + ' to send a transaction',
+          type: 'warning',
+        });
+      }
+    } else {
+      addNotification({
+        message: 'You have to be connected to MetaMask to send a transaction',
+        type: 'warning',
+      });
+    }
+  } else {
+    addNotification({
+      message: 'You need to install MetaMask to send a transaction',
+      type: 'warning',
+    });
   }
-  return contractInstance.methods[method](...params).send({ from: store.state.connection.address, ...options });
+  throw new Error('The transaction could not be sent');
 };
 
 const event = async (contract, event, options, func) => {
-  const contractInstance = await getContractInstance(contract);
-  return contractInstance.events[event]({ fromBlock: 'latest', ...options }, func);
+  const contractInstance = await getContractInstance(contract, 'event');
+  if (contractInstance) return contractInstance.events[event]({ fromBlock: 'latest', ...options }, func);
 };
 
-async function getContractInstance(contract) {
-  if (contract === 'FundFactory') return store.state.connection.fundFactory;
-  if (contract === 'FundToken') {
-    const { default: fundTokenABI } = await import('../assets/abis/FundToken');
-    const { fundTokenAddress } = await import('../assets/lastAddresses');
-    return new store.state.connection.web3.eth.Contract(fundTokenABI, fundTokenAddress);
+async function getContractInstance(contract, operation) {
+  if (operation === 'call') {
+    if (contract === 'FundFactory') return store.state.connection.infuraFundFactory;
+    if (contract === 'FundToken') return new store.state.connection.infuraWeb3.eth.Contract(fundTokenABI, fundTokenAddress);
+    const { default: contractABI } = await import('../assets/abis/' + contract.name);
+    return new store.state.connection.infuraWeb3.eth.Contract(contractABI, contract.address);
+  } else {
+    if (contract === 'FundFactory') return store.state.connection.fundFactory;
+    if (contract === 'FundToken') return new store.state.connection.web3.eth.Contract(fundTokenABI, fundTokenAddress);
+    const { default: contractABI } = await import('../assets/abis/' + contract.name);
+    return new store.state.connection.web3.eth.Contract(contractABI, contract.address);
   }
-  const { default: contractABI } = await import('../assets/abis/' + contract.name);
-  return new store.state.connection.web3.eth.Contract(contractABI, contract.address);
 }
 
 function showErrorNotification(err) {
@@ -51,8 +80,18 @@ function showErrorNotification(err) {
   });
 }
 
+const addTokenToMetaMask = (type = 'ERC20', options = { address: fundTokenAddress, symbol: 'FT', decimals: 0 }) => {
+  return store.state.connection.provider.request({
+    method: 'wallet_watchAsset',
+    params: {
+      type,
+      options,
+    },
+  });
+};
+
 const ethPriceInUSD = async () => {
   return (await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')).data.USD;
 };
 
-export { call, transaction, event, ethPriceInUSD };
+export { call, transaction, event, addTokenToMetaMask, ethPriceInUSD };
