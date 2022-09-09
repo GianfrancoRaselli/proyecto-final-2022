@@ -3,24 +3,25 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="buyFundTokensModalLabel" v-text="buyFundTokensMsg" />
+          <h4 class="modal-title" id="buyFundTokensModalLabel">FundToken</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="text-center" v-if="loading">
-            <div class="spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
+          <div class="form-group">
+            <small>
+              <span class="h6 font-weight-bolder">My balance: </span><span v-text="myBalance"></span
+              ><span v-if="myBalance > 1"> FundTokens</span><span v-else> FundToken</span></small
+            >
           </div>
-          <form @submit.prevent="handleSumbit" v-if="!loading">
-            <div class="form-group">
-              <small>
-                <span class="h6 font-weight-bolder">FundToken price: </span><span v-text="fundTokenPriceInEth"></span
-                ><span> ETH</span><span> ≈ </span><span v-text="fundTokenPriceInUSD"></span><span> USD</span></small
-              >
-            </div>
+          <div class="form-group">
+            <small>
+              <span class="h6 font-weight-bolder">FundToken price: </span><span v-text="fundTokenPriceInEth"></span
+              ><span> ETH</span><span> ≈ </span><span v-text="fundTokenPriceInUSD"></span><span> USD</span></small
+            >
+          </div>
+          <form @submit.prevent="handleSumbit">
             <div class="form-group">
               <label for="tokensInput">Enter the amount of tokens to buy</label>
               <input
@@ -32,6 +33,7 @@
                 required
                 autofocus
                 v-model="fundTokens"
+                :disabled="loading"
               />
               <small id="tokensHelp" class="form-text text-muted">Enter a non-negative integer.</small>
               <small id="tokensHelp" class="form-text"
@@ -39,7 +41,11 @@
                 ><span> ≈ </span><span v-text="fundTokensPriceInUSD"></span><span> USD</span></small
               >
             </div>
-            <button type="submit" class="btn btn-primary">Buy</button>
+            <button type="submit" class="btn btn-primary" v-if="!loading">Buy</button>
+            <button class="btn btn-primary" type="button" disabled v-if="loading">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Loading...
+            </button>
           </form>
         </div>
       </div>
@@ -48,10 +54,10 @@
 </template>
 
 <script>
-import $ from 'jquery';
+//import $ from 'jquery';
 import Web3 from 'web3';
 import { getMessages } from '@/dictionary';
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { addNotification } from '@/composables/useNotifications';
 import { call, transaction, event, ethPriceInUSD } from '@/helpers/helpers';
 
@@ -60,9 +66,11 @@ export default {
   data() {
     return {
       loading: false,
+      myBalance: 0,
       fundTokenPriceInWeis: 0,
       ethPriceInUSD: 0,
       fundTokens: 1,
+      transferSubscription: null,
       newFundTokenPriceSubscription: null,
       ethPriceInUSDSubscription: null,
     };
@@ -70,6 +78,9 @@ export default {
   computed: {
     ...getMessages(['buyFundTokens']),
 
+    ...mapState({
+      address: (state) => state.connection.address,
+    }),
     ...mapGetters(['isConnected']),
 
     fundTokenPriceInEth() {
@@ -105,7 +116,7 @@ export default {
               message: 'You have bought ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
               type: 'success',
             });
-            $('#buyFundTokensModal').modal('hide');
+            //$('#buyFundTokensModal').modal('hide');
           } finally {
             this.loading = false;
           }
@@ -124,6 +135,12 @@ export default {
     },
   },
   async created() {
+    call('FundToken', 'balanceOf', [this.address]).then(async (res) => {
+      this.myBalance = res;
+      this.transferSubscription = await event('FundToken', 'Transfer', { filter: { to: this.address } }, async () => {
+        this.myBalance = await call('FundToken', 'balanceOf', [this.address]);
+      });
+    });
     call('FundFactory', 'fundTokenPrice').then(async (res) => {
       this.fundTokenPriceInWeis = res;
       this.newFundTokenPriceSubscription = await event('FundFactory', 'NewFundTokenPrice', undefined, (err, event) => {
@@ -136,6 +153,7 @@ export default {
     }, 30000);
   },
   unmounted() {
+    if (this.transferSubscription) this.transferSubscription.unsubscribe();
     if (this.newFundTokenPriceSubscription) this.newFundTokenPriceSubscription.unsubscribe();
     if (this.ethPriceInUSDSubscription) clearInterval(this.ethPriceInUSDSubscription);
   },

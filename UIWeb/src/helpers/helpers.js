@@ -2,17 +2,17 @@ import store from '@/store';
 import { addNotification } from '@/composables/useNotifications';
 import axios from 'axios';
 
-const call = async (contract, method, options) => {
+const call = async (contract, method, params = [], options) => {
   const contractInstance = await getContractInstance(contract);
   try {
-    return contractInstance.methods[method]().call(options);
+    return contractInstance.methods[method](...params).call({ from: store.state.connection.address, ...options });
   } catch (err) {
     showErrorNotification(err);
     throw err;
   }
 };
 
-const transaction = async (contract, method, params, options) => {
+const transaction = async (contract, method, params = [], options) => {
   const contractInstance = await getContractInstance(contract);
   try {
     await contractInstance.methods[method](...params).call({ from: store.state.connection.address, ...options });
@@ -31,11 +31,11 @@ const event = async (contract, event, options, func) => {
 async function getContractInstance(contract) {
   if (contract === 'FundFactory') return store.state.connection.fundFactory;
   if (contract === 'FundToken') {
-    const fundTokenABI = await import('../assets/abis/FundToken');
+    const { default: fundTokenABI } = await import('../assets/abis/FundToken');
     const { fundTokenAddress } = await import('../assets/lastAddresses');
     return new store.state.connection.web3.eth.Contract(fundTokenABI, fundTokenAddress);
   }
-  const contractABI = await import('../assets/abis/' + contract.name);
+  const { default: contractABI } = await import('../assets/abis/' + contract.name);
   return new store.state.connection.web3.eth.Contract(contractABI, contract.address);
 }
 
