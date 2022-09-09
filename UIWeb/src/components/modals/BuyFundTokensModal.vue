@@ -137,9 +137,14 @@ export default {
   async created() {
     call('FundToken', 'balanceOf', [this.address]).then(async (res) => {
       this.myBalance = res;
-      this.transferSubscription = await event('FundToken', 'Transfer', { filter: { to: this.address } }, async () => {
-        this.myBalance = await call('FundToken', 'balanceOf', [this.address]);
-      });
+      this.transferSubscription = await event(
+        'FundToken',
+        'Transfer',
+        { filter: { from: this.address, to: this.address } },
+        async () => {
+          this.myBalance = await call('FundToken', 'balanceOf', [this.address]);
+        },
+      );
     });
     call('FundFactory', 'fundTokenPrice').then(async (res) => {
       this.fundTokenPriceInWeis = res;
