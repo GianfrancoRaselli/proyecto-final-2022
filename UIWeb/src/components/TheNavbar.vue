@@ -1,19 +1,19 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <router-link class="navbar-brand" :to="{ name: 'Home' }">Fund</router-link>
+    <router-link class="navbar-brand mr-3" :to="{ name: 'Home' }" exact>Fund</router-link>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <router-link class="nav-link" :to="{ name: 'CreateFund' }" v-text="createFundMsg" />
+        <li class="nav-item mr-1">
+          <router-link class="nav-link" :to="{ name: 'CreateFund' }" exact v-text="createFundMsg" />
         </li>
-        <li class="nav-item">
-          <router-link class="nav-link" :to="{ name: 'Funds' }" v-text="fundsMsg" />
+        <li class="nav-item mr-1">
+          <router-link class="nav-link" :to="{ name: 'Funds' }" exact v-text="fundsMsg" />
         </li>
-        <li class="nav-item">
-          <router-link class="nav-link" :to="{ name: 'MyFunds' }" v-text="myFundsMsg" />
+        <li class="nav-item mr-1">
+          <router-link class="nav-link" :to="{ name: 'MyFunds' }" exact v-text="myFundsMsg" />
         </li>
-        <li class="nav-item">
+        <li class="nav-item mr-1">
           <span class="pointer nav-link" data-toggle="modal" data-target="#buyFundTokensModal" v-text="buyFundTokensMsg" />
         </li>
       </ul>
