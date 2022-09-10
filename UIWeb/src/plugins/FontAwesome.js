@@ -10,6 +10,8 @@ import {
   faCopy,
   faArrowUpRightFromSquare,
   faCircle,
+  faCircleCheck,
+  faCircleXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faGlobe);
@@ -21,6 +23,8 @@ library.add(faTriangleExclamation);
 library.add(faCopy);
 library.add(faArrowUpRightFromSquare);
 library.add(faCircle);
+library.add(faCircleCheck);
+library.add(faCircleXmark);
 
 export default (app) => {
   app.component('fa-icon', FontAwesomeIcon);

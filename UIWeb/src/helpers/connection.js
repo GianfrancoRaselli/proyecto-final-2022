@@ -70,12 +70,13 @@ const setWeb3AndContracts = (provider) => {
 };
 
 const handleAccountsChanged = async (accounts) => {
-  store.commit('setAddress', accounts[0]);
-
   if (!accounts[0]) {
     store.state.connection.provider.removeListener('accountsChanged', handleAccountsChanged);
     store.state.connection.provider.removeListener('chainChanged', handleChainChanged);
   }
+
+  store.commit('setAddress', accounts[0]);
+  store.commit('clearRecentTransactions');
 };
 
 const handleChainChanged = (chainId) => {

@@ -49,7 +49,7 @@
             :key="index"
             @click="changeLanguage(language)"
           >
-            <span :class="{ bold: selectedLanguage === language }" v-text="language" />
+            <span :class="{ 'text-bold': selectedLanguage === language }" v-text="language" />
             <fa-icon
               icon="check"
               class="dropdown-toggle icon mr-1"
@@ -158,14 +158,6 @@ nav {
   cursor: pointer;
   padding-left: 6px;
   padding-right: 6px;
-}
-
-.bold {
-  font-weight: bold;
-}
-
-.pointer {
-  cursor: pointer;
 }
 
 @media (max-width: 530px) {

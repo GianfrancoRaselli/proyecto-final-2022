@@ -47,6 +47,28 @@
               <AppButton classes="btn-sm btn-link btn-radius" :text="viewExplorerMsg" icon="arrow-up-right-from-square" />
             </a>
           </div>
+
+          <div class="recent-transactions mt-2" v-if="isConnected">
+            <div class="mb-1">
+              <span class="h6 text-bold text-underline">Recent transactions</span>
+            </div>
+            <span v-if="recentTransactionsReverse.length === 0">No transactions</span>
+            <div class="text-center-with-space mt-2" v-for="(transaction, index) in recentTransactionsReverse" :key="index">
+              <span class="text-center">
+                <span class="float-left mr-2">
+                  <div class="spinner-border text-primary" role="status" v-if="transaction.loading">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <fa-icon icon="circle-check" class="circle-check-icon" size="2x" v-else-if="transaction.success"></fa-icon>
+                  <fa-icon icon="circle-xmark" class="circle-xmark-icon" size="2x" v-else></fa-icon>
+                </span>
+                <span class="text-start" v-text="transaction.message"></span>
+              </span>
+              <a :href="validChainExplorer + '/tx/' + transaction.hash" target="_blank" v-if="transaction.hash">
+                <fa-icon icon="arrow-up-right-from-square" class="icon"></fa-icon>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -80,8 +102,10 @@ export default {
 
     ...mapState({
       address: (state) => state.connection.address,
+      recentTransactions: (state) => state.connection.recentTransactions,
     }),
     ...mapGetters(['isConnected', 'isConnectedToTheValidChain', 'validChainName', 'validChainExplorer']),
+
     splitAddress() {
       let splitAccount = '';
       for (let i = 0; i < 4; i++) {
@@ -92,6 +116,11 @@ export default {
         splitAccount += this.address.charAt(i);
       }
       return splitAccount;
+    },
+
+    recentTransactionsReverse() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      return this.recentTransactions.slice().reverse().slice(0, 5); // take the first 5 transactions
     },
   },
   methods: {
@@ -148,5 +177,35 @@ export default {
 
 .btn-copy {
   text-decoration: none;
+}
+
+.text-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+
+.text-center-with-space {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-start {
+  text-align: start;
+}
+
+.float-left {
+  float: left;
+}
+
+.circle-check-icon {
+  color: green;
+}
+
+.circle-xmark-icon {
+  color: rgb(187, 0, 0);
 }
 </style>

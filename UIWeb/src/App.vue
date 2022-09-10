@@ -14,23 +14,22 @@
 </template>
 
 <script>
-import TheNavbar from "@/components/TheNavbar";
-import WalletModal from "@/components/modals/WalletModal";
-import BuyFundTokensModal from "@/components/modals/BuyFundTokensModal";
-import AppNotifications from "@/components/global/AppNotifications";
+import TheNavbar from '@/components/TheNavbar';
+import WalletModal from '@/components/modals/WalletModal';
+import BuyFundTokensModal from '@/components/modals/BuyFundTokensModal';
+import AppNotifications from '@/components/global/AppNotifications';
 
-import { connectToMetamask } from "@/helpers/connection";
+import { connectToMetamask } from '@/helpers/connection';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     TheNavbar,
     WalletModal,
     BuyFundTokensModal,
-    AppNotifications
-},
-  computed: {
+    AppNotifications,
   },
+  computed: {},
   created() {
     connectToMetamask();
   },
@@ -38,14 +37,14 @@ export default {
 </script>
 
 <style>
-@import'~bootstrap/dist/css/bootstrap.min.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
 
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: "Roboto", monospace;
+  font-family: 'Roboto', monospace;
   margin: 0;
 }
 
@@ -75,5 +74,13 @@ body {
   max-width: 1000px;
   margin: auto;
   padding: 70px 12px 10px 12px;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-underline {
+  text-decoration: underline;
 }
 </style>

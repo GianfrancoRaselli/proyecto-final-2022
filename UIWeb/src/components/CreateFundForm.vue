@@ -332,6 +332,7 @@ export default {
           ],
           undefined,
           false,
+          'Create new fund',
         );
         addNotification({
           message: 'Fund deployed to: ' + tx.events.NewFund.returnValues.fundAddress,
@@ -375,10 +376,6 @@ export default {
 </script>
 
 <style scoped>
-.text-underline {
-  text-decoration: underline;
-}
-
 .icon {
   color: #1d6aa8;
 }

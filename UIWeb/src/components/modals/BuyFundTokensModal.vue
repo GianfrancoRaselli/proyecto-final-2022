@@ -120,9 +120,16 @@ export default {
       if (Number.isInteger(this.fundTokens)) {
         try {
           this.loading = true;
-          await transaction('FundFactory', 'buyFundTokens', [this.fundTokens], {
-            value: this.fundTokens * this.fundTokenPriceInWeis,
-          });
+          await transaction(
+            'FundFactory',
+            'buyFundTokens',
+            [this.fundTokens],
+            {
+              value: this.fundTokens * this.fundTokenPriceInWeis,
+            },
+            true,
+            'Buy ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
+          );
           addNotification({
             message: 'You have bought ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
             type: 'success',

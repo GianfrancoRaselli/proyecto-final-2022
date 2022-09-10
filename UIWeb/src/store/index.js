@@ -6,23 +6,15 @@ import connection from './modules/connection'
 
 
 export default createStore({
-  state () {
-    return {
-
-    }
+  state() {
+    return {};
   },
 
-  getters: {
+  getters: {},
 
-  },
+  mutations: {},
 
-  mutations: {
-
-  },
-
-  actions: {
-    
-  },
+  actions: {},
 
   modules: {
     config,
@@ -36,8 +28,10 @@ export default createStore({
         'connection.address',
         'connection.chainId',
         'connection.disconnected',
+        'connection.recentTransactionsCount',
+        'connection.recentTransactions',
       ],
-      storage: localStorage
-    })
+      storage: localStorage,
+    }),
   ],
 });

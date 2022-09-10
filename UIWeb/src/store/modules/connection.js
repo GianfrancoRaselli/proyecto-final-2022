@@ -14,6 +14,8 @@ export default {
       fundFactory: null,
       infuraWeb3: null,
       infuraFundFactory: null,
+      recentTransactionsCount: 0,
+      recentTransactions: [],
     };
   },
 
@@ -68,6 +70,29 @@ export default {
 
     setInfuraFundFactory(state, infuraFundFactory) {
       state.infuraFundFactory = infuraFundFactory;
+    },
+
+    addNewRecentTransaction(state, newRecentTransaction) {
+      state.recentTransactions.push(newRecentTransaction);
+      state.recentTransactionsCount++;
+    },
+
+    setSuccess(state, data) {
+      const transaction = state.recentTransactions[data.index];
+      transaction.hash = data.hash;
+      transaction.loading = false;
+      transaction.success = true;
+    },
+
+    setError(state, index) {
+      const transaction = state.recentTransactions[index];
+      transaction.loading = false;
+      transaction.success = false;
+    },
+
+    clearRecentTransactions(state) {
+      state.recentTransactions = [];
+      state.recentTransactionsCount = 0;
     },
   },
 

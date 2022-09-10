@@ -19,7 +19,7 @@ const call = async (contract, method, params = [], options, showContractError = 
   }
 };
 
-const transaction = async (contract, method, params = [], options, showContractError = true) => {
+const transaction = async (contract, method, params = [], options, showContractError = true, messageInfo) => {
   if (hasMetamask()) {
     if (store.getters.isConnected) {
       if (store.getters.isConnectedToTheValidChain) {
@@ -32,7 +32,9 @@ const transaction = async (contract, method, params = [], options, showContractE
             if (showContractError) addNotification({ message: errMessage, type: 'error' });
             throw new Error(errMessage);
           }
-          return contractInstance.methods[method](...params).send({ from: store.state.connection.address, ...options });
+          const tx = contractInstance.methods[method](...params).send({ from: store.state.connection.address, ...options });
+          addToRecentTransactions(messageInfo, tx);
+          return tx;
         }
       } else {
         addNotification({
@@ -81,6 +83,23 @@ function getErrorMessage(err) {
   let message = err.message;
   if (endIndex >= 0) message = err.message.substring(0, endIndex);
   return message.charAt(0).toUpperCase() + message.slice(1);
+}
+
+function addToRecentTransactions(msg, tx) {
+  const index = store.state.connection.recentTransactionsCount;
+  let transaction = {
+    message: msg,
+    hash: '',
+    loading: true,
+    success: true,
+  };
+  tx.then((data) => {
+    store.commit('setSuccess', { index, hash: data.transactionHash });
+  }).catch(() => {
+    store.commit('setError', index);
+  });
+
+  store.commit('addNewRecentTransaction', transaction);
 }
 
 const addTokenToMetaMask = (type = 'ERC20', options = { address: fundTokenAddress, symbol: 'FT', decimals: 0 }) => {
