@@ -263,6 +263,42 @@ contract Fund is ReentrancyGuard {
     emit FinalizeRequest(_index, _valueToTransfer);
   }
 
+  function getSummary()
+    public
+    view
+    returns (
+      address _address,
+      uint256 _balance,
+      string memory _name,
+      string memory _description,
+      address _creator,
+      uint256 _createdAt,
+      bool _managersCanBeAddedOrRemoved,
+      uint256 _totalContributions,
+      bool _managersCanTransferMoneyWithoutARequest,
+      bool _requestsCanBeCreated,
+      bool _onlyManagersCanCreateARequest,
+      bool _onlyContributorsCanApproveARequest,
+      uint256 _minimumContributionPercentageRequired,
+      uint256 _minimumApprovalsPercentageRequired
+    )
+  {
+    _address = address(this);
+    _balance = address(this).balance;
+    _name = name;
+    _description = description;
+    _creator = creator;
+    _createdAt = createdAt;
+    _managersCanBeAddedOrRemoved = managersCanBeAddedOrRemoved;
+    _totalContributions = totalContributions;
+    _managersCanTransferMoneyWithoutARequest = managersCanTransferMoneyWithoutARequest;
+    _requestsCanBeCreated = requestsCanBeCreated;
+    _onlyManagersCanCreateARequest = onlyManagersCanCreateARequest;
+    _onlyContributorsCanApproveARequest = onlyContributorsCanApproveARequest;
+    _minimumContributionPercentageRequired = minimumContributionPercentageRequired;
+    _minimumApprovalsPercentageRequired = minimumApprovalsPercentageRequired;
+  }
+
   // Private functions
 
   function _contribute(address _contributor) private {

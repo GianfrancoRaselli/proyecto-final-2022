@@ -10,7 +10,7 @@ const call = async (contract, method, params = [], options, showContractError = 
   const contractInstance = await getContractInstance(contract, 'infura');
   if (contractInstance) {
     try {
-      return contractInstance.methods[method](...params).call({ from: store.state.connection.address, ...options });
+      return contractInstance.methods[method](...params).call(options);
     } catch (err) {
       const errMessage = getErrorMessage(err);
       if (showContractError) addNotification({ message: errMessage, type: 'error' });
@@ -116,4 +116,18 @@ const ethPriceInUSD = async () => {
   return (await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')).data.USD;
 };
 
-export { call, transaction, event, addTokenToMetaMask, ethPriceInUSD };
+const getSplitAddress = (address) => {
+  let splitAddress = '';
+
+  for (let i = 0; i < 4; i++) {
+    splitAddress += address.charAt(i);
+  }
+  splitAddress += '...';
+  for (let i = address.length - 4; i < address.length; i++) {
+    splitAddress += address.charAt(i);
+  }
+
+  return splitAddress;
+};
+
+export { call, transaction, event, addTokenToMetaMask, ethPriceInUSD, getSplitAddress };

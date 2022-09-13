@@ -11,7 +11,15 @@ require('hardhat-spdx-license-identifier');
 require('dotenv').config();
 
 module.exports = {
-  solidity: '0.8.16',
+  solidity: {
+    version: '0.8.16',
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
   paths: {
     artifacts: './artifacts',
     sources: './contracts',
@@ -33,7 +41,7 @@ module.exports = {
     runOnCompile: true,
     clear: true,
     flat: true,
-    only: ["FundFactory", "FundToken", "Fund"],
+    only: ['FundFactory', 'FundToken', 'Fund'],
     spacing: 2,
     pretty: false,
     format: 'json', // Alternative to pretty

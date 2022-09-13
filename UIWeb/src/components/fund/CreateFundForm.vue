@@ -211,7 +211,7 @@ import Web3 from 'web3';
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { addNotification } from '@/composables/useNotifications';
-import { transaction } from '@/helpers/helpers';
+import { transaction, getSplitAddress } from '@/helpers/helpers';
 
 export default {
   name: 'CreateFundFormComponent',
@@ -332,10 +332,10 @@ export default {
           ],
           undefined,
           false,
-          'Create new fund',
+          'Create new fund: ' + this.data.name,
         );
         addNotification({
-          message: 'Fund deployed to: ' + tx.events.NewFund.returnValues.fundAddress,
+          message: 'Fund deployed to: ' + getSplitAddress(tx.events.NewFund.returnValues.fundAddress),
           type: 'success',
         });
         this.data = {

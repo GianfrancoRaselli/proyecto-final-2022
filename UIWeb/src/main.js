@@ -9,6 +9,7 @@ import AppNotifications from "@/components/global/AppNotifications";
 import AppDate from "@/components/global/AppDate";
 import AppAlert from "@/components/global/AppAlert";
 import AppButton from "@/components/global/AppButton";
+import AppSpinner from '@/components/global/AppSpinner';
 
 import "bootstrap/dist/js/bootstrap.min.js";
 
@@ -23,5 +24,6 @@ app.component('AppNotifications', AppNotifications);
 app.component('AppDate', AppDate);
 app.component('AppAlert', AppAlert);
 app.component('AppButton', AppButton);
+app.component('AppSpinner', AppSpinner);
 
 app.mount("#app");

@@ -1,23 +1,22 @@
 <template>
   <div>
-    <span>Funds</span>
+    <FundsList />
   </div>
 </template>
 
 <script>
+import FundsList from '@/components/fund/FundsList';
+
 export default {
-  name: "FundsView",
+  name: 'FundsView',
+  components: {
+    FundsList,
+  },
   data() {
-    return {
-      
-    };
+    return {};
   },
-  methods: {
-    
-  },
+  methods: {},
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

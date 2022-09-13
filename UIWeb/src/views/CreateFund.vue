@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import CreateFundForm from '@/components/CreateFundForm';
+import CreateFundForm from '@/components/fund/CreateFundForm';
 
 export default {
   name: 'CreateFundView',
