@@ -10,7 +10,7 @@
         <li class="nav-item mr-1">
           <router-link class="nav-link" :to="{ name: 'Funds' }" exact v-text="fundsMsg" />
         </li>
-        <li class="nav-item mr-1">
+        <li class="nav-item mr-1" v-if="isConnected">
           <router-link class="nav-link" :to="{ name: 'MyFunds' }" exact v-text="myFundsMsg" />
         </li>
         <li class="nav-item ml-1">
