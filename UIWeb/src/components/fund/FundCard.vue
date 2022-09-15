@@ -5,12 +5,12 @@
       <p class="card-text" v-text="fund._description" />
       <p class="card-text"><span class="text-bold">Creator</span>: {{ splitAddress }}</p>
     </div>
-    <div class="card-footer text-muted"><AppDate :date="new Date(fund._createdAt * 1000)" /></div>
+    <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
   </div>
 </template>
 
 <script>
-import { getSplitAddress } from '@/helpers/helpers';
+import { getSplitAddress, fromUnixTimestampToDate } from '@/helpers/helpers';
 
 export default {
   name: 'FundCardComponent',
@@ -24,11 +24,14 @@ export default {
     splitAddress() {
       return getSplitAddress(this.fund._creator);
     },
+
+    createdAt() {
+      return fromUnixTimestampToDate(this.fund._createdAt);
+    },
   },
   watch: {},
   methods: {},
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

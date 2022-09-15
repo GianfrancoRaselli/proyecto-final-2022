@@ -130,4 +130,28 @@ const getSplitAddress = (address) => {
   return splitAddress;
 };
 
-export { call, transaction, event, addTokenToMetaMask, ethPriceInUSD, getSplitAddress };
+const fromUnixTimestampToDate = (unixTimestamp) => {
+  return new Date(unixTimestamp * 1000);
+};
+
+const fromDateToUnixTimestamp = (date) => {
+  return date.getTime() / 1000;
+};
+
+const isTheSameDate = (date1, date2) => {
+  return (
+    date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()
+  );
+};
+
+export {
+  call,
+  transaction,
+  event,
+  addTokenToMetaMask,
+  ethPriceInUSD,
+  getSplitAddress,
+  fromUnixTimestampToDate,
+  fromDateToUnixTimestamp,
+  isTheSameDate,
+};
