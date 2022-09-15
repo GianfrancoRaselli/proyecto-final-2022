@@ -2,11 +2,11 @@
   <div>
     <AppSpinner v-if="loading" />
     <div v-if="!loading">
-      <AppAlert msg="No funds" v-if="fundsReverse.length === 0" />
+      <AppAlert msg="No funds" v-if="fundsToShow.length === 0" />
       <div class="row" v-else>
         <div
           class="col-12 col-md-6 col-lg-4 fund-card"
-          v-for="(fund, index) in fundsReverse"
+          v-for="(fund, index) in fundsToShow"
           :key="index"
           @click="redirect(fund._address)"
         >
@@ -30,11 +30,42 @@ export default {
     funds: { type: Array, require: true },
   },
   data() {
-    return {};
+    return {
+      search: 'fondo de futbol',
+    };
   },
   computed: {
-    fundsReverse() {
-      return this.funds.slice().reverse();
+    fundsToShow() {
+      let fundsToShow = this.funds.slice();
+
+      if (this.search !== '') {
+        fundsToShow = fundsToShow.filter((fund) => {
+          const search = this.search
+            .trim()
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '');
+          return (
+            fund._creator.toLowerCase() === search ||
+            fund._name
+              .trim()
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .includes(search)
+          );
+        });
+      }
+
+      return fundsToShow.sort((a, b) => {
+        if (a._createdAt < b._createdAt) {
+          return 1;
+        }
+        if (a._createdAt > b._createdAt) {
+          return -1;
+        }
+        return 0;
+      });
     },
   },
   watch: {},
