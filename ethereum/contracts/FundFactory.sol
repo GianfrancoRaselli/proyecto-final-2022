@@ -70,6 +70,7 @@ contract FundFactory is Ownable {
     uint256 _minimumContributionPercentageRequired,
     uint256 _minimumApprovalsPercentageRequired
   ) public {
+    require(bytes(_name).length != 0, "The name of the fund can not be empty");
     require(
       (_managersCanTransferMoneyWithoutARequest && _managers.length > 0) ||
         (_requestsCanBeCreated && (!_onlyManagersCanCreateARequest || _managers.length > 0)),
