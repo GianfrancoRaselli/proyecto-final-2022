@@ -10,35 +10,38 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="form-group" v-if="address">
+          <div class="mb-2" v-if="address">
             <small>
               <span class="h6 font-weight-bolder">My balance: </span><span v-text="myBalance"></span
               ><span v-if="myBalance > 1"> FundTokens</span><span v-else> FundToken</span></small
             >
           </div>
 
-          <div class="form-group">
+          <div class="my-2">
             <small>
               <span class="h6 font-weight-bolder">FundToken price: </span><span v-text="fundTokenPriceInEth"></span
               ><span> ETH</span><span> ≈ </span><span v-text="fundTokenPriceInUSD"></span><span> USD</span></small
             >
           </div>
 
-          <form @submit.prevent="handleSubmit">
+          <form @submit.prevent="handleSubmit" class="mt-3">
             <div class="form-group">
               <label for="tokensInput">Enter the amount of tokens to buy</label>
               <input
                 type="number"
                 class="form-control"
+                :class="{ 'form-control-error': v$.fundTokens.$errors.length }"
                 id="tokensInput"
                 aria-describedby="tokensHelp"
-                min="1"
-                required
                 autofocus
                 v-model="fundTokens"
                 :disabled="loading"
               />
               <small id="tokensHelp" class="form-text text-muted">Enter a non-negative integer.</small>
+              <AppInputErrors :errors="v$.fundTokens.$errors" />
+            </div>
+
+            <div class="mb-2" v-if="fundTokens > 0">
               <small id="tokensHelp" class="form-text"
                 ><span class="h6">Total price: </span><span v-text="fundTokens * fundTokenPriceInEth"></span><span> ETH</span
                 ><span> ≈ </span><span v-text="fundTokensPriceInUSD"></span><span> USD</span></small
@@ -60,6 +63,8 @@
 <script>
 //import $ from 'jquery';
 import Web3 from 'web3';
+import { useVuelidate } from '@vuelidate/core';
+import { required, integer, minValue } from '@vuelidate/validators';
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { addNotification } from '@/composables/useNotifications';
@@ -68,6 +73,9 @@ import { call, transaction, event, addTokenToMetaMask, ethPriceInUSD } from '@/h
 
 export default {
   name: 'BuyFundTokensModalComponent',
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       loading: false,
@@ -115,9 +123,18 @@ export default {
       this.searchMyBalance();
     },
   },
+  validations() {
+    return {
+      fundTokens: {
+        required,
+        integer,
+        minValue: minValue(1),
+      },
+    };
+  },
   methods: {
     async handleSubmit() {
-      if (Number.isInteger(this.fundTokens)) {
+      if (await this.v$.$validate()) {
         try {
           this.loading = true;
           await transaction(
@@ -141,7 +158,7 @@ export default {
         }
       } else {
         addNotification({
-          message: 'Enter a non-negative integer',
+          message: 'Fix fields with errors',
           type: 'error',
         });
       }

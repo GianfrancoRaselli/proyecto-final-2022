@@ -5,18 +5,16 @@
 </template>
 
 <script>
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import localizedDate from "dayjs/plugin/localizedFormat";
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import localizedDate from 'dayjs/plugin/localizedFormat';
 dayjs.extend(relativeTime);
 dayjs.extend(localizedDate);
 
 export default {
+  name: 'AppDateComponent',
   props: {
-    date: {
-      type: Date,
-      required: true,
-    },
+    date: { type: Date, required: true },
   },
   computed: {
     dayjs() {
@@ -24,9 +22,9 @@ export default {
     },
 
     humanFriendlyDate() {
-      return this.dayjs.format("llll");
+      return this.dayjs.format('llll');
     },
-    
+
     diffForHumans() {
       return this.dayjs.fromNow();
     },
@@ -34,6 +32,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

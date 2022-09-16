@@ -11,6 +11,7 @@ import AppAlert from '@/components/global/AppAlert';
 import AppButton from '@/components/global/AppButton';
 import AppSpinner from '@/components/global/AppSpinner';
 import AppProgress from '@/components/global/AppProgress';
+import AppInputErrors from '@/components/global/AppInputErrors';
 
 import 'bootstrap/dist/js/bootstrap.min.js';
 
@@ -26,5 +27,6 @@ app.component('AppAlert', AppAlert);
 app.component('AppButton', AppButton);
 app.component('AppSpinner', AppSpinner);
 app.component('AppProgress', AppProgress);
+app.component('AppInputErrors', AppInputErrors);
 
 app.mount('#app');

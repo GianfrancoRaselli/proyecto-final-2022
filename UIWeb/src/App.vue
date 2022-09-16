@@ -83,4 +83,8 @@ body {
 .text-underline {
   text-decoration: underline;
 }
+
+.form-control-error {
+  background-color: rgb(212, 155, 155);
+}
 </style>
