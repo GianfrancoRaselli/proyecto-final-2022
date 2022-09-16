@@ -1,10 +1,13 @@
 <template>
   <div>
-    <AppProgress :progress="progress" v-if="loading" />
+    <div v-if="loading">
+      <AppSpinner class="mb-2" />
+      <AppProgress :progress="progress" />
+    </div>
     <div v-if="!loading">
-      <div class="searches mb-2" v-if="funds.length > 0">
+      <div class="searches mb-2" v-if="allFunds.length > 0">
         <div class="date">
-          <DatePicker :value="date" lang="en" @selected="updateData" class="datepicker mr-2"> </DatePicker>
+          <DatePicker :value="date" lang="en" @selected="updateDate" class="datepicker mr-2"> </DatePicker>
           <fa-icon icon="xmark" class="icon xmark" size="2x" v-if="date" @click="date = null"></fa-icon>
         </div>
         <form class="form-inline">
@@ -35,32 +38,41 @@
 <script>
 import DatePicker from 'vuejs3-datepicker';
 import FundCard from '@/components/fund/FundCard';
-import { fromUnixTimestampToDate, isTheSameDate } from '@/helpers/helpers';
+import { mapState } from 'vuex';
+import { call, event, fromUnixTimestampToDate, isTheSameDate } from '@/helpers/helpers';
+import AppSpinner from '../global/AppSpinner.vue';
 
 export default {
   name: 'FundsListComponent',
   components: {
     DatePicker,
     FundCard,
+    AppSpinner,
   },
   props: {
-    loading: { type: Boolean, default: false },
-    progress: { type: Number, default: 0 },
-    funds: { type: Array, require: true },
+    fundsType: { type: String, default: 'allFunds' },
   },
   data() {
     return {
+      loading: false,
+      progress: 0,
       search: '',
       date: null,
+      allFunds: [],
+      newFundSubscription: null,
     };
   },
   computed: {
-    fundsToShow() {
-      let fundsToShow = this.funds.slice();
+    ...mapState({ address: (state) => state.connection.address }),
 
-      if (this.date) {
+    fundsToShow() {
+      let fundsToShow = this.allFunds.slice();
+
+      if (this.fundsType === 'myFunds')
+        fundsToShow = fundsToShow.filter((fund) => fund._creator.toLowerCase() === this.address.toLowerCase());
+
+      if (this.date)
         fundsToShow = fundsToShow.filter((fund) => isTheSameDate(this.date, fromUnixTimestampToDate(fund._createdAt)));
-      }
 
       if (this.search.trim()) {
         const search = this.search
@@ -68,7 +80,6 @@ export default {
           .toLowerCase()
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '');
-
         fundsToShow = fundsToShow.filter(
           (fund) =>
             fund._creator.toLowerCase() === search ||
@@ -82,25 +93,66 @@ export default {
       }
 
       return fundsToShow.sort((a, b) => {
-        if (a._createdAt < b._createdAt) {
-          return 1;
-        }
-        if (a._createdAt > b._createdAt) {
-          return -1;
-        }
+        if (a._createdAt < b._createdAt) return 1;
+        if (a._createdAt > b._createdAt) return -1;
         return 0;
       });
     },
   },
   watch: {},
   methods: {
-    updateData(date) {
+    updateDate(date) {
       this.date = date;
+    },
+
+    async searchFunds() {
+      this.loading = true;
+      this.progress = 0;
+
+      const fundsAddress = await call('FundFactory', 'getDeployedFunds');
+      const totalFunds = fundsAddress.length;
+      this.allFunds = Array(totalFunds);
+
+      let callsResolved = 0;
+      await Promise.all(
+        Array(totalFunds)
+          .fill()
+          .map((element, index) => {
+            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary').then((res) => {
+              this.allFunds[index] = res;
+
+              callsResolved++;
+              this.progress = Math.round((callsResolved / totalFunds) * 100);
+            });
+          }),
+      );
+
+      this.progress = 100;
+      this.loading = false;
     },
 
     redirect(fundAddress) {
       this.$router.push({ name: 'Fund', params: { fundAddress } });
     },
+  },
+  async created() {
+    await this.searchFunds();
+    this.newFundSubscription = await event('FundFactory', 'NewFund', undefined, (err, ev) => {
+      const {
+        fundAddress: _address,
+        name: _name,
+        description: _description,
+        creator: _creator,
+        createdAt: _createdAt,
+      } = ev.returnValues;
+
+      if (this.allFunds.findIndex((fund) => fund._address === _address) < 0) {
+        this.allFunds.push({ _address, _name, _description, _creator, _createdAt });
+      }
+    });
+  },
+  unmounted() {
+    if (this.newFundSubscription) this.newFundSubscription.unsubscribe();
   },
 };
 </script>
