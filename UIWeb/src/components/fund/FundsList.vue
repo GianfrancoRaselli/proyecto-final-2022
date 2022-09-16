@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AppSpinner v-if="loading" />
+    <AppProgress :progress="progress" v-if="loading" />
     <div v-if="!loading">
       <div class="searches mb-2" v-if="funds.length > 0">
         <div class="date">
@@ -45,6 +45,7 @@ export default {
   },
   props: {
     loading: { type: Boolean, default: false },
+    progress: { type: Number, default: 0 },
     funds: { type: Array, require: true },
   },
   data() {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FundsList :loading="loading" :funds="myFunds" />
+    <FundsList :loading="loading" :progress="progress" :funds="myFunds" />
   </div>
 </template>
 
@@ -17,6 +17,7 @@ export default {
   data() {
     return {
       loading: false,
+      progress: 0,
       myFunds: [],
       newFundSubscription: null,
     };
@@ -27,17 +28,29 @@ export default {
   methods: {
     async searchFunds() {
       this.loading = true;
+      this.progress = 50;
 
       const fundsAddress = await call('FundFactory', 'getDeployedFunds');
-      const funds = await Promise.all(
-        Array(fundsAddress.length)
+      const totalFunds = fundsAddress.length;
+      const funds = Array(totalFunds);
+
+      let callsResolved = 0;
+      await Promise.all(
+        Array(totalFunds)
           .fill()
           .map((element, index) => {
-            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary');
+            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary').then((res) => {
+              funds[index] = res;
+
+              callsResolved++;
+              this.progress = Math.round((callsResolved / totalFunds) * 100);
+            });
           }),
       );
+
       this.myFunds = funds.filter((fund) => fund._creator.toLowerCase() === this.address.toLowerCase());
 
+      this.progress = 100;
       this.loading = false;
     },
   },
@@ -52,7 +65,9 @@ export default {
         createdAt: _createdAt,
       } = event.returnValues;
 
-      this.myFunds.push({ _address, _name, _description, _creator, _createdAt });
+      if (this.myFunds.findIndex((fund) => fund._address === _address) < 0) {
+        this.myFunds.push({ _address, _name, _description, _creator, _createdAt });
+      }
     });
   },
   unmounted() {
