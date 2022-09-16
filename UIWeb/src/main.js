@@ -4,6 +4,7 @@ import App from './App.vue';
 import router from '@/router';
 import store from '@/store';
 import FontAwesome from '@/plugins/FontAwesome';
+import VeeValidate from '@/plugins/VeeValidate';
 
 import AppNotifications from '@/components/global/AppNotifications';
 import AppDate from '@/components/global/AppDate';
@@ -19,6 +20,7 @@ const app = createApp(App);
 app.use(router);
 app.use(store);
 app.use(FontAwesome);
+app.use(VeeValidate);
 
 app.component('AppNotifications', AppNotifications);
 app.component('AppDate', AppDate);
