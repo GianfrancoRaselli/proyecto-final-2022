@@ -59,7 +59,9 @@ const transaction = async (contract, method, params = [], options, showContractE
 
 const event = async (contract, event, options, func) => {
   const contractInstance = await getContractInstance(contract);
-  if (contractInstance) return contractInstance.events[event]({ fromBlock: 'latest', ...options }, func);
+  if (contractInstance) return contractInstance.events[event]({ ...options }, () => {
+    func
+  });
 };
 
 async function getContractInstance(contract, provider = 'metamask') {

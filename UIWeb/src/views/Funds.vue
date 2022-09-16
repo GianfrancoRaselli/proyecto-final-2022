@@ -24,7 +24,7 @@ export default {
   methods: {
     async searchFunds() {
       this.loading = true;
-      this.progress = 50;
+      this.progress = 0;
 
       const fundsAddress = await call('FundFactory', 'getDeployedFunds');
       const totalFunds = fundsAddress.length;
