@@ -45,6 +45,7 @@ contract FundFactory is Ownable {
   }
 
   function buyFundTokens(uint256 _fundTokens) public payable {
+    require(_fundTokens > 0, "At least 1 FundToken must be purchased");
     require(msg.value == _fundTokens * fundTokenPrice, "Underpayment");
 
     FundToken _fundToken = fundToken;
