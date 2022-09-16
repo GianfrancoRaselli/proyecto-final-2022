@@ -1,10 +1,10 @@
 <template>
   <form @submit.prevent="handleSubmit">
-    <div class="form-group">
+    <div class="mb-3">
       <span class="h3 text-underline">Create Fund</span>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
       <fa-icon icon="circle-info" class="icon mr-2" size="2x"></fa-icon><span>Create a new fund costs 1 FundToken</span>
     </div>
 
@@ -20,18 +20,22 @@
       <input
         type="text"
         class="form-control"
+        :class="{ 'form-control-error': v$.data.name.$errors.length }"
         id="nameInput"
         aria-describedby="nameHelp"
+        autofocus
         v-model="data.name"
         :disabled="loading"
       />
       <small id="nameHelp" class="form-text text-muted"></small>
+      <AppInputErrors :errors="v$.data.name.$errors" />
     </div>
 
     <div class="form-group">
       <label for="descriptionInput">Description</label>
       <textarea
         class="form-control"
+        :class="{ 'form-control-error': v$.data.description.$errors.length }"
         id="descriptionInput"
         rows="3"
         aria-describedby="descriptionHelp"
@@ -39,6 +43,7 @@
         :disabled="loading"
       ></textarea>
       <small id="descriptionHelp" class="form-text text-muted"></small>
+      <AppInputErrors :errors="v$.data.description.$errors" />
     </div>
 
     <div class="form-group">
@@ -67,7 +72,6 @@
         />
         <label class="custom-control-label" for="addMeAsAManagerInput">Add me as manager</label>
       </div>
-      <small id="creatorHelp" class="form-text text-muted"></small>
     </div>
 
     <div class="form-group">
@@ -75,12 +79,14 @@
       <input
         type="text"
         class="form-control"
+        :class="{ 'form-control-error': v$.data.managers.$errors.length }"
         id="managersInput"
         aria-describedby="managersHelp"
         v-model="data.managers"
         :disabled="loading"
       />
       <small id="managersHelp" class="form-text text-muted">Add address of other admins separated by comma (,)</small>
+      <AppInputErrors :errors="v$.data.managers.$errors" />
     </div>
 
     <div class="form-group">
@@ -167,12 +173,13 @@
       <input
         type="number"
         class="form-control"
+        :class="{ 'form-control-error': v$.data.minimumContributionPercentageRequired.$errors.length }"
         id="minimumContributionPercentageRequiredInput"
         aria-describedby="minimumContributionPercentageRequiredHelp"
-        min="0"
         v-model="data.minimumContributionPercentageRequired"
         :disabled="loading"
       />
+      <AppInputErrors :errors="v$.data.minimumContributionPercentageRequired.$errors" />
     </div>
 
     <div class="form-group">
@@ -190,12 +197,13 @@
       <input
         type="number"
         class="form-control"
+        :class="{ 'form-control-error': v$.data.minimumApprovalsPercentageRequired.$errors.length }"
         id="minimumApprovalsPercentageRequiredInput"
         aria-describedby="minimumApprovalsPercentageRequiredHelp"
-        min="0"
         v-model="data.minimumApprovalsPercentageRequired"
         :disabled="loading"
       />
+      <AppInputErrors :errors="v$.data.minimumApprovalsPercentageRequired.$errors" />
     </div>
 
     <button type="submit" class="btn btn-primary" v-if="!loading">Create</button>
@@ -208,6 +216,8 @@
 
 <script>
 import Web3 from 'web3';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength, integer, minValue, maxValue } from '@vuelidate/validators';
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { addNotification } from '@/composables/useNotifications';
@@ -215,6 +225,9 @@ import { transaction, getSplitAddress } from '@/helpers/helpers';
 
 export default {
   name: 'CreateFundFormComponent',
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       loading: false,
@@ -311,54 +324,72 @@ export default {
       }
     },
   },
+  validations() {
+    return {
+      data: {
+        name: { required, minLength: minLength(1) },
+        description: {},
+        managers: {},
+        minimumContributionPercentageRequired: { required, integer, minValue: minValue(0), maxValue: maxValue(100) },
+        minimumApprovalsPercentageRequired: { required, integer, minValue: minValue(0), maxValue: maxValue(100) },
+      },
+    };
+  },
   methods: {
     async handleSubmit() {
-      try {
-        this.loading = true;
-        const tx = await transaction(
-          'FundFactory',
-          'createFund',
-          [
-            this.data.name,
-            this.data.description,
-            this.getArrayOfManagers(),
-            this.data.managersCanBeAddedOrRemoved,
-            this.data.managersCanTransferMoneyWithoutARequest,
-            this.data.requestsCanBeCreated,
-            this.data.onlyManagersCanCreateARequest,
-            this.data.onlyContributorsCanApproveARequest,
-            this.data.minimumContributionPercentageRequired,
-            this.data.minimumApprovalsPercentageRequired,
-          ],
-          undefined,
-          false,
-          'Create new fund: ' + this.data.name,
-        );
+      if (await this.v$.$validate()) {
+        try {
+          this.loading = true;
+          const tx = await transaction(
+            'FundFactory',
+            'createFund',
+            [
+              this.data.name,
+              this.data.description,
+              this.getArrayOfManagers(),
+              this.data.managersCanBeAddedOrRemoved,
+              this.data.managersCanTransferMoneyWithoutARequest,
+              this.data.requestsCanBeCreated,
+              this.data.onlyManagersCanCreateARequest,
+              this.data.onlyContributorsCanApproveARequest,
+              this.data.minimumContributionPercentageRequired,
+              this.data.minimumApprovalsPercentageRequired,
+            ],
+            undefined,
+            false,
+            'Create new fund: ' + this.data.name,
+          );
+          addNotification({
+            message: 'Fund deployed to: ' + getSplitAddress(tx.events.NewFund.returnValues.fundAddress),
+            type: 'success',
+          });
+          this.data = {
+            type: '',
+            name: '',
+            description: '',
+            addMeAsAManager: true,
+            managers: '',
+            managersCanBeAddedOrRemoved: true,
+            managersCanTransferMoneyWithoutARequest: true,
+            requestsCanBeCreated: true,
+            onlyManagersCanCreateARequest: false,
+            onlyContributorsCanApproveARequest: false,
+            minimumContributionPercentageRequired: 5,
+            minimumApprovalsPercentageRequired: 50,
+          };
+        } catch (err) {
+          let errMessage = err.message.trim();
+          if (errMessage === 'Execution reverted: ERC20: burn amount exceeds balance')
+            errMessage = 'You need to have 1 FundToken to create a new fund';
+          addNotification({ message: errMessage, type: 'error' });
+        } finally {
+          this.loading = false;
+        }
+      } else {
         addNotification({
-          message: 'Fund deployed to: ' + getSplitAddress(tx.events.NewFund.returnValues.fundAddress),
-          type: 'success',
+          message: 'Fix fields with errors',
+          type: 'error',
         });
-        this.data = {
-          type: '',
-          name: '',
-          description: '',
-          addMeAsAManager: true,
-          managers: '',
-          managersCanBeAddedOrRemoved: true,
-          managersCanTransferMoneyWithoutARequest: true,
-          requestsCanBeCreated: true,
-          onlyManagersCanCreateARequest: false,
-          onlyContributorsCanApproveARequest: false,
-          minimumContributionPercentageRequired: 5,
-          minimumApprovalsPercentageRequired: 50,
-        };
-      } catch (err) {
-        let errMessage = err.message.trim();
-        if (errMessage === 'Execution reverted: ERC20: burn amount exceeds balance')
-          errMessage = 'You need to have 1 FundToken to create a new fund';
-        addNotification({ message: errMessage, type: 'error' });
-      } finally {
-        this.loading = false;
       }
     },
     getArrayOfManagers() {
