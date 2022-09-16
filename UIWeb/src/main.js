@@ -12,6 +12,7 @@ import AppAlert from '@/components/global/AppAlert';
 import AppButton from '@/components/global/AppButton';
 import AppSpinner from '@/components/global/AppSpinner';
 import AppProgress from '@/components/global/AppProgress';
+import AppFormField from '@/components/global/AppFormField';
 
 import 'bootstrap/dist/js/bootstrap.min.js';
 
@@ -28,5 +29,6 @@ app.component('AppAlert', AppAlert);
 app.component('AppButton', AppButton);
 app.component('AppSpinner', AppSpinner);
 app.component('AppProgress', AppProgress);
+app.component('AppFormField', AppFormField);
 
 app.mount('#app');
