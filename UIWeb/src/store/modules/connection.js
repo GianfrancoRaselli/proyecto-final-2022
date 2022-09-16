@@ -79,15 +79,19 @@ export default {
 
     setSuccess(state, data) {
       const transaction = state.recentTransactions[data.index];
-      transaction.hash = data.hash;
-      transaction.loading = false;
-      transaction.success = true;
+      if (transaction) {
+        transaction.hash = data.hash;
+        transaction.loading = false;
+        transaction.success = true;
+      }
     },
 
     setError(state, index) {
       const transaction = state.recentTransactions[index];
-      transaction.loading = false;
-      transaction.success = false;
+      if (transaction) {
+        transaction.loading = false;
+        transaction.success = false;
+      }
     },
 
     clearRecentTransactions(state) {

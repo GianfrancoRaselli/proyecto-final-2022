@@ -92,6 +92,7 @@ function addToRecentTransactions(msg, tx) {
     hash: '',
     loading: true,
     success: true,
+    date: new Date(),
   };
   tx.then((data) => {
     store.commit('setSuccess', { index, hash: data.transactionHash });

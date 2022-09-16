@@ -52,8 +52,8 @@
             <div class="mb-1">
               <span class="h6 text-bold text-underline">Recent transactions</span>
             </div>
-            <span v-if="recentTransactionsReverse.length === 0">No transactions</span>
-            <div class="text-center-with-space mt-2" v-for="(transaction, index) in recentTransactionsReverse" :key="index">
+            <span v-if="recentTransactionsToShow.length === 0">No transactions</span>
+            <div class="text-center-with-space mt-2" v-for="(transaction, index) in recentTransactionsToShow" :key="index">
               <span class="text-center">
                 <span class="float-left mr-2">
                   <div class="spinner-border text-primary" role="status" v-if="transaction.loading">
@@ -80,6 +80,8 @@ import { getMessages } from '@/dictionary';
 import { addNotification } from '@/composables/useNotifications';
 import { mapState, mapGetters } from 'vuex';
 import { connectToMetamask, checkValidChain, disconnect } from '@/helpers/connection';
+
+const MINUTE = 60000;
 
 export default {
   name: 'WalletModalComponent',
@@ -118,9 +120,18 @@ export default {
       return splitAccount;
     },
 
-    recentTransactionsReverse() {
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      return this.recentTransactions.slice().reverse().slice(0, 5); // take the first 5 transactions
+    recentTransactionsToShow() {
+      let recentTransactionsToShow = this.recentTransactions.slice();
+      recentTransactionsToShow = recentTransactionsToShow.filter(
+        (transaction) => new Date(new Date(transaction.date).getTime() + MINUTE * 60).getTime() > new Date().getTime(),
+      );
+      return recentTransactionsToShow
+        .sort((a, b) => {
+          if (new Date(a.date).getTime() < new Date(b.date).getTime()) return 1;
+          if (new Date(a.date).getTime() > new Date(b.date).getTime()) return -1;
+          return 0;
+        })
+        .slice(0, 5); // take the first 5 transactions
     },
   },
   methods: {
