@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="handleSubmit">
     <div class="mb-4">
-      <span class="h1 text-underline">Create Fund</span>
+      <span class="h2 text-underline">Create Fund</span>
     </div>
 
     <div class="mb-3">
@@ -274,6 +274,7 @@ export default {
 
     ...mapState({
       address: (state) => state.connection.address,
+      fundTokensBalance: (state) => state.connection.fundTokensBalance,
     }),
     ...mapGetters(['isConnected']),
 
@@ -387,57 +388,59 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      if (await this.v$.$validate()) {
-        try {
-          this.loading = true;
-          const tx = await transaction(
-            'FundFactory',
-            'createFund',
-            [
-              this.data.name,
-              this.data.description,
-              this.getArrayOfManagers(),
-              this.data.managersCanBeAddedOrRemoved,
-              this.data.managersCanTransferMoneyWithoutARequest,
-              this.data.requestsCanBeCreated,
-              this.data.onlyManagersCanCreateARequest,
-              this.data.onlyContributorsCanApproveARequest,
-              this.data.minimumContributionPercentageRequired,
-              this.data.minimumApprovalsPercentageRequired,
-            ],
-            undefined,
-            false,
-            'Create new fund: ' + this.data.name,
-          );
+      if (this.fundTokensBalance >= 1) {
+        if (await this.v$.$validate()) {
+          try {
+            this.loading = true;
+            const tx = await transaction(
+              'FundFactory',
+              'createFund',
+              [
+                this.data.name,
+                this.data.description,
+                this.getArrayOfManagers(),
+                this.data.managersCanBeAddedOrRemoved,
+                this.data.managersCanTransferMoneyWithoutARequest,
+                this.data.requestsCanBeCreated,
+                this.data.onlyManagersCanCreateARequest,
+                this.data.onlyContributorsCanApproveARequest,
+                this.data.minimumContributionPercentageRequired,
+                this.data.minimumApprovalsPercentageRequired,
+              ],
+              undefined,
+              true,
+              'Create new fund: ' + this.data.name,
+            );
+            addNotification({
+              message: 'Fund deployed to: ' + getSplitAddress(tx.events.NewFund.returnValues.fundAddress),
+              type: 'success',
+            });
+            this.data = {
+              type: '',
+              name: '',
+              description: '',
+              addMeAsAManager: true,
+              managers: '',
+              managersCanBeAddedOrRemoved: true,
+              managersCanTransferMoneyWithoutARequest: true,
+              requestsCanBeCreated: true,
+              onlyManagersCanCreateARequest: false,
+              onlyContributorsCanApproveARequest: false,
+              minimumContributionPercentageRequired: 5,
+              minimumApprovalsPercentageRequired: 50,
+            };
+          } finally {
+            this.loading = false;
+          }
+        } else {
           addNotification({
-            message: 'Fund deployed to: ' + getSplitAddress(tx.events.NewFund.returnValues.fundAddress),
-            type: 'success',
+            message: 'Fix fields with errors',
+            type: 'error',
           });
-          this.data = {
-            type: '',
-            name: '',
-            description: '',
-            addMeAsAManager: true,
-            managers: '',
-            managersCanBeAddedOrRemoved: true,
-            managersCanTransferMoneyWithoutARequest: true,
-            requestsCanBeCreated: true,
-            onlyManagersCanCreateARequest: false,
-            onlyContributorsCanApproveARequest: false,
-            minimumContributionPercentageRequired: 5,
-            minimumApprovalsPercentageRequired: 50,
-          };
-        } catch (err) {
-          let errMessage = err.message.trim();
-          if (errMessage === 'Execution reverted: ERC20: burn amount exceeds balance')
-            errMessage = 'You need to have 1 FundToken to create a new fund';
-          addNotification({ message: errMessage, type: 'error' });
-        } finally {
-          this.loading = false;
         }
       } else {
         addNotification({
-          message: 'Fix fields with errors',
+          message: 'You need to have 1 FundToken to create a new fund',
           type: 'error',
         });
       }

@@ -14,6 +14,9 @@ export default {
       fundFactory: null,
       infuraWeb3: null,
       infuraFundFactory: null,
+      fundTokensBalance: 0,
+      transferFromSubscription: null,
+      transferToSubscription: null,
       recentTransactionsCount: 0,
       recentTransactions: [],
     };
@@ -72,12 +75,29 @@ export default {
       state.infuraFundFactory = infuraFundFactory;
     },
 
+    setFundTokensBalance(state, fundTokensBalance) {
+      state.fundTokensBalance = fundTokensBalance;
+    },
+
+    setTransferFromSubscription(state, transferFromSubscription) {
+      state.transferFromSubscription = transferFromSubscription;
+    },
+
+    setTransferToSubscription(state, transferToSubscription) {
+      state.transferToSubscription = transferToSubscription;
+    },
+
+    unsubscribeFromTransfersSubscription(state) {
+      if (state.transferFromSubscription) state.transferFromSubscription.unsubscribe();
+      if (state.transferToSubscription) state.transferToSubscription.unsubscribe();
+    },
+
     addNewRecentTransaction(state, newRecentTransaction) {
       state.recentTransactions.push(newRecentTransaction);
       state.recentTransactionsCount++;
     },
 
-    setSuccess(state, data) {
+    setRecentTransactionSuccess(state, data) {
       const transaction = state.recentTransactions[data.index];
       if (transaction) {
         transaction.hash = data.hash;
@@ -86,7 +106,7 @@ export default {
       }
     },
 
-    setError(state, index) {
+    setRecentTransactionError(state, index) {
       const transaction = state.recentTransactions[index];
       if (transaction) {
         transaction.loading = false;

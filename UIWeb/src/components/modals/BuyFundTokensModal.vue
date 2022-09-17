@@ -12,8 +12,8 @@
         <div class="modal-body">
           <div class="mb-2" v-if="address">
             <small>
-              <span class="h6 font-weight-bolder">My balance: </span><span v-text="myBalance"></span
-              ><span v-if="myBalance > 1"> FundTokens</span><span v-else> FundToken</span></small
+              <span class="h6 font-weight-bolder">My balance: </span><span v-text="fundTokensBalance"></span
+              ><span v-if="fundTokensBalance > 1"> FundTokens</span><span v-else> FundToken</span></small
             >
           </div>
 
@@ -79,11 +79,9 @@ export default {
   data() {
     return {
       loading: false,
-      myBalance: 0,
       fundTokenPriceInWeis: 0,
       ethPriceInUSD: 0,
       fundTokens: 1,
-      transferSubscription: null,
       newFundTokenPriceSubscription: null,
       ethPriceInUSDSubscription: null,
     };
@@ -93,6 +91,7 @@ export default {
 
     ...mapState({
       address: (state) => state.connection.address,
+      fundTokensBalance: (state) => state.connection.fundTokensBalance,
     }),
     ...mapGetters(['isConnected']),
 
@@ -116,11 +115,6 @@ export default {
       } else {
         return (this.fundTokens * this.fundTokenPriceInEth * this.ethPriceInUSD).toFixed(2);
       }
-    },
-  },
-  watch: {
-    address() {
-      this.searchMyBalance();
     },
   },
   validations() {
@@ -163,27 +157,12 @@ export default {
         });
       }
     },
+
     addFundTokenToMetaMask() {
       addTokenToMetaMask();
     },
-    searchMyBalance() {
-      if (this.address) {
-        call('FundToken', 'balanceOf', [this.address]).then(async (res) => {
-          this.myBalance = res;
-          this.transferSubscription = await event(
-            'FundToken',
-            'Transfer',
-            { filter: { from: this.address, to: this.address } },
-            async () => {
-              this.myBalance = await call('FundToken', 'balanceOf', [this.address]);
-            },
-          );
-        });
-      }
-    },
   },
   async created() {
-    this.searchMyBalance();
     call('FundFactory', 'fundTokenPrice').then(async (res) => {
       this.fundTokenPriceInWeis = res;
       this.newFundTokenPriceSubscription = await event('FundFactory', 'NewFundTokenPrice', undefined, (err, event) => {
@@ -196,7 +175,6 @@ export default {
     }, 30000);
   },
   unmounted() {
-    if (this.transferSubscription) this.transferSubscription.unsubscribe();
     if (this.newFundTokenPriceSubscription) this.newFundTokenPriceSubscription.unsubscribe();
     if (this.ethPriceInUSDSubscription) clearInterval(this.ethPriceInUSDSubscription);
   },

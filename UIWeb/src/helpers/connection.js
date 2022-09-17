@@ -1,5 +1,6 @@
 import store from '@/store';
 import Swal from 'sweetalert2';
+import { call, event } from '@/helpers/helpers';
 //import detectEthereumProvider from '@metamask/detect-provider';
 
 import Web3 from 'web3';
@@ -44,6 +45,9 @@ const connectToMetamask = async () => {
     store.commit('setAddress', (await store.state.connection.provider.request({ method: 'eth_requestAccounts' }))[0]);
     store.state.connection.provider.on('accountsChanged', handleAccountsChanged);
 
+    store.commit('unsubscribeFromTransfersSubscription');
+    searchFundTokensBalance();
+
     store.commit('setChainId', await store.state.connection.provider.request({ method: 'eth_chainId' }));
     store.state.connection.provider.on('chainChanged', handleChainChanged);
     checkValidChain();
@@ -69,14 +73,37 @@ const setWeb3AndContracts = (provider) => {
   store.commit('setInfuraFundFactory', new store.state.connection.infuraWeb3.eth.Contract(fundFactoryABI, fundFactoryAddress));
 };
 
+const searchFundTokensBalance = () => {
+  call('FundToken', 'balanceOf', [store.state.connection.address]).then(async (res) => {
+    store.commit('setFundTokensBalance', res);
+
+    const getEvent = (filterBy) => {
+      return event(
+        'FundToken',
+        'Transfer',
+        { filter: JSON.parse('{"' + filterBy + '":"' + store.state.connection.address + '"}') },
+        async () => {
+          store.commit('setFundTokensBalance', await call('FundToken', 'balanceOf', [store.state.connection.address]));
+        },
+      );
+    };
+
+    store.commit('setTransferFromSubscription', await getEvent('from'));
+    store.commit('setTransferToSubscription', await getEvent('to'));
+  });
+};
+
 const handleAccountsChanged = async (accounts) => {
   if (!accounts[0]) {
     store.state.connection.provider.removeListener('accountsChanged', handleAccountsChanged);
     store.state.connection.provider.removeListener('chainChanged', handleChainChanged);
   }
 
-  store.commit('setAddress', accounts[0]);
+  store.commit('unsubscribeFromTransfersSubscription');
   store.commit('clearRecentTransactions');
+  store.commit('setAddress', accounts[0]);
+
+  if (store.state.connection.address) searchFundTokensBalance();
 };
 
 const handleChainChanged = (chainId) => {
