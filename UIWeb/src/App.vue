@@ -85,6 +85,6 @@ body {
 }
 
 .form-control-error {
-  background-color: rgb(212, 155, 155);
+  border: 2px solid red;
 }
 </style>
