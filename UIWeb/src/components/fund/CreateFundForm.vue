@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="handleSubmit">
-    <div class="mb-3">
-      <span class="h3 text-underline">Create Fund</span>
+    <div class="mb-4">
+      <span class="h1 text-underline">Create Fund</span>
     </div>
 
     <div class="mb-3">
@@ -217,7 +217,7 @@
 <script>
 import Web3 from 'web3';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, integer, minValue, maxValue } from '@vuelidate/validators';
+import { helpers, required, minLength, integer, minValue, maxValue } from '@vuelidate/validators';
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { addNotification } from '@/composables/useNotifications';
@@ -329,7 +329,57 @@ export default {
       data: {
         name: { required, minLength: minLength(1) },
         description: {},
-        managers: {},
+        managers: {
+          mustBeAddresses: helpers.withMessage('Some value is not a valid address', (value) => {
+            if (!helpers.req(value)) return true;
+            else {
+              let validation = true;
+
+              const addresses = this.data.managers.split(',');
+              addresses.forEach((address) => {
+                if (!Web3.utils.isAddress(address.trim())) return (validation = false);
+              });
+
+              return validation;
+            }
+          }),
+
+          mustNotBeMyAddress: helpers.withMessage('You can not add your own address', (value) => {
+            if (!helpers.req(value)) return true;
+            else {
+              let validation = true;
+
+              const addresses = this.data.managers.split(',');
+              addresses.forEach((address) => {
+                if (address.trim().toLowerCase() === this.address.toLowerCase()) return (validation = false);
+              });
+
+              return validation;
+            }
+          }),
+
+          mustNotBeRepeated: helpers.withMessage('Addresses must not be repeated', (value) => {
+            if (!helpers.req(value)) return true;
+            else {
+              let validation = true;
+
+              const addresses = this.data.managers.split(',');
+              addresses.forEach((address1) => {
+                if (Web3.utils.isAddress(address1.trim())) {
+                  if (address1.trim().toLowerCase() !== this.address.toLowerCase()) {
+                    let count = 0;
+                    addresses.forEach((address2) => {
+                      if (address1.trim().toLowerCase() === address2.trim().toLowerCase()) count++;
+                    });
+                    if (count > 1) return (validation = false);
+                  }
+                }
+              });
+
+              return validation;
+            }
+          }),
+        },
         minimumContributionPercentageRequired: { required, integer, minValue: minValue(0), maxValue: maxValue(100) },
         minimumApprovalsPercentageRequired: { required, integer, minValue: minValue(0), maxValue: maxValue(100) },
       },
@@ -392,6 +442,7 @@ export default {
         });
       }
     },
+
     getArrayOfManagers() {
       let managers = [];
       if (this.data.addMeAsAManager) managers.push(this.address);
