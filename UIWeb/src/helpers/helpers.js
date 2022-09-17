@@ -23,18 +23,29 @@ const transaction = async (contract, method, params = [], options, showContractE
   if (hasMetamask()) {
     if (store.getters.isConnected) {
       if (store.getters.isConnectedToTheValidChain) {
-        const contractInstance = await getContractInstance(contract);
-        if (contractInstance) {
-          try {
-            await contractInstance.methods[method](...params).call({ from: store.state.connection.address, ...options });
-          } catch (err) {
-            const errMessage = getErrorMessage(err);
-            if (showContractError) addNotification({ message: errMessage, type: 'error' });
-            throw new Error(errMessage);
+        if (
+          !options ||
+          !options.value ||
+          options.value <= (await store.state.connection.web3.eth.getBalance(store.state.connection.address))
+        ) {
+          const contractInstance = await getContractInstance(contract);
+          if (contractInstance) {
+            try {
+              await contractInstance.methods[method](...params).call({ from: store.state.connection.address, ...options });
+            } catch (err) {
+              const errMessage = getErrorMessage(err);
+              if (showContractError) addNotification({ message: errMessage, type: 'error' });
+              throw new Error(errMessage);
+            }
+            const tx = contractInstance.methods[method](...params).send({ from: store.state.connection.address, ...options });
+            addToRecentTransactions(messageInfo, tx);
+            return tx;
           }
-          const tx = contractInstance.methods[method](...params).send({ from: store.state.connection.address, ...options });
-          addToRecentTransactions(messageInfo, tx);
-          return tx;
+        } else {
+          addNotification({
+            message: 'You do not have enough ' + store.getters.validChainCoin + ' to pay for the transaction',
+            type: 'error',
+          });
         }
       } else {
         addNotification({

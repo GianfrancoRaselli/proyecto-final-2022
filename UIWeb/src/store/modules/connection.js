@@ -5,6 +5,7 @@ export default {
       validChain: {
         id: '0x5',
         name: 'Goerli Testnet',
+        coin: 'GoerliETH',
         explorer: 'https://goerli.etherscan.io',
       },
       address: '',
@@ -35,6 +36,10 @@ export default {
 
     validChainName(state) {
       return state.validChain.name;
+    },
+
+    validChainCoin(state) {
+      return state.validChain.coin;
     },
 
     validChainExplorer(state) {
