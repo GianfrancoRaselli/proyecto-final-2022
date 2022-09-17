@@ -69,7 +69,7 @@ import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { addNotification } from '@/composables/useNotifications';
 import { hasMetamask } from '@/helpers/connection';
-import { call, transaction, event, addTokenToMetaMask, ethPriceInUSD } from '@/helpers/helpers';
+import { call, transaction, event, validateForm, addTokenToMetaMask, ethPriceInUSD } from '@/helpers/helpers';
 
 export default {
   name: 'BuyFundTokensModalComponent',
@@ -128,7 +128,7 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      if (await this.v$.$validate()) {
+      if (await validateForm(this.v$)) {
         try {
           this.loading = true;
           await transaction(
@@ -150,11 +150,6 @@ export default {
         } finally {
           this.loading = false;
         }
-      } else {
-        addNotification({
-          message: 'Fix fields with errors',
-          type: 'error',
-        });
       }
     },
 

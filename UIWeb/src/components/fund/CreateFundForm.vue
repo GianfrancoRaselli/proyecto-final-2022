@@ -221,7 +221,7 @@ import { helpers, required, minLength, integer, minValue, maxValue } from '@vuel
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { addNotification } from '@/composables/useNotifications';
-import { transaction, getSplitAddress } from '@/helpers/helpers';
+import { transaction, validateForm, getSplitAddress } from '@/helpers/helpers';
 
 export default {
   name: 'CreateFundFormComponent',
@@ -389,7 +389,7 @@ export default {
   methods: {
     async handleSubmit() {
       if (this.fundTokensBalance >= 1) {
-        if (await this.v$.$validate()) {
+        if (await validateForm(this.v$)) {
           try {
             this.loading = true;
             const tx = await transaction(
@@ -432,11 +432,6 @@ export default {
           } finally {
             this.loading = false;
           }
-        } else {
-          addNotification({
-            message: 'Fix fields with errors',
-            type: 'error',
-          });
         }
       } else {
         addNotification({

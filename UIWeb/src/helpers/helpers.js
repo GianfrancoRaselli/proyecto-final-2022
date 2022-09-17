@@ -73,6 +73,18 @@ const event = async (contract, event, options, func) => {
   if (contractInstance) return contractInstance.events[event]({ fromBlock: 'latest', ...options }, func);
 };
 
+const validateForm = async (validations) => {
+  if (await validations.$validate()) {
+    return true;
+  } else {
+    addNotification({
+      message: 'Fix fields with errors',
+      type: 'error',
+    });
+    return false;
+  }
+};
+
 async function getContractInstance(contract, provider = 'metamask') {
   if (provider === 'infura') {
     if (contract === 'FundFactory') return store.state.connection.infuraFundFactory;
@@ -160,6 +172,7 @@ export {
   call,
   transaction,
   event,
+  validateForm,
   addTokenToMetaMask,
   ethPriceInUSD,
   getSplitAddress,
