@@ -388,56 +388,64 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      if (this.fundTokensBalance >= 1) {
-        if (await validateForm(this.v$)) {
-          try {
-            this.loading = true;
-            const tx = await transaction(
-              'FundFactory',
-              'createFund',
-              [
-                this.data.name,
-                this.data.description,
-                this.getArrayOfManagers(),
-                this.data.managersCanBeAddedOrRemoved,
-                this.data.managersCanTransferMoneyWithoutARequest,
-                this.data.requestsCanBeCreated,
-                this.data.onlyManagersCanCreateARequest,
-                this.data.onlyContributorsCanApproveARequest,
-                this.data.minimumContributionPercentageRequired,
-                this.data.minimumApprovalsPercentageRequired,
-              ],
-              undefined,
-              true,
-              'Create new fund: ' + this.data.name,
-            );
-            addNotification({
-              message: 'Fund deployed to: ' + getSplitAddress(tx.events.NewFund.returnValues.fundAddress),
-              type: 'success',
-            });
-            this.data = {
-              type: '',
-              name: '',
-              description: '',
-              addMeAsAManager: true,
-              managers: '',
-              managersCanBeAddedOrRemoved: true,
-              managersCanTransferMoneyWithoutARequest: true,
-              requestsCanBeCreated: true,
-              onlyManagersCanCreateARequest: false,
-              onlyContributorsCanApproveARequest: false,
-              minimumContributionPercentageRequired: 5,
-              minimumApprovalsPercentageRequired: 50,
-            };
-          } finally {
-            this.loading = false;
-          }
+      const checkFundTokensBalance = () => {
+        if (this.fundTokensBalance >= 1) {
+          return true;
+        } else {
+          addNotification({
+            message: 'You need to have 1 FundToken to create a new fund',
+            type: 'error',
+          });
+          return false;
         }
-      } else {
-        addNotification({
-          message: 'You need to have 1 FundToken to create a new fund',
-          type: 'error',
-        });
+      };
+
+      const checkedFundTokensBalance = checkFundTokensBalance();
+      const validatedForm = await validateForm(this.v$);
+
+      if (checkedFundTokensBalance && validatedForm) {
+        try {
+          this.loading = true;
+          const tx = await transaction(
+            'FundFactory',
+            'createFund',
+            [
+              this.data.name,
+              this.data.description,
+              this.getArrayOfManagers(),
+              this.data.managersCanBeAddedOrRemoved,
+              this.data.managersCanTransferMoneyWithoutARequest,
+              this.data.requestsCanBeCreated,
+              this.data.onlyManagersCanCreateARequest,
+              this.data.onlyContributorsCanApproveARequest,
+              this.data.minimumContributionPercentageRequired,
+              this.data.minimumApprovalsPercentageRequired,
+            ],
+            undefined,
+            true,
+            'Create new fund: ' + this.data.name,
+          );
+          addNotification({
+            message: 'Fund deployed to: ' + getSplitAddress(tx.events.NewFund.returnValues.fundAddress),
+            type: 'success',
+          });
+          this.data = {
+            type: '',
+            name: '',
+            description: '',
+            addMeAsAManager: true,
+            managers: '',
+            managersCanBeAddedOrRemoved: true,
+            managersCanTransferMoneyWithoutARequest: true,
+            requestsCanBeCreated: true,
+            onlyManagersCanCreateARequest: false,
+            onlyContributorsCanApproveARequest: false,
+            minimumContributionPercentageRequired: 5,
+            minimumApprovalsPercentageRequired: 50,
+          };
+        } finally {
+          this.loading = false;
+        }
       }
     },
 
