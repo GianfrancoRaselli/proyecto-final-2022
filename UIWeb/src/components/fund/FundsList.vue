@@ -4,7 +4,7 @@
       <AppSpinner class="mb-2" />
       <AppProgress :progress="progress" />
     </div>
-    <div v-if="!loading">
+    <div v-else>
       <div class="searches mb-2" v-if="allFunds.length > 0">
         <div class="date">
           <DatePicker :value="date" lang="en" @selected="updateDate" class="datepicker mr-2"> </DatePicker>
@@ -54,7 +54,7 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: true,
       progress: 0,
       search: '',
       date: null,

@@ -84,6 +84,10 @@ body {
   text-decoration: underline;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .form-control-error {
   border: 2px solid red;
 }

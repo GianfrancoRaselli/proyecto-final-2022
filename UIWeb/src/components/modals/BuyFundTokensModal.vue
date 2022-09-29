@@ -12,16 +12,21 @@
         <div class="modal-body">
           <div class="mb-2" v-if="address">
             <small>
-              <span class="h6 font-weight-bolder">My balance: </span><span v-text="fundTokensBalance"></span
-              ><span v-if="fundTokensBalance > 1"> FundTokens</span><span v-else> FundToken</span></small
-            >
+              <span class="h6 font-weight-bolder">
+                My balance:&nbsp;<AppShowAmount :amount="fundTokensBalance" singular="FundToken" plural="FundTokens" />
+              </span>
+            </small>
           </div>
 
           <div class="my-2">
             <small>
-              <span class="h6 font-weight-bolder">FundToken price: </span><span v-text="fundTokenPriceInEth"></span
-              ><span> ETH</span><span> ≈ </span><span v-text="fundTokenPriceInUSD"></span><span> USD</span></small
-            >
+              <span class="h6 font-weight-bolder">FundToken price:&nbsp;</span>
+              <span>
+                <AppShowAmount :amount="fundTokenPriceInETH" singular="ETH" />
+                &nbsp;≈&nbsp;
+                <AppShowAmount :amount="fundTokenPriceInUSD" singular="USD" />
+              </span>
+            </small>
           </div>
 
           <form @submit.prevent="handleSubmit" class="mt-3">
@@ -42,10 +47,14 @@
             </div>
 
             <div class="mb-2" v-if="fundTokens > 0">
-              <small id="tokensHelp" class="form-text"
-                ><span class="h6">Total price: </span><span v-text="fundTokens * fundTokenPriceInEth"></span><span> ETH</span
-                ><span> ≈ </span><span v-text="fundTokensPriceInUSD"></span><span> USD</span></small
-              >
+              <small id="tokensHelp" class="form-text">
+                <span class="h6">Total price: </span>
+                <span>
+                  <AppShowAmount :amount="fundTokens * fundTokenPriceInETH" singular="ETH" />
+                  &nbsp;≈&nbsp;
+                  <AppShowAmount :amount="fundTokensPriceInUSD" singular="USD" />
+                </span>
+              </small>
             </div>
 
             <button type="submit" class="btn btn-primary" v-if="!loading">Buy</button>
@@ -69,7 +78,15 @@ import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { addNotification } from '@/composables/useNotifications';
 import { hasMetamask } from '@/helpers/connection';
-import { call, transaction, event, validateForm, addTokenToMetaMask, ethPriceInUSD } from '@/helpers/helpers';
+import {
+  call,
+  transaction,
+  event,
+  validateForm,
+  addTokenToMetaMask,
+  ethPriceInUSD,
+  convertNumberToTwoDecimals,
+} from '@/helpers/helpers';
 
 export default {
   name: 'BuyFundTokensModalComponent',
@@ -97,24 +114,14 @@ export default {
 
     hasMetamask,
 
-    fundTokenPriceInEth() {
+    fundTokenPriceInETH() {
       return parseFloat(Web3.utils.fromWei(this.fundTokenPriceInWeis.toString(), 'ether'));
     },
-
     fundTokenPriceInUSD() {
-      if ((this.fundTokenPriceInEth * this.ethPriceInUSD).toFixed(2).split('.')[1] === '00') {
-        return (this.fundTokenPriceInEth * this.ethPriceInUSD).toFixed(0);
-      } else {
-        return (this.fundTokenPriceInEth * this.ethPriceInUSD).toFixed(2);
-      }
+      return convertNumberToTwoDecimals(this.fundTokenPriceInETH * this.ethPriceInUSD);
     },
-
     fundTokensPriceInUSD() {
-      if ((this.fundTokens * this.fundTokenPriceInEth * this.ethPriceInUSD).toFixed(2).split('.')[1] === '00') {
-        return (this.fundTokens * this.fundTokenPriceInEth * this.ethPriceInUSD).toFixed(0);
-      } else {
-        return (this.fundTokens * this.fundTokenPriceInEth * this.ethPriceInUSD).toFixed(2);
-      }
+      return convertNumberToTwoDecimals(this.fundTokens * this.fundTokenPriceInETH * this.ethPriceInUSD);
     },
   },
   validations() {
@@ -152,7 +159,6 @@ export default {
         }
       }
     },
-
     addFundTokenToMetaMask() {
       addTokenToMetaMask();
     },

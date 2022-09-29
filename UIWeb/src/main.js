@@ -9,9 +9,11 @@ import AppNotifications from '@/components/global/AppNotifications';
 import AppDate from '@/components/global/AppDate';
 import AppAlert from '@/components/global/AppAlert';
 import AppButton from '@/components/global/AppButton';
+import AppBadge from '@/components/global/AppBadge';
 import AppSpinner from '@/components/global/AppSpinner';
 import AppProgress from '@/components/global/AppProgress';
 import AppInputErrors from '@/components/global/AppInputErrors';
+import AppShowAmount from '@/components/global/AppShowAmount';
 
 import 'bootstrap/dist/js/bootstrap.min.js';
 
@@ -25,8 +27,10 @@ app.component('AppNotifications', AppNotifications);
 app.component('AppDate', AppDate);
 app.component('AppAlert', AppAlert);
 app.component('AppButton', AppButton);
+app.component('AppBadge', AppBadge);
 app.component('AppSpinner', AppSpinner);
 app.component('AppProgress', AppProgress);
 app.component('AppInputErrors', AppInputErrors);
+app.component('AppShowAmount', AppShowAmount);
 
 app.mount('#app');

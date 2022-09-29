@@ -140,6 +140,11 @@ const ethPriceInUSD = async () => {
   return (await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')).data.USD;
 };
 
+const convertNumberToTwoDecimals = (number) => {
+  if (number.toFixed(2).split('.')[1] === '00') return number.toFixed(0);
+  return number.toFixed(2);
+};
+
 const getSplitAddress = (address) => {
   let splitAddress = '';
 
@@ -175,6 +180,7 @@ export {
   validateForm,
   addTokenToMetaMask,
   ethPriceInUSD,
+  convertNumberToTwoDecimals,
   getSplitAddress,
   fromUnixTimestampToDate,
   fromDateToUnixTimestamp,

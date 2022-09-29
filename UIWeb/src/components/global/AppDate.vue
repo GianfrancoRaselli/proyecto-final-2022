@@ -26,7 +26,8 @@ export default {
     },
 
     diffForHumans() {
-      return this.dayjs.fromNow();
+      const fromNow = this.dayjs.fromNow().toString();
+      return fromNow.charAt(0).toUpperCase() + fromNow.slice(1);
     },
   },
 };
