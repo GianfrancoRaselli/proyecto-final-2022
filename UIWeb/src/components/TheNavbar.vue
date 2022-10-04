@@ -72,7 +72,7 @@
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { hasMetamask, connectToMetamask } from '@/helpers/connection';
-import { getSplitAddress } from '@/helpers/helpers';
+import { getSplitAddress } from 'web3-simple-helpers';
 
 export default {
   name: 'TheNavbarComponent',

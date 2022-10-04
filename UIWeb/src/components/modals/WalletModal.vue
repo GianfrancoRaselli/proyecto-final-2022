@@ -79,6 +79,7 @@
 import { getMessages } from '@/dictionary';
 import { addNotification } from '@/composables/useNotifications';
 import { mapState, mapGetters } from 'vuex';
+import { getSplitAddress } from 'web3-simple-helpers';
 import { connectToMetamask, checkValidChain, disconnect } from '@/helpers/connection';
 
 const MINUTE = 60000;
@@ -109,15 +110,7 @@ export default {
     ...mapGetters(['isConnected', 'isConnectedToTheValidChain', 'validChainName', 'validChainExplorer']),
 
     splitAddress() {
-      let splitAccount = '';
-      for (let i = 0; i < 4; i++) {
-        splitAccount += this.address.charAt(i);
-      }
-      splitAccount += '...';
-      for (let i = this.address.length - 4; i < this.address.length; i++) {
-        splitAccount += this.address.charAt(i);
-      }
-      return splitAccount;
+      return getSplitAddress(this.address);
     },
 
     recentTransactionsToShow() {

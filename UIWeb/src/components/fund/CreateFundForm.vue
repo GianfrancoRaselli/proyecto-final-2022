@@ -220,8 +220,9 @@ import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, minLength, integer, minValue, maxValue } from '@vuelidate/validators';
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
+import { getSplitAddress } from 'web3-simple-helpers';
 import { addNotification } from '@/composables/useNotifications';
-import { transaction, validateForm, getSplitAddress } from '@/helpers/helpers';
+import { transaction, validateForm } from '@/helpers/helpers';
 
 export default {
   name: 'CreateFundFormComponent',
@@ -279,17 +280,7 @@ export default {
     ...mapGetters(['isConnected']),
 
     splitAddress() {
-      let splitAccount = '';
-
-      for (let i = 0; i < 4; i++) {
-        splitAccount += this.address.charAt(i);
-      }
-      splitAccount += '...';
-      for (let i = this.address.length - 4; i < this.address.length; i++) {
-        splitAccount += this.address.charAt(i);
-      }
-
-      return splitAccount;
+      return getSplitAddress(this.address);
     },
   },
   watch: {

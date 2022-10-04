@@ -1,5 +1,6 @@
 import store from '@/store';
 import axios from 'axios';
+import { getErrorMessage } from 'web3-simple-helpers';
 import { addNotification } from '@/composables/useNotifications';
 import { hasMetamask } from './connection';
 
@@ -101,13 +102,6 @@ async function getContractInstance(contract, provider = 'metamask') {
   }
 }
 
-function getErrorMessage(err) {
-  const endIndex = err.message.search('{');
-  let message = err.message;
-  if (endIndex >= 0) message = err.message.substring(0, endIndex);
-  return message.charAt(0).toUpperCase() + message.slice(1);
-}
-
 function addToRecentTransactions(msg, tx) {
   const index = store.state.connection.recentTransactionsCount;
   let transaction = {
@@ -145,20 +139,6 @@ const convertNumberToTwoDecimals = (number) => {
   return number.toFixed(2);
 };
 
-const getSplitAddress = (address) => {
-  let splitAddress = '';
-
-  for (let i = 0; i < 4; i++) {
-    splitAddress += address.charAt(i);
-  }
-  splitAddress += '...';
-  for (let i = address.length - 4; i < address.length; i++) {
-    splitAddress += address.charAt(i);
-  }
-
-  return splitAddress;
-};
-
 const fromUnixTimestampToDate = (unixTimestamp) => {
   return new Date(unixTimestamp * 1000);
 };
@@ -181,7 +161,6 @@ export {
   addTokenToMetaMask,
   ethPriceInUSD,
   convertNumberToTwoDecimals,
-  getSplitAddress,
   fromUnixTimestampToDate,
   fromDateToUnixTimestamp,
   isTheSameDate,

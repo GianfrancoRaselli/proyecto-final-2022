@@ -49,7 +49,8 @@
 
 <script>
 import Web3 from 'web3';
-import { call, getSplitAddress, fromUnixTimestampToDate } from '@/helpers/helpers';
+import { getSplitAddress } from 'web3-simple-helpers';
+import { call, fromUnixTimestampToDate } from '@/helpers/helpers';
 
 export default {
   name: 'FundView',
