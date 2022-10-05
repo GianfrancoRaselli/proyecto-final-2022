@@ -79,7 +79,7 @@
 import { getMessages } from '@/dictionary';
 import { addNotification } from '@/composables/useNotifications';
 import { mapState, mapGetters } from 'vuex';
-import { getSplitAddress } from 'web3-simple-helpers';
+import { getSplitAddress } from 'web3-simple-helpers/methods/general';
 import { connectToMetamask, checkValidChain, disconnect } from '@/helpers/connection';
 
 const MINUTE = 60000;

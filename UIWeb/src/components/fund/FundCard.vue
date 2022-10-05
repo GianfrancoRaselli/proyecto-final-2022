@@ -10,8 +10,7 @@
 </template>
 
 <script>
-import { getSplitAddress } from 'web3-simple-helpers';
-import { fromUnixTimestampToDate } from '@/helpers/helpers';
+import { getSplitAddress, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
   name: 'FundCardComponent',

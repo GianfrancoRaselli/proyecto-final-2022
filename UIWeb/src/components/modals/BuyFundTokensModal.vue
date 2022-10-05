@@ -164,7 +164,7 @@ export default {
     },
   },
   async created() {
-    call('FundFactory', 'fundTokenPrice').then(async (res) => {
+    call('FundFactory', 'fundTokenPrice', [], {}, async (res) => {
       this.fundTokenPriceInWeis = res;
       this.newFundTokenPriceSubscription = await event('FundFactory', 'NewFundTokenPrice', undefined, (err, event) => {
         this.fundTokenPriceInWeis = event.returnValues.fundTokenPrice;

@@ -39,7 +39,8 @@
 import DatePicker from 'vuejs3-datepicker';
 import FundCard from '@/components/fund/FundCard';
 import { mapState } from 'vuex';
-import { call, event, fromUnixTimestampToDate, isTheSameDate } from '@/helpers/helpers';
+import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
+import { call, event, isTheSameDate } from '@/helpers/helpers';
 import AppSpinner from '../global/AppSpinner.vue';
 
 export default {
@@ -118,7 +119,7 @@ export default {
         Array(totalFunds)
           .fill()
           .map((element, index) => {
-            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary').then((res) => {
+            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, (res) => {
               this.allFunds[index] = res;
 
               callsResolved++;

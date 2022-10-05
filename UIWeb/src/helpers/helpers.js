@@ -1,21 +1,46 @@
 import store from '@/store';
-import axios from 'axios';
-import { getErrorMessage } from 'web3-simple-helpers';
+import { convertEthPrice } from 'web3-simple-helpers/methods/general';
+import connect from 'web3-simple-helpers/methods/connect';
 import { addNotification } from '@/composables/useNotifications';
 import { hasMetamask } from './connection';
 
 import fundTokenABI from '../assets/abis/FundToken';
 import { fundTokenAddress } from '../assets/lastAddresses';
 
-const call = async (contract, method, params = [], options, showContractError = true) => {
+async function getContractInstance(contract, provider = 'metamask') {
+  if (provider === 'infura') {
+    if (contract === 'FundFactory') return store.state.connection.infuraFundFactory;
+    if (contract === 'FundToken') return new store.state.connection.infuraWeb3.eth.Contract(fundTokenABI, fundTokenAddress);
+    const { default: contractABI } = await import('../assets/abis/' + contract.name);
+    return new store.state.connection.infuraWeb3.eth.Contract(contractABI, contract.address);
+  } else if (provider === 'metamask') {
+    if (store.state.connection.provider) {
+      if (contract === 'FundFactory') return store.state.connection.fundFactory;
+      if (contract === 'FundToken') return new store.state.connection.web3.eth.Contract(fundTokenABI, fundTokenAddress);
+      const { default: contractABI } = await import('../assets/abis/' + contract.name);
+      return new store.state.connection.web3.eth.Contract(contractABI, contract.address);
+    }
+  }
+}
+
+function handleContractError(err, showError) {
+  if (showError) addNotification({ message: err.message, type: 'error' });
+  throw err;
+}
+
+const call = async (contract, method, params = [], options, fn) => {
   const contractInstance = await getContractInstance(contract, 'infura');
   if (contractInstance) {
-    try {
-      return contractInstance.methods[method](...params).call(options);
-    } catch (err) {
-      const errMessage = getErrorMessage(err);
-      if (showContractError) addNotification({ message: errMessage, type: 'error' });
-      throw new Error(errMessage);
+    if (!fn) {
+      try {
+        return await connect.call(contractInstance, method, params, options);
+      } catch (err) {
+        handleContractError(err, true);
+      }
+    } else {
+      return connect.call(contractInstance, method, params, options, fn, (err) => {
+        handleContractError(err, true);
+      });
     }
   }
 };
@@ -31,14 +56,9 @@ const transaction = async (contract, method, params = [], options, showContractE
         ) {
           const contractInstance = await getContractInstance(contract);
           if (contractInstance) {
-            try {
-              await contractInstance.methods[method](...params).call({ from: store.state.connection.address, ...options });
-            } catch (err) {
-              const errMessage = getErrorMessage(err);
-              if (showContractError) addNotification({ message: errMessage, type: 'error' });
-              throw new Error(errMessage);
-            }
-            const tx = contractInstance.methods[method](...params).send({ from: store.state.connection.address, ...options });
+            const tx = connect.transaction(contractInstance, method, params, store.state.connection.address, options, (err) => {
+              if (showContractError) addNotification({ message: err.message, type: 'error' });
+            });
             addToRecentTransactions(messageInfo, tx);
             return tx;
           }
@@ -71,36 +91,18 @@ const transaction = async (contract, method, params = [], options, showContractE
 
 const event = async (contract, event, options, func) => {
   const contractInstance = await getContractInstance(contract);
-  if (contractInstance) return contractInstance.events[event]({ fromBlock: 'latest', ...options }, func);
+  if (contractInstance) return connect.latestEvents(contractInstance, event, options, func);
 };
 
-const validateForm = async (validations) => {
-  if (await validations.$validate()) {
-    return true;
-  } else {
-    addNotification({
-      message: 'Fix fields with errors',
-      type: 'error',
-    });
-    return false;
-  }
+const addTokenToMetaMask = (type = 'ERC20', options = { address: fundTokenAddress, symbol: 'FT', decimals: 0 }) => {
+  return store.state.connection.provider.request({
+    method: 'wallet_watchAsset',
+    params: {
+      type,
+      options,
+    },
+  });
 };
-
-async function getContractInstance(contract, provider = 'metamask') {
-  if (provider === 'infura') {
-    if (contract === 'FundFactory') return store.state.connection.infuraFundFactory;
-    if (contract === 'FundToken') return new store.state.connection.infuraWeb3.eth.Contract(fundTokenABI, fundTokenAddress);
-    const { default: contractABI } = await import('../assets/abis/' + contract.name);
-    return new store.state.connection.infuraWeb3.eth.Contract(contractABI, contract.address);
-  } else if (provider === 'metamask') {
-    if (store.state.connection.provider) {
-      if (contract === 'FundFactory') return store.state.connection.fundFactory;
-      if (contract === 'FundToken') return new store.state.connection.web3.eth.Contract(fundTokenABI, fundTokenAddress);
-      const { default: contractABI } = await import('../assets/abis/' + contract.name);
-      return new store.state.connection.web3.eth.Contract(contractABI, contract.address);
-    }
-  }
-}
 
 function addToRecentTransactions(msg, tx) {
   const index = store.state.connection.recentTransactionsCount;
@@ -120,31 +122,13 @@ function addToRecentTransactions(msg, tx) {
   store.commit('addNewRecentTransaction', transaction);
 }
 
-const addTokenToMetaMask = (type = 'ERC20', options = { address: fundTokenAddress, symbol: 'FT', decimals: 0 }) => {
-  return store.state.connection.provider.request({
-    method: 'wallet_watchAsset',
-    params: {
-      type,
-      options,
-    },
-  });
-};
-
 const ethPriceInUSD = async () => {
-  return (await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')).data.USD;
+  return convertEthPrice('USD');
 };
 
 const convertNumberToTwoDecimals = (number) => {
   if (number.toFixed(2).split('.')[1] === '00') return number.toFixed(0);
   return number.toFixed(2);
-};
-
-const fromUnixTimestampToDate = (unixTimestamp) => {
-  return new Date(unixTimestamp * 1000);
-};
-
-const fromDateToUnixTimestamp = (date) => {
-  return date.getTime() / 1000;
 };
 
 const isTheSameDate = (date1, date2) => {
@@ -153,15 +137,16 @@ const isTheSameDate = (date1, date2) => {
   );
 };
 
-export {
-  call,
-  transaction,
-  event,
-  validateForm,
-  addTokenToMetaMask,
-  ethPriceInUSD,
-  convertNumberToTwoDecimals,
-  fromUnixTimestampToDate,
-  fromDateToUnixTimestamp,
-  isTheSameDate,
+const validateForm = async (validations) => {
+  if (await validations.$validate()) {
+    return true;
+  } else {
+    addNotification({
+      message: 'Fix fields with errors',
+      type: 'error',
+    });
+    return false;
+  }
 };
+
+export { call, transaction, event, validateForm, addTokenToMetaMask, ethPriceInUSD, convertNumberToTwoDecimals, isTheSameDate };

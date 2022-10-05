@@ -74,7 +74,7 @@ const setWeb3AndContracts = (provider) => {
 };
 
 const searchFundTokensBalance = () => {
-  call('FundToken', 'balanceOf', [store.state.connection.address]).then(async (res) => {
+  call('FundToken', 'balanceOf', [store.state.connection.address], {}, async (res) => {
     store.commit('setFundTokensBalance', res);
 
     const getEvent = (filterBy) => {
