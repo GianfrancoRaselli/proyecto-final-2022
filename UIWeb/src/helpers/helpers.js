@@ -23,29 +23,47 @@ async function getContractInstance(contract, provider = 'metamask') {
   }
 }
 
-function handleContractError(err, showError) {
-  if (showError) addNotification({ message: err.message, type: 'error' });
-  throw err;
-}
-
 const call = async (contract, method, params = [], options, fn) => {
+  const handleError = (err, showError) => {
+    if (showError) addNotification({ message: err.message, type: 'error' });
+    throw err;
+  };
+
   const contractInstance = await getContractInstance(contract, 'infura');
   if (contractInstance) {
     if (!fn) {
       try {
         return await connect.call(contractInstance, method, params, options);
       } catch (err) {
-        handleContractError(err, true);
+        handleError(err, true);
       }
     } else {
       return connect.call(contractInstance, method, params, options, fn, (err) => {
-        handleContractError(err, true);
+        handleError(err, true);
       });
     }
   }
 };
 
 const transaction = async (contract, method, params = [], options, showContractError = true, messageInfo) => {
+  const addToRecentTransactions = (msg, tx) => {
+    const index = store.state.connection.recentTransactionsCount;
+    let transaction = {
+      message: msg,
+      hash: '',
+      loading: true,
+      success: true,
+      date: new Date(),
+    };
+    tx.then((data) => {
+      store.commit('setRecentTransactionSuccess', { index, hash: data.transactionHash });
+    }).catch(() => {
+      store.commit('setRecentTransactionError', index);
+    });
+
+    store.commit('addNewRecentTransaction', transaction);
+  };
+
   if (hasMetamask()) {
     if (store.getters.isConnected) {
       if (store.getters.isConnectedToTheValidChain) {
@@ -103,24 +121,6 @@ const addTokenToMetaMask = (type = 'ERC20', options = { address: fundTokenAddres
     },
   });
 };
-
-function addToRecentTransactions(msg, tx) {
-  const index = store.state.connection.recentTransactionsCount;
-  let transaction = {
-    message: msg,
-    hash: '',
-    loading: true,
-    success: true,
-    date: new Date(),
-  };
-  tx.then((data) => {
-    store.commit('setRecentTransactionSuccess', { index, hash: data.transactionHash });
-  }).catch(() => {
-    store.commit('setRecentTransactionError', index);
-  });
-
-  store.commit('addNewRecentTransaction', transaction);
-}
 
 const ethPriceInUSD = async () => {
   return convertEthPrice('USD');
