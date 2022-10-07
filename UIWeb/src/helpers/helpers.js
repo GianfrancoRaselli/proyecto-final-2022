@@ -7,20 +7,28 @@ import { hasMetamask } from './connection';
 import fundTokenABI from '../assets/abis/FundToken';
 import { fundTokenAddress } from '../assets/lastAddresses';
 
-async function getContractInstance(contract, provider = 'metamask') {
-  if (provider === 'infura') {
-    if (contract === 'FundFactory') return store.state.connection.infuraFundFactory;
-    if (contract === 'FundToken') return new store.state.connection.infuraWeb3.eth.Contract(fundTokenABI, fundTokenAddress);
-    const { default: contractABI } = await import('../assets/abis/' + contract.name);
-    return new store.state.connection.infuraWeb3.eth.Contract(contractABI, contract.address);
-  } else if (provider === 'metamask') {
+async function getContract(contract, provider = 'infura') {
+  if (provider === 'metamask') {
     if (store.state.connection.provider) {
       if (contract === 'FundFactory') return store.state.connection.fundFactory;
       if (contract === 'FundToken') return new store.state.connection.web3.eth.Contract(fundTokenABI, fundTokenAddress);
       const { default: contractABI } = await import('../assets/abis/' + contract.name);
-      return new store.state.connection.web3.eth.Contract(contractABI, contract.address);
+      return {
+        provider: store.state.connection.provider,
+        abi: contractABI,
+        address: contract.address,
+      };
     }
   }
+
+  if (contract === 'FundFactory') return store.state.connection.infuraFundFactory;
+  if (contract === 'FundToken') return new store.state.connection.infuraWeb3.eth.Contract(fundTokenABI, fundTokenAddress);
+  const { default: contractABI } = await import('../assets/abis/' + contract.name);
+  return {
+    provider: store.state.connection.infuraProvider,
+    contractABI,
+    contractAddress: contract.address,
+  };
 }
 
 const call = async (contract, method, params = [], options, fn) => {
@@ -29,19 +37,16 @@ const call = async (contract, method, params = [], options, fn) => {
     throw err;
   };
 
-  const contractInstance = await getContractInstance(contract, 'infura');
-  if (contractInstance) {
-    if (!fn) {
-      try {
-        return await connect.call(contractInstance, method, params, options);
-      } catch (err) {
-        handleError(err, true);
-      }
-    } else {
-      return connect.call(contractInstance, method, params, options, fn, (err) => {
-        handleError(err, true);
-      });
+  if (!fn) {
+    try {
+      return await connect.call(await getContract(contract), method, params, options);
+    } catch (err) {
+      handleError(err, true);
     }
+  } else {
+    return connect.call(await getContract(contract), method, params, options, fn, (err) => {
+      handleError(err, true);
+    });
   }
 };
 
@@ -72,14 +77,18 @@ const transaction = async (contract, method, params = [], options, showContractE
           !options.value ||
           options.value <= (await store.state.connection.web3.eth.getBalance(store.state.connection.address))
         ) {
-          const contractInstance = await getContractInstance(contract);
-          if (contractInstance) {
-            const tx = connect.transaction(contractInstance, method, params, store.state.connection.address, options, (err) => {
+          const tx = connect.transaction(
+            await getContract(contract, 'metamask'),
+            method,
+            params,
+            store.state.connection.address,
+            options,
+            (err) => {
               if (showContractError) addNotification({ message: err.message, type: 'error' });
-            });
-            addToRecentTransactions(messageInfo, tx);
-            return tx;
-          }
+            },
+          );
+          addToRecentTransactions(messageInfo, tx);
+          return tx;
         } else {
           addNotification({
             message: 'You do not have enough ' + store.getters.validChainCoin + ' to pay for the transaction',
@@ -108,8 +117,7 @@ const transaction = async (contract, method, params = [], options, showContractE
 };
 
 const event = async (contract, event, options, func) => {
-  const contractInstance = await getContractInstance(contract);
-  if (contractInstance) return connect.latestEvents(contractInstance, event, options, func);
+  return connect.latestEvents(await getContract(contract, 'metamask'), event, options, func);
 };
 
 const addTokenToMetaMask = (type = 'ERC20', options = { address: fundTokenAddress, symbol: 'FT', decimals: 0 }) => {

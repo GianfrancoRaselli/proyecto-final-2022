@@ -1,10 +1,8 @@
 import store from '@/store';
+import Web3 from 'web3';
 import Swal from 'sweetalert2';
 import { call, event } from '@/helpers/helpers';
 //import detectEthereumProvider from '@metamask/detect-provider';
-
-import Web3 from 'web3';
-const infuraPath = 'https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a';
 
 import fundFactoryABI from '../assets/abis/FundFactory';
 import { fundFactoryAddress } from '../assets/lastAddresses';
@@ -69,7 +67,7 @@ const setWeb3AndContracts = (provider) => {
     store.commit('setWeb3', new Web3(provider));
     store.commit('setFundFactory', new store.state.connection.web3.eth.Contract(fundFactoryABI, fundFactoryAddress));
   }
-  store.commit('setInfuraWeb3', new Web3(infuraPath));
+  store.commit('setInfuraWeb3', new Web3(store.state.connection.infuraProvider));
   store.commit('setInfuraFundFactory', new store.state.connection.infuraWeb3.eth.Contract(fundFactoryABI, fundFactoryAddress));
 };
 

@@ -11,6 +11,7 @@ export default {
       address: '',
       disconnected: false,
       provider: null,
+      infuraProvider: 'https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a',
       web3: null,
       fundFactory: null,
       infuraWeb3: null,
