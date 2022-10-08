@@ -25,11 +25,11 @@ export default {
 <style scoped>
 .background {
   position: fixed;
-  top: 50px;
+  top: 65px;
   left: 0;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 65px);
   width: 100%;
-  background-image: url('../assets/imgs/background.jpg');
+  background-image: url('../assets/imgs/background2.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;
@@ -43,16 +43,32 @@ export default {
 
 .content {
   height: 100%;
-  padding-bottom: 30px;
+  padding-top: 35px;
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: start;
   align-items: center;
 }
 
 .btn {
   font-size: 22px;
-  padding: 15px 30px;
-  border-radius: 50px;
+  padding: 12px 25px;
+  border-radius: 100px;
+  animation-duration: 1s;
+  animation-name: bounce;
+}
+
+@keyframes bounce {
+  0% {
+    margin-top: -50px;
+  }
+
+  50% {
+    margin-top: 10px;
+  }
+
+  100% {
+    margin-top: initial;
+  }
 }
 </style>

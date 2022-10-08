@@ -13,7 +13,7 @@
       </router-view>
       <AppNotifications />
     </main>
-    <footer class="page-content__footer">footer</footer>
+    <TheFooter class="page-content__footer" />
   </div>
 </template>
 
@@ -22,6 +22,7 @@ import TheNavbar from '@/components/TheNavbar';
 import WalletModal from '@/components/modals/WalletModal';
 import BuyFundTokensModal from '@/components/modals/BuyFundTokensModal';
 import AppNotifications from '@/components/global/AppNotifications';
+import TheFooter from '@/components/TheFooter';
 
 import { connectToMetamask } from '@/helpers/connection';
 
@@ -32,6 +33,7 @@ export default {
     WalletModal,
     BuyFundTokensModal,
     AppNotifications,
+    TheFooter,
   },
   computed: {},
   watch: {},
@@ -66,6 +68,7 @@ body {
 }
 
 .header__navbar {
+  height: 65px;
   width: 100%;
   position: fixed;
   top: 0;
@@ -78,7 +81,15 @@ body {
   flex-basis: 100%;
   max-width: 1000px;
   margin: auto;
-  padding: 70px 12px 10px 12px;
+  padding: 80px 12px 15px 12px;
+}
+
+.page-content__footer {
+  min-height: 60px;
+  height: 60px;
+  width: 100%;
+  bottom: 0;
+  justify-self: flex-end;
 }
 
 .slide-leave-to {
