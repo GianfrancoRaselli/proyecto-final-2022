@@ -5,9 +5,9 @@
       <AppProgress :progress="progress" />
     </div>
     <div v-else>
-      <div class="searches mb-2" v-if="allFunds.length > 0">
+      <div class="searches" v-if="allFunds.length > 0">
         <div class="date">
-          <DatePicker :value="date" lang="en" @selected="updateDate" class="datepicker mr-2"> </DatePicker>
+          <DatePicker :value="date" lang="en" @selected="updateDate" class="datepicker"> </DatePicker>
           <fa-icon icon="xmark" class="icon xmark" size="2x" v-if="date" @click="date = null"></fa-icon>
         </div>
         <form class="form-inline">
@@ -20,15 +20,16 @@
           />
         </form>
       </div>
+      <hr />
       <AppAlert msg="No funds" v-if="fundsToShow.length === 0" />
       <div class="row" v-else>
         <div
-          class="col-12 col-md-6 col-lg-4 fund-card"
+          class="col-12 col-md-6 col-lg-4 fund-card-container"
           v-for="(fund, index) in fundsToShow"
           :key="index"
           @click="redirect(fund._address)"
         >
-          <FundCard :fund="fund" />
+          <FundCard class="fund-card" :fund="fund" />
         </div>
       </div>
     </div>
@@ -162,6 +163,7 @@ export default {
 .searches {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -180,13 +182,12 @@ export default {
   cursor: pointer;
 }
 
-.fund-card {
+.fund-card-container {
   padding: 10px;
 }
 
 .fund-card:hover {
-  padding: 5px;
-  box-shadow: 0 0 5px black;
+  box-shadow: 0 0 4px rgb(65, 64, 64);
   cursor: pointer;
 }
 </style>

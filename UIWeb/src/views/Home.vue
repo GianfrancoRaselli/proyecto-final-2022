@@ -29,7 +29,7 @@ export default {
   left: 0;
   height: calc(100vh - 65px);
   width: 100%;
-  background-image: url('../assets/imgs/background2.jpg');
+  background-image: url('../assets/imgs/background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;
@@ -43,10 +43,10 @@ export default {
 
 .content {
   height: 100%;
-  padding-top: 35px;
+  padding-bottom: 35px;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: end;
   align-items: center;
 }
 
@@ -60,11 +60,11 @@ export default {
 
 @keyframes bounce {
   0% {
-    margin-top: -50px;
+    margin-top: 0;
   }
 
   50% {
-    margin-top: 10px;
+    margin-top: -70px;
   }
 
   100% {
