@@ -19,6 +19,7 @@ export default {
 
 <style scoped>
 .footer {
+  font-family: 'Segoe Print';
   background-color: rgb(121, 122, 122);
   display: flex;
   flex-direction: row;

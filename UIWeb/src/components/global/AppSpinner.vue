@@ -1,6 +1,6 @@
 <template>
-  <div class="text-center">
-    <div class="spinner-border" role="status">
+  <div class="d-flex justify-content-center">
+    <div class="spinner-border" :class="{ big: this.size === 'big' }" role="status">
       <span class="sr-only">{{ msg }}...</span>
     </div>
   </div>
@@ -11,8 +11,14 @@ export default {
   name: 'AppSpinnerComponent',
   props: {
     msg: { type: String, default: 'Loading' },
+    size: { type: String, default: 'small' }
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.big {
+  height: 4rem;
+  width: 4rem;
+}
+</style>

@@ -51,6 +51,7 @@ export default {
 }
 
 .btn {
+  font-family: 'Garamond', 'serif';
   font-size: 22px;
   padding: 12px 25px;
   border-radius: 100px;

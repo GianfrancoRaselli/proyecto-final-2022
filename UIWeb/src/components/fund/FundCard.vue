@@ -1,5 +1,5 @@
 <template>
-  <div class="card text-center h-100">
+  <div class="card text-center">
     <div class="card-header" v-text="fund._name" />
     <div class="card-body">
       <p class="card-text" v-text="fund._description" />
@@ -34,4 +34,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.card {
+  height: 98%;
+}
+
+.card:hover {
+  height: 100%;
+  cursor: pointer;
+  box-shadow: 0 0 4px rgb(65, 64, 64);
+}
+</style>

@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <div v-if="loading">
-      <AppSpinner class="mb-2" />
-      <AppProgress :progress="progress" />
+  <div class="content">
+    <div v-if="loading" class="loading">
+      <AppSpinner class="spinner" size="big" />
+      <!--<AppProgress :progress="progress" />-->
     </div>
     <div v-else>
       <div class="searches" v-if="allFunds.length > 0">
@@ -160,6 +160,17 @@ export default {
 </script>
 
 <style scoped>
+.loading {
+  position: fixed;
+  top: 25vh;
+  left: 0;
+  width: 100%;
+}
+
+.spinner {
+  margin: auto;
+}
+
 .searches {
   display: flex;
   flex-direction: row;
@@ -184,10 +195,8 @@ export default {
 
 .fund-card-container {
   padding: 10px;
-}
-
-.fund-card:hover {
-  box-shadow: 0 0 4px rgb(65, 64, 64);
-  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>
