@@ -3,7 +3,7 @@
     <div class="bg-color">
       <div class="content">
         <router-link :to="{ name: 'Funds', params: { animation: 'slide' } }">
-          <button class="btn btn-primary text-bold">
+          <button class="btn btn-primary">
             <span>Discover funds</span><fa-icon icon="arrow-right" class="img-icon ml-3"></fa-icon>
           </button>
         </router-link>
