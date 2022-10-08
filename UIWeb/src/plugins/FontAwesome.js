@@ -12,7 +12,8 @@ import {
   faCircle,
   faCircleCheck,
   faCircleXmark,
-  faXmark
+  faXmark,
+  faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faGlobe);
@@ -27,6 +28,7 @@ library.add(faCircle);
 library.add(faCircleCheck);
 library.add(faCircleXmark);
 library.add(faXmark);
+library.add(faArrowRight);
 
 export default (app) => {
   app.component('fa-icon', FontAwesomeIcon);

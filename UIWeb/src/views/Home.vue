@@ -1,23 +1,58 @@
 <template>
-  <div>
-    <span>Home</span>
+  <div class="background">
+    <div class="bg-color">
+      <div class="content">
+        <router-link :to="{ name: 'Funds', params: { animation: 'slide' } }">
+          <button class="btn btn-primary">
+            <span>Discover funds</span><fa-icon icon="arrow-right" class="img-icon ml-3"></fa-icon>
+          </button>
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "HomeView",
+  name: 'HomeView',
   data() {
-    return {
-      
-    };
+    return {};
   },
-  methods: {
-    
-  },
+  methods: {},
 };
 </script>
 
 <style scoped>
+.background {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  height: calc(100vh - 50px);
+  width: 100%;
+  background-image: url('../assets/imgs/background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  background-attachment: fixed;
+}
 
+.bg-color {
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.content {
+  height: 100%;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+}
+
+.btn {
+  font-size: 20px;
+  padding: 15px 30px;
+  border-radius: 50px;
+}
 </style>

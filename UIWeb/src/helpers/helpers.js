@@ -8,26 +8,21 @@ import fundTokenABI from '../assets/abis/FundToken';
 import { fundTokenAddress } from '../assets/lastAddresses';
 
 async function getContract(contract, provider = 'infura') {
-  if (provider === 'metamask') {
-    if (store.state.connection.provider) {
-      if (contract === 'FundFactory') return store.state.connection.fundFactory;
-      if (contract === 'FundToken') return new store.state.connection.web3.eth.Contract(fundTokenABI, fundTokenAddress);
-      const { default: contractABI } = await import('../assets/abis/' + contract.name);
-      return {
-        provider: store.state.connection.provider,
-        abi: contractABI,
-        address: contract.address,
-      };
-    }
+  if (provider === 'metamask' && store.state.connection.provider) {
+    if (contract === 'FundFactory') return store.state.connection.fundFactory;
+    if (contract === 'FundToken') return new store.state.connection.web3.eth.Contract(fundTokenABI, fundTokenAddress);
   }
 
   if (contract === 'FundFactory') return store.state.connection.infuraFundFactory;
   if (contract === 'FundToken') return new store.state.connection.infuraWeb3.eth.Contract(fundTokenABI, fundTokenAddress);
-  const { default: contractABI } = await import('../assets/abis/' + contract.name);
+  
   return {
-    provider: store.state.connection.infuraProvider,
-    contractABI,
-    contractAddress: contract.address,
+    provider:
+      provider === 'matamask' && store.state.connection.provider
+        ? store.state.connection.provider
+        : store.state.connection.infuraProvider,
+    abi: (await import('../assets/abis/' + contract.name)).default,
+    address: contract.address,
   };
 }
 

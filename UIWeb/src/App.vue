@@ -6,10 +6,14 @@
       <BuyFundTokensModal />
     </header>
     <main class="page-content__main">
-      <router-view :key="`${$route.path}${JSON.stringify($route.query)}`" />
+      <router-view v-slot="{ Component, route }">
+        <transition :name="route.params.animation || ''" mode="out-in">
+          <component :is="Component" :key="`${route.path}${JSON.stringify(route.query)}`" />
+        </transition>
+      </router-view>
       <AppNotifications />
     </main>
-    <footer class="page-content__footer"></footer>
+    <footer class="page-content__footer">footer</footer>
   </div>
 </template>
 
@@ -30,6 +34,7 @@ export default {
     AppNotifications,
   },
   computed: {},
+  watch: {},
   created() {
     connectToMetamask();
   },
@@ -49,7 +54,7 @@ body {
 }
 
 .page-content {
-  min-width: 100%;
+  min-width: 100vh;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -74,6 +79,15 @@ body {
   max-width: 1000px;
   margin: auto;
   padding: 70px 12px 10px 12px;
+}
+
+.slide-leave-to {
+  opacity: 0.5;
+  transform: translateX(-100%);
+}
+
+.slide-leave-active {
+  transition: opacity 0.7s, transform 0.7s;
 }
 
 .text-bold {
