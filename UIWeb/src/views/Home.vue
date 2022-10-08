@@ -38,7 +38,7 @@ export default {
 
 .bg-color {
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .content {
