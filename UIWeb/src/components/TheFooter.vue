@@ -21,6 +21,7 @@ export default {
 .footer {
   font-family: 'Segoe Print';
   background-color: rgb(121, 122, 122);
+  border-radius: 2px;
   display: flex;
   flex-direction: row;
   justify-content: center;

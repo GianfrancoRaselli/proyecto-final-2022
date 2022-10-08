@@ -25,9 +25,9 @@ export default {
 <style scoped>
 .background {
   position: fixed;
-  top: 65px;
+  top: 0;
   left: 0;
-  height: calc(100vh - 65px);
+  height: 100vh;
   width: 100%;
   background-image: url('../assets/imgs/background.jpg');
   background-repeat: no-repeat;

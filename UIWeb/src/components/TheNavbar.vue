@@ -1,71 +1,73 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <router-link class="navbar-brand mr-3" :to="{ name: 'Home' }" exact>Fund</router-link>
+  <div class="content">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <router-link class="navbar-brand mr-3" :to="{ name: 'Home' }" exact>Fund</router-link>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item mr-1">
-          <router-link class="nav-link" :to="{ name: 'CreateFund' }" exact v-text="createFundMsg" />
-        </li>
-        <li class="nav-item mr-1">
-          <router-link class="nav-link" :to="{ name: 'Funds' }" exact v-text="fundsMsg" />
-        </li>
-        <li class="nav-item mr-1" v-if="isConnected">
-          <router-link class="nav-link" :to="{ name: 'MyFunds' }" exact v-text="myFundsMsg" />
-        </li>
-        <li class="nav-item ml-1">
-          <AppButton classes="btn-light" data-toggle="modal" data-target="#buyFundTokensModal" :text="buyFundTokensMsg" />
-        </li>
-      </ul>
-    </div>
-
-    <div class="navbar--menu ml-auto">
-      <div v-if="hasMetamask">
-        <button class="btn btn-light btn-wallet" data-toggle="modal" data-target="#walletModal" v-if="isConnected">
-          <fa-icon icon="wallet" class="icon mr-2 wallet-icon" size="2x" v-if="isConnectedToTheValidChain"></fa-icon
-          ><fa-icon icon="triangle-exclamation" class="icon mr-2 wallet-icon wallet-warning-icon" size="2x" v-else></fa-icon
-          >{{ splitAddress }}
-        </button>
-
-        <AppButton classes="btn-sm btn-success" :text="connectMetaMaskMsg" v-if="!isConnected" @click="connectToMetamask" />
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item mr-1">
+            <router-link class="nav-link" :to="{ name: 'CreateFund' }" exact v-text="createFundMsg" />
+          </li>
+          <li class="nav-item mr-1">
+            <router-link class="nav-link" :to="{ name: 'Funds' }" exact v-text="fundsMsg" />
+          </li>
+          <li class="nav-item mr-1" v-if="isConnected">
+            <router-link class="nav-link" :to="{ name: 'MyFunds' }" exact v-text="myFundsMsg" />
+          </li>
+          <li class="nav-item ml-1">
+            <AppButton classes="btn-light" data-toggle="modal" data-target="#buyFundTokensModal" :text="buyFundTokensMsg" />
+          </li>
+        </ul>
       </div>
-      <div v-else v-text="installMetaMaskMsg"></div>
 
-      <div class="dropdown ml-3">
-        <fa-icon
-          icon="globe"
-          class="dropdown-toggle icon mr-1"
-          size="1x"
-          type="button"
-          id="dropdownMenuButton"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        ></fa-icon>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-          <div
-            class="dropdown-item dropdown-item--language"
-            v-for="(language, index) in languages"
-            :key="index"
-            @click="changeLanguage(language)"
-          >
-            <span :class="{ 'text-bold': selectedLanguage === language }" v-text="language" />
-            <fa-icon
-              icon="check"
-              class="dropdown-toggle icon mr-1"
-              size="1x"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-              v-if="selectedLanguage === language"
-            ></fa-icon>
+      <div class="navbar--menu ml-auto">
+        <div v-if="hasMetamask">
+          <button class="btn btn-light btn-wallet" data-toggle="modal" data-target="#walletModal" v-if="isConnected">
+            <fa-icon icon="wallet" class="icon mr-2 wallet-icon" size="2x" v-if="isConnectedToTheValidChain"></fa-icon
+            ><fa-icon icon="triangle-exclamation" class="icon mr-2 wallet-icon wallet-warning-icon" size="2x" v-else></fa-icon
+            >{{ splitAddress }}
+          </button>
+
+          <AppButton classes="btn-sm btn-success" :text="connectMetaMaskMsg" v-if="!isConnected" @click="connectToMetamask" />
+        </div>
+        <div v-else v-text="installMetaMaskMsg"></div>
+
+        <div class="dropdown ml-3">
+          <fa-icon
+            icon="globe"
+            class="dropdown-toggle icon mr-1"
+            size="1x"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          ></fa-icon>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+            <div
+              class="dropdown-item dropdown-item--language"
+              v-for="(language, index) in languages"
+              :key="index"
+              @click="changeLanguage(language)"
+            >
+              <span :class="{ 'text-bold': selectedLanguage === language }" v-text="language" />
+              <fa-icon
+                icon="check"
+                class="dropdown-toggle icon mr-1"
+                size="1x"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                v-if="selectedLanguage === language"
+              ></fa-icon>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </div>
 </template>
 
 <script>
@@ -111,6 +113,9 @@ export default {
 <style scoped>
 nav {
   color: white;
+  height: 100%;
+  margin: 0 5px;
+  border-radius: 5px;
 }
 
 .navbar--menu {
