@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="handleSubmit">
-    <div class="mb-4">
+    <div class="mb-4 text-center">
       <span class="h2 text-underline">Create Fund</span>
     </div>
 
@@ -8,85 +8,96 @@
       <fa-icon icon="circle-info" class="icon mr-2" size="2x"></fa-icon><span>Create a new fund costs 1 FundToken</span>
     </div>
 
-    <div class="form-group">
-      <label for="typeInput">Type</label>
-      <select id="typeInput" class="form-control" v-model="data.type" :disabled="loading">
-        <option v-for="(type, i) in types" :key="i" v-text="type.type" :value="type.value" :selected="type.selected"></option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="nameInput">Name</label>
-      <input
-        type="text"
-        class="form-control"
-        :class="{ 'form-control-error': v$.data.name.$errors.length }"
-        id="nameInput"
-        aria-describedby="nameHelp"
-        autofocus
-        v-model="data.name"
-        :disabled="loading"
-      />
-      <small id="nameHelp" class="form-text text-muted"></small>
-      <AppInputErrors :errors="v$.data.name.$errors" />
-    </div>
-
-    <div class="form-group">
-      <label for="descriptionInput">Description</label>
-      <textarea
-        class="form-control"
-        :class="{ 'form-control-error': v$.data.description.$errors.length }"
-        id="descriptionInput"
-        rows="3"
-        aria-describedby="descriptionHelp"
-        v-model="data.description"
-        :disabled="loading"
-      ></textarea>
-      <small id="descriptionHelp" class="form-text text-muted"></small>
-      <AppInputErrors :errors="v$.data.description.$errors" />
-    </div>
-
-    <div class="form-group">
-      <label for="creatorInput">Creator</label>
-      <input
-        type="text"
-        readonly
-        class="form-control-plaintext"
-        id="creatorInput"
-        aria-describedby="creatorHelp"
-        v-model="address"
-        :disabled="loading"
-        v-if="isConnected"
-      />
-      <small id="creatorHelp" class="form-text text-muted" v-else>You are not connected to MetaMask</small>
-    </div>
-
-    <div class="form-group">
-      <div class="custom-control custom-switch">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="addMeAsAManagerInput"
-          v-model="data.addMeAsAManager"
-          :disabled="data.type === 'campaign' || data.type === 'donation' || loading"
-        />
-        <label class="custom-control-label" for="addMeAsAManagerInput">Add me as manager</label>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="typeInput">Type</label>
+          <select id="typeInput" class="form-control" v-model="data.type" :disabled="loading">
+            <option v-for="(type, i) in types" :key="i" v-text="type.type" :value="type.value" :selected="type.selected"></option>
+          </select>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="nameInput">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            :class="{ 'form-control-error': v$.data.name.$errors.length }"
+            id="nameInput"
+            aria-describedby="nameHelp"
+            autofocus
+            v-model="data.name"
+            :disabled="loading"
+          />
+          <small id="nameHelp" class="form-text text-muted"></small>
+          <AppInputErrors :errors="v$.data.name.$errors" />
+        </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="managersInput">Managers</label>
-      <input
-        type="text"
-        class="form-control"
-        :class="{ 'form-control-error': v$.data.managers.$errors.length }"
-        id="managersInput"
-        aria-describedby="managersHelp"
-        v-model="data.managers"
-        :disabled="loading"
-      />
-      <small id="managersHelp" class="form-text text-muted">Add address of other admins separated by comma (,)</small>
-      <AppInputErrors :errors="v$.data.managers.$errors" />
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="descriptionInput">Description</label>
+          <textarea
+            class="form-control"
+            :class="{ 'form-control-error': v$.data.description.$errors.length }"
+            id="descriptionInput"
+            rows="3"
+            aria-describedby="descriptionHelp"
+            v-model="data.description"
+            :disabled="loading"
+          ></textarea>
+          <small id="descriptionHelp" class="form-text text-muted"></small>
+          <AppInputErrors :errors="v$.data.description.$errors" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label v-if="isConnected">Creator:&nbsp;<span v-text="address"></span></label>
+          <small id="creatorHelp" class="form-text text-muted" v-else>You are not connected to MetaMask</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="addMeAsAManagerInput"
+              v-model="data.addMeAsAManager"
+              :disabled="data.type === 'campaign' || data.type === 'donation' || loading"
+            />
+            <label class="custom-control-label" for="addMeAsAManagerInput">Add me as manager</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="managersInput">Managers</label>
+          <input
+            type="text"
+            class="form-control"
+            :class="{ 'form-control-error': v$.data.managers.$errors.length }"
+            id="managersInput"
+            aria-describedby="managersHelp"
+            v-model="data.managers"
+            :disabled="loading"
+          />
+          <small id="managersHelp" class="form-text text-muted">Add address of other admins separated by comma (,)</small>
+          <AppInputErrors :errors="v$.data.managers.$errors" />
+        </div>
+      </div>
     </div>
 
     <div class="form-group">
@@ -158,52 +169,57 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="minimumContributionPercentageRequiredInput">Minimum contribution percentage required</label>
-      <input
-        type="range"
-        class="form-control-range"
-        id="minimumContributionPercentageRequiredInput"
-        v-model="data.minimumContributionPercentageRequired"
-        :disabled="loading"
-      />
-    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="minimumContributionPercentageRequiredInput">Minimum contribution percentage required</label>
+          <input
+            type="range"
+            class="form-control-range"
+            id="minimumContributionPercentageRequiredInput"
+            v-model="data.minimumContributionPercentageRequired"
+            :disabled="loading"
+          />
+        </div>
 
-    <div class="form-group">
-      <input
-        type="number"
-        class="form-control"
-        :class="{ 'form-control-error': v$.data.minimumContributionPercentageRequired.$errors.length }"
-        id="minimumContributionPercentageRequiredInput"
-        aria-describedby="minimumContributionPercentageRequiredHelp"
-        v-model="data.minimumContributionPercentageRequired"
-        :disabled="loading"
-      />
-      <AppInputErrors :errors="v$.data.minimumContributionPercentageRequired.$errors" />
-    </div>
+        <div class="form-group">
+          <input
+            type="number"
+            class="form-control"
+            :class="{ 'form-control-error': v$.data.minimumContributionPercentageRequired.$errors.length }"
+            id="minimumContributionPercentageRequiredInput"
+            aria-describedby="minimumContributionPercentageRequiredHelp"
+            v-model="data.minimumContributionPercentageRequired"
+            :disabled="loading"
+          />
+          <AppInputErrors :errors="v$.data.minimumContributionPercentageRequired.$errors" />
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="minimumApprovalsPercentageRequiredInput">Minimum approvals percentage required</label>
+          <input
+            type="range"
+            class="form-control-range"
+            id="minimumApprovalsPercentageRequiredInput"
+            v-model="data.minimumApprovalsPercentageRequired"
+            :disabled="loading"
+          />
+        </div>
 
-    <div class="form-group">
-      <label for="minimumApprovalsPercentageRequiredInput">Minimum approvals percentage required</label>
-      <input
-        type="range"
-        class="form-control-range"
-        id="minimumApprovalsPercentageRequiredInput"
-        v-model="data.minimumApprovalsPercentageRequired"
-        :disabled="loading"
-      />
-    </div>
-
-    <div class="form-group">
-      <input
-        type="number"
-        class="form-control"
-        :class="{ 'form-control-error': v$.data.minimumApprovalsPercentageRequired.$errors.length }"
-        id="minimumApprovalsPercentageRequiredInput"
-        aria-describedby="minimumApprovalsPercentageRequiredHelp"
-        v-model="data.minimumApprovalsPercentageRequired"
-        :disabled="loading"
-      />
-      <AppInputErrors :errors="v$.data.minimumApprovalsPercentageRequired.$errors" />
+        <div class="form-group">
+          <input
+            type="number"
+            class="form-control"
+            :class="{ 'form-control-error': v$.data.minimumApprovalsPercentageRequired.$errors.length }"
+            id="minimumApprovalsPercentageRequiredInput"
+            aria-describedby="minimumApprovalsPercentageRequiredHelp"
+            v-model="data.minimumApprovalsPercentageRequired"
+            :disabled="loading"
+          />
+          <AppInputErrors :errors="v$.data.minimumApprovalsPercentageRequired.$errors" />
+        </div>
+      </div>
     </div>
 
     <button type="submit" class="btn btn-primary" v-if="!loading">Create</button>
