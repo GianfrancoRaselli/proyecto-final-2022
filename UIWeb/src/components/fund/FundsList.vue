@@ -5,19 +5,17 @@
       <!--<AppProgress :progress="progress" />-->
     </div>
     <div v-else>
-      <div class="searches" v-if="allFunds.length > 0">
+      <div class="searches" v-if="funds.length > 0">
         <div class="date">
-          <DatePicker :value="date" lang="en" @selected="updateDate" class="datepicker"> </DatePicker>
+          <DatePicker :value="date" lang="en" @selected="updateDate" class="datepicker" />
           <fa-icon icon="xmark" class="icon xmark" size="2x" v-if="date" @click="date = null"></fa-icon>
         </div>
+        <div>
+          <input type="checkbox" class="form-check-input" id="onlyShowMyFunds" v-model="onlyShowMyFunds" />
+          <label class="form-check-label" for="onlyShowMyFunds">Only show my funds</label>
+        </div>
         <form class="form-inline">
-          <input
-            class="form-control form-control-lg mr-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            v-model="search"
-          />
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" v-model="search" />
         </form>
       </div>
       <hr />
@@ -42,17 +40,12 @@ import FundCard from '@/components/fund/FundCard';
 import { mapState } from 'vuex';
 import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event, isTheSameDate } from '@/helpers/helpers';
-import AppSpinner from '../global/AppSpinner.vue';
 
 export default {
   name: 'FundsListComponent',
   components: {
     DatePicker,
     FundCard,
-    AppSpinner,
-  },
-  props: {
-    fundsType: { type: String, default: 'allFunds' },
   },
   data() {
     return {
@@ -60,7 +53,8 @@ export default {
       progress: 0,
       search: '',
       date: null,
-      allFunds: [],
+      onlyShowMyFunds: false,
+      funds: [],
       newFundSubscription: null,
     };
   },
@@ -68,9 +62,9 @@ export default {
     ...mapState({ address: (state) => state.connection.address }),
 
     fundsToShow() {
-      let fundsToShow = this.allFunds.slice();
+      let fundsToShow = this.funds.slice();
 
-      if (this.fundsType === 'myFunds')
+      if (this.onlyShowMyFunds)
         fundsToShow = fundsToShow.filter((fund) => fund._creator.toLowerCase() === this.address.toLowerCase());
 
       if (this.date)
@@ -84,6 +78,7 @@ export default {
           .replace(/[\u0300-\u036f]/g, '');
         fundsToShow = fundsToShow.filter(
           (fund) =>
+            fund._address.toLowerCase() === search ||
             fund._creator.toLowerCase() === search ||
             fund._name
               .trim()
@@ -113,7 +108,7 @@ export default {
 
       const fundsAddress = await call('FundFactory', 'getDeployedFunds');
       const totalFunds = fundsAddress.length;
-      this.allFunds = Array(totalFunds);
+      this.funds = Array(totalFunds);
 
       let callsResolved = 0;
       await Promise.all(
@@ -121,7 +116,7 @@ export default {
           .fill()
           .map((element, index) => {
             return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, (res) => {
-              this.allFunds[index] = res;
+              this.funds[index] = res;
 
               callsResolved++;
               this.progress = Math.round((callsResolved / totalFunds) * 100);
@@ -148,8 +143,8 @@ export default {
         createdAt: _createdAt,
       } = ev.returnValues;
 
-      if (this.allFunds.findIndex((fund) => fund._address === _address) < 0) {
-        this.allFunds.push({ _address, _name, _description, _creator, _createdAt });
+      if (this.funds.findIndex((fund) => fund._address === _address) < 0) {
+        this.funds.push({ _address, _name, _description, _creator, _createdAt });
       }
     });
   },

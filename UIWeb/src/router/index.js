@@ -23,14 +23,6 @@ const routes = [
     component: () => import('@/views/Funds'),
   },
   {
-    path: '/myFunds',
-    name: 'MyFunds',
-    component: () => import('@/views/MyFunds'),
-    meta: {
-      connected: true,
-    },
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/views/NotFound'),
