@@ -1,49 +1,78 @@
 <template>
   <div>
-    <AppSpinner v-if="loading" class="mb-2" />
-    <div v-else class="col-sm-12 col-lg-10 m-auto py-4 px-5 data-box">
-      <div class="fund-info">
-        <p class="h2 text-underline text-bold text-center mb-3" v-text="fund._name" />
-        <p><strong>Fund address:</strong>&nbsp;<span v-text="fundAddress" /></p>
-        <p><strong>Current balance:</strong>&nbsp;<AppShowAmount :amount="balanceInEth" singular="ETH" /></p>
-        <p v-if="fund._description"><strong>Description:</strong>&nbsp;<span v-text="fund._description" /></p>
-        <p><strong>Creator:</strong>&nbsp;<span v-text="creatorAddress" /></p>
-        <p><strong>Created at:</strong>&nbsp;<AppDate :date="createdAt" /></p>
-        <p><strong>Managers can be added or removed:</strong>&nbsp;<AppBadge :check="fund._managersCanBeAddedOrRemoved" /></p>
-        <p><strong>Total contributions:</strong>&nbsp;<AppShowAmount :amount="totalContributionsInEth" singular="ETH" /></p>
+    <div class="loading mb-2" v-if="loading">
+      <AppSpinner class="spinner" size="big" />
+    </div>
+    <div class="card" v-else>
+      <div class="card-header text-center" v-text="fund._name" />
+      <div class="card-body">
+        <p class="card-text text-center" v-text="fund._description" />
+        <p class="card-text"><span class="text-bold">Fund address</span>:&nbsp;{{ fundAddress }}</p>
+        <p class="card-text">
+          <span class="text-bold">Current balance</span>:&nbsp;<AppShowAmount :amount="balanceInEth" singular="ETH" />
+        </p>
+        <p class="card-text"><span class="text-bold">Creator</span>:&nbsp;{{ creatorAddress }}</p>
         <p>
-          <strong>Managers can transfer money without a request:</strong>&nbsp;<AppBadge
+          <span class="text-bold">Managers can be added or removed</span>:&nbsp;<AppBadge
+            :check="fund._managersCanBeAddedOrRemoved"
+          />
+        </p>
+        <p>
+          <span class="text-bold">Total contributions:</span>:&nbsp;<AppShowAmount
+            :amount="totalContributionsInEth"
+            singular="ETH"
+          />
+        </p>
+        <p>
+          <span class="text-bold">Managers can transfer money without a request</span>&nbsp;<AppBadge
             :check="fund._managersCanTransferMoneyWithoutARequest"
           />
         </p>
-        <p><strong>Requests can be created:</strong>&nbsp;<AppBadge :check="fund._requestsCanBeCreated" /></p>
-        <p><strong>Only managers can create a request:</strong>&nbsp;<AppBadge :check="fund._onlyManagersCanCreateARequest" /></p>
+        <p><span class="text-bold">Requests can be created:</span>:&nbsp;<AppBadge :check="fund._requestsCanBeCreated" /></p>
         <p>
-          <strong>Only contributors can approve a request:</strong>&nbsp;<AppBadge
+          <span class="text-bold">Only managers can create a request</span>:&nbsp;<AppBadge
+            :check="fund._onlyManagersCanCreateARequest"
+          />
+        </p>
+        <p>
+          <span class="text-bold">Only contributors can approve a request</span>:&nbsp;<AppBadge
             :check="fund._onlyContributorsCanApproveARequest"
           />
         </p>
         <p>
-          <strong>Minimum contribution percentage required:</strong>&nbsp;<span
+          <span class="text-bold">Minimum contribution percentage required</span>:&nbsp;<span
             v-text="fund._minimumContributionPercentageRequired + '%'"
           />
         </p>
         <p>
-          <strong>Minimum approvals percentage required:</strong>&nbsp;<span
+          <span class="text-bold">Minimum approvals percentage required</span>:&nbsp;<span
             v-text="fund._minimumApprovalsPercentageRequired + '%'"
           />
         </p>
-      </div>
-
-      <div class="buttons row mt-2">
-        <div class="col-md-6 my-1">
-          <button class="btn btn-light btn-block">Editar</button>
+        <hr />
+        <div class="buttons">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#managersModal">
+            <fa-icon icon="person" class="icon mr-2" />Managers
+          </button>
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#contributeModal">
+            <fa-icon icon="circle-dollar-to-slot" class="icon mr-2" />Contribute
+          </button>
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#transferModal">
+            <fa-icon icon="money-bill-transfer" class="icon mr-2" />Transfer
+          </button>
+          <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#requestsModal">
+            <fa-icon icon="list-check" class="icon mr-2" />Requests
+          </button>
         </div>
-        <div class="col-md-6 my-1">
-          <button class="btn btn-light btn-block">Cambiar Clave</button>
-        </div>
       </div>
+      <div class="card-footer text-muted text-center"><AppDate :date="createdAt" /></div>
     </div>
+
+    <!-- modals -->
+    <ManagersModal />
+    <ContributeModal />
+    <TransferModal />
+    <RequestsModal />
   </div>
 </template>
 
@@ -52,8 +81,20 @@ import Web3 from 'web3';
 import { getSplitAddress, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call } from '@/helpers/helpers';
 
+// modals
+import ManagersModal from '@/components/fund/modals/ManagersModal.vue';
+import ContributeModal from '@/components/fund/modals/ContributeModal.vue';
+import TransferModal from '@/components/fund/modals/TransferModal.vue';
+import RequestsModal from '@/components/fund/modals/RequestsModal.vue';
+
 export default {
   name: 'FundView',
+  components: {
+    ManagersModal,
+    ContributeModal,
+    TransferModal,
+    RequestsModal,
+  },
   data() {
     return {
       loading: true,
@@ -106,12 +147,28 @@ export default {
 </script>
 
 <style scoped>
-.data-box {
-  background-color: rgb(144, 149, 154);
-  border: 1px rgb(48, 47, 47) solid;
-  border-radius: 5px;
+.loading {
+  position: fixed;
+  top: 25vh;
+  left: 0;
+  width: 100%;
+}
+
+.spinner {
+  margin: auto;
+}
+
+.card {
+  margin: 10px 40px 20px 40px;
+}
+
+.buttons {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.btn {
+  margin: 0 2px;
 }
 </style>

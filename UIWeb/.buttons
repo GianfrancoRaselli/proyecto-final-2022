@@ -1,0 +1,11 @@
+managers
+  addNewManagers
+  removeManager
+contribute
+  contribute
+  contributeFor
+transfer
+requests
+  createRequest
+  approveRequest
+  finalizeRequest

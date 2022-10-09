@@ -14,6 +14,10 @@ import {
   faCircleXmark,
   faXmark,
   faArrowRight,
+  faPerson,
+  faCircleDollarToSlot,
+  faMoneyBillTransfer,
+  faListCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faGlobe);
@@ -29,6 +33,10 @@ library.add(faCircleCheck);
 library.add(faCircleXmark);
 library.add(faXmark);
 library.add(faArrowRight);
+library.add(faPerson);
+library.add(faCircleDollarToSlot);
+library.add(faMoneyBillTransfer);
+library.add(faListCheck);
 
 export default (app) => {
   app.component('fa-icon', FontAwesomeIcon);

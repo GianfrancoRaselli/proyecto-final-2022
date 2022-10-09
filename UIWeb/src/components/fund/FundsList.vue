@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div v-if="loading" class="loading">
+    <div class="loading" v-if="loading">
       <AppSpinner class="spinner" size="big" />
       <!--<AppProgress :progress="progress" />-->
     </div>
