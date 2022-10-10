@@ -29,11 +29,18 @@ export default {
   left: 0;
   height: 100vh;
   width: 100%;
-  background-image: url('../assets/imgs/background.jpg');
+  background-image: url('@/assets/imgs/background-lg.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;
   background-attachment: fixed;
+}
+
+@media (max-width: 720px) {
+  .background {
+    background-image: url('@/assets/imgs/background-sm.jpg');
+    background-position: top;
+  }
 }
 
 .bg-color {
@@ -48,6 +55,12 @@ export default {
   flex-direction: column;
   justify-content: end;
   align-items: center;
+}
+
+@media (max-width: 1200px) {
+  .content {
+    padding-bottom: 30px;
+  }
 }
 
 .btn {

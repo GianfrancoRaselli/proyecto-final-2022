@@ -12,9 +12,8 @@
         <div class="modal-body">
           <div class="mb-2" v-if="address">
             <small>
-              <span class="h6 font-weight-bolder">
-                My balance:&nbsp;<AppShowAmount :amount="fundTokensBalance" singular="FundToken" plural="FundTokens" />
-              </span>
+              <span class="h6 font-weight-bolder"> My balance:&nbsp;</span>
+              <span><AppShowAmount :amount="fundTokensBalance" singular="FundToken" plural="FundTokens" /></span>
             </small>
           </div>
 
@@ -28,6 +27,8 @@
               </span>
             </small>
           </div>
+
+          <hr/>
 
           <form @submit.prevent="handleSubmit" class="mt-3">
             <div class="form-group">

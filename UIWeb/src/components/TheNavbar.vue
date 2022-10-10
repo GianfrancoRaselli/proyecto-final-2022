@@ -1,7 +1,9 @@
 <template>
   <div class="content">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <router-link class="navbar-brand mr-3" :to="{ name: 'Home' }" exact>Fund</router-link>
+      <router-link class="navbar-brand mr-3" :to="{ name: 'Home' }" exact
+        >Fund<!--<img class="brand-logo" src="@/assets/imgs/fund.jpg" />--></router-link
+      >
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
@@ -112,6 +114,12 @@ nav {
   color: white;
   height: 100%;
   margin: 0 5px;
+  border-radius: 5px;
+}
+
+.brand-logo {
+  height: calc(var(--navbar-height) - 5px);
+  width: auto;
   border-radius: 5px;
 }
 

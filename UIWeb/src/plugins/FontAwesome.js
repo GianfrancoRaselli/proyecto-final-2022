@@ -18,6 +18,7 @@ import {
   faCircleDollarToSlot,
   faMoneyBillTransfer,
   faListCheck,
+  faRotate,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faGlobe);
@@ -37,6 +38,7 @@ library.add(faPerson);
 library.add(faCircleDollarToSlot);
 library.add(faMoneyBillTransfer);
 library.add(faListCheck);
+library.add(faRotate);
 
 export default (app) => {
   app.component('fa-icon', FontAwesomeIcon);

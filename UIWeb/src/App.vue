@@ -68,7 +68,8 @@ body {
 }
 
 .header__navbar {
-  height: 65px;
+  --navbar-height: 65px;
+  height: var(--navbar-height);
   width: 100%;
   position: fixed;
   top: 0;

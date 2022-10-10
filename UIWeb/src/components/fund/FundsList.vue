@@ -1,24 +1,24 @@
 <template>
   <div class="content">
+    <div class="searches">
+      <div class="date m-2">
+        <DatePicker :value="date" lang="en" @selected="updateDate" class="datepicker" />
+        <fa-icon icon="xmark" class="icon xmark" size="2x" v-if="date" @click="date = null"></fa-icon>
+      </div>
+      <div class="show-my-funds m-2 ml-4">
+        <input type="checkbox" class="form-check-input" id="onlyShowMyFunds" v-model="onlyShowMyFunds" />
+        <label class="form-check-label" for="onlyShowMyFunds">Only show my funds</label>
+      </div>
+      <form class="form-inline form-search m-2">
+        <input class="form-control" type="search" placeholder="Search" aria-label="Search" v-model="search" />
+      </form>
+    </div>
+    <hr />
     <div class="loading" v-if="loading">
-      <AppSpinner class="spinner" size="big" />
+      <AppSpinner class="spinner" />
       <!--<AppProgress :progress="progress" />-->
     </div>
     <div v-else>
-      <div class="searches" v-if="funds.length > 0">
-        <div class="date">
-          <DatePicker :value="date" lang="en" @selected="updateDate" class="datepicker" />
-          <fa-icon icon="xmark" class="icon xmark" size="2x" v-if="date" @click="date = null"></fa-icon>
-        </div>
-        <div>
-          <input type="checkbox" class="form-check-input" id="onlyShowMyFunds" v-model="onlyShowMyFunds" />
-          <label class="form-check-label" for="onlyShowMyFunds">Only show my funds</label>
-        </div>
-        <form class="form-inline">
-          <input class="form-control" type="search" placeholder="Search" aria-label="Search" v-model="search" />
-        </form>
-      </div>
-      <hr />
       <AppAlert msg="No funds" v-if="fundsToShow.length === 0" />
       <div class="row" v-else>
         <div
@@ -30,6 +30,9 @@
           <FundCard class="fund-card" :fund="fund" />
         </div>
       </div>
+      <div class="refresh mt-3">
+        <AppButton classes="btn-outline-primary btn-sm" text="Refresh" icon="rotate" @click="updateFunds" />
+      </div>
     </div>
   </div>
 </template>
@@ -39,13 +42,15 @@ import DatePicker from 'vuejs3-datepicker';
 import FundCard from '@/components/fund/FundCard';
 import { mapState } from 'vuex';
 import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
-import { call, event, isTheSameDate } from '@/helpers/helpers';
+import { call, isTheSameDate } from '@/helpers/helpers';
+import AppButton from '../global/AppButton.vue';
 
 export default {
   name: 'FundsListComponent',
   components: {
     DatePicker,
     FundCard,
+    AppButton,
   },
   data() {
     return {
@@ -131,22 +136,13 @@ export default {
     redirect(fundAddress) {
       this.$router.push({ name: 'Fund', params: { fundAddress } });
     },
+
+    async updateFunds() {
+      await this.searchFunds();
+    },
   },
   async created() {
     await this.searchFunds();
-    this.newFundSubscription = await event('FundFactory', 'NewFund', undefined, (err, ev) => {
-      const {
-        fundAddress: _address,
-        name: _name,
-        description: _description,
-        creator: _creator,
-        createdAt: _createdAt,
-      } = ev.returnValues;
-
-      if (this.funds.findIndex((fund) => fund._address === _address) < 0) {
-        this.funds.push({ _address, _name, _description, _creator, _createdAt });
-      }
-    });
   },
   unmounted() {
     if (this.newFundSubscription) this.newFundSubscription.unsubscribe();
@@ -155,22 +151,20 @@ export default {
 </script>
 
 <style scoped>
-.loading {
-  position: fixed;
-  top: 25vh;
-  left: 0;
-  width: 100%;
-}
-
-.spinner {
-  margin: auto;
-}
-
 .searches {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
+}
+
+.show-my-funds {
+  user-select: none;
+}
+
+.form-search {
+  float: right;
 }
 
 .date {
@@ -192,6 +186,12 @@ export default {
   padding: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+}
+
+.refresh {
+  display: flex;
+  flex-direction: row;
   justify-content: center;
 }
 </style>

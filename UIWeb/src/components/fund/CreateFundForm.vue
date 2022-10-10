@@ -9,7 +9,7 @@
     </div>
 
     <div class="row">
-      <div class="col">
+      <div class="col-lg-6">
         <div class="form-group">
           <label for="typeInput">Type</label>
           <select id="typeInput" class="form-control" v-model="data.type" :disabled="loading">
@@ -17,7 +17,7 @@
           </select>
         </div>
       </div>
-      <div class="col">
+      <div class="col-lg-6">
         <div class="form-group">
           <label for="nameInput">Name</label>
           <input
@@ -170,7 +170,7 @@
     </div>
 
     <div class="row">
-      <div class="col">
+      <div class="col-lg-6">
         <div class="form-group">
           <label for="minimumContributionPercentageRequiredInput">Minimum contribution percentage required</label>
           <input
@@ -195,7 +195,7 @@
           <AppInputErrors :errors="v$.data.minimumContributionPercentageRequired.$errors" />
         </div>
       </div>
-      <div class="col">
+      <div class="col-lg-6">
         <div class="form-group">
           <label for="minimumApprovalsPercentageRequiredInput">Minimum approvals percentage required</label>
           <input
