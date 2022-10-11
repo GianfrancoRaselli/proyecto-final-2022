@@ -96,7 +96,14 @@ contract Fund is ReentrancyGuard {
     name = _name;
     description = _description;
     creator = _creator;
-    managers = _managers;
+    for (uint256 i; i < _managers.length; ) {
+      managers.push(_managers[i]);
+      isManager[_managers[i]] = true;
+
+      unchecked {
+        i++;
+      }
+    }
     managersCanBeAddedOrRemoved = _managersCanBeAddedOrRemoved;
     managersCanTransferMoneyWithoutARequest = _managersCanTransferMoneyWithoutARequest;
     requestsCanBeCreated = _requestsCanBeCreated;
