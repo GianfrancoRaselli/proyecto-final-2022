@@ -23,6 +23,7 @@ import {
   faList,
   faMoneyBill,
   faTrash,
+  faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faGlobe);
@@ -47,6 +48,7 @@ library.add(faPlus);
 library.add(faList);
 library.add(faMoneyBill);
 library.add(faTrash);
+library.add(faArrowLeft);
 
 export default (app) => {
   app.component('fa-icon', FontAwesomeIcon);

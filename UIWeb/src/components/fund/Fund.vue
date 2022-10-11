@@ -99,7 +99,7 @@ import { getSplitAddress, fromUnixTimestampToDate } from 'web3-simple-helpers/me
 import { call } from '@/helpers/helpers';
 
 // modals
-import ManagersModal from '@/components/fund/modals/ManagersModal.vue';
+import ManagersModal from '@/components/fund/modals/manager/ManagersModal.vue';
 import ContributeModal from '@/components/fund/modals/ContributeModal.vue';
 import TransferModal from '@/components/fund/modals/TransferModal.vue';
 import RequestsModal from '@/components/fund/modals/RequestsModal.vue';
