@@ -7,18 +7,18 @@
       <div class="card-header text-center">
         <span v-text="fund._name" />
         <div class="fund-info">
-        <span
-          class="badge badge-pill badge-primary my-fund-info mb-1"
-          v-if="address.toLowerCase() === fund._creator.toLowerCase()"
-          >My fund</span
-        >
-        <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
-      </div>
+          <span
+            class="badge badge-pill badge-primary my-fund-info mb-1"
+            v-if="address.toLowerCase() === fund._creator.toLowerCase()"
+            >My fund</span
+          >
+          <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
+        </div>
       </div>
       <div class="card-body">
-        <div class="body-header">
-          <img class="img mr-5" src="../../assets/imgs/fund.jpg" />
-          <div class="w-100" v-if="fund._description">
+        <div class="body-header px-3">
+          <img class="img" src="../../assets/imgs/fund.png" />
+          <div class="w-100 ml-5" v-if="fund._description">
             <span v-text="fund._description" />
           </div>
         </div>
@@ -255,7 +255,7 @@ export default {
 .img {
   height: 200px;
   width: 200px;
-  border-radius: 100px;
+  border-radius: 85px;
 }
 
 .information-text {
