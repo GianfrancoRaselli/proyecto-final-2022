@@ -2,8 +2,8 @@
   <div class="background">
     <div class="bg-color">
       <div class="content">
-        <router-link :to="{ name: 'Funds', params: { animation: 'slide' } }">
-          <button class="btn btn-primary">
+        <router-link class="btn-discover-link" :to="{ name: 'Funds', params: { animation: 'slide' } }">
+          <button class="btn btn-primary btn-discover">
             <span>Discover funds</span><fa-icon icon="arrow-right" class="img-icon ml-3"></fa-icon>
           </button>
         </router-link>
@@ -63,13 +63,27 @@ export default {
   }
 }
 
-.btn {
+@media (max-width: 992px) {
+  .content {
+    padding-top: 150px;
+    padding-bottom: 0;
+    justify-content: start;
+  }
+}
+
+.btn-discover {
   font-family: 'Garamond', 'serif';
   font-size: 22px;
   padding: 12px 25px;
   border-radius: 100px;
   animation-duration: 1s;
   animation-name: bounce;
+}
+
+@media (max-width: 720px) {
+  .btn-discover-link {
+    display: none;
+  }
 }
 
 @keyframes bounce {

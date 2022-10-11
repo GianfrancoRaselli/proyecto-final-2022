@@ -1,24 +1,28 @@
 <template>
-  <div class="page-content">
-    <header class="page-content__header">
+  <div>
+    <header class="header">
       <TheNavbar class="header__navbar" />
+      <TheMobileNavbar class="header__mobile-navbar" />
       <WalletModal />
       <BuyFundTokensModal />
     </header>
-    <main class="page-content__main">
-      <router-view v-slot="{ Component, route }">
-        <transition :name="route.params.animation || ''" mode="out-in">
-          <component :is="Component" :key="`${route.path}${JSON.stringify(route.query)}`" />
-        </transition>
-      </router-view>
-      <AppNotifications />
-    </main>
-    <TheFooter class="page-content__footer" />
+    <div class="page-content">
+      <main class="page-content__main">
+        <router-view v-slot="{ Component, route }">
+          <transition :name="route.params.animation || ''" mode="out-in">
+            <component :is="Component" :key="`${route.path}${JSON.stringify(route.query)}`" />
+          </transition>
+        </router-view>
+        <AppNotifications />
+      </main>
+      <TheFooter class="page-content__footer" />
+    </div>
   </div>
 </template>
 
 <script>
-import TheNavbar from '@/components/TheNavbar';
+import TheNavbar from '@/components/navbar/TheNavbar';
+import TheMobileNavbar from '@/components/navbar/TheMobileNavbar';
 import WalletModal from '@/components/modals/WalletModal';
 import BuyFundTokensModal from '@/components/modals/BuyFundTokensModal';
 import AppNotifications from '@/components/global/AppNotifications';
@@ -30,6 +34,7 @@ export default {
   name: 'App',
   components: {
     TheNavbar,
+    TheMobileNavbar,
     WalletModal,
     BuyFundTokensModal,
     AppNotifications,
@@ -53,22 +58,16 @@ export default {
 body {
   font-family: 'Roboto', monospace;
   margin: 0;
+
+  --navbar-height: 65px;
+  --mobile-navbar-height: 60px;
 }
 
-.page-content {
-  min-width: 100vh;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.page-content__header {
+.header {
   user-select: none;
 }
 
 .header__navbar {
-  --navbar-height: 65px;
   height: var(--navbar-height);
   width: 100%;
   position: fixed;
@@ -77,19 +76,43 @@ body {
   z-index: 101;
 }
 
+.header__mobile-navbar {
+  height: var(--mobile-navbar-height);
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 101;
+}
+
+.page-content {
+  min-width: 100vh;
+  min-height: 100vh;
+  padding-top: var(--navbar-height);
+  padding-bottom: var(--mobile-navbar-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (min-width: 992px) {
+  .page-content {
+    padding-bottom: 0;
+  }
+}
+
 .page-content__main {
   width: 100%;
   flex-basis: 100%;
   max-width: 1000px;
   margin: auto;
-  padding: 80px 12px 15px 12px;
+  padding: 15px 12px;
 }
 
 .page-content__footer {
   min-height: 60px;
   height: 60px;
   width: 100%;
-  bottom: 0;
   justify-self: flex-end;
 }
 
