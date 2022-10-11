@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <router-link class="navbar-brand mr-3" :to="{ name: 'Home' }" exact
         >Fund<!--<img class="brand-logo" src="@/assets/imgs/fund.jpg" />--></router-link
       >

@@ -53,7 +53,7 @@ nav {
   width: 100%;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   nav {
     display: none;
   }
