@@ -18,7 +18,7 @@ async function getContract(contract, provider = 'infura') {
   
   return {
     provider:
-      provider === 'matamask' && store.state.connection.provider
+      provider === 'metamask' && store.state.connection.provider
         ? store.state.connection.provider
         : store.state.connection.infuraProvider,
     abi: (await import('../assets/abis/' + contract.name)).default,

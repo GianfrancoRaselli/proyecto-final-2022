@@ -221,7 +221,7 @@ export default {
   width: 100%;
 }
 
-.spinner {
+.loading .spinner {
   margin: auto;
 }
 

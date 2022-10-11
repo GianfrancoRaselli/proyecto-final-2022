@@ -105,7 +105,8 @@ body {
   width: 100%;
   flex-basis: 100%;
   max-width: 1000px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 15px 12px;
 }
 

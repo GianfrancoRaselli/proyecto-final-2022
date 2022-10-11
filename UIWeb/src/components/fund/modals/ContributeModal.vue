@@ -17,6 +17,9 @@
 <script>
 export default {
   name: 'ContributeModalComponent',
+  props: {
+    fund: { type: Object, require: true },
+  },
   data() {
     return {};
   },

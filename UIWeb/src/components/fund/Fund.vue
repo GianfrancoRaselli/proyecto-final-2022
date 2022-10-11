@@ -85,10 +85,10 @@
     </div>
 
     <!-- modals -->
-    <ManagersModal />
-    <ContributeModal />
-    <TransferModal />
-    <RequestsModal />
+    <ManagersModal :fund="fund" />
+    <ContributeModal :fund="fund" />
+    <TransferModal :fund="fund" />
+    <RequestsModal :fund="fund" />
   </div>
 </template>
 
