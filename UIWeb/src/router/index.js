@@ -3,28 +3,28 @@ import store from '@/store';
 
 const routes = [
   {
-    path: '/',
     name: 'Home',
+    path: '/',
     component: () => import('@/views/Home'),
   },
   {
-    path: '/createFund',
     name: 'CreateFund',
+    path: '/createFund',
     component: () => import('@/views/CreateFund'),
   },
   {
-    path: '/fund/:fundAddress',
-    name: 'Fund',
-    component: () => import('@/views/Fund'),
-  },
-  {
-    path: '/funds',
     name: 'Funds',
+    path: '/funds',
     component: () => import('@/views/Funds'),
   },
   {
-    path: '/:pathMatch(.*)*',
+    name: 'Fund',
+    path: '/fund/:fundAddress',
+    component: () => import('@/views/Fund'),
+  },
+  {
     name: 'NotFound',
+    path: '/:pathMatch(.*)*',
     component: () => import('@/views/NotFound'),
   },
 ];

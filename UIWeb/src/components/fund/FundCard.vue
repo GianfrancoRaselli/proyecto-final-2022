@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="card-body">
-      <p class="card-text" v-text="fund._description" />
+      <p class="card-text" v-text="fund._description" v-if="fund._description" />
       <p class="card-text"><span class="text-bold">Creator</span>: {{ splitAddress }}</p>
     </div>
     <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
@@ -115,5 +115,11 @@ export default {
 
 .my-fund-info {
   width: fit-content;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>

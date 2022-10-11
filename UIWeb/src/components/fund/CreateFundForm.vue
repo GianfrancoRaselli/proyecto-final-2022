@@ -436,7 +436,7 @@ export default {
             message: 'Fund deployed to: ' + getSplitAddress(tx.events.NewFund.returnValues.fundAddress),
             type: 'success',
           });
-          this.$router.push({ name: 'MyFunds' });
+          //this.$router.push({ name: 'Fund' });
           this.data = {
             type: '',
             name: '',
