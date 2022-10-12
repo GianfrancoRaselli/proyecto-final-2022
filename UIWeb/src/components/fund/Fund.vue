@@ -93,10 +93,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import Web3 from 'web3';
+import { mapState } from 'vuex';
 import { getSplitAddress, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
-import { call } from '@/helpers/helpers';
+import { call, event } from '@/helpers/helpers';
 
 // modals
 import ManagersModal from '@/components/fund/modals/manager/ManagersModal.vue';
@@ -131,6 +131,7 @@ export default {
         _minimumContributionPercentageRequired: 0,
         _minimumApprovalsPercentageRequired: 0,
       },
+      contributeSubscription: null,
     };
   },
   computed: {
@@ -200,6 +201,17 @@ export default {
     this.loading = true;
     this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
     this.loading = false;
+    this.contributeSubscription = await event(
+      { name: 'Fund', address: this.$route.params.fundAddress },
+      'Contribute',
+      undefined,
+      async () => {
+        this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
+      },
+    );
+  },
+  unmounted() {
+    if (this.contributeSubscription) this.contributeSubscription.unsubscribe();
   },
 };
 </script>

@@ -72,7 +72,7 @@ export default {
           else {
             let validation = false;
 
-            const addresses = this.newManagers.split(',');
+            const addresses = value.split(',');
             addresses.forEach((address) => {
               if (Web3.utils.isAddress(address.trim())) return (validation = true);
             });
@@ -86,7 +86,7 @@ export default {
           else {
             let validation = true;
 
-            const addresses = this.newManagers.split(',');
+            const addresses = value.split(',');
             addresses.forEach((address) => {
               if (!Web3.utils.isAddress(address.trim())) return (validation = false);
             });
@@ -100,7 +100,7 @@ export default {
           else {
             let validation = true;
 
-            const addresses = this.newManagers.split(',');
+            const addresses = value.split(',');
             addresses.forEach((address) => {
               if (address.trim().toLowerCase() === this.address.toLowerCase()) return (validation = false);
             });
@@ -114,7 +114,7 @@ export default {
           else {
             let validation = true;
 
-            const addresses = this.newManagers.split(',');
+            const addresses = value.split(',');
             addresses.forEach((address1) => {
               if (Web3.utils.isAddress(address1.trim())) {
                 if (address1.trim().toLowerCase() !== this.address.toLowerCase()) {
@@ -136,7 +136,7 @@ export default {
           else {
             let validation = true;
 
-            const addresses = this.newManagers.split(',');
+            const addresses = value.split(',');
             addresses.forEach((address1) => {
               if (Web3.utils.isAddress(address1.trim())) {
                 if (address1.trim().toLowerCase() !== this.address.toLowerCase()) {
@@ -168,11 +168,11 @@ export default {
             true,
             'Add new managers to ' + this.fund._name,
           );
+          this.managers.concat(this.getArrayOfManagers());
           addNotification({
             message: 'New managers added to ' + this.fund._name,
             type: 'success',
           });
-          this.managers.concat(this.getArrayOfManagers());
           this.goBack();
           this.newManagers = '';
         } finally {
@@ -195,7 +195,6 @@ export default {
       $('#managersModal').modal('show');
     },
   },
-  async created() {},
 };
 </script>
 

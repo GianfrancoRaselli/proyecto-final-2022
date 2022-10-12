@@ -343,7 +343,7 @@ export default {
             else {
               let validation = true;
 
-              const addresses = this.data.managers.split(',');
+              const addresses = value.split(',');
               addresses.forEach((address) => {
                 if (!Web3.utils.isAddress(address.trim())) return (validation = false);
               });
@@ -357,7 +357,7 @@ export default {
             else {
               let validation = true;
 
-              const addresses = this.data.managers.split(',');
+              const addresses = value.split(',');
               addresses.forEach((address) => {
                 if (address.trim().toLowerCase() === this.address.toLowerCase()) return (validation = false);
               });
@@ -371,7 +371,7 @@ export default {
             else {
               let validation = true;
 
-              const addresses = this.data.managers.split(',');
+              const addresses = value.split(',');
               addresses.forEach((address1) => {
                 if (Web3.utils.isAddress(address1.trim())) {
                   if (address1.trim().toLowerCase() !== this.address.toLowerCase()) {

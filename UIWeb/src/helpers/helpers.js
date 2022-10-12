@@ -1,3 +1,4 @@
+const BigNumber = require('bignumber.js');
 import store from '@/store';
 import { convertEthPrice } from 'web3-simple-helpers/methods/general';
 import connect from 'web3-simple-helpers/methods/connect';
@@ -15,7 +16,7 @@ async function getContract(contract, provider = 'infura') {
 
   if (contract === 'FundFactory') return store.state.connection.infuraFundFactory;
   if (contract === 'FundToken') return new store.state.connection.infuraWeb3.eth.Contract(fundTokenABI, fundTokenAddress);
-  
+
   return {
     provider:
       provider === 'metamask' && store.state.connection.provider
@@ -70,7 +71,9 @@ const transaction = async (contract, method, params = [], options, showContractE
         if (
           !options ||
           !options.value ||
-          options.value <= (await store.state.connection.web3.eth.getBalance(store.state.connection.address))
+          BigNumber(options.value).isLessThanOrEqualTo(
+            BigNumber(await store.state.connection.web3.eth.getBalance(store.state.connection.address)),
+          )
         ) {
           const tx = connect.transaction(
             await getContract(contract, 'metamask'),
