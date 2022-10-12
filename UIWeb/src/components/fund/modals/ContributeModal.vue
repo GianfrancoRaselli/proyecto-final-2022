@@ -69,6 +69,7 @@
 <script>
 import Web3 from 'web3';
 import { mapState } from 'vuex';
+import { getSplitAddress } from 'web3-simple-helpers/methods/general';
 import { transaction, validateForm } from '@/helpers/helpers';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, numeric } from '@vuelidate/validators';
@@ -133,7 +134,7 @@ export default {
             true,
             'Contribute ' + this.contribution + ' ' + this.contributionUnit + ' to ' + this.fund._name + this.contributor !==
               this.address
-              ? ' for ' + this.contributor
+              ? ' for ' + getSplitAddress(this.contributor)
               : '',
           );
           // eslint-disable-next-line vue/no-mutating-props

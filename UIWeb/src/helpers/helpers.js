@@ -1,4 +1,4 @@
-const BigNumber = require('bignumber.js');
+import BigNumber from 'bignumber.js';
 import store from '@/store';
 import { convertEthPrice } from 'web3-simple-helpers/methods/general';
 import connect from 'web3-simple-helpers/methods/connect';

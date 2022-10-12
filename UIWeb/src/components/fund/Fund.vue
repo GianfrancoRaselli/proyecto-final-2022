@@ -132,6 +132,7 @@ export default {
         _minimumApprovalsPercentageRequired: 0,
       },
       contributeSubscription: null,
+      transferSubscription: null,
     };
   },
   computed: {
@@ -209,9 +210,18 @@ export default {
         this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
       },
     );
+    this.transferSubscription = await event(
+      { name: 'Fund', address: this.$route.params.fundAddress },
+      'Transfer',
+      undefined,
+      async () => {
+        this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
+      },
+    );
   },
   unmounted() {
     if (this.contributeSubscription) this.contributeSubscription.unsubscribe();
+    if (this.transferSubscription) this.transferSubscription.unsubscribe();
   },
 };
 </script>
