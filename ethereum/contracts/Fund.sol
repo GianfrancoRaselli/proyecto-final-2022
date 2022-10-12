@@ -280,6 +280,7 @@ contract Fund is ReentrancyGuard {
       string memory _description,
       address _creator,
       uint256 _createdAt,
+      address[] memory _managers,
       bool _managersCanBeAddedOrRemoved,
       uint256 _totalContributions,
       bool _managersCanTransferMoneyWithoutARequest,
@@ -291,11 +292,12 @@ contract Fund is ReentrancyGuard {
     )
   {
     _address = address(this);
-    _balance = address(this).balance;
+    _balance = balance();
     _name = name;
     _description = description;
     _creator = creator;
     _createdAt = createdAt;
+    _managers = managers;
     _managersCanBeAddedOrRemoved = managersCanBeAddedOrRemoved;
     _totalContributions = totalContributions;
     _managersCanTransferMoneyWithoutARequest = managersCanTransferMoneyWithoutARequest;

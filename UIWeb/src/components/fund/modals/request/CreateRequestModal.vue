@@ -1,9 +1,9 @@
 <template>
-  <div class="modal fade" id="addManagersModal" tabindex="-1" aria-labelledby="addManagersModalLabel" aria-hidden="true">
+  <div class="modal fade" id="createRequestModal" tabindex="-1" aria-labelledby="createRequestModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="addManagersModalLabel">Add managers</h4>
+          <h4 class="modal-title" id="createRequestModalLabel">Create request</h4>
           <fa-icon icon="arrow-left" class="icon" @click="goBack" />
         </div>
         <div class="modal-body">
@@ -23,10 +23,10 @@
               <AppInputErrors :errors="v$.newManagers.$errors" />
             </div>
 
-            <button type="submit" class="btn btn-primary" v-if="!loading">Add managers</button>
+            <button type="submit" class="btn btn-primary" v-if="!loading">Create</button>
             <button class="btn btn-primary" type="button" disabled v-if="loading">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Adding...
+              Loading...
             </button>
           </form>
         </div>
@@ -45,12 +45,13 @@ import { helpers } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
 
 export default {
-  name: 'AddManagersModalComponent',
+  name: 'CreateRequestModalComponent',
   setup() {
     return { v$: useVuelidate() };
   },
   props: {
     fund: { type: Object, require: true },
+    managers: { type: Array, require: true },
   },
   data() {
     return {
@@ -140,7 +141,7 @@ export default {
               if (Web3.utils.isAddress(address1.trim())) {
                 if (address1.trim().toLowerCase() !== this.address.toLowerCase()) {
                   let count = 0;
-                  this.fund._managers.forEach((address2) => {
+                  this.managers.forEach((address2) => {
                     if (address1.trim().toLowerCase() === address2.trim().toLowerCase()) count++;
                   });
                   if (count >= 1) return (validation = false);
@@ -167,7 +168,7 @@ export default {
             true,
             'Add new managers to ' + this.fund._name,
           );
-          this.fund._managers.concat(this.getArrayOfManagers());
+          this.managers.concat(this.getArrayOfManagers());
           addNotification({
             message: 'New managers added to ' + this.fund._name,
             type: 'success',

@@ -73,7 +73,13 @@
           <button type="button" class="btn btn-success" data-toggle="modal" data-target="#contributeModal">
             <fa-icon icon="circle-dollar-to-slot" class="icon mr-2" />Contribute
           </button>
-          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#transferModal">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-toggle="modal"
+            data-target="#transferModal"
+            v-if="fund._managersCanTransferMoneyWithoutARequest && isManager"
+          >
             <fa-icon icon="money-bill-transfer" class="icon mr-2" />Transfer
           </button>
           <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#requestsModal">
@@ -85,10 +91,10 @@
     </div>
 
     <!-- modals -->
-    <ManagersModal :fund="fund" />
+    <ManagersModal :fund="fund" :isManager="isManager" />
     <ContributeModal :fund="fund" />
-    <TransferModal :fund="fund" />
-    <RequestsModal :fund="fund" />
+    <TransferModal :fund="fund" v-if="fund._managersCanTransferMoneyWithoutARequest && isManager" />
+    <RequestsModal :fund="fund" :isManager="isManager" />
   </div>
 </template>
 
@@ -102,7 +108,7 @@ import { call, event } from '@/helpers/helpers';
 import ManagersModal from '@/components/fund/modals/manager/ManagersModal.vue';
 import ContributeModal from '@/components/fund/modals/ContributeModal.vue';
 import TransferModal from '@/components/fund/modals/TransferModal.vue';
-import RequestsModal from '@/components/fund/modals/RequestsModal.vue';
+import RequestsModal from '@/components/fund/modals/request/RequestsModal.vue';
 
 export default {
   name: 'FundComponent',
@@ -122,23 +128,35 @@ export default {
         _description: '',
         _creator: '',
         _createdAt: 0,
+        _managers: [],
         _managersCanBeAddedOrRemoved: false,
         _totalContributions: 0,
         _managersCanTransferMoneyWithoutARequest: false,
+        _requests: [],
         _requestsCanBeCreated: false,
         _onlyManagersCanCreateARequest: false,
         _onlyContributorsCanApproveARequest: false,
         _minimumContributionPercentageRequired: 0,
         _minimumApprovalsPercentageRequired: 0,
       },
+      newManagerSubscription: null,
+      removeManagerSubscription: null,
       contributeSubscription: null,
       transferSubscription: null,
+      newRequestSubscription: null,
+      approveRequestSubscription: null,
+      finalizeRequestSubscription: null,
     };
   },
   computed: {
     ...mapState({
       address: (state) => state.connection.address,
     }),
+
+    isManager() {
+      if (this.fund._managers.findIndex((manager) => manager.toLowerCase() === this.address.toLowerCase()) >= 0) return true;
+      return false;
+    },
 
     fundType() {
       if (
@@ -199,15 +217,68 @@ export default {
   },
   methods: {},
   async created() {
+    const getNewSearchRequestsPromise = () => {
+      return new Promise((resolve) => {
+        const searchRequests = async () => {
+          const totalRequests = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requestsCount');
+          const requests = Array(totalRequests);
+
+          await Promise.all(
+            Array(totalRequests)
+              .fill()
+              .map((element, index) => {
+                return call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requests', [index], {}, (res) => {
+                  requests[index] = res;
+                });
+              }),
+          );
+
+          this.fund._requests = requests;
+          resolve();
+        };
+        searchRequests();
+      });
+    };
+
     this.loading = true;
-    this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
+    await Promise.all([
+      call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary', [], {}, (res) => {
+        this.fund = res;
+      }),
+      getNewSearchRequestsPromise(),
+    ]);
     this.loading = false;
+
+    // subscriptions
+    this.newManagerSubscription = await event(
+      { name: 'Fund', address: this.$route.params.fundAddress },
+      'NewManager',
+      undefined,
+      async () => {
+        this.fund._managers = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getManagers');
+      },
+    );
+    this.removeManagerSubscription = await event(
+      { name: 'Fund', address: this.$route.params.fundAddress },
+      'RemoveManager',
+      undefined,
+      async () => {
+        this.fund._managers = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getManagers');
+      },
+    );
     this.contributeSubscription = await event(
       { name: 'Fund', address: this.$route.params.fundAddress },
       'Contribute',
       undefined,
       async () => {
-        this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
+        await Promise.all([
+          call({ name: 'Fund', address: this.$route.params.fundAddress }, 'totalContributions', [], {}, (res) => {
+            this.fund._totalContributions = res;
+          }),
+          call({ name: 'Fund', address: this.$route.params.fundAddress }, 'balance', [], {}, (res) => {
+            this.fund._balance = res;
+          }),
+        ]);
       },
     );
     this.transferSubscription = await event(
@@ -215,13 +286,42 @@ export default {
       'Transfer',
       undefined,
       async () => {
-        this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
+        this.fund._balance = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'balance');
+      },
+    );
+    this.transferSubscription = await event(
+      { name: 'Fund', address: this.$route.params.fundAddress },
+      'NewRequest',
+      undefined,
+      () => {
+        getNewSearchRequestsPromise();
+      },
+    );
+    this.transferSubscription = await event(
+      { name: 'Fund', address: this.$route.params.fundAddress },
+      'ApproveRequest',
+      undefined,
+      () => {
+        getNewSearchRequestsPromise();
+      },
+    );
+    this.transferSubscription = await event(
+      { name: 'Fund', address: this.$route.params.fundAddress },
+      'FinalizeRequest',
+      undefined,
+      () => {
+        getNewSearchRequestsPromise();
       },
     );
   },
   unmounted() {
+    if (this.newManagerSubscription) this.newManagerSubscription.unsubscribe();
+    if (this.removeManagerSubscription) this.removeManagerSubscription.unsubscribe();
     if (this.contributeSubscription) this.contributeSubscription.unsubscribe();
     if (this.transferSubscription) this.transferSubscription.unsubscribe();
+    if (this.newRequestSubscription) this.newRequestSubscription.unsubscribe();
+    if (this.approveRequestSubscription) this.approveRequestSubscription.unsubscribe();
+    if (this.finalizeRequestSubscription) this.finalizeRequestSubscription.unsubscribe();
   },
 };
 </script>

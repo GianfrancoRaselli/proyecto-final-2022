@@ -1,25 +1,31 @@
 <template>
   <div>
-    <div class="modal fade" id="managersModal" tabindex="-1" aria-labelledby="managersModalLabel" aria-hidden="true">
+    <div class="modal fade" id="requestsModal" tabindex="-1" aria-labelledby="requestsModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="managersModalLabel">Managers</h4>
+            <h4 class="modal-title" id="requestsModalLabel">Requests</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <div class="add-manager" v-if="fund._managersCanBeAddedOrRemoved && isManager">
-              <button type="button" class="btn btn-success btn-sm" @click="addNewManagers">
-                <fa-icon icon="plus" class="icon mr-2" />Add manager
+            <div
+              class="create-request"
+              v-if="
+                fund._requestsCanBeCreated &&
+                (!fund._onlyManagersCanCreateARequest || (fund._onlyManagersCanCreateARequest && isManager))
+              "
+            >
+              <button type="button" class="btn btn-success btn-sm" @click="createNewRequest">
+                <fa-icon icon="plus" class="icon mr-2" />Create request
               </button>
             </div>
-            
-            <div class="managers-list" v-else>
-              <span v-if="fund._managers.length === 0">No managers</span>
+
+            <div class="requests-list" v-else>
+              <span v-if="fund._requests.length === 0">No requests</span>
               <ul class="list-group list-group-flush" v-else>
-                <li class="list-group-item" v-for="(manager, index) in fund._managers" :key="index">
+                <li class="list-group-item" v-for="(request, index) in fund._requests" :key="index">
                   <div class="item-manager">
                     <span v-text="index + 1 + '. ' + getSplitAddress(manager)" />
                     <span class="badge badge-pill badge-primary ml-1" v-if="manager.toLowerCase() === address.toLowerCase()"
@@ -47,7 +53,7 @@
         </div>
       </div>
     </div>
-    <AddManagersModal :fund="fund" />
+    <CreateRequestModal :fund="fund" />
   </div>
 </template>
 
@@ -59,12 +65,12 @@ import { getSplitAddress } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 
 // modals
-import AddManagersModal from '@/components/fund/modals/manager/AddManagersModal.vue';
+import CreateRequestModal from '@/components/fund/modals/request/CreateRequestModal.vue';
 
 export default {
-  name: 'ManagersModalComponent',
+  name: 'RequestsModalComponent',
   components: {
-    AddManagersModal,
+    CreateRequestModal,
   },
   props: {
     fund: { type: Object, require: true },
@@ -83,9 +89,9 @@ export default {
   methods: {
     getSplitAddress,
 
-    addNewManagers() {
-      $('#managersModal').modal('hide');
-      $('#addManagersModal').modal('show');
+    createNewRequest() {
+      $('#requestModal').modal('hide');
+      $('#createRequestModal').modal('show');
     },
 
     async removeManager(manager) {
@@ -94,13 +100,12 @@ export default {
         await transaction(
           { name: 'Fund', address: this.$route.params.fundAddress },
           'removeManager',
-          [this.fund._managers.findIndex((m) => m.toLowerCase() === manager.toLowerCase())],
+          [this.managers.findIndex((m) => m.toLowerCase() === manager.toLowerCase())],
           {},
           true,
           'Remove manager from ' + this.fund._name + ': ' + getSplitAddress(manager),
         );
-        // eslint-disable-next-line vue/no-mutating-props
-        this.fund._managers = this.fund._managers.filter((m) => m.toLowerCase() !== manager.toLowerCase());
+        this.managers = this.managers.filter((m) => m.toLowerCase() !== manager.toLowerCase());
         addNotification({
           message: 'Manager ' + getSplitAddress(manager) + ' removed from ' + this.fund._name,
           type: 'success',
@@ -120,7 +125,7 @@ export default {
 </script>
 
 <style scoped>
-.add-manager {
+.create-request {
   display: flex;
   flex-direction: row;
   justify-content: start;
