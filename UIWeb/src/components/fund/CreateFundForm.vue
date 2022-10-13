@@ -400,7 +400,7 @@ export default {
           return true;
         } else {
           addNotification({
-            message: 'You need to have 1 FundToken to create a new fund',
+            message: 'Buy 1 FundToken to create a new fund',
             type: 'error',
           });
           return false;

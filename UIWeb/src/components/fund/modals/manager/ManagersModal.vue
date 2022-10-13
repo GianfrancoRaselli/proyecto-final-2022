@@ -15,9 +15,9 @@
                 <fa-icon icon="plus" class="icon mr-2" />Add manager
               </button>
             </div>
-            
+
             <div class="managers-list mt-2">
-              <div class="no-managers" v-if="fund._managers.length === 0">No managers</div>
+              <div class="no-managers" v-if="fund._managers && fund._managers.length === 0">No managers</div>
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(manager, index) in fund._managers" :key="index">
                   <div class="item-manager">

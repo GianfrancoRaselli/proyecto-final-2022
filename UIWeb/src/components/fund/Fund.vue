@@ -33,11 +33,19 @@
             :check="fund._managersCanBeAddedOrRemoved"
           />
         </p>
-        <p>
+        <p class="align-items">
           <span class="text-bold">Total contributions</span>:&nbsp;<AppShowAmount
             :amount="totalContributionsInEth"
             singular="ETH"
           />
+          <button
+            type="button"
+            class="btn btn-link btn-show-contributors ml-1"
+            data-toggle="modal"
+            data-target="#contributorsModal"
+          >
+            Show contributors
+          </button>
         </p>
         <p>
           <span class="text-bold">Managers can transfer money without a request</span>:&nbsp;<AppBadge
@@ -218,7 +226,56 @@ export default {
   },
   methods: {},
   async created() {
-    const getNewSearchRequestsPromise = () => {
+    const getSearchSummaryPromise = () => {
+      return new Promise((resolve) => {
+        const searchSummary = async () => {
+          this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
+          await getSearchContributorsPromise(this.fund._contributors);
+          resolve();
+        };
+        searchSummary();
+      });
+    };
+
+    const getSearchContributorsPromise = (fundContributors) => {
+      return new Promise((resolve) => {
+        const searchContributors = async () => {
+          if (!fundContributors)
+            fundContributors = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getContributors');
+
+          let contributors = [];
+
+          if (fundContributors.length > 0) {
+            contributors = Array(fundContributors.length);
+
+            await Promise.all(
+              Array(fundContributors.length)
+                .fill()
+                .map((element, index) => {
+                  return call(
+                    { name: 'Fund', address: this.$route.params.fundAddress },
+                    'contributions',
+                    [fundContributors[index]],
+                    {},
+                    (res) => {
+                      contributors[index] = {
+                        contributor: fundContributors[index],
+                        contribution: res,
+                      };
+                    },
+                  );
+                }),
+            );
+          }
+
+          this.fund._contributors = contributors;
+          resolve();
+        };
+        searchContributors();
+      });
+    };
+
+    const getSearchRequestsPromise = () => {
       return new Promise((resolve) => {
         const searchRequests = async () => {
           const totalRequests = parseInt(await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requestsCount'));
@@ -247,12 +304,7 @@ export default {
 
     // load fund info
     this.loading = true;
-    await Promise.all([
-      call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary', [], {}, (res) => {
-        this.fund = res;
-      }),
-      getNewSearchRequestsPromise(),
-    ]);
+    await Promise.all([getSearchSummaryPromise(), getSearchRequestsPromise()]);
     this.loading = false;
 
     // subscriptions
@@ -278,9 +330,7 @@ export default {
       undefined,
       async () => {
         await Promise.all([
-          call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getContributors', [], {}, (res) => {
-            this.fund._contributors = res;
-          }),
+          getSearchContributorsPromise(),
           call({ name: 'Fund', address: this.$route.params.fundAddress }, 'totalContributions', [], {}, (res) => {
             this.fund._totalContributions = res;
           }),
@@ -303,7 +353,7 @@ export default {
       'NewRequest',
       undefined,
       () => {
-        getNewSearchRequestsPromise();
+        getSearchRequestsPromise();
       },
     );
     this.approveRequestSubscription = await event(
@@ -311,7 +361,7 @@ export default {
       'ApproveRequest',
       undefined,
       () => {
-        getNewSearchRequestsPromise();
+        getSearchRequestsPromise();
       },
     );
     this.finalizeRequestSubscription = await event(
@@ -319,7 +369,7 @@ export default {
       'FinalizeRequest',
       undefined,
       () => {
-        getNewSearchRequestsPromise();
+        getSearchRequestsPromise();
       },
     );
   },
@@ -396,13 +446,27 @@ export default {
   border-radius: 5px;
 }
 
+.align-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.btn-show-contributors {
+  font-size: 0.9rem;
+}
+
+.btn-show-contributors:focus {
+  box-shadow: none;
+}
+
 .buttons {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.btn {
+.buttons .btn {
   margin: 0 2px;
 }
 </style>

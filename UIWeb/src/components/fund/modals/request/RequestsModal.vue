@@ -64,7 +64,7 @@
                         singular="ETH"
                       />
                     </div>
-                    <div v-if="!request.complete">
+                    <div class="align-text" v-if="!request.complete">
                       <span class="text-bold">Approvals</span>:&nbsp;<span
                         v-text="
                           request.approvalsCount +
@@ -80,10 +80,11 @@
                           ' needed'
                         "
                       ></span>
+                      <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(index)">Approved</span>
                     </div>
                   </div>
                   <div class="item-element item-buttons px-3" v-if="!request.complete">
-                    <div class="buttons-item my-2">
+                    <div class="buttons-item my-2" v-if="!requestApproved(index)">
                       <button
                         type="button"
                         class="btn btn-primary btn-sm"
@@ -137,7 +138,7 @@
 import $ from 'jquery';
 import Web3 from 'web3';
 import { mapState } from 'vuex';
-import { transaction } from '@/helpers/helpers';
+import { transaction, call, event } from '@/helpers/helpers';
 import { getSplitAddress } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 
@@ -155,8 +156,10 @@ export default {
   },
   data() {
     return {
+      requestsApproved: [],
       approvingRequests: [],
       finalizingRequests: [],
+      approveRequestSubscription: null,
     };
   },
   computed: {
@@ -188,30 +191,63 @@ export default {
       return parseFloat(Web3.utils.fromWei(value.toString(), 'ether'));
     },
 
+    requestApproved(index) {
+      return this.requestsApproved[index];
+    },
+
     createNewRequest() {
       $('#requestsModal').modal('hide');
       $('#createRequestModal').modal('show');
     },
 
     async approveRequest(index) {
-      try {
-        this.approvingRequests.push(index);
-        await transaction(
-          { name: 'Fund', address: this.$route.params.fundAddress },
-          'approveRequest',
-          [index],
-          {},
-          true,
-          'Approve request ' + (index + 1) + ' of ' + this.fund._name,
-        );
-        // eslint-disable-next-line vue/no-mutating-props
-        this.fund._requests[index].approvalsCount += 1;
+      if (
+        this.fund._minimumContributionPercentageRequired === 0 ||
+        (!this.fund._onlyContributorsCanApproveARequest && this.isManager) ||
+        (this.fund._totalContributions > 0 &&
+          ((this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase())
+            ? this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase()).contribution
+            : 0) /
+            this.fund._totalContributions) *
+            100 >=
+            this.fund._minimumContributionPercentageRequired)
+      ) {
+        try {
+          this.approvingRequests.push(index);
+          await transaction(
+            { name: 'Fund', address: this.$route.params.fundAddress },
+            'approveRequest',
+            [index],
+            {},
+            true,
+            'Approve request ' + (index + 1) + ' of ' + this.fund._name,
+          );
+          this.requestsApproved[index] = true;
+          // eslint-disable-next-line vue/no-mutating-props
+          this.fund._requests[index].approvalsCount += 1;
+          addNotification({
+            message: 'Request ' + (index + 1) + ' approved',
+            type: 'success',
+          });
+        } finally {
+          this.approvingRequests = this.approvingRequests.filter((i) => i !== index);
+        }
+      } else {
         addNotification({
-          message: 'Request ' + (index + 1) + ' approved',
-          type: 'success',
+          message:
+            'You have contributed ' +
+            (this.fund._totalContributions > 0
+              ? ((this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase())
+                  ? this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase()).contribution
+                  : 0) /
+                  this.fund._totalContributions) *
+                100
+              : 0) +
+            '% of the ' +
+            this.fund._minimumContributionPercentageRequired +
+            '% required to approve the request',
+          type: 'error',
         });
-      } finally {
-        this.approvingRequests = this.approvingRequests.filter((i) => i !== index);
       }
     },
 
@@ -252,7 +288,47 @@ export default {
       return false;
     },
   },
-  async created() {},
+  async created() {
+    const searchRequestsApproved = async () => {
+      const totalRequests = parseInt(await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requestsCount'));
+      let requestsApproved = [];
+
+      if (totalRequests > 0) {
+        requestsApproved = Array(totalRequests);
+
+        await Promise.all(
+          Array(totalRequests)
+            .fill()
+            .map((element, index) => {
+              return call(
+                { name: 'Fund', address: this.$route.params.fundAddress },
+                'getRequestApproval',
+                [index, this.address],
+                {},
+                (res) => {
+                  requestsApproved[index] = res;
+                },
+              );
+            }),
+        );
+      }
+
+      this.requestsApproved = requestsApproved;
+    };
+    await searchRequestsApproved();
+
+    this.approveRequestSubscription = await event(
+      { name: 'Fund', address: this.$route.params.fundAddress },
+      'AproveRequest',
+      undefined,
+      () => {
+        searchRequestsApproved();
+      },
+    );
+  },
+  unmounted() {
+    if (this.approveRequestSubscription) this.approveRequestSubscription.unsubscribe();
+  },
 };
 </script>
 

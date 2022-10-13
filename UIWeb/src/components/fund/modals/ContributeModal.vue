@@ -146,6 +146,9 @@ export default {
           // eslint-disable-next-line vue/no-mutating-props
           this.fund._totalContributions +=
             this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution.toString(), 'ether');
+          // eslint-disable-next-line vue/no-mutating-props
+          this.fund._balance +=
+            this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution.toString(), 'ether');
           addNotification({
             message: 'Contributed ' + this.contribution + ' ' + this.contributionUnit,
             type: 'success',
