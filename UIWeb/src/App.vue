@@ -86,7 +86,6 @@ body {
 }
 
 .page-content {
-  min-width: 100vh;
   min-height: 100vh;
   padding-top: var(--navbar-height);
   padding-bottom: var(--mobile-navbar-height);
@@ -95,7 +94,7 @@ body {
   justify-content: space-between;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .page-content {
     padding-bottom: 0;
   }
