@@ -92,7 +92,7 @@ describe('Fund contract', function() {
       expect(await fund.address).to.not.equal(null || undefined);
       expect(await fund.address).to.equal(await fundFactory.deployedFunds(0));
       expect(await fund.balance()).to.equal(0);
-    });z
+    });
   });
 
   describe('Campaign fund', function() {

@@ -221,17 +221,21 @@ export default {
       return new Promise((resolve) => {
         const searchRequests = async () => {
           const totalRequests = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requestsCount');
-          const requests = Array(totalRequests);
+          let requests = [];
 
-          await Promise.all(
-            Array(totalRequests)
-              .fill()
-              .map((element, index) => {
-                return call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requests', [index], {}, (res) => {
-                  requests[index] = res;
-                });
-              }),
-          );
+          if (totalRequests > 0) {
+            requests = Array(totalRequests);
+
+            await Promise.all(
+              Array(totalRequests)
+                .fill()
+                .map((element, index) => {
+                  return call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requests', [index], {}, (res) => {
+                    requests[index] = res;
+                  });
+                }),
+            );
+          }
 
           this.fund._requests = requests;
           resolve();
@@ -240,6 +244,7 @@ export default {
       });
     };
 
+    // load fund info
     this.loading = true;
     await Promise.all([
       call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary', [], {}, (res) => {

@@ -22,7 +22,7 @@
               </button>
             </div>
 
-            <div class="requests-list" v-else>
+            <div class="requests-list">
               <span v-if="fund._requests.length === 0">No requests</span>
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(request, index) in fund._requests" :key="index">

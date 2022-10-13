@@ -177,17 +177,21 @@ export default {
     async searchFundsToAdd() {
       const fundsAddress = await call('FundFactory', 'getDeployedFunds');
       const totalFunds = fundsAddress.length;
-      const funds = Array(totalFunds);
+      let funds = [];
 
-      await Promise.all(
-        Array(totalFunds)
-          .fill()
-          .map((element, index) => {
-            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, (res) => {
-              funds[index] = res;
-            });
-          }),
-      );
+      if (totalFunds > 0) {
+        funds = Array(totalFunds);
+
+        await Promise.all(
+          Array(totalFunds)
+            .fill()
+            .map((element, index) => {
+              return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, (res) => {
+                funds[index] = res;
+              });
+            }),
+        );
+      }
 
       this.fundsToAdd = funds;
     },

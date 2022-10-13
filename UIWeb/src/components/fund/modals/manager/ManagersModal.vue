@@ -16,7 +16,7 @@
               </button>
             </div>
             
-            <div class="managers-list" v-else>
+            <div class="managers-list">
               <span v-if="fund._managers.length === 0">No managers</span>
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(manager, index) in fund._managers" :key="index">
