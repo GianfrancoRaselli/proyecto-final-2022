@@ -290,27 +290,29 @@ export default {
   },
   async created() {
     const searchRequestsApproved = async () => {
-      const totalRequests = parseInt(await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requestsCount'));
       let requestsApproved = [];
 
-      if (totalRequests > 0) {
-        requestsApproved = Array(totalRequests);
+      if (this.address) {
+        const totalRequests = parseInt(await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requestsCount'));
+        if (totalRequests > 0) {
+          requestsApproved = Array(totalRequests);
 
-        await Promise.all(
-          Array(totalRequests)
-            .fill()
-            .map((element, index) => {
-              return call(
-                { name: 'Fund', address: this.$route.params.fundAddress },
-                'getRequestApproval',
-                [index, this.address],
-                {},
-                (res) => {
-                  requestsApproved[index] = res;
-                },
-              );
-            }),
-        );
+          await Promise.all(
+            Array(totalRequests)
+              .fill()
+              .map((element, index) => {
+                return call(
+                  { name: 'Fund', address: this.$route.params.fundAddress },
+                  'getRequestApproval',
+                  [index, this.address],
+                  {},
+                  (res) => {
+                    requestsApproved[index] = res;
+                  },
+                );
+              }),
+          );
+        }
       }
 
       this.requestsApproved = requestsApproved;
@@ -319,7 +321,7 @@ export default {
 
     this.approveRequestSubscription = await event(
       { name: 'Fund', address: this.$route.params.fundAddress },
-      'AproveRequest',
+      'ApproveRequest',
       undefined,
       () => {
         searchRequestsApproved();

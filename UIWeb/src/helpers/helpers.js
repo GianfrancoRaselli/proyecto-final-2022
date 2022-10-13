@@ -95,19 +95,19 @@ const transaction = async (contract, method, params = [], options, showContractE
         }
       } else {
         addNotification({
-          message: 'You have to be connected to ' + store.getters.validChainName + ' to send a transaction',
+          message: 'Connect to ' + store.getters.validChainName + ' to send a transaction',
           type: 'warning',
         });
       }
     } else {
       addNotification({
-        message: 'You have to be connected to MetaMask to send a transaction',
+        message: 'Connect to MetaMask to send a transaction',
         type: 'warning',
       });
     }
   } else {
     addNotification({
-      message: 'You need to install MetaMask to send a transaction',
+      message: 'Install MetaMask to send a transaction',
       type: 'warning',
     });
   }

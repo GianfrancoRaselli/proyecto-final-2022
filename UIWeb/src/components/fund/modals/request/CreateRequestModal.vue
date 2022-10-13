@@ -91,7 +91,6 @@ export default {
   },
   props: {
     fund: { type: Object, require: true },
-    managers: { type: Array, require: true },
   },
   data() {
     return {

@@ -15,7 +15,9 @@
               <li class="list-group-item" v-for="(c, index) in contributorsOrdered" :key="index">
                 <div class="item-address">
                   <span v-text="index + 1 + '. ' + getSplitAddress(c.contributor)" />
-                  <span class="badge badge-pill badge-primary ml-1" v-if="c.contributor.toLowerCase() === address.toLowerCase()"
+                  <span
+                    class="badge badge-pill badge-primary ml-1"
+                    v-if="c.contributor && address && c.contributor.toLowerCase() === address.toLowerCase()"
                     >My address</span
                   >
                 </div>
@@ -49,9 +51,7 @@ export default {
 
     contributorsOrdered() {
       return this.fund._contributors.slice().sort((a, b) => {
-        if (new Date(a.date).getTime() < new Date(b.date).getTime()) return 1;
-        if (new Date(a.date).getTime() > new Date(b.date).getTime()) return -1;
-        return 0;
+        return b.contribution - a.contribution;
       });
     },
   },
@@ -59,7 +59,7 @@ export default {
     getSplitAddress,
 
     contributionInEth(contribution) {
-      return parseFloat(Web3.utils.fromWei(contribution.toString(), 'ether'));
+      return parseFloat(Web3.utils.fromWei(contribution ? contribution.toString() : '0', 'ether'));
     },
   },
   async created() {},

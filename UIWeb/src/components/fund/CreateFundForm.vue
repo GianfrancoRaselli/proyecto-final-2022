@@ -296,7 +296,8 @@ export default {
     ...mapGetters(['isConnected']),
 
     splitAddress() {
-      return getSplitAddress(this.address);
+      if (this.address) return getSplitAddress(this.address);
+      return '';
     },
   },
   watch: {
