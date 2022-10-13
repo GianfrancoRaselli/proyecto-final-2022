@@ -24,7 +24,7 @@
                 />
                 <span class="badge badge-pill badge-primary" v-if="contributor.toLowerCase() === address.toLowerCase()">Me</span>
               </div>
-              <small id="contributorHelp" class="form-text text-muted">Add an address</small>
+              <small id="contributorHelp" class="form-text text-muted">Enter an address</small>
               <AppInputErrors :errors="v$.contributor.$errors" />
             </div>
 
@@ -46,9 +46,9 @@
               </div>
               <div class="col-4">
                 <div class="form-group">
-                  <label for="unitInput">Unit</label>
-                  <select id="unitInput" class="form-control" v-model="contributionUnit" :disabled="loading">
-                    <option v-for="(unit, i) in contributionUnits" :key="i" v-text="unit" :value="unit"></option>
+                  <label for="contributionUnitInput">Unit</label>
+                  <select id="contributionUnitInput" class="form-control" v-model="contributionUnit" :disabled="loading">
+                    <option v-for="(unit, i) in units" :key="i" v-text="unit" :value="unit"></option>
                   </select>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default {
       contributor: '',
       contribution: 0,
       contributionUnit: 'Wei',
-      contributionUnits: ['Wei', 'Ether'],
+      units: ['Wei', 'Ether'],
     };
   },
   computed: {
@@ -125,16 +125,22 @@ export default {
           this.loading = true;
           await transaction(
             { name: 'Fund', address: this.$route.params.fundAddress },
-            this.contributor === this.address ? 'contribute' : 'contributeFor',
-            this.contributor === this.address ? [] : [this.contributor],
+            this.contributor.trim() === this.address ? 'contribute' : 'contributeFor',
+            this.contributor.trim() === this.address ? [] : [this.contributor.trim()],
             {
               value:
                 this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution.toString(), 'ether'),
             },
             true,
-            'Contribute ' + this.contribution + ' ' + this.contributionUnit + ' to ' + this.fund._name + this.contributor !==
+            'Contribute ' +
+              this.contribution +
+              ' ' +
+              this.contributionUnit +
+              ' to ' +
+              this.fund._name +
+              this.contributor.trim() !==
               this.address
-              ? ' for ' + getSplitAddress(this.contributor)
+              ? ' for ' + getSplitAddress(this.contributor.trim())
               : '',
           );
           // eslint-disable-next-line vue/no-mutating-props

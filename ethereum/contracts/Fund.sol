@@ -231,7 +231,7 @@ contract Fund is ReentrancyGuard {
     require(
       (contributions[msg.sender] / totalContributions) * 100 >= minimumContributionPercentageRequired ||
         (!onlyContributorsCanApproveARequest && isManager[msg.sender]),
-      "You can not approve a request"
+      "Do not reach the minimum contribution percentage or you are not a manager"
     );
     require(!request.approvals[msg.sender], "You have already approved this request");
 
@@ -282,6 +282,7 @@ contract Fund is ReentrancyGuard {
       uint256 _createdAt,
       address[] memory _managers,
       bool _managersCanBeAddedOrRemoved,
+      address[] memory _contributors,
       uint256 _totalContributions,
       bool _managersCanTransferMoneyWithoutARequest,
       bool _requestsCanBeCreated,
@@ -299,6 +300,7 @@ contract Fund is ReentrancyGuard {
     _createdAt = createdAt;
     _managers = managers;
     _managersCanBeAddedOrRemoved = managersCanBeAddedOrRemoved;
+    _contributors = contributors;
     _totalContributions = totalContributions;
     _managersCanTransferMoneyWithoutARequest = managersCanTransferMoneyWithoutARequest;
     _requestsCanBeCreated = requestsCanBeCreated;

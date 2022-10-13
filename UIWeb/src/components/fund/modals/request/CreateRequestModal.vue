@@ -9,18 +9,58 @@
         <div class="modal-body">
           <form @submit.prevent="handleSubmit">
             <div class="form-group">
-              <label for="newManagersInput">New managers</label>
+              <label for="descriptionInput">Description</label>
               <input
                 type="text"
                 class="form-control"
-                :class="{ 'form-control-error': v$.newManagers.$errors.length }"
-                id="newManagersInput"
-                aria-describedby="newManagersHelp"
-                v-model="newManagers"
+                :class="{ 'form-control-error': v$.data.description.$errors.length }"
+                id="descriptionInput"
+                aria-describedby="descriptionHelp"
+                v-model="data.description"
                 :disabled="loading"
               />
-              <small id="newManagersHelp" class="form-text text-muted">Add address of admins separated by comma (,)</small>
-              <AppInputErrors :errors="v$.newManagers.$errors" />
+              <AppInputErrors :errors="v$.data.description.$errors" />
+            </div>
+
+            <div class="form-group">
+              <label for="recipientInput">Recipient address</label>
+              <input
+                type="text"
+                class="form-control"
+                :class="{ 'form-control-error': v$.data.recipient.$errors.length }"
+                id="recipientInput"
+                aria-describedby="recipientHelp"
+                v-model="data.recipient"
+                :disabled="loading"
+              />
+              <small id="recipientHelp" class="form-text text-muted">Enter an address</small>
+              <AppInputErrors :errors="v$.data.recipient.$errors" />
+            </div>
+
+            <div class="form-row">
+              <div class="col-8">
+                <div class="form-group">
+                  <label for="valueToTransferInput">Value to transfer</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    :class="{ 'form-control-error': v$.data.valueToTransfer.$errors.length }"
+                    id="valueToTransferInput"
+                    aria-describedby="valueToTransferHelp"
+                    v-model="data.valueToTransfer"
+                    :disabled="loading"
+                  />
+                  <AppInputErrors :errors="v$.data.valueToTransfer.$errors" />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="valueToTransferUnitInput">Unit</label>
+                  <select id="valueToTransferUnitInput" class="form-control" v-model="valueToTransferUnit" :disabled="loading">
+                    <option v-for="(unit, i) in units" :key="i" v-text="unit" :value="unit"></option>
+                  </select>
+                </div>
+              </div>
             </div>
 
             <button type="submit" class="btn btn-primary" v-if="!loading">Create</button>
@@ -41,7 +81,7 @@ import Web3 from 'web3';
 import { mapState } from 'vuex';
 import { transaction, validateForm } from '@/helpers/helpers';
 import { useVuelidate } from '@vuelidate/core';
-import { helpers } from '@vuelidate/validators';
+import { helpers, required, numeric, minLength } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
 
 export default {
@@ -56,7 +96,13 @@ export default {
   data() {
     return {
       loading: false,
-      newManagers: '',
+      data: {
+        description: '',
+        recipient: '',
+        valueToTransfer: 0,
+      },
+      valueToTransferUnit: 'Wei',
+      units: ['Wei', 'Ether'],
     };
   },
   computed: {
@@ -66,92 +112,28 @@ export default {
   },
   validations() {
     return {
-      newManagers: {
-        mustEnterAnAddressAtLeast: helpers.withMessage('Enter an address at least', (value) => {
-          if (!helpers.req(value)) return false;
-          else {
-            let validation = false;
-
-            const addresses = value.split(',');
-            addresses.forEach((address) => {
-              if (Web3.utils.isAddress(address.trim())) return (validation = true);
-            });
-
-            return validation;
-          }
-        }),
-
-        mustBeAddresses: helpers.withMessage('Some value is not a valid address', (value) => {
-          if (!helpers.req(value)) return true;
-          else {
-            let validation = true;
-
-            const addresses = value.split(',');
-            addresses.forEach((address) => {
-              if (!Web3.utils.isAddress(address.trim())) return (validation = false);
-            });
-
-            return validation;
-          }
-        }),
-
-        mustNotBeMyAddress: helpers.withMessage('You can not add your own address', (value) => {
-          if (!helpers.req(value)) return true;
-          else {
-            let validation = true;
-
-            const addresses = value.split(',');
-            addresses.forEach((address) => {
-              if (address.trim().toLowerCase() === this.address.toLowerCase()) return (validation = false);
-            });
-
-            return validation;
-          }
-        }),
-
-        mustNotBeRepeated: helpers.withMessage('Addresses must not be repeated', (value) => {
-          if (!helpers.req(value)) return true;
-          else {
-            let validation = true;
-
-            const addresses = value.split(',');
-            addresses.forEach((address1) => {
-              if (Web3.utils.isAddress(address1.trim())) {
-                if (address1.trim().toLowerCase() !== this.address.toLowerCase()) {
-                  let count = 0;
-                  addresses.forEach((address2) => {
-                    if (address1.trim().toLowerCase() === address2.trim().toLowerCase()) count++;
-                  });
-                  if (count > 1) return (validation = false);
-                }
-              }
-            });
-
-            return validation;
-          }
-        }),
-
-        mustNotBeAddedAlready: helpers.withMessage('Some address is already added as manager', (value) => {
-          if (!helpers.req(value)) return true;
-          else {
-            let validation = true;
-
-            const addresses = value.split(',');
-            addresses.forEach((address1) => {
-              if (Web3.utils.isAddress(address1.trim())) {
-                if (address1.trim().toLowerCase() !== this.address.toLowerCase()) {
-                  let count = 0;
-                  this.managers.forEach((address2) => {
-                    if (address1.trim().toLowerCase() === address2.trim().toLowerCase()) count++;
-                  });
-                  if (count >= 1) return (validation = false);
-                }
-              }
-            });
-
-            return validation;
-          }
-        }),
+      data: {
+        description: {
+          required,
+          minLength: minLength(1),
+        },
+        recipient: {
+          required,
+          mustBeAnAddress: helpers.withMessage('Value is not a valid address', (value) => {
+            return Web3.utils.isAddress(value.trim());
+          }),
+        },
+        valueToTransfer: {
+          required,
+          numeric,
+          minValue: helpers.withMessage('Value must be greater than 0', (value) => {
+            return value > 0;
+          }),
+          weiValue: helpers.withMessage('Value in Wei must be an integer', (value) => {
+            if (this.valueToTransferUnit === 'Wei' && !Number.isInteger(Number(value))) return false;
+            return true;
+          }),
+        },
       },
     };
   },
@@ -162,37 +144,46 @@ export default {
           this.loading = true;
           await transaction(
             { name: 'Fund', address: this.$route.params.fundAddress },
-            'addNewManagers',
-            [this.getArrayOfManagers()],
+            'createRequest',
+            [
+              this.data.description,
+              this.data.recipient.trim(),
+              this.valueToTransferUnit === 'Wei'
+                ? this.data.valueToTransfer
+                : Web3.utils.toWei(this.data.valueToTransfer.toString(), 'ether'),
+            ],
             undefined,
             true,
-            'Add new managers to ' + this.fund._name,
+            'Create request for ' + this.fund._name,
           );
-          this.managers.concat(this.getArrayOfManagers());
+          // eslint-disable-next-line vue/no-mutating-props
+          this.fund._requests.push({
+            description: this.data.description,
+            recipient: this.data.recipient.trim(),
+            valueToTransfer:
+              this.valueToTransferUnit === 'Wei'
+                ? this.data.valueToTransfer
+                : Web3.utils.toWei(this.data.valueToTransfer.toString(), 'ether'),
+          });
           addNotification({
-            message: 'New managers added to ' + this.fund._name,
+            message: 'Request created',
             type: 'success',
           });
           this.goBack();
-          this.newManagers = '';
+          this.data = {
+            description: '',
+            recipient: '',
+            valueToTransfer: 0,
+          };
         } finally {
           this.loading = false;
         }
       }
     },
 
-    getArrayOfManagers() {
-      let managers = [];
-      this.newManagers.split(',').forEach((manager) => {
-        const newManagerAddress = manager.trim();
-        if (Web3.utils.isAddress(newManagerAddress)) managers.push(newManagerAddress);
-      });
-      return managers;
-    },
-
     goBack() {
-      $('#addManagersModal').modal('hide');
-      $('#managersModal').modal('show');
+      $('#createRequestModal').modal('hide');
+      $('#requestsModal').modal('show');
     },
   },
 };

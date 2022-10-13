@@ -34,17 +34,17 @@
           />
         </p>
         <p>
-          <span class="text-bold">Total contributions:</span>:&nbsp;<AppShowAmount
+          <span class="text-bold">Total contributions</span>:&nbsp;<AppShowAmount
             :amount="totalContributionsInEth"
             singular="ETH"
           />
         </p>
         <p>
-          <span class="text-bold">Managers can transfer money without a request</span>&nbsp;<AppBadge
+          <span class="text-bold">Managers can transfer money without a request</span>:&nbsp;<AppBadge
             :check="fund._managersCanTransferMoneyWithoutARequest"
           />
         </p>
-        <p><span class="text-bold">Requests can be created:</span>:&nbsp;<AppBadge :check="fund._requestsCanBeCreated" /></p>
+        <p><span class="text-bold">Requests can be created</span>:&nbsp;<AppBadge :check="fund._requestsCanBeCreated" /></p>
         <p>
           <span class="text-bold">Only managers can create a request</span>:&nbsp;<AppBadge
             :check="fund._onlyManagersCanCreateARequest"
@@ -130,6 +130,7 @@ export default {
         _createdAt: 0,
         _managers: [],
         _managersCanBeAddedOrRemoved: false,
+        _contributors: [],
         _totalContributions: 0,
         _managersCanTransferMoneyWithoutARequest: false,
         _requests: [],
@@ -277,6 +278,9 @@ export default {
       undefined,
       async () => {
         await Promise.all([
+          call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getContributors', [], {}, (res) => {
+            this.fund._contributors = res;
+          }),
           call({ name: 'Fund', address: this.$route.params.fundAddress }, 'totalContributions', [], {}, (res) => {
             this.fund._totalContributions = res;
           }),

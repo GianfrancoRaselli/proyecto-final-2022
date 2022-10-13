@@ -94,7 +94,7 @@
             v-model="data.managers"
             :disabled="loading"
           />
-          <small id="managersHelp" class="form-text text-muted">Add address of other admins separated by comma (,)</small>
+          <small id="managersHelp" class="form-text text-muted">Enter address of other admins separated by comma (,)</small>
           <AppInputErrors :errors="v$.data.managers.$errors" />
         </div>
       </div>

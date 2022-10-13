@@ -31,7 +31,7 @@
                 />
                 <span class="badge badge-pill badge-primary" v-if="receiver.toLowerCase() === address.toLowerCase()">Me</span>
               </div>
-              <small id="receiverHelp" class="form-text text-muted">Add an address</small>
+              <small id="receiverHelp" class="form-text text-muted">Enter an address</small>
               <AppInputErrors :errors="v$.receiver.$errors" />
             </div>
 
@@ -143,10 +143,10 @@ export default {
           await transaction(
             { name: 'Fund', address: this.$route.params.fundAddress },
             'transfer',
-            [this.receiver, this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value.toString(), 'ether')],
+            [this.receiver.trim(), this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value.toString(), 'ether')],
             undefined,
             true,
-            'Transfer ' + this.value + ' ' + this.unit + ' to ' + getSplitAddress(this.receiver),
+            'Transfer ' + this.value + ' ' + this.unit + ' to ' + getSplitAddress(this.receiver.trim()),
           );
           // eslint-disable-next-line vue/no-mutating-props
           this.fund._totalContributions += this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value.toString(), 'ether');

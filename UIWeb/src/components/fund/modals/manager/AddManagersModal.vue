@@ -19,7 +19,7 @@
                 v-model="newManagers"
                 :disabled="loading"
               />
-              <small id="newManagersHelp" class="form-text text-muted">Add address of admins separated by comma (,)</small>
+              <small id="newManagersHelp" class="form-text text-muted">Enter address of admins separated by comma (,)</small>
               <AppInputErrors :errors="v$.newManagers.$errors" />
             </div>
 
@@ -167,6 +167,7 @@ export default {
             true,
             'Add new managers to ' + this.fund._name,
           );
+          // eslint-disable-next-line vue/no-mutating-props
           this.fund._managers.concat(this.getArrayOfManagers());
           addNotification({
             message: 'New managers added to ' + this.fund._name,

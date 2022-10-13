@@ -16,8 +16,8 @@
               </button>
             </div>
             
-            <div class="managers-list">
-              <span v-if="fund._managers.length === 0">No managers</span>
+            <div class="managers-list mt-2">
+              <div class="no-managers" v-if="fund._managers.length === 0">No managers</div>
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(manager, index) in fund._managers" :key="index">
                   <div class="item-manager">
@@ -125,8 +125,12 @@ export default {
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  padding-bottom: 8px;
+  padding-bottom: 10px;
   border-bottom: 1px solid rgb(156, 156, 156);
+}
+
+.no-managers {
+  margin-top: 12px;
 }
 
 .list-group-item {
