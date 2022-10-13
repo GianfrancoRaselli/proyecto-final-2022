@@ -191,8 +191,10 @@ export default {
     },
 
     goBack() {
+      $('#addManagersModal').on('hidden.bs.modal', function () {
+        $('#managersModal').modal('show');
+      });
       $('#addManagersModal').modal('hide');
-      $('#managersModal').modal('show');
     },
   },
 };

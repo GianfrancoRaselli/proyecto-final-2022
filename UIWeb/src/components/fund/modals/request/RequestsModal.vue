@@ -101,7 +101,7 @@
                     <div
                       class="buttons-item my-2"
                       v-if="
-                        request.petitioner === address &&
+                        request.petitioner.toLowerCase() === address.toLowerCase() &&
                         request.approvalsCount >=
                           Math.ceil(
                             fund._onlyContributorsCanApproveARequest
@@ -169,7 +169,14 @@ export default {
       if (request.complete) return 'request-completed';
       if (
         request.approvalsCount >=
-        (this.fund._contributors ? this.fund._contributors.length : 0) * (this.fund._minimumApprovalsPercentageRequired / 100)
+        Math.ceil(
+          this.fund._onlyContributorsCanApproveARequest
+            ? (this.fund._contributors ? this.fund._contributors.length : 0) *
+                (this.fund._minimumApprovalsPercentageRequired / 100)
+            : ((this.fund._contributors ? this.fund._contributors.length : 0) +
+                (this.fund._managers ? this.fund._managers.length : 0)) *
+                (this.fund._minimumApprovalsPercentageRequired / 100),
+        )
       )
         return 'request-approved';
       return 'request-created';
@@ -195,12 +202,12 @@ export default {
           [index],
           {},
           true,
-          'Approve request ' + index + ' of ' + this.fund._name,
+          'Approve request ' + (index + 1) + ' of ' + this.fund._name,
         );
         // eslint-disable-next-line vue/no-mutating-props
         this.fund._requests[index].approvalsCount += 1;
         addNotification({
-          message: 'Request ' + index + ' approved',
+          message: 'Request ' + (index + 1) + ' approved',
           type: 'success',
         });
       } finally {
@@ -217,7 +224,7 @@ export default {
           [index],
           {},
           true,
-          'Finalize request ' + index + ' of ' + this.fund._name,
+          'Finalize request ' + (index + 1) + ' of ' + this.fund._name,
         );
         // eslint-disable-next-line vue/no-mutating-props
         this.fund._requests[index].transferredValue =
@@ -227,7 +234,7 @@ export default {
         // eslint-disable-next-line vue/no-mutating-props
         this.fund._requests[index].complete = true;
         addNotification({
-          message: 'Request ' + index + ' finalized',
+          message: 'Request ' + (index + 1) + ' finalized',
           type: 'success',
         });
       } finally {

@@ -182,8 +182,10 @@ export default {
     },
 
     goBack() {
+      $('#createRequestModal').on('hidden.bs.modal', function () {
+        $('#requestsModal').modal('show');
+      });
       $('#createRequestModal').modal('hide');
-      $('#requestsModal').modal('show');
     },
   },
 };

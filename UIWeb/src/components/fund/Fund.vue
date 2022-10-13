@@ -221,7 +221,7 @@ export default {
     const getNewSearchRequestsPromise = () => {
       return new Promise((resolve) => {
         const searchRequests = async () => {
-          const totalRequests = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requestsCount');
+          const totalRequests = parseInt(await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requestsCount'));
           let requests = [];
 
           if (totalRequests > 0) {
@@ -298,7 +298,7 @@ export default {
         this.fund._balance = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'balance');
       },
     );
-    this.transferSubscription = await event(
+    this.newRequestSubscription = await event(
       { name: 'Fund', address: this.$route.params.fundAddress },
       'NewRequest',
       undefined,
@@ -306,7 +306,7 @@ export default {
         getNewSearchRequestsPromise();
       },
     );
-    this.transferSubscription = await event(
+    this.approveRequestSubscription = await event(
       { name: 'Fund', address: this.$route.params.fundAddress },
       'ApproveRequest',
       undefined,
@@ -314,7 +314,7 @@ export default {
         getNewSearchRequestsPromise();
       },
     );
-    this.transferSubscription = await event(
+    this.finalizeRequestSubscription = await event(
       { name: 'Fund', address: this.$route.params.fundAddress },
       'FinalizeRequest',
       undefined,
