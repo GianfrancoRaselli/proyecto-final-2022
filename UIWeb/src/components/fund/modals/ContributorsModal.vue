@@ -12,13 +12,14 @@
           <div class="contributors-list mt-2">
             <div class="no-contributors" v-if="fund._contributors && fund._contributors.length === 0">No contributors</div>
             <ul class="list-group list-group-flush" v-else>
-              <li class="list-group-item" v-for="(contributor, index) in fund._contributors" :key="index">
-                <div class="item">
-                  <span v-text="index + 1 + '. ' + getSplitAddress(manager)" />
-                  <span class="badge badge-pill badge-primary ml-1" v-if="manager.toLowerCase() === address.toLowerCase()"
+              <li class="list-group-item" v-for="(c, index) in contributorsOrdered" :key="index">
+                <div class="item-address">
+                  <span v-text="index + 1 + '. ' + getSplitAddress(c.contributor)" />
+                  <span class="badge badge-pill badge-primary ml-1" v-if="c.contributor.toLowerCase() === address.toLowerCase()"
                     >My address</span
                   >
                 </div>
+                <div class="item-amount"><AppShowAmount :amount="contributionInEth(c.contribution)" singular="ETH" /></div>
               </li>
             </ul>
           </div>
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import Web3 from 'web3';
 import { mapState } from 'vuex';
 import { getSplitAddress } from 'web3-simple-helpers/methods/general';
 
@@ -36,19 +38,29 @@ export default {
   name: 'ContributorsModalComponent',
   props: {
     fund: { type: Object, require: true },
-    isManager: { type: Boolean, default: false },
   },
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     ...mapState({
       address: (state) => state.connection.address,
     }),
+
+    contributorsOrdered() {
+      return this.fund._contributors.slice().sort((a, b) => {
+        if (new Date(a.date).getTime() < new Date(b.date).getTime()) return 1;
+        if (new Date(a.date).getTime() > new Date(b.date).getTime()) return -1;
+        return 0;
+      });
+    },
   },
   methods: {
     getSplitAddress,
+
+    contributionInEth(contribution) {
+      return parseFloat(Web3.utils.fromWei(contribution.toString(), 'ether'));
+    },
   },
   async created() {},
 };
@@ -62,7 +74,7 @@ export default {
   align-items: center;
 }
 
-.item {
+.item-address {
   display: flex;
   flex-direction: row;
   align-items: center;

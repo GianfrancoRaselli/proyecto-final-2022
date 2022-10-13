@@ -101,6 +101,7 @@
     <!-- modals -->
     <ManagersModal :fund="fund" :isManager="isManager" />
     <ContributeModal :fund="fund" />
+    <ContributorsModal :fund="fund" />
     <TransferModal :fund="fund" v-if="fund._managersCanTransferMoneyWithoutARequest && isManager" />
     <RequestsModal :fund="fund" :isManager="isManager" />
   </div>
@@ -115,6 +116,7 @@ import { call, event } from '@/helpers/helpers';
 // modals
 import ManagersModal from '@/components/fund/modals/manager/ManagersModal.vue';
 import ContributeModal from '@/components/fund/modals/ContributeModal.vue';
+import ContributorsModal from '@/components/fund/modals/ContributorsModal.vue';
 import TransferModal from '@/components/fund/modals/TransferModal.vue';
 import RequestsModal from '@/components/fund/modals/request/RequestsModal.vue';
 
@@ -123,6 +125,7 @@ export default {
   components: {
     ManagersModal,
     ContributeModal,
+    ContributorsModal,
     TransferModal,
     RequestsModal,
   },
