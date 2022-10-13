@@ -202,7 +202,6 @@ export default {
 
     async approveRequest(index) {
       if (
-        this.fund._minimumContributionPercentageRequired === 0 ||
         (!this.fund._onlyContributorsCanApproveARequest && this.isManager) ||
         (this.fund._totalContributions > 0 &&
           ((this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase())
@@ -233,19 +232,21 @@ export default {
           this.approvingRequests = this.approvingRequests.filter((i) => i !== index);
         }
       } else {
-        addNotification({
-          message:
+        let message = 'You have not contributed to the fund yet';
+        if (this.fund._totalContributions > 0) {
+          message =
             'You have contributed ' +
-            (this.fund._totalContributions > 0
-              ? ((this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase())
-                  ? this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase()).contribution
-                  : 0) /
-                  this.fund._totalContributions) *
-                100
-              : 0) +
+            ((this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase())
+              ? this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase()).contribution
+              : 0) /
+              this.fund._totalContributions) *
+              100 +
             '% of the ' +
             this.fund._minimumContributionPercentageRequired +
-            '% required to approve the request',
+            '% required to approve the request';
+        }
+        addNotification({
+          message,
           type: 'error',
         });
       }
