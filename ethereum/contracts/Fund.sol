@@ -229,7 +229,8 @@ contract Fund is ReentrancyGuard {
 
     require(!request.complete, "The request has already been completed");
     require(
-      (contributions[msg.sender] / totalContributions) * 100 >= minimumContributionPercentageRequired ||
+      (totalContributions > 0 &&
+        (contributions[msg.sender] / totalContributions) * 100 >= minimumContributionPercentageRequired) ||
         (!onlyContributorsCanApproveARequest && isManager[msg.sender]),
       "Do not reach the minimum contribution percentage or you are not a manager"
     );

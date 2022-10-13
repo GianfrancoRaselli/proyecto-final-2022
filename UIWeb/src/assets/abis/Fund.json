@@ -455,6 +455,11 @@
         "type": "bool"
       },
       {
+        "internalType": "address[]",
+        "name": "_contributors",
+        "type": "address[]"
+      },
+      {
         "internalType": "uint256",
         "name": "_totalContributions",
         "type": "uint256"
