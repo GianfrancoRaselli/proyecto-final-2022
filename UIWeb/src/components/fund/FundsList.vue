@@ -98,8 +98,8 @@ export default {
       }
 
       return fundsToShow.sort((a, b) => {
-        if (a._createdAt < b._createdAt) return 1;
-        if (a._createdAt > b._createdAt) return -1;
+        if (a.createdAt < b.createdAt) return 1;
+        if (a.createdAt > b.createdAt) return -1;
         return 0;
       });
     },
@@ -121,8 +121,8 @@ export default {
           .replace(/[\u0300-\u036f]/g, '');
         fundsToAddToShow = fundsToAddToShow.filter(
           (fund) =>
-          compareAddresses(fund.address, search) ||
-          compareAddresses(fund.creator, search) ||
+            compareAddresses(fund.address, search) ||
+            compareAddresses(fund.creator, search) ||
             fund.name
               .trim()
               .toLowerCase()
