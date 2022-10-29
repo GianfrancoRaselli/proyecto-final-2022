@@ -1,6 +1,6 @@
 <template>
-  <div class="create-fund-container px-5">
-    <CreateFundForm class="w-100" />
+  <div>
+    <CreateFundForm />
   </div>
 </template>
 
@@ -19,10 +19,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.create-fund-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-</style>
+<style scoped></style>

@@ -24,16 +24,15 @@ export default {
 
 <style scoped>
 .background {
-  position: fixed;
-  top: 0;
-  left: 0;
+  max-width: none;
+  margin: 0;
+  padding: 0;
   height: 100vh;
   width: 100%;
   background-image: url('@/assets/imgs/background-lg.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;
-  background-attachment: fixed;
 }
 
 @media (max-width: 720px) {

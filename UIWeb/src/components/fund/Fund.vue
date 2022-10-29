@@ -422,8 +422,10 @@ export default {
   margin: auto;
 }
 
-.card {
-  margin: 10px 40px 20px 40px;
+@media (min-width: 768px) {
+  .card {
+    margin: 0 30px;
+  }
 }
 
 .body-header {

@@ -53,12 +53,6 @@ nav {
   width: 100%;
 }
 
-@media (min-width: 768px) {
-  nav {
-    display: none;
-  }
-}
-
 .navbar {
   height: 100%;
   width: 100%;

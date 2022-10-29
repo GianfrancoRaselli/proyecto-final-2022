@@ -10,7 +10,7 @@
       <main class="page-content__main">
         <router-view v-slot="{ Component, route }">
           <transition :name="route.params.animation || ''" mode="out-in">
-            <component :is="Component" :key="`${route.path}${JSON.stringify(route.query)}`" />
+            <component class="main__page" :is="Component" :key="`${route.path}${JSON.stringify(route.query)}`" />
           </transition>
         </router-view>
         <AppNotifications />
@@ -87,26 +87,33 @@ body {
 
 .page-content {
   min-height: 100vh;
-  padding-top: var(--navbar-height);
-  padding-bottom: var(--mobile-navbar-height);
+  margin-bottom: var(--mobile-navbar-height);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 @media (min-width: 768px) {
+  .header__mobile-navbar {
+    display: none;
+  }
+
   .page-content {
-    padding-bottom: 0;
+    margin-bottom: 0;
   }
 }
 
 .page-content__main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main__page {
   width: 100%;
-  flex-basis: 100%;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 15px 12px;
+  max-width: 1200px;
+  margin-top: var(--navbar-height);
+  padding: 15px 20px 12px 20px;
 }
 
 .page-content__footer {
