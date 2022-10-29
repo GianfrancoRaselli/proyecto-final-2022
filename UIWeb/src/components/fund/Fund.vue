@@ -20,56 +20,58 @@
             <span v-text="fund.description" />
           </div>
         </div>
-        <p class="card-text h5 text-center my-3 information-text">Information</p>
-        <p class="card-text"><span class="text-bold">Fund address</span>:&nbsp;{{ fundAddress }}</p>
-        <p class="card-text">
-          <span class="text-bold">Current balance</span>:&nbsp;<AppShowAmount :amount="balanceInEth" singular="ETH" />
+        <p class="h5 text-center my-3 information-text">Information</p>
+        <p class="info">
+          <span class="info__label"><span class="text-bold">Fund address</span>:&nbsp;</span>
+          {{ fundAddress }}
         </p>
-        <p class="card-text"><span class="text-bold">Creator</span>:&nbsp;{{ creatorAddress }}</p>
-        <p>
-          <span class="text-bold">Managers can be added or removed</span>:&nbsp;<AppBadge
-            :check="fund.managersCanBeAddedOrRemoved"
-          />
+        <p class="info">
+          <span class="info__label"><span class="text-bold">Current balance</span>:&nbsp;</span>
+          <AppShowAmount :amount="balanceInEth" singular="ETH" />
         </p>
-        <p class="align-items">
-          <span class="text-bold">Total contributions</span>:&nbsp;<AppShowAmount
-            :amount="totalContributionsInEth"
-            singular="ETH"
-          />
+        <p class="info">
+          <span class="info__label"><span class="text-bold">Creator</span>:&nbsp;</span>
+          {{ creatorAddress }}
+        </p>
+        <p class="info">
+          <span class="info__label"><span class="text-bold">Managers can be added or removed</span>:&nbsp;</span>
+          <AppBadge :check="fund.managersCanBeAddedOrRemoved" />
+        </p>
+        <p class="info">
+          <span class="info__label"><span class="text-bold">Total contributions</span>:&nbsp;</span>
+          <AppShowAmount :amount="totalContributionsInEth" singular="ETH" class="mr-3" />
           <button
             type="button"
-            class="btn btn-link btn-show-contributors ml-1"
+            class="btn btn-link btn-show-contributors"
             data-toggle="modal"
             data-target="#contributorsModal"
           >
             Show contributors
           </button>
         </p>
-        <p>
-          <span class="text-bold">Managers can transfer money without a request</span>:&nbsp;<AppBadge
-            :check="fund.managersCanTransferMoneyWithoutARequest"
-          />
+        <p class="info">
+          <span class="info__label"><span class="text-bold">Managers can transfer money without a request</span>:&nbsp;</span>
+          <AppBadge :check="fund.managersCanTransferMoneyWithoutARequest" />
         </p>
-        <p><span class="text-bold">Requests can be created</span>:&nbsp;<AppBadge :check="fund.requestsCanBeCreated" /></p>
-        <p>
-          <span class="text-bold">Only managers can create a request</span>:&nbsp;<AppBadge
-            :check="fund.onlyManagersCanCreateARequest"
-          />
+        <p class="info">
+          <span class="info__label"><span class="text-bold">Requests can be created</span>:&nbsp;</span>
+          <AppBadge :check="fund.requestsCanBeCreated" />
         </p>
-        <p>
-          <span class="text-bold">Only contributors can approve a request</span>:&nbsp;<AppBadge
-            :check="fund.onlyContributorsCanApproveARequest"
-          />
+        <p class="info">
+          <span class="info__label"><span class="text-bold">Only managers can create a request</span>:&nbsp;</span>
+          <AppBadge :check="fund.onlyManagersCanCreateARequest" />
         </p>
-        <p>
-          <span class="text-bold">Minimum contribution percentage required</span>:&nbsp;<span
-            v-text="fund.minimumContributionPercentageRequired + '%'"
-          />
+        <p class="info">
+          <span class="info__label"><span class="text-bold">Only contributors can approve a request</span>:&nbsp;</span>
+          <AppBadge :check="fund.onlyContributorsCanApproveARequest" />
         </p>
-        <p>
-          <span class="text-bold">Minimum approvals percentage required</span>:&nbsp;<span
-            v-text="fund.minimumApprovalsPercentageRequired + '%'"
-          />
+        <p class="info">
+          <span class="info__label"><span class="text-bold">Minimum contribution percentage required</span>:&nbsp;</span>
+          <span v-text="fund.minimumContributionPercentageRequired + '%'" />
+        </p>
+        <p class="info">
+          <span class="info__label"><span class="text-bold">Minimum approvals percentage required</span>:&nbsp;</span>
+          <span v-text="fund.minimumApprovalsPercentageRequired + '%'" />
         </p>
         <hr />
         <div class="buttons">
@@ -451,14 +453,23 @@ export default {
   border-radius: 5px;
 }
 
-.align-item {
+.info {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
+@media (max-width: 600px) {
+  .info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 .btn-show-contributors {
   font-size: 0.9rem;
+  padding: 0;
 }
 
 .btn-show-contributors:focus {
@@ -472,6 +483,6 @@ export default {
 }
 
 .buttons .btn {
-  margin: 0 2px;
+  margin: 3px;
 }
 </style>

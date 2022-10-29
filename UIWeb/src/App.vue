@@ -55,9 +55,12 @@ export default {
   box-sizing: border-box;
 }
 
+html {
+  font-size: 85%;
+}
+
 body {
   font-family: 'Roboto', monospace;
-  margin: 0;
 
   --navbar-height: 65px;
   --mobile-navbar-height: 60px;
@@ -94,6 +97,10 @@ body {
 }
 
 @media (min-width: 768px) {
+  html {
+    font-size: 100%;
+  }
+
   .header__mobile-navbar {
     display: none;
   }
@@ -113,7 +120,7 @@ body {
   width: 100%;
   max-width: 1200px;
   margin-top: var(--navbar-height);
-  padding: 15px 20px 12px 20px;
+  padding: 15px 25px 20px 25px;
 }
 
 .page-content__footer {
@@ -122,6 +129,8 @@ body {
   width: 100%;
   justify-self: flex-end;
 }
+
+/* common styles */
 
 .slide-leave-to {
   opacity: 0.5;
