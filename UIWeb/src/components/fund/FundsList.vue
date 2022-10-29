@@ -32,7 +32,7 @@
             class="col-12 col-md-6 col-lg-4 fund-card-container"
             v-for="(fund, index) in fundsToShow"
             :key="index"
-            @click="redirect(fund._address)"
+            @click="redirect(fund.address)"
           >
             <FundCard class="fund-card" :fund="fund" />
           </div>
@@ -74,10 +74,10 @@ export default {
       let fundsToShow = this.funds.slice();
 
       if (this.onlyShowMyFunds)
-        fundsToShow = fundsToShow.filter((fund) => fund._creator.toLowerCase() === this.address.toLowerCase());
+        fundsToShow = fundsToShow.filter((fund) => fund.creator.toLowerCase() === this.address.toLowerCase());
 
       if (this.date)
-        fundsToShow = fundsToShow.filter((fund) => isTheSameDate(this.date, fromUnixTimestampToDate(fund._createdAt)));
+        fundsToShow = fundsToShow.filter((fund) => isTheSameDate(this.date, fromUnixTimestampToDate(fund.createdAt)));
 
       if (this.search.trim()) {
         const search = this.search
@@ -87,9 +87,9 @@ export default {
           .replace(/[\u0300-\u036f]/g, '');
         fundsToShow = fundsToShow.filter(
           (fund) =>
-            fund._address.toLowerCase() === search ||
-            fund._creator.toLowerCase() === search ||
-            fund._name
+            fund.address.toLowerCase() === search ||
+            fund.creator.toLowerCase() === search ||
+            fund.name
               .trim()
               .toLowerCase()
               .normalize('NFD')
@@ -109,10 +109,10 @@ export default {
       let fundsToAddToShow = this.fundsToAdd.slice();
 
       if (this.onlyShowMyFunds)
-        fundsToAddToShow = fundsToAddToShow.filter((fund) => fund._creator.toLowerCase() === this.address.toLowerCase());
+        fundsToAddToShow = fundsToAddToShow.filter((fund) => fund.creator.toLowerCase() === this.address.toLowerCase());
 
       if (this.date)
-        fundsToAddToShow = fundsToAddToShow.filter((fund) => isTheSameDate(this.date, fromUnixTimestampToDate(fund._createdAt)));
+        fundsToAddToShow = fundsToAddToShow.filter((fund) => isTheSameDate(this.date, fromUnixTimestampToDate(fund.createdAt)));
 
       if (this.search.trim()) {
         const search = this.search
@@ -122,9 +122,9 @@ export default {
           .replace(/[\u0300-\u036f]/g, '');
         fundsToAddToShow = fundsToAddToShow.filter(
           (fund) =>
-            fund._address.toLowerCase() === search ||
-            fund._creator.toLowerCase() === search ||
-            fund._name
+            fund.address.toLowerCase() === search ||
+            fund.creator.toLowerCase() === search ||
+            fund.name
               .trim()
               .toLowerCase()
               .normalize('NFD')

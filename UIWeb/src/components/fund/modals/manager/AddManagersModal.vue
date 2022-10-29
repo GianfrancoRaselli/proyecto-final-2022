@@ -140,7 +140,7 @@ export default {
               if (Web3.utils.isAddress(address1.trim())) {
                 if (address1.trim().toLowerCase() !== this.address.toLowerCase()) {
                   let count = 0;
-                  this.fund._managers.forEach((address2) => {
+                  this.fund.managers.forEach((address2) => {
                     if (address1.trim().toLowerCase() === address2.trim().toLowerCase()) count++;
                   });
                   if (count >= 1) return (validation = false);
@@ -165,12 +165,12 @@ export default {
             [this.getArrayOfManagers()],
             undefined,
             true,
-            'Add new managers to ' + this.fund._name,
+            'Add new managers to ' + this.fund.name,
           );
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund._managers.concat(this.getArrayOfManagers());
+          this.fund.managers.concat(this.getArrayOfManagers());
           addNotification({
-            message: 'New managers added to ' + this.fund._name,
+            message: 'New managers added to ' + this.fund.name,
             type: 'success',
           });
           this.goBack();

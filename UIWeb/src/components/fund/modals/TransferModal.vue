@@ -11,7 +11,7 @@
         <div class="modal-body">
           <p class="card-text current-balance">
             <span class="text-bold">Current balance</span>:&nbsp;<AppShowAmount :amount="balanceInEth" singular="ETH" />
-            <button class="btn btn-link btn-sm ml-2" @click="setCurrentBalance" v-if="fund._balance > 0">
+            <button class="btn btn-link btn-sm ml-2" @click="setCurrentBalance" v-if="fund.balance > 0">
               Transfer all balance
             </button>
           </p>
@@ -106,7 +106,7 @@ export default {
     }),
 
     balanceInEth() {
-      return parseFloat(Web3.utils.fromWei(this.fund._balance.toString(), 'ether'));
+      return parseFloat(Web3.utils.fromWei(this.fund.balance.toString(), 'ether'));
     },
   },
   validations() {
@@ -129,8 +129,8 @@ export default {
         }),
         maxValue: helpers.withMessage('Value must be less than current balance', (value) => {
           return BigNumber(
-            this.unit === 'Wei' ? value : Web3.utils.toWei(this.fund._balance.toString(), 'ether'),
-          ).isLessThanOrEqualTo(BigNumber(this.fund._balance));
+            this.unit === 'Wei' ? value : Web3.utils.toWei(this.fund.balance.toString(), 'ether'),
+          ).isLessThanOrEqualTo(BigNumber(this.fund.balance));
         }),
       },
     };
@@ -149,7 +149,7 @@ export default {
             'Transfer ' + this.value + ' ' + this.unit + ' to ' + getSplitAddress(this.receiver.trim()),
           );
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund._totalContributions += this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value.toString(), 'ether');
+          this.fund.totalContributions += this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value.toString(), 'ether');
           addNotification({
             message: 'Transferred ' + this.value + ' ' + this.unit,
             type: 'success',
@@ -164,7 +164,7 @@ export default {
     },
 
     setCurrentBalance() {
-      this.value = this.fund._balance;
+      this.value = this.fund.balance;
       this.unit = 'Wei';
     },
   },

@@ -5,11 +5,11 @@
     </div>
     <div class="card" v-else>
       <div class="card-header text-center">
-        <span v-text="fund._name" />
+        <span v-text="fund.name" />
         <div class="fund-info">
           <span
             class="badge badge-pill badge-primary my-fund-info mb-1"
-            v-if="address.toLowerCase() === fund._creator.toLowerCase()"
+            v-if="address.toLowerCase() === fund.creator.toLowerCase()"
             >My fund</span
           >
           <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
@@ -18,8 +18,8 @@
       <div class="card-body">
         <div class="body-header px-3">
           <img class="img" src="../../assets/imgs/fund.png" />
-          <div class="w-100 ml-5" v-if="fund._description">
-            <span v-text="fund._description" />
+          <div class="w-100 ml-5" v-if="fund.description">
+            <span v-text="fund.description" />
           </div>
         </div>
         <p class="card-text h5 text-center my-3 information-text">Information</p>
@@ -30,7 +30,7 @@
         <p class="card-text"><span class="text-bold">Creator</span>:&nbsp;{{ creatorAddress }}</p>
         <p>
           <span class="text-bold">Managers can be added or removed</span>:&nbsp;<AppBadge
-            :check="fund._managersCanBeAddedOrRemoved"
+            :check="fund.managersCanBeAddedOrRemoved"
           />
         </p>
         <p class="align-items">
@@ -49,28 +49,28 @@
         </p>
         <p>
           <span class="text-bold">Managers can transfer money without a request</span>:&nbsp;<AppBadge
-            :check="fund._managersCanTransferMoneyWithoutARequest"
+            :check="fund.managersCanTransferMoneyWithoutARequest"
           />
         </p>
-        <p><span class="text-bold">Requests can be created</span>:&nbsp;<AppBadge :check="fund._requestsCanBeCreated" /></p>
+        <p><span class="text-bold">Requests can be created</span>:&nbsp;<AppBadge :check="fund.requestsCanBeCreated" /></p>
         <p>
           <span class="text-bold">Only managers can create a request</span>:&nbsp;<AppBadge
-            :check="fund._onlyManagersCanCreateARequest"
+            :check="fund.onlyManagersCanCreateARequest"
           />
         </p>
         <p>
           <span class="text-bold">Only contributors can approve a request</span>:&nbsp;<AppBadge
-            :check="fund._onlyContributorsCanApproveARequest"
+            :check="fund.onlyContributorsCanApproveARequest"
           />
         </p>
         <p>
           <span class="text-bold">Minimum contribution percentage required</span>:&nbsp;<span
-            v-text="fund._minimumContributionPercentageRequired + '%'"
+            v-text="fund.minimumContributionPercentageRequired + '%'"
           />
         </p>
         <p>
           <span class="text-bold">Minimum approvals percentage required</span>:&nbsp;<span
-            v-text="fund._minimumApprovalsPercentageRequired + '%'"
+            v-text="fund.minimumApprovalsPercentageRequired + '%'"
           />
         </p>
         <hr />
@@ -86,7 +86,7 @@
             class="btn btn-secondary"
             data-toggle="modal"
             data-target="#transferModal"
-            v-if="fund._managersCanTransferMoneyWithoutARequest && isManager"
+            v-if="fund.managersCanTransferMoneyWithoutARequest && isManager"
           >
             <fa-icon icon="money-bill-transfer" class="icon mr-2" />Transfer
           </button>
@@ -102,7 +102,7 @@
     <ManagersModal :fund="fund" :isManager="isManager" />
     <ContributeModal :fund="fund" />
     <ContributorsModal :fund="fund" />
-    <TransferModal :fund="fund" v-if="fund._managersCanTransferMoneyWithoutARequest && isManager" />
+    <TransferModal :fund="fund" v-if="fund.managersCanTransferMoneyWithoutARequest && isManager" />
     <RequestsModal :fund="fund" :isManager="isManager" />
   </div>
 </template>
@@ -133,23 +133,23 @@ export default {
     return {
       loading: true,
       fund: {
-        _address: '',
-        _balance: 0,
-        _name: '',
-        _description: '',
-        _creator: '',
-        _createdAt: 0,
-        _managers: [],
-        _managersCanBeAddedOrRemoved: false,
-        _contributors: [],
-        _totalContributions: 0,
-        _managersCanTransferMoneyWithoutARequest: false,
-        _requests: [],
-        _requestsCanBeCreated: false,
-        _onlyManagersCanCreateARequest: false,
-        _onlyContributorsCanApproveARequest: false,
-        _minimumContributionPercentageRequired: 0,
-        _minimumApprovalsPercentageRequired: 0,
+        address: '',
+        balance: 0,
+        name: '',
+        description: '',
+        creator: '',
+        createdAt: 0,
+        managers: [],
+        managersCanBeAddedOrRemoved: false,
+        contributors: [],
+        totalContributions: 0,
+        managersCanTransferMoneyWithoutARequest: false,
+        requests: [],
+        requestsCanBeCreated: false,
+        onlyManagersCanCreateARequest: false,
+        onlyContributorsCanApproveARequest: false,
+        minimumContributionPercentageRequired: 0,
+        minimumApprovalsPercentageRequired: 0,
       },
       newManagerSubscription: null,
       removeManagerSubscription: null,
@@ -166,39 +166,39 @@ export default {
     }),
 
     isManager() {
-      if (this.fund._managers.findIndex((manager) => manager.toLowerCase() === this.address.toLowerCase()) >= 0) return true;
+      if (this.fund.managers.findIndex((manager) => manager.toLowerCase() === this.address.toLowerCase()) >= 0) return true;
       return false;
     },
 
     fundType() {
       if (
-        this.fund._managersCanBeAddedOrRemoved &&
-        this.fund._managersCanTransferMoneyWithoutARequest &&
-        this.fund._requestsCanBeCreated &&
-        !this.fund._onlyManagersCanCreateARequest &&
-        !this.fund._onlyContributorsCanApproveARequest
+        this.fund.managersCanBeAddedOrRemoved &&
+        this.fund.managersCanTransferMoneyWithoutARequest &&
+        this.fund.requestsCanBeCreated &&
+        !this.fund.onlyManagersCanCreateARequest &&
+        !this.fund.onlyContributorsCanApproveARequest
       )
         return {
           type: 'Friends',
           class: 'success',
         };
       if (
-        !this.fund._managersCanBeAddedOrRemoved &&
-        !this.fund._managersCanTransferMoneyWithoutARequest &&
-        this.fund._requestsCanBeCreated &&
-        this.fund._onlyManagersCanCreateARequest &&
-        this.fund._onlyContributorsCanApproveARequest
+        !this.fund.managersCanBeAddedOrRemoved &&
+        !this.fund.managersCanTransferMoneyWithoutARequest &&
+        this.fund.requestsCanBeCreated &&
+        this.fund.onlyManagersCanCreateARequest &&
+        this.fund.onlyContributorsCanApproveARequest
       )
         return {
           type: 'Campaign',
           class: 'warning',
         };
       if (
-        this.fund._managersCanBeAddedOrRemoved &&
-        this.fund._managersCanTransferMoneyWithoutARequest &&
-        this.fund._requestsCanBeCreated &&
-        this.fund._onlyManagersCanCreateARequest &&
-        this.fund._onlyContributorsCanApproveARequest
+        this.fund.managersCanBeAddedOrRemoved &&
+        this.fund.managersCanTransferMoneyWithoutARequest &&
+        this.fund.requestsCanBeCreated &&
+        this.fund.onlyManagersCanCreateARequest &&
+        this.fund.onlyContributorsCanApproveARequest
       )
         return {
           type: 'Donation',
@@ -208,23 +208,23 @@ export default {
     },
 
     fundAddress() {
-      return getSplitAddress(this.fund._address);
+      return getSplitAddress(this.fund.address);
     },
 
     balanceInEth() {
-      return parseFloat(Web3.utils.fromWei(this.fund._balance.toString(), 'ether'));
+      return parseFloat(Web3.utils.fromWei(this.fund.balance.toString(), 'ether'));
     },
 
     creatorAddress() {
-      return getSplitAddress(this.fund._creator);
+      return getSplitAddress(this.fund.creator);
     },
 
     createdAt() {
-      return fromUnixTimestampToDate(this.fund._createdAt);
+      return fromUnixTimestampToDate(this.fund.createdAt);
     },
 
     totalContributionsInEth() {
-      return parseFloat(Web3.utils.fromWei(this.fund._totalContributions.toString(), 'ether'));
+      return parseFloat(Web3.utils.fromWei(this.fund.totalContributions.toString(), 'ether'));
     },
   },
   methods: {},
@@ -233,7 +233,7 @@ export default {
       return new Promise((resolve) => {
         const searchSummary = async () => {
           this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
-          await getSearchContributorsPromise(this.fund._contributors);
+          await getSearchContributorsPromise(this.fund.contributors);
           resolve();
         };
         searchSummary();
@@ -271,7 +271,7 @@ export default {
             );
           }
 
-          this.fund._contributors = contributors;
+          this.fund.contributors = contributors;
           resolve();
         };
         searchContributors();
@@ -298,7 +298,7 @@ export default {
             );
           }
 
-          this.fund._requests = requests;
+          this.fund.requests = requests;
           resolve();
         };
         searchRequests();
@@ -316,7 +316,7 @@ export default {
       'NewManager',
       undefined,
       async () => {
-        this.fund._managers = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getManagers');
+        this.fund.managers = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getManagers');
       },
     );
     this.removeManagerSubscription = await event(
@@ -324,7 +324,7 @@ export default {
       'RemoveManager',
       undefined,
       async () => {
-        this.fund._managers = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getManagers');
+        this.fund.managers = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getManagers');
       },
     );
     this.contributeSubscription = await event(
@@ -335,10 +335,10 @@ export default {
         await Promise.all([
           getSearchContributorsPromise(),
           call({ name: 'Fund', address: this.$route.params.fundAddress }, 'totalContributions', [], {}, (res) => {
-            this.fund._totalContributions = res;
+            this.fund.totalContributions = res;
           }),
           call({ name: 'Fund', address: this.$route.params.fundAddress }, 'balance', [], {}, (res) => {
-            this.fund._balance = res;
+            this.fund.balance = res;
           }),
         ]);
       },
@@ -348,7 +348,7 @@ export default {
       'Transfer',
       undefined,
       async () => {
-        this.fund._balance = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'balance');
+        this.fund.balance = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'balance');
       },
     );
     this.newRequestSubscription = await event(

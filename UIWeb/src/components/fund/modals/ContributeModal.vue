@@ -137,17 +137,17 @@ export default {
               ' ' +
               this.contributionUnit +
               ' to ' +
-              this.fund._name +
+              this.fund.name +
               this.contributor.trim() !==
               this.address
               ? ' for ' + getSplitAddress(this.contributor.trim())
               : '',
           );
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund._totalContributions +=
+          this.fund.totalContributions +=
             this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution.toString(), 'ether');
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund._balance +=
+          this.fund.balance +=
             this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution.toString(), 'ether');
           addNotification({
             message: 'Contributed ' + this.contribution + ' ' + this.contributionUnit,

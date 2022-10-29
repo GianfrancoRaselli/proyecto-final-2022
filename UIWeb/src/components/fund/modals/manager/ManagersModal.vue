@@ -10,16 +10,16 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="add-manager" v-if="fund._managersCanBeAddedOrRemoved && isManager">
+            <div class="add-manager" v-if="fund.managersCanBeAddedOrRemoved && isManager">
               <button type="button" class="btn btn-success btn-sm" @click="addNewManagers">
                 <fa-icon icon="plus" class="icon mr-2" />Add manager
               </button>
             </div>
 
             <div class="managers-list mt-2">
-              <div class="no-managers" v-if="fund._managers && fund._managers.length === 0">No managers</div>
+              <div class="no-managers" v-if="fund.managers && fund.managers.length === 0">No managers</div>
               <ul class="list-group list-group-flush" v-else>
-                <li class="list-group-item" v-for="(manager, index) in fund._managers" :key="index">
+                <li class="list-group-item" v-for="(manager, index) in fund.managers" :key="index">
                   <div class="item-manager">
                     <span v-text="index + 1 + '. ' + getSplitAddress(manager)" />
                     <span class="badge badge-pill badge-primary ml-1" v-if="manager.toLowerCase() === address.toLowerCase()"
@@ -30,7 +30,7 @@
                     <button
                       type="button"
                       class="btn btn-danger btn-sm"
-                      v-if="fund._managersCanBeAddedOrRemoved && isManager && !removing(manager)"
+                      v-if="fund.managersCanBeAddedOrRemoved && isManager && !removing(manager)"
                       @click="removeManager(manager)"
                     >
                       <fa-icon icon="trash" class="icon mr-2" />Remove
@@ -94,15 +94,15 @@ export default {
         await transaction(
           { name: 'Fund', address: this.$route.params.fundAddress },
           'removeManager',
-          [this.fund._managers.findIndex((m) => m.toLowerCase() === manager.toLowerCase())],
+          [this.fund.managers.findIndex((m) => m.toLowerCase() === manager.toLowerCase())],
           {},
           true,
-          'Remove manager from ' + this.fund._name + ': ' + getSplitAddress(manager),
+          'Remove manager from ' + this.fund.name + ': ' + getSplitAddress(manager),
         );
         // eslint-disable-next-line vue/no-mutating-props
-        this.fund._managers = this.fund._managers.filter((m) => m.toLowerCase() !== manager.toLowerCase());
+        this.fund.managers = this.fund.managers.filter((m) => m.toLowerCase() !== manager.toLowerCase());
         addNotification({
-          message: 'Manager ' + getSplitAddress(manager) + ' removed from ' + this.fund._name,
+          message: 'Manager ' + getSplitAddress(manager) + ' removed from ' + this.fund.name,
           type: 'success',
         });
       } finally {

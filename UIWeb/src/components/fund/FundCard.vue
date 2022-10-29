@@ -1,18 +1,18 @@
 <template>
   <div class="card text-center">
     <div class="card-header">
-      <span v-text="fund._name" />
+      <span v-text="fund.name" />
       <div class="fund-info">
         <span
           class="badge badge-pill badge-primary my-fund-info mb-1"
-          v-if="address.toLowerCase() === fund._creator.toLowerCase()"
+          v-if="address.toLowerCase() === fund.creator.toLowerCase()"
           >My fund</span
         >
         <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
       </div>
     </div>
     <div class="card-body">
-      <p class="card-text" v-text="fund._description" v-if="fund._description" />
+      <p class="card-text" v-text="fund.description" v-if="fund.description" />
       <p class="card-text"><span class="text-bold">Creator</span>: {{ splitAddress }}</p>
     </div>
     <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
@@ -38,33 +38,33 @@ export default {
 
     fundType() {
       if (
-        this.fund._managersCanBeAddedOrRemoved &&
-        this.fund._managersCanTransferMoneyWithoutARequest &&
-        this.fund._requestsCanBeCreated &&
-        !this.fund._onlyManagersCanCreateARequest &&
-        !this.fund._onlyContributorsCanApproveARequest
+        this.fund.managersCanBeAddedOrRemoved &&
+        this.fund.managersCanTransferMoneyWithoutARequest &&
+        this.fund.requestsCanBeCreated &&
+        !this.fund.onlyManagersCanCreateARequest &&
+        !this.fund.onlyContributorsCanApproveARequest
       )
         return {
           type: 'Friends',
           class: 'success',
         };
       if (
-        !this.fund._managersCanBeAddedOrRemoved &&
-        !this.fund._managersCanTransferMoneyWithoutARequest &&
-        this.fund._requestsCanBeCreated &&
-        this.fund._onlyManagersCanCreateARequest &&
-        this.fund._onlyContributorsCanApproveARequest
+        !this.fund.managersCanBeAddedOrRemoved &&
+        !this.fund.managersCanTransferMoneyWithoutARequest &&
+        this.fund.requestsCanBeCreated &&
+        this.fund.onlyManagersCanCreateARequest &&
+        this.fund.onlyContributorsCanApproveARequest
       )
         return {
           type: 'Campaign',
           class: 'warning',
         };
       if (
-        this.fund._managersCanBeAddedOrRemoved &&
-        this.fund._managersCanTransferMoneyWithoutARequest &&
-        this.fund._requestsCanBeCreated &&
-        this.fund._onlyManagersCanCreateARequest &&
-        this.fund._onlyContributorsCanApproveARequest
+        this.fund.managersCanBeAddedOrRemoved &&
+        this.fund.managersCanTransferMoneyWithoutARequest &&
+        this.fund.requestsCanBeCreated &&
+        this.fund.onlyManagersCanCreateARequest &&
+        this.fund.onlyContributorsCanApproveARequest
       )
         return {
           type: 'Donation',
@@ -74,11 +74,11 @@ export default {
     },
 
     splitAddress() {
-      return getSplitAddress(this.fund._creator);
+      return getSplitAddress(this.fund.creator);
     },
 
     createdAt() {
-      return fromUnixTimestampToDate(this.fund._createdAt);
+      return fromUnixTimestampToDate(this.fund.createdAt);
     },
   },
   watch: {},

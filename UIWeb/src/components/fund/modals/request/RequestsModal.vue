@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="modal fade" id="requestsModal" tabindex="-1" aria-labelledby="requestsModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" :class="{ 'modal-lg': fund._requests && fund._requests.length > 0 }">
+      <div class="modal-dialog modal-dialog-centered" :class="{ 'modal-lg': fund.requests && fund.requests.length > 0 }">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="requestsModalLabel">Requests</h4>
@@ -13,8 +13,8 @@
             <div
               class="create-request"
               v-if="
-                fund._requestsCanBeCreated &&
-                (!fund._onlyManagersCanCreateARequest || (fund._onlyManagersCanCreateARequest && isManager))
+                fund.requestsCanBeCreated &&
+                (!fund.onlyManagersCanCreateARequest || (fund.onlyManagersCanCreateARequest && isManager))
               "
             >
               <button type="button" class="btn btn-success btn-sm" @click="createNewRequest">
@@ -23,12 +23,12 @@
             </div>
 
             <div class="requests-list mt-2">
-              <div class="no-requests" v-if="fund._requests && fund._requests.length === 0">No requests</div>
+              <div class="no-requests" v-if="fund.requests && fund.requests.length === 0">No requests</div>
               <ul class="list-group list-group-flush" v-else>
                 <li
                   class="list-group-item"
                   :class="getRequestClass(request)"
-                  v-for="(request, index) in fund._requests"
+                  v-for="(request, index) in fund.requests"
                   :key="index"
                 >
                   <div class="item-element item-number">
@@ -70,12 +70,12 @@
                           request.approvalsCount +
                           ' of ' +
                           Math.ceil(
-                            fund._onlyContributorsCanApproveARequest
-                              ? (fund._contributors ? fund._contributors.length : 0) *
-                                  (fund._minimumApprovalsPercentageRequired / 100)
-                              : ((fund._contributors ? fund._contributors.length : 0) +
-                                  (fund._managers ? fund._managers.length : 0)) *
-                                  (fund._minimumApprovalsPercentageRequired / 100),
+                            fund.onlyContributorsCanApproveARequest
+                              ? (fund.contributors ? fund.contributors.length : 0) *
+                                  (fund.minimumApprovalsPercentageRequired / 100)
+                              : ((fund.contributors ? fund.contributors.length : 0) +
+                                  (fund.managers ? fund.managers.length : 0)) *
+                                  (fund.minimumApprovalsPercentageRequired / 100),
                           ) +
                           ' needed'
                         "
@@ -105,12 +105,12 @@
                         request.petitioner.toLowerCase() === address.toLowerCase() &&
                         request.approvalsCount >=
                           Math.ceil(
-                            fund._onlyContributorsCanApproveARequest
-                              ? (fund._contributors ? fund._contributors.length : 0) *
-                                  (fund._minimumApprovalsPercentageRequired / 100)
-                              : ((fund._contributors ? fund._contributors.length : 0) +
-                                  (fund._managers ? fund._managers.length : 0)) *
-                                  (fund._minimumApprovalsPercentageRequired / 100),
+                            fund.onlyContributorsCanApproveARequest
+                              ? (fund.contributors ? fund.contributors.length : 0) *
+                                  (fund.minimumApprovalsPercentageRequired / 100)
+                              : ((fund.contributors ? fund.contributors.length : 0) +
+                                  (fund.managers ? fund.managers.length : 0)) *
+                                  (fund.minimumApprovalsPercentageRequired / 100),
                           )
                       "
                     >
@@ -173,12 +173,12 @@ export default {
       if (
         request.approvalsCount >=
         Math.ceil(
-          this.fund._onlyContributorsCanApproveARequest
-            ? (this.fund._contributors ? this.fund._contributors.length : 0) *
-                (this.fund._minimumApprovalsPercentageRequired / 100)
-            : ((this.fund._contributors ? this.fund._contributors.length : 0) +
-                (this.fund._managers ? this.fund._managers.length : 0)) *
-                (this.fund._minimumApprovalsPercentageRequired / 100),
+          this.fund.onlyContributorsCanApproveARequest
+            ? (this.fund.contributors ? this.fund.contributors.length : 0) *
+                (this.fund.minimumApprovalsPercentageRequired / 100)
+            : ((this.fund.contributors ? this.fund.contributors.length : 0) +
+                (this.fund.managers ? this.fund.managers.length : 0)) *
+                (this.fund.minimumApprovalsPercentageRequired / 100),
         )
       )
         return 'request-approved';
@@ -201,17 +201,17 @@ export default {
     },
 
     async approveRequest(index) {
-      console.log(this.fund._minimumContributionPercentageRequired);
+      console.log(this.fund.minimumContributionPercentageRequired);
       if (
-        (!this.fund._onlyContributorsCanApproveARequest && this.isManager) ||
-        this.fund._minimumContributionPercentageRequired == 0 ||
-        (this.fund._totalContributions > 0 &&
-          ((this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase())
-            ? this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase()).contribution
+        (!this.fund.onlyContributorsCanApproveARequest && this.isManager) ||
+        this.fund.minimumContributionPercentageRequired == 0 ||
+        (this.fund.totalContributions > 0 &&
+          ((this.fund.contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase())
+            ? this.fund.contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase()).contribution
             : 0) /
-            this.fund._totalContributions) *
+            this.fund.totalContributions) *
             100 >=
-            this.fund._minimumContributionPercentageRequired)
+            this.fund.minimumContributionPercentageRequired)
       ) {
         try {
           this.approvingRequests.push(index);
@@ -221,11 +221,11 @@ export default {
             [index],
             {},
             true,
-            'Approve request ' + (index + 1) + ' of ' + this.fund._name,
+            'Approve request ' + (index + 1) + ' of ' + this.fund.name,
           );
           this.requestsApproved[index] = true;
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund._requests[index].approvalsCount += 1;
+          this.fund.requests[index].approvalsCount += 1;
           addNotification({
             message: 'Request ' + (index + 1) + ' approved',
             type: 'success',
@@ -235,16 +235,16 @@ export default {
         }
       } else {
         let message = 'You have not contributed to the fund yet';
-        if (this.fund._totalContributions > 0) {
+        if (this.fund.totalContributions > 0) {
           message =
             'You have contributed ' +
-            ((this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase())
-              ? this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase()).contribution
+            ((this.fund.contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase())
+              ? this.fund.contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase()).contribution
               : 0) /
-              this.fund._totalContributions) *
+              this.fund.totalContributions) *
               100 +
             '% of the ' +
-            this.fund._minimumContributionPercentageRequired +
+            this.fund.minimumContributionPercentageRequired +
             '% required to approve the request';
         }
         addNotification({
@@ -263,15 +263,15 @@ export default {
           [index],
           {},
           true,
-          'Finalize request ' + (index + 1) + ' of ' + this.fund._name,
+          'Finalize request ' + (index + 1) + ' of ' + this.fund.name,
         );
         // eslint-disable-next-line vue/no-mutating-props
-        this.fund._requests[index].transferredValue =
-          this.fund._requests[index].valueToTransfer > this.fund._balance
-            ? this.fund._balance
-            : this.fund._requests[index].valueToTransfer;
+        this.fund.requests[index].transferredValue =
+          this.fund.requests[index].valueToTransfer > this.fund.balance
+            ? this.fund.balance
+            : this.fund.requests[index].valueToTransfer;
         // eslint-disable-next-line vue/no-mutating-props
-        this.fund._requests[index].complete = true;
+        this.fund.requests[index].complete = true;
         addNotification({
           message: 'Request ' + (index + 1) + ' finalized',
           type: 'success',

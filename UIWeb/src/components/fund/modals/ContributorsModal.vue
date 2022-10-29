@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <div class="contributors-list mt-2">
-            <div class="no-contributors" v-if="fund._contributors && fund._contributors.length === 0">No contributors</div>
+            <div class="no-contributors" v-if="fund.contributors && fund.contributors.length === 0">No contributors</div>
             <ul class="list-group list-group-flush" v-else>
               <li class="list-group-item" v-for="(c, index) in contributorsOrdered" :key="index">
                 <div class="item-address">
@@ -50,7 +50,7 @@ export default {
     }),
 
     contributorsOrdered() {
-      return this.fund._contributors.slice().sort((a, b) => {
+      return this.fund.contributors.slice().sort((a, b) => {
         return b.contribution - a.contribution;
       });
     },

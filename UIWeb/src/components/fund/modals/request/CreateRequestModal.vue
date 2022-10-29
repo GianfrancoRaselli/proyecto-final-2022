@@ -153,10 +153,10 @@ export default {
             ],
             undefined,
             true,
-            'Create request for ' + this.fund._name,
+            'Create request for ' + this.fund.name,
           );
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund._requests.push({
+          this.fund.requests.push({
             description: this.data.description,
             recipient: this.data.recipient.trim(),
             valueToTransfer:
