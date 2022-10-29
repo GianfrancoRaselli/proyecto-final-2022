@@ -15,9 +15,7 @@
               <li class="list-group-item" v-for="(c, index) in contributorsOrdered" :key="index">
                 <div class="item-address">
                   <span v-text="index + 1 + '. ' + getSplitAddress(c.contributor)" />
-                  <span
-                    class="badge badge-pill badge-primary ml-1"
-                    v-if="c.contributor && address && c.contributor.toLowerCase() === address.toLowerCase()"
+                  <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(c.contributor, address)"
                     >My address</span
                   >
                 </div>
@@ -34,7 +32,7 @@
 <script>
 import Web3 from 'web3';
 import { mapState } from 'vuex';
-import { getSplitAddress } from 'web3-simple-helpers/methods/general';
+import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
   name: 'ContributorsModalComponent',
@@ -56,6 +54,7 @@ export default {
     },
   },
   methods: {
+    compareAddresses,
     getSplitAddress,
 
     contributionInEth(contribution) {

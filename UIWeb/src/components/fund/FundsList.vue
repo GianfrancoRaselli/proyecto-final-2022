@@ -46,7 +46,7 @@
 import DatePicker from 'vuejs3-datepicker';
 import FundCard from '@/components/fund/FundCard';
 import { mapState } from 'vuex';
-import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
+import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event, isTheSameDate } from '@/helpers/helpers';
 
 export default {
@@ -73,8 +73,7 @@ export default {
     fundsToShow() {
       let fundsToShow = this.funds.slice();
 
-      if (this.onlyShowMyFunds)
-        fundsToShow = fundsToShow.filter((fund) => fund.creator.toLowerCase() === this.address.toLowerCase());
+      if (this.onlyShowMyFunds) fundsToShow = fundsToShow.filter((fund) => compareAddresses(fund.creator, this.address));
 
       if (this.date)
         fundsToShow = fundsToShow.filter((fund) => isTheSameDate(this.date, fromUnixTimestampToDate(fund.createdAt)));
@@ -87,8 +86,8 @@ export default {
           .replace(/[\u0300-\u036f]/g, '');
         fundsToShow = fundsToShow.filter(
           (fund) =>
-            fund.address.toLowerCase() === search ||
-            fund.creator.toLowerCase() === search ||
+            compareAddresses(fund.address, search) ||
+            compareAddresses(fund.creator, search) ||
             fund.name
               .trim()
               .toLowerCase()
@@ -109,7 +108,7 @@ export default {
       let fundsToAddToShow = this.fundsToAdd.slice();
 
       if (this.onlyShowMyFunds)
-        fundsToAddToShow = fundsToAddToShow.filter((fund) => fund.creator.toLowerCase() === this.address.toLowerCase());
+        fundsToAddToShow = fundsToAddToShow.filter((fund) => compareAddresses(fund.creator, this.address));
 
       if (this.date)
         fundsToAddToShow = fundsToAddToShow.filter((fund) => isTheSameDate(this.date, fromUnixTimestampToDate(fund.createdAt)));
@@ -122,8 +121,8 @@ export default {
           .replace(/[\u0300-\u036f]/g, '');
         fundsToAddToShow = fundsToAddToShow.filter(
           (fund) =>
-            fund.address.toLowerCase() === search ||
-            fund.creator.toLowerCase() === search ||
+          compareAddresses(fund.address, search) ||
+          compareAddresses(fund.creator, search) ||
             fund.name
               .trim()
               .toLowerCase()

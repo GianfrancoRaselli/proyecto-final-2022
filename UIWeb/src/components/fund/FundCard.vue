@@ -3,9 +3,7 @@
     <div class="card-header">
       <span v-text="fund.name" />
       <div class="fund-info">
-        <span
-          class="badge badge-pill badge-primary my-fund-info mb-1"
-          v-if="address.toLowerCase() === fund.creator.toLowerCase()"
+        <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="compareAddresses(address, fund.creator)"
           >My fund</span
         >
         <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
@@ -21,7 +19,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getSplitAddress, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
+import { getSplitAddress, compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
   name: 'FundCardComponent',
@@ -82,7 +80,9 @@ export default {
     },
   },
   watch: {},
-  methods: {},
+  methods: {
+    compareAddresses,
+  },
 };
 </script>
 

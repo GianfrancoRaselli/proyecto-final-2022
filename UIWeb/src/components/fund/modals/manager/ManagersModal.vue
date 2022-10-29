@@ -22,9 +22,7 @@
                 <li class="list-group-item" v-for="(manager, index) in fund.managers" :key="index">
                   <div class="item-manager">
                     <span v-text="index + 1 + '. ' + getSplitAddress(manager)" />
-                    <span class="badge badge-pill badge-primary ml-1" v-if="manager.toLowerCase() === address.toLowerCase()"
-                      >My address</span
-                    >
+                    <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(manager, address)">My address</span>
                   </div>
                   <div class="item-buttons">
                     <button
@@ -55,7 +53,7 @@
 import $ from 'jquery';
 import { mapState } from 'vuex';
 import { transaction } from '@/helpers/helpers';
-import { getSplitAddress } from 'web3-simple-helpers/methods/general';
+import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 
 // modals
@@ -81,6 +79,7 @@ export default {
     }),
   },
   methods: {
+    compareAddresses,
     getSplitAddress,
 
     addNewManagers() {
@@ -94,7 +93,7 @@ export default {
         await transaction(
           { name: 'Fund', address: this.$route.params.fundAddress },
           'removeManager',
-          [this.fund.managers.findIndex((m) => m.toLowerCase() === manager.toLowerCase())],
+          [this.fund.managers.findIndex((m) => compareAddresses(m, manager))],
           {},
           true,
           'Remove manager from ' + this.fund.name + ': ' + getSplitAddress(manager),
@@ -111,7 +110,7 @@ export default {
     },
 
     removing(manager) {
-      if (this.removingManagers.findIndex((m) => m.toLowerCase() === manager.toLowerCase()) >= 0) return true;
+      if (this.removingManagers.findIndex((m) => compareAddresses(m, manager)) >= 0) return true;
       return false;
     },
   },

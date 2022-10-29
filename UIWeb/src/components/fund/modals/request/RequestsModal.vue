@@ -38,17 +38,13 @@
                     <div v-text="request.description" v-if="request.description"></div>
                     <div class="align-text" v-if="request.petitioner">
                       <span class="text-bold">Petitioner</span>:&nbsp;<span v-text="getSplitAddress(request.petitioner)"></span
-                      ><span
-                        class="badge badge-pill badge-primary ml-1"
-                        v-if="request.petitioner.toLowerCase() === address.toLowerCase()"
+                      ><span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)"
                         >My address</span
                       >
                     </div>
                     <div class="align-text" v-if="request.recipient">
                       <span class="text-bold">Recipient</span>:&nbsp;<span v-text="getSplitAddress(request.recipient)"></span
-                      ><span
-                        class="badge badge-pill badge-primary ml-1"
-                        v-if="request.recipient.toLowerCase() === address.toLowerCase()"
+                      ><span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)"
                         >My address</span
                       >
                     </div>
@@ -102,7 +98,7 @@
                     <div
                       class="buttons-item my-2"
                       v-if="
-                        request.petitioner.toLowerCase() === address.toLowerCase() &&
+                        compareAddresses(request.petitioner, address) &&
                         request.approvalsCount >=
                           Math.ceil(
                             fund.onlyContributorsCanApproveARequest
@@ -139,7 +135,7 @@ import $ from 'jquery';
 import Web3 from 'web3';
 import { mapState } from 'vuex';
 import { transaction, call, event } from '@/helpers/helpers';
-import { getSplitAddress } from 'web3-simple-helpers/methods/general';
+import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 
 // modals
@@ -168,14 +164,16 @@ export default {
     }),
   },
   methods: {
+    compareAddresses,
+    getSplitAddress,
+
     getRequestClass(request) {
       if (request.complete) return 'request-completed';
       if (
         request.approvalsCount >=
         Math.ceil(
           this.fund.onlyContributorsCanApproveARequest
-            ? (this.fund.contributors ? this.fund.contributors.length : 0) *
-                (this.fund.minimumApprovalsPercentageRequired / 100)
+            ? (this.fund.contributors ? this.fund.contributors.length : 0) * (this.fund.minimumApprovalsPercentageRequired / 100)
             : ((this.fund.contributors ? this.fund.contributors.length : 0) +
                 (this.fund.managers ? this.fund.managers.length : 0)) *
                 (this.fund.minimumApprovalsPercentageRequired / 100),
@@ -184,8 +182,6 @@ export default {
         return 'request-approved';
       return 'request-created';
     },
-
-    getSplitAddress,
 
     valueInEth(value) {
       return parseFloat(Web3.utils.fromWei(value.toString(), 'ether'));
@@ -206,8 +202,8 @@ export default {
         (!this.fund.onlyContributorsCanApproveARequest && this.isManager) ||
         this.fund.minimumContributionPercentageRequired == 0 ||
         (this.fund.totalContributions > 0 &&
-          ((this.fund.contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase())
-            ? this.fund.contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase()).contribution
+          ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address))
+            ? this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution
             : 0) /
             this.fund.totalContributions) *
             100 >=
@@ -238,8 +234,8 @@ export default {
         if (this.fund.totalContributions > 0) {
           message =
             'You have contributed ' +
-            ((this.fund.contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase())
-              ? this.fund.contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase()).contribution
+            ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address))
+              ? this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution
               : 0) /
               this.fund.totalContributions) *
               100 +

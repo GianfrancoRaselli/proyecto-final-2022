@@ -39,6 +39,7 @@
 import $ from 'jquery';
 import Web3 from 'web3';
 import { mapState } from 'vuex';
+import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import { transaction, validateForm } from '@/helpers/helpers';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers } from '@vuelidate/validators';
@@ -101,7 +102,7 @@ export default {
 
             const addresses = value.split(',');
             addresses.forEach((address) => {
-              if (address.trim().toLowerCase() === this.address.toLowerCase()) return (validation = false);
+              if (compareAddresses(address.trim(), this.address)) return (validation = false);
             });
 
             return validation;
@@ -119,7 +120,7 @@ export default {
                 if (address1.trim().toLowerCase() !== this.address.toLowerCase()) {
                   let count = 0;
                   addresses.forEach((address2) => {
-                    if (address1.trim().toLowerCase() === address2.trim().toLowerCase()) count++;
+                    if (compareAddresses(address1.trim(), address2.trim())) count++;
                   });
                   if (count > 1) return (validation = false);
                 }
@@ -141,7 +142,7 @@ export default {
                 if (address1.trim().toLowerCase() !== this.address.toLowerCase()) {
                   let count = 0;
                   this.fund.managers.forEach((address2) => {
-                    if (address1.trim().toLowerCase() === address2.trim().toLowerCase()) count++;
+                    if (compareAddresses(address1.trim(), address2.trim())) count++;
                   });
                   if (count >= 1) return (validation = false);
                 }

@@ -22,7 +22,7 @@
                   v-model="contributor"
                   :disabled="loading"
                 />
-                <span class="badge badge-pill badge-primary" v-if="contributor.toLowerCase() === address.toLowerCase()">Me</span>
+                <span class="badge badge-pill badge-primary" v-if="compareAddresses(contributor, address)">Me</span>
               </div>
               <small id="contributorHelp" class="form-text text-muted">Enter an address</small>
               <AppInputErrors :errors="v$.contributor.$errors" />
@@ -69,7 +69,7 @@
 <script>
 import Web3 from 'web3';
 import { mapState } from 'vuex';
-import { getSplitAddress } from 'web3-simple-helpers/methods/general';
+import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { transaction, validateForm } from '@/helpers/helpers';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, numeric } from '@vuelidate/validators';
@@ -119,6 +119,8 @@ export default {
     };
   },
   methods: {
+    compareAddresses,
+
     async handleSubmit() {
       if (await validateForm(this.v$)) {
         try {

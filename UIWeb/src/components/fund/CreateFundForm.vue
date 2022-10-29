@@ -236,7 +236,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, minLength, integer, minValue, maxValue } from '@vuelidate/validators';
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
-import { getSplitAddress } from 'web3-simple-helpers/methods/general';
+import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 import { transaction, validateForm } from '@/helpers/helpers';
 
@@ -360,7 +360,7 @@ export default {
 
               const addresses = value.split(',');
               addresses.forEach((address) => {
-                if (address.trim().toLowerCase() === this.address.toLowerCase()) return (validation = false);
+                if (compareAddresses(address.trim(), this.address)) return (validation = false);
               });
 
               return validation;
@@ -378,7 +378,7 @@ export default {
                   if (address1.trim().toLowerCase() !== this.address.toLowerCase()) {
                     let count = 0;
                     addresses.forEach((address2) => {
-                      if (address1.trim().toLowerCase() === address2.trim().toLowerCase()) count++;
+                      if (compareAddresses(address1.trim(), address2.trim())) count++;
                     });
                     if (count > 1) return (validation = false);
                   }

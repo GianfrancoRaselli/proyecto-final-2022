@@ -7,9 +7,7 @@
       <div class="card-header text-center">
         <span v-text="fund.name" />
         <div class="fund-info">
-          <span
-            class="badge badge-pill badge-primary my-fund-info mb-1"
-            v-if="address.toLowerCase() === fund.creator.toLowerCase()"
+          <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="compareAddresses(address, fund.creator)"
             >My fund</span
           >
           <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
@@ -110,7 +108,7 @@
 <script>
 import Web3 from 'web3';
 import { mapState } from 'vuex';
-import { getSplitAddress, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
+import { getSplitAddress, compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event } from '@/helpers/helpers';
 
 // modals
@@ -166,7 +164,7 @@ export default {
     }),
 
     isManager() {
-      if (this.fund.managers.findIndex((manager) => manager.toLowerCase() === this.address.toLowerCase()) >= 0) return true;
+      if (this.fund.managers.findIndex((manager) => compareAddresses(manager, this.address)) >= 0) return true;
       return false;
     },
 
@@ -227,7 +225,9 @@ export default {
       return parseFloat(Web3.utils.fromWei(this.fund.totalContributions.toString(), 'ether'));
     },
   },
-  methods: {},
+  methods: {
+    compareAddresses,
+  },
   async created() {
     const getSearchSummaryPromise = () => {
       return new Promise((resolve) => {

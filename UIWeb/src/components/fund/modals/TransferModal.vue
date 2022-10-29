@@ -29,7 +29,7 @@
                   v-model="receiver"
                   :disabled="loading"
                 />
-                <span class="badge badge-pill badge-primary" v-if="receiver.toLowerCase() === address.toLowerCase()">Me</span>
+                <span class="badge badge-pill badge-primary" v-if="compareAddresses(receiver, address)">Me</span>
               </div>
               <small id="receiverHelp" class="form-text text-muted">Enter an address</small>
               <AppInputErrors :errors="v$.receiver.$errors" />
@@ -77,7 +77,7 @@
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import { mapState } from 'vuex';
-import { getSplitAddress } from 'web3-simple-helpers/methods/general';
+import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { transaction, validateForm } from '@/helpers/helpers';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, numeric } from '@vuelidate/validators';
@@ -136,6 +136,8 @@ export default {
     };
   },
   methods: {
+    compareAddresses,
+
     async handleSubmit() {
       if (await validateForm(this.v$)) {
         try {
