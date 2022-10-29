@@ -29,7 +29,7 @@ export default {
 }
 
 .designed-by {
-  font-size: 18px;
+  font-size: 1.2rem;
 }
 
 a,

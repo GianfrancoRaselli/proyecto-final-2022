@@ -165,7 +165,7 @@ export default {
 }
 
 .center-line {
-  font-size: 30px;
+  font-size: 2rem;
   font-weight: bolder;
 }
 

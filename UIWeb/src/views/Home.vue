@@ -72,7 +72,7 @@ export default {
 
 .btn-discover {
   font-family: 'Garamond', 'serif';
-  font-size: 22px;
+  font-size: 1.4rem;
   padding: 12px 25px;
   border-radius: 100px;
   animation-duration: 1s;
