@@ -228,13 +228,16 @@ contract Fund is ReentrancyGuard {
     Request storage request = requests[_index];
 
     require(!request.complete, "The request has already been completed");
+    require(!request.approvals[msg.sender], "You have already approved this request");
+    uint256 _minimumContributionPercentageRequired = minimumContributionPercentageRequired;
+    uint256 _totalContributions = totalContributions;
     require(
       (!onlyContributorsCanApproveARequest && isManager[msg.sender]) ||
-        (totalContributions > 0 &&
-          ((contributions[msg.sender] / totalContributions) * 100 >= minimumContributionPercentageRequired)),
+        _minimumContributionPercentageRequired == 0 ||
+        (_totalContributions > 0 &&
+          ((contributions[msg.sender] / _totalContributions) * 100 >= _minimumContributionPercentageRequired)),
       "Do not reach the minimum contribution percentage or you are not a manager"
     );
-    require(!request.approvals[msg.sender], "You have already approved this request");
 
     request.approvals[msg.sender] = true;
     request.approvalsCount.increment();
@@ -251,17 +254,16 @@ contract Fund is ReentrancyGuard {
 
     require(request.petitioner == msg.sender, "You are not the petitioner of the request");
     require(!request.complete, "The request has already been completed");
+    uint256 _totalCount;
     if (onlyContributorsCanApproveARequest) {
-      require(
-        (request.approvalsCount.current() / contributorsCount()) * 100 >= minimumApprovalsPercentageRequired,
-        "The request has not been approved yet"
-      );
+      _totalCount = contributorsCount();
     } else {
-      require(
-        (request.approvalsCount.current() / (managersCount() + contributorsCount())) * 100 >= minimumApprovalsPercentageRequired,
-        "The request has not been approved yet"
-      );
+      _totalCount = managersCount() + contributorsCount();
     }
+    require(
+      _totalCount == 0 || (request.approvalsCount.current() / _totalCount) * 100 >= minimumApprovalsPercentageRequired,
+      "The request has not been approved yet"
+    );
 
     uint256 _valueToTransfer = request.valueToTransfer;
     if (_valueToTransfer > balance()) {

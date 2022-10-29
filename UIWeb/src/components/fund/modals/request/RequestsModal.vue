@@ -201,8 +201,10 @@ export default {
     },
 
     async approveRequest(index) {
+      console.log(this.fund._minimumContributionPercentageRequired);
       if (
         (!this.fund._onlyContributorsCanApproveARequest && this.isManager) ||
+        this.fund._minimumContributionPercentageRequired == 0 ||
         (this.fund._totalContributions > 0 &&
           ((this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase())
             ? this.fund._contributors.find((c) => c.contributor.toLowerCase() === this.address.toLowerCase()).contribution
