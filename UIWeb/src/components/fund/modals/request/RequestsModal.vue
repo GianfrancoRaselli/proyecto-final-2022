@@ -56,11 +56,11 @@
                     </div>
                     <div class="info">
                       <span class="info__label"><span class="text-bold">Value to transfer</span>:&nbsp;</span>
-                      <AppShowAmount :amount="valueInEth(request.valueToTransfer)" singular="ETH" />
+                      <AppShowEth :weis="request.valueToTransfer.toString()" />
                     </div>
                     <div class="info" v-if="request.complete">
                       <span class="info__label"><span class="text-bold">Transferred value</span>:&nbsp;</span>
-                      <AppShowAmount :amount="valueInEth(request.transferredValue)" singular="ETH" />
+                      <AppShowEth :weis="request.transferredValue.toString()" />
                     </div>
                     <div class="info" v-if="!request.complete">
                       <span class="info__label"><span class="text-bold">Approvals</span>:&nbsp;</span>
@@ -138,7 +138,6 @@
 
 <script>
 import $ from 'jquery';
-import Web3 from 'web3';
 import { mapState } from 'vuex';
 import { transaction, call, event } from '@/helpers/helpers';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
@@ -189,10 +188,6 @@ export default {
       return 'request-created';
     },
 
-    valueInEth(value) {
-      return parseFloat(Web3.utils.fromWei(value.toString(), 'ether'));
-    },
-
     requestApproved(index) {
       return this.requestsApproved[index];
     },
@@ -203,7 +198,6 @@ export default {
     },
 
     async approveRequest(index) {
-      console.log(this.fund.minimumContributionPercentageRequired);
       if (
         (!this.fund.onlyContributorsCanApproveARequest && this.isManager) ||
         this.fund.minimumContributionPercentageRequired == 0 ||

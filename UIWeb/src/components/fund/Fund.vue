@@ -27,7 +27,7 @@
         </p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Current balance</span>:&nbsp;</span>
-          <AppShowAmount :amount="balanceInEth" singular="ETH" />
+          <AppShowEth :weis="fund.balance.toString()" />
         </p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Creator</span>:&nbsp;</span>
@@ -39,13 +39,8 @@
         </p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Total contributions</span>:&nbsp;</span>
-          <AppShowAmount :amount="totalContributionsInEth" singular="ETH" class="mr-3" />
-          <button
-            type="button"
-            class="btn btn-link btn-show-contributors"
-            data-toggle="modal"
-            data-target="#contributorsModal"
-          >
+          <AppShowEth :weis="fund.totalContributions.toString()" class="mr-3" />
+          <button type="button" class="btn btn-link btn-show-contributors" data-toggle="modal" data-target="#contributorsModal">
             Show contributors
           </button>
         </p>
@@ -108,7 +103,6 @@
 </template>
 
 <script>
-import Web3 from 'web3';
 import { mapState } from 'vuex';
 import { getSplitAddress, compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event } from '@/helpers/helpers';
@@ -211,20 +205,12 @@ export default {
       return getSplitAddress(this.fund.address);
     },
 
-    balanceInEth() {
-      return parseFloat(Web3.utils.fromWei(this.fund.balance.toString(), 'ether'));
-    },
-
     creatorAddress() {
       return getSplitAddress(this.fund.creator);
     },
 
     createdAt() {
       return fromUnixTimestampToDate(this.fund.createdAt);
-    },
-
-    totalContributionsInEth() {
-      return parseFloat(Web3.utils.fromWei(this.fund.totalContributions.toString(), 'ether'));
     },
   },
   methods: {

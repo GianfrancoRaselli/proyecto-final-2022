@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <p class="card-text current-balance">
-            <span class="text-bold">Current balance</span>:&nbsp;<AppShowAmount :amount="balanceInEth" singular="ETH" />
+            <span class="text-bold">Current balance</span>:&nbsp;<AppShowEth :weis="fund.balance.toString()" />
             <button class="btn btn-link btn-sm ml-2" @click="setCurrentBalance" v-if="fund.balance > 0">
               Transfer all balance
             </button>
@@ -104,10 +104,6 @@ export default {
     ...mapState({
       address: (state) => state.connection.address,
     }),
-
-    balanceInEth() {
-      return parseFloat(Web3.utils.fromWei(this.fund.balance.toString(), 'ether'));
-    },
   },
   validations() {
     return {

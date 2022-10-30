@@ -22,7 +22,7 @@ export default {
       return this.weis.lenght <= 19 - this.maxEthDecimals;
     },
     amountInEth() {
-      return convertNumberToMaxDecimals(Web3.utils.fromWei(this.weis, 'ether'), this.maxEthDecimals);
+      return convertNumberToMaxDecimals(Number(Web3.utils.fromWei(this.weis, 'ether')), this.maxEthDecimals);
     },
   },
 };

@@ -21,7 +21,7 @@
             <small>
               <span class="h6 font-weight-bolder">FundToken price:&nbsp;</span>
               <span>
-                <AppShowAmount :amount="fundTokenPriceInETH" singular="ETH" />
+                <AppShowEth :weis="fundTokenPriceInWeis.toString()" />
                 &nbsp;≈&nbsp;
                 <AppShowAmount :amount="fundTokenPriceInUSD" singular="USD" />
               </span>
@@ -51,7 +51,7 @@
               <small id="tokensHelp" class="form-text">
                 <span class="h6">Total price: </span>
                 <span>
-                  <AppShowAmount :amount="fundTokens * fundTokenPriceInETH" singular="ETH" />
+                  <AppShowEth :weis="(fundTokens * fundTokenPriceInWeis).toString()" />
                   &nbsp;≈&nbsp;
                   <AppShowAmount :amount="fundTokensPriceInUSD" singular="USD" />
                 </span>

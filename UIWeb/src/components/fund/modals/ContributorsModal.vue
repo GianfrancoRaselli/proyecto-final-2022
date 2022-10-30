@@ -19,7 +19,9 @@
                     >My address</span
                   >
                 </div>
-                <div class="item-amount"><AppShowAmount :amount="contributionInEth(c.contribution)" singular="ETH" /></div>
+                <div class="item-amount">
+                  <AppShowEth :weis="contribution ? contribution.toString() : '0'" />
+                </div>
               </li>
             </ul>
           </div>
@@ -30,7 +32,6 @@
 </template>
 
 <script>
-import Web3 from 'web3';
 import { mapState } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 
@@ -56,10 +57,6 @@ export default {
   methods: {
     compareAddresses,
     getSplitAddress,
-
-    contributionInEth(contribution) {
-      return parseFloat(Web3.utils.fromWei(contribution ? contribution.toString() : '0', 'ether'));
-    },
   },
   async created() {},
 };
