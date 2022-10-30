@@ -31,56 +31,62 @@
                   v-for="(request, index) in fund.requests"
                   :key="index"
                 >
-                  <div class="item-element item-number">
+                  <div class="item-element item-number pr-3">
                     <span v-text="index + 1 + '.'" />
                   </div>
-                  <div class="item-element item-content mx-4 px-3">
-                    <div v-text="request.description" v-if="request.description"></div>
-                    <div class="align-text" v-if="request.petitioner">
-                      <span class="text-bold">Petitioner</span>:&nbsp;<span v-text="getSplitAddress(request.petitioner)"></span
-                      ><span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)"
-                        >My address</span
-                      >
+                  <div class="item-element item-content px-3">
+                    <div class="info" v-text="request.description" v-if="request.description" />
+                    <div class="info" v-if="request.petitioner">
+                      <span class="info__label"><span class="text-bold">Petitioner</span>:&nbsp;</span>
+                      <span class="info__info">
+                        <span v-text="getSplitAddress(request.petitioner)"></span>
+                        <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)">
+                          My address
+                        </span>
+                      </span>
                     </div>
-                    <div class="align-text" v-if="request.recipient">
-                      <span class="text-bold">Recipient</span>:&nbsp;<span v-text="getSplitAddress(request.recipient)"></span
-                      ><span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)"
-                        >My address</span
-                      >
+                    <div class="info" v-if="request.recipient">
+                      <span class="info__label"><span class="text-bold">Recipient</span>:&nbsp;</span>
+                      <span class="info__info">
+                        <span v-text="getSplitAddress(request.recipient)"></span>
+                        <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">
+                          My address
+                        </span>
+                      </span>
                     </div>
-                    <div>
-                      <span class="text-bold">Value to transfer</span>:&nbsp;<AppShowAmount
-                        :amount="valueInEth(request.valueToTransfer)"
-                        singular="ETH"
-                      />
+                    <div class="info">
+                      <span class="info__label"><span class="text-bold">Value to transfer</span>:&nbsp;</span>
+                      <AppShowAmount :amount="valueInEth(request.valueToTransfer)" singular="ETH" />
                     </div>
-                    <div v-if="request.complete">
-                      <span class="text-bold">Transferred value</span>:&nbsp;<AppShowAmount
-                        :amount="valueInEth(request.transferredValue)"
-                        singular="ETH"
-                      />
+                    <div class="info" v-if="request.complete">
+                      <span class="info__label"><span class="text-bold">Transferred value</span>:&nbsp;</span>
+                      <AppShowAmount :amount="valueInEth(request.transferredValue)" singular="ETH" />
                     </div>
-                    <div class="align-text" v-if="!request.complete">
-                      <span class="text-bold">Approvals</span>:&nbsp;<span
-                        v-text="
-                          request.approvalsCount +
-                          ' of ' +
-                          Math.ceil(
-                            fund.onlyContributorsCanApproveARequest
-                              ? (fund.contributors ? fund.contributors.length : 0) *
-                                  (fund.minimumApprovalsPercentageRequired / 100)
-                              : ((fund.contributors ? fund.contributors.length : 0) +
-                                  (fund.managers ? fund.managers.length : 0)) *
-                                  (fund.minimumApprovalsPercentageRequired / 100),
-                          ) +
-                          ' needed'
-                        "
-                      ></span>
-                      <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(index)">Approved</span>
+                    <div class="info" v-if="!request.complete">
+                      <span class="info__label"><span class="text-bold">Approvals</span>:&nbsp;</span>
+                      <span class="info__info">
+                        <span
+                          v-text="
+                            (request.approvalsCount | '0') +
+                            ' of ' +
+                            Math.ceil(
+                              fund.onlyContributorsCanApproveARequest
+                                ? (fund.contributors ? fund.contributors.length : 0) *
+                                    (fund.minimumApprovalsPercentageRequired / 100)
+                                : ((fund.contributors ? fund.contributors.length : 0) +
+                                    (fund.managers ? fund.managers.length : 0)) *
+                                    (fund.minimumApprovalsPercentageRequired / 100),
+                            ) +
+                            ' needed'
+                          "
+                        >
+                        </span>
+                        <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(index)">Approved</span>
+                      </span>
                     </div>
                   </div>
-                  <div class="item-element item-buttons px-3" v-if="!request.complete">
-                    <div class="buttons-item my-2" v-if="!requestApproved(index)">
+                  <div class="item-element item-buttons pl-3" v-if="!request.complete">
+                    <div class="buttons-item py-2" v-if="!requestApproved(index)">
                       <button
                         type="button"
                         class="btn btn-primary btn-sm"
@@ -96,7 +102,7 @@
                     </div>
 
                     <div
-                      class="buttons-item my-2"
+                      class="buttons-item py-2"
                       v-if="
                         compareAddresses(request.petitioner, address) &&
                         request.approvalsCount >=
@@ -334,6 +340,12 @@ export default {
 </script>
 
 <style scoped>
+@media (min-width: 768px) {
+  .modal-lg {
+    max-width: 800px;
+  }
+}
+
 .create-request {
   display: flex;
   flex-direction: row;
@@ -384,7 +396,21 @@ export default {
   flex-basis: 100%;
 }
 
-.align-text {
+.info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.info__info {
   display: flex;
   flex-direction: row;
   align-items: center;

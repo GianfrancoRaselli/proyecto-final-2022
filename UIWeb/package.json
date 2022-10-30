@@ -24,7 +24,6 @@
     "sweetalert2": "^11.4.24",
     "vue": "^3.2.13",
     "vue-router": "^4.1.3",
-    "vuejs3-datepicker": "^1.0.12",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0",
     "web3": "^1.7.5",

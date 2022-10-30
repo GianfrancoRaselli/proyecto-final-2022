@@ -137,10 +137,24 @@ const convertNumberToTwoDecimals = (number) => {
   return number.toFixed(2);
 };
 
-const isTheSameDate = (date1, date2) => {
-  return (
-    date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()
-  );
+const areTheSameDates = (...args) => {
+  args.forEach((date, index) => {
+    if (typeof date === 'object') {
+      args[index] = {
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+      };
+    } else if (typeof date === 'string') {
+      args[index] = {
+        year: date.split('-')[0],
+        month: date.split('-')[1],
+        day: date.split('-')[2],
+      };
+    }
+  });
+
+  return args[0].year == args[1].year && args[0].month == args[1].month && args[0].day == args[1].day;
 };
 
 const validateForm = async (validations) => {
@@ -155,4 +169,4 @@ const validateForm = async (validations) => {
   }
 };
 
-export { call, transaction, event, validateForm, addTokenToMetaMask, ethPriceInUSD, convertNumberToTwoDecimals, isTheSameDate };
+export { call, transaction, event, validateForm, addTokenToMetaMask, ethPriceInUSD, convertNumberToTwoDecimals, areTheSameDates };

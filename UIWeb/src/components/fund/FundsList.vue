@@ -7,17 +7,33 @@
     <div v-else>
       <div v-if="funds.length > 0">
         <div class="searches">
-          <div class="date m-2">
-            <DatePicker :value="date" lang="en" @selected="updateDate" class="datepicker" />
-            <fa-icon icon="xmark" class="icon xmark" size="2x" v-if="date" @click="date = null"></fa-icon>
-          </div>
-          <div class="show-my-funds m-2 ml-4">
-            <input type="checkbox" class="form-check-input" id="onlyShowMyFunds" v-model="onlyShowMyFunds" />
-            <label class="form-check-label" for="onlyShowMyFunds">Only show my funds</label>
-          </div>
-          <form class="form-inline form-search m-2">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search" v-model="search" />
+          <form class="form-search">
+            <input type="search" class="form-control" placeholder="Search by Name/Address" aria-label="Search" v-model="search" />
           </form>
+
+          <div class="dropdown filters">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <fa-icon icon="plus" class="icon mr-2" />Add Filter
+            </button>
+
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" @click="$event.stopPropagation()">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" v-model="onlyShowMyFunds" />
+                <label class="form-check-label">Only show my funds</label>
+              </div>
+
+              <div class="date">
+                <input type="date" class="form-control" v-model="date" />
+              </div>
+            </div>
+          </div>
         </div>
         <hr />
       </div>
@@ -43,16 +59,14 @@
 </template>
 
 <script>
-import DatePicker from 'vuejs3-datepicker';
 import FundCard from '@/components/fund/FundCard';
 import { mapState } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
-import { call, event, isTheSameDate } from '@/helpers/helpers';
+import { call, event, areTheSameDates } from '@/helpers/helpers';
 
 export default {
   name: 'FundsListComponent',
   components: {
-    DatePicker,
     FundCard,
   },
   data() {
@@ -76,7 +90,7 @@ export default {
       if (this.onlyShowMyFunds) fundsToShow = fundsToShow.filter((fund) => compareAddresses(fund.creator, this.address));
 
       if (this.date)
-        fundsToShow = fundsToShow.filter((fund) => isTheSameDate(this.date, fromUnixTimestampToDate(fund.createdAt)));
+        fundsToShow = fundsToShow.filter((fund) => areTheSameDates(this.date, fromUnixTimestampToDate(fund.createdAt)));
 
       if (this.search.trim()) {
         const search = this.search
@@ -111,7 +125,7 @@ export default {
         fundsToAddToShow = fundsToAddToShow.filter((fund) => compareAddresses(fund.creator, this.address));
 
       if (this.date)
-        fundsToAddToShow = fundsToAddToShow.filter((fund) => isTheSameDate(this.date, fromUnixTimestampToDate(fund.createdAt)));
+        fundsToAddToShow = fundsToAddToShow.filter((fund) => areTheSameDates(this.date, fromUnixTimestampToDate(fund.createdAt)));
 
       if (this.search.trim()) {
         const search = this.search
@@ -142,10 +156,6 @@ export default {
   },
   watch: {},
   methods: {
-    updateDate(date) {
-      this.date = date;
-    },
-
     async searchFunds() {
       this.loading = true;
       this.progress = 0;
@@ -231,32 +241,31 @@ export default {
 .searches {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
+  gap: 10px;
+}
+
+.form-search input {
+  width: 240px;
+}
+
+.filters .dropdown-menu {
+  width: max-content;
+  padding: 10px;
+}
+
+.filters .dropdown-menu.show {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: start;
+  gap: 10px;
 }
 
 .show-my-funds {
   user-select: none;
-}
-
-.form-search {
-  float: right;
-}
-
-.date {
-  position: relative;
-}
-
-.xmark {
-  color: red;
-  position: absolute;
-  top: 10px;
-  right: 25px;
-}
-
-.xmark:hover {
-  cursor: pointer;
 }
 
 .btn-show {

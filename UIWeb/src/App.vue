@@ -56,7 +56,7 @@ export default {
 }
 
 html {
-  font-size: 85%;
+  font-size: 82%;
 }
 
 body {

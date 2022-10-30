@@ -480,9 +480,6 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-}
-
-.buttons .btn {
-  margin: 3px;
+  gap: 6px;
 }
 </style>
