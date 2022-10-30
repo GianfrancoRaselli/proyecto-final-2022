@@ -132,9 +132,17 @@ const ethPriceInUSD = async () => {
   return convertEthPrice('USD');
 };
 
-const convertNumberToTwoDecimals = (number) => {
-  if (number.toFixed(2).split('.')[1] === '00') return number.toFixed(0);
-  return number.toFixed(2);
+const convertNumberToMaxDecimals = (number, maxNumOfDecimals) => {
+  if (maxNumOfDecimals === 0) return number.toFixed(0);
+  let finalNumOfDecimals = 0;
+  const decimals = number.toFixed(maxNumOfDecimals).split('.')[1];
+  for (let i = maxNumOfDecimals - 1; i >= 0; i--) {
+    if (decimals.charAt(i) !== '0') {
+      finalNumOfDecimals = i + 1;
+      break;
+    }
+  }
+  return number.toFixed(finalNumOfDecimals);
 };
 
 const areTheSameDates = (...args) => {
@@ -169,4 +177,4 @@ const validateForm = async (validations) => {
   }
 };
 
-export { call, transaction, event, validateForm, addTokenToMetaMask, ethPriceInUSD, convertNumberToTwoDecimals, areTheSameDates };
+export { call, transaction, event, validateForm, addTokenToMetaMask, ethPriceInUSD, convertNumberToMaxDecimals, areTheSameDates };

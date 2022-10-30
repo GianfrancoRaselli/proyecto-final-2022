@@ -14,6 +14,7 @@ import AppSpinner from '@/components/global/AppSpinner';
 import AppProgress from '@/components/global/AppProgress';
 import AppInputErrors from '@/components/global/AppInputErrors';
 import AppShowAmount from '@/components/global/AppShowAmount';
+import AppShowEth from '@/components/global/AppShowEth';
 
 import 'bootstrap/dist/js/bootstrap.min.js';
 
@@ -32,5 +33,6 @@ app.component('AppSpinner', AppSpinner);
 app.component('AppProgress', AppProgress);
 app.component('AppInputErrors', AppInputErrors);
 app.component('AppShowAmount', AppShowAmount);
+app.component('AppShowEth', AppShowEth);
 
 app.mount('#app');

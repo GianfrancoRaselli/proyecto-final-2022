@@ -28,7 +28,7 @@
             </small>
           </div>
 
-          <hr/>
+          <hr />
 
           <form @submit.prevent="handleSubmit" class="mt-3">
             <div class="form-group">
@@ -86,7 +86,7 @@ import {
   validateForm,
   addTokenToMetaMask,
   ethPriceInUSD,
-  convertNumberToTwoDecimals,
+  convertNumberToMaxDecimals,
 } from '@/helpers/helpers';
 
 export default {
@@ -119,10 +119,10 @@ export default {
       return parseFloat(Web3.utils.fromWei(this.fundTokenPriceInWeis.toString(), 'ether'));
     },
     fundTokenPriceInUSD() {
-      return convertNumberToTwoDecimals(this.fundTokenPriceInETH * this.ethPriceInUSD);
+      return convertNumberToMaxDecimals(this.fundTokenPriceInETH * this.ethPriceInUSD, 2);
     },
     fundTokensPriceInUSD() {
-      return convertNumberToTwoDecimals(this.fundTokens * this.fundTokenPriceInETH * this.ethPriceInUSD);
+      return convertNumberToMaxDecimals(this.fundTokens * this.fundTokenPriceInETH * this.ethPriceInUSD, 2);
     },
   },
   validations() {
