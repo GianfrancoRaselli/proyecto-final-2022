@@ -25,8 +25,8 @@
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" @click="$event.stopPropagation()">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" v-model="onlyShowMyFunds" />
-                <label class="form-check-label">Only show my funds</label>
+                <input class="form-check-input" type="checkbox" id="checkboxMyFunds" v-model="onlyShowMyFunds" />
+                <label class="form-check-label" for="checkboxMyFunds">Only show my funds</label>
               </div>
 
               <div class="date">
@@ -264,7 +264,7 @@ export default {
   gap: 10px;
 }
 
-.show-my-funds {
+.form-check {
   user-select: none;
 }
 

@@ -476,4 +476,8 @@ export default {
 .icon {
   color: #1d6aa8;
 }
+
+.custom-switch {
+  user-select: none;
+}
 </style>
