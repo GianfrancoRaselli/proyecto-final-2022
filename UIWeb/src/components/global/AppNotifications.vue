@@ -8,20 +8,9 @@
         :key="notification.id"
       >
         <span>{{ notification.message }}</span>
-        <button
-          type="button"
-          class="btn btn-secondary"
-          @click="removeNotification(notification.id)"
-        >
-          X
-        </button>
+        <button type="button" class="btn btn-secondary" @click="removeNotification(notification.id)">X</button>
       </div>
-      <button
-        type="button"
-        class="btn btn-link btn-remove-all"
-        @click="removeNotifications"
-        v-if="notifications.length > 0"
-      >
+      <button type="button" class="btn btn-link btn-remove-all" @click="removeNotifications" v-if="notifications.length > 0">
         Remove all
       </button>
     </transition-group>
@@ -29,14 +18,10 @@
 </template>
 
 <script>
-import {
-  notifications,
-  removeNotification,
-  removeNotifications,
-} from "@/composables/useNotifications";
+import { notifications, removeNotification, removeNotifications } from '@/composables/useNotifications';
 
 export default {
-  name: "AppNotificaionsComponent",
+  name: 'AppNotificaionsComponent',
   setup() {
     return { notifications, removeNotification, removeNotifications };
   },
@@ -91,7 +76,10 @@ export default {
 }
 
 .btn-remove-all {
-  color: #003eb2;
+  color: #00163e;
+  background-color: rgba(255, 255, 255, 0.463);
   float: right;
+  margin-right: 0.5rem;
+  padding: 0.15rem 0.8rem;
 }
 </style>

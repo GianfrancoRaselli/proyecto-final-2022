@@ -44,12 +44,7 @@
                   v-text="
                     (request.approvalsCount | '0') +
                     ' of ' +
-                    Math.ceil(
-                      fund.onlyContributorsCanApproveARequest
-                        ? (fund.contributors ? fund.contributors.length : 0) * (fund.minimumApprovalsPercentageRequired / 100)
-                        : ((fund.contributors ? fund.contributors.length : 0) + (fund.managers ? fund.managers.length : 0)) *
-                            (fund.minimumApprovalsPercentageRequired / 100),
-                    ) +
+                    Math.ceil(maxNumOfApprovers() * (fund.minimumApprovalsPercentageRequired / 100)) +
                     ' needed'
                   "
                 >
@@ -59,7 +54,7 @@
             </div>
           </div>
 
-          <div class="content-buttons" v-if="!requestApproved(index) || canFinalize(request)">
+          <div class="content-buttons" v-if="!request.complete && (!requestApproved(index) || canFinalize(request))">
             <div class="button" v-if="!requestApproved(index)">
               <button type="button" class="btn btn-primary btn-sm" v-if="!approving(index)" @click="approveRequest(index)">
                 <fa-icon icon="thumbs-up" class="icon mr-2" />Approve
@@ -115,18 +110,29 @@ export default {
     compareAddresses,
     getSplitAddress,
 
+    maxNumOfApprovers() {
+      if (this.fund.onlyContributorsCanApproveARequest) {
+        if (this.fund.contributors) return this.fund.contributors.length;
+        else return 0;
+      } else {
+        let num = 0;
+        if (this.fund.contributors) {
+          num = this.fund.contributors.length;
+          if (this.fund.managers) {
+            this.fund.managers.forEach((manager) => {
+              if (this.fund.contributors.indexOf(manager) === -1) num++;
+            });
+          }
+        } else {
+          if (this.fund.managers) num = this.fund.managers.length;
+        }
+        return num;
+      }
+    },
+
     getRequestClass(request) {
       if (request.complete) return 'request-completed';
-      if (
-        request.approvalsCount >=
-        Math.ceil(
-          this.fund.onlyContributorsCanApproveARequest
-            ? (this.fund.contributors ? this.fund.contributors.length : 0) * (this.fund.minimumApprovalsPercentageRequired / 100)
-            : ((this.fund.contributors ? this.fund.contributors.length : 0) +
-                (this.fund.managers ? this.fund.managers.length : 0)) *
-                (this.fund.minimumApprovalsPercentageRequired / 100),
-        )
-      )
+      if (request.approvalsCount >= Math.ceil(this.maxNumOfApprovers() * (this.fund.minimumApprovalsPercentageRequired / 100)))
         return 'request-approved';
       return 'request-created';
     },
@@ -196,15 +202,7 @@ export default {
     canFinalize(request) {
       return (
         compareAddresses(request.petitioner, this.address) &&
-        request.approvalsCount >=
-          Math.ceil(
-            this.fund.onlyContributorsCanApproveARequest
-              ? (this.fund.contributors ? this.fund.contributors.length : 0) *
-                  (this.fund.minimumApprovalsPercentageRequired / 100)
-              : ((this.fund.contributors ? this.fund.contributors.length : 0) +
-                  (this.fund.managers ? this.fund.managers.length : 0)) *
-                  (this.fund.minimumApprovalsPercentageRequired / 100),
-          )
+        request.approvalsCount >= Math.ceil(this.maxNumOfApprovers() * (this.fund.minimumApprovalsPercentageRequired / 100))
       );
     },
 

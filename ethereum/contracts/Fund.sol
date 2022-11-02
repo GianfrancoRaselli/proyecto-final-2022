@@ -258,7 +258,17 @@ contract Fund is ReentrancyGuard {
     if (onlyContributorsCanApproveARequest) {
       _totalCount = contributorsCount();
     } else {
-      _totalCount = managersCount() + contributorsCount();
+      _totalCount = contributorsCount();
+
+      for (uint256 i; i < managers.length; ) {
+        if (!(contributions[managers[i]] > 0)) {
+          _totalCount++;
+        }
+
+        unchecked {
+          i++;
+        }
+      }
     }
     require(
       _totalCount == 0 || (request.approvalsCount.current() / _totalCount) * 100 >= minimumApprovalsPercentageRequired,

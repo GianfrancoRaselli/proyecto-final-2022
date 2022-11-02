@@ -25,7 +25,6 @@ import TheNavbar from '@/components/navbar/TheNavbar';
 import TheMobileNavbar from '@/components/navbar/TheMobileNavbar';
 import WalletModal from '@/components/modals/WalletModal';
 import BuyFundTokensModal from '@/components/modals/BuyFundTokensModal';
-import AppNotifications from '@/components/global/AppNotifications';
 import TheFooter from '@/components/TheFooter';
 
 import { connectToMetamask } from '@/helpers/connection';
@@ -37,7 +36,6 @@ export default {
     TheMobileNavbar,
     WalletModal,
     BuyFundTokensModal,
-    AppNotifications,
     TheFooter,
   },
   computed: {},
