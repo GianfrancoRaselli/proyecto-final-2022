@@ -22,112 +22,7 @@
               </button>
             </div>
 
-            <div class="requests-list mt-2">
-              <div class="no-requests" v-if="fund.requests && fund.requests.length === 0">No requests</div>
-              <ul class="list-group list-group-flush" v-else>
-                <li
-                  class="list-group-item"
-                  :class="getRequestClass(request)"
-                  v-for="(request, index) in fund.requests"
-                  :key="index"
-                >
-                  <div class="item-element item-number pr-3">
-                    <span v-text="index + 1 + '.'" />
-                  </div>
-                  <div class="item-element item-content px-3">
-                    <div class="info" v-text="request.description" v-if="request.description" />
-                    <div class="info" v-if="request.petitioner">
-                      <span class="info__label"><span class="text-bold">Petitioner</span>:&nbsp;</span>
-                      <span class="info__info">
-                        <span v-text="getSplitAddress(request.petitioner)"></span>
-                        <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)">
-                          My address
-                        </span>
-                      </span>
-                    </div>
-                    <div class="info" v-if="request.recipient">
-                      <span class="info__label"><span class="text-bold">Recipient</span>:&nbsp;</span>
-                      <span class="info__info">
-                        <span v-text="getSplitAddress(request.recipient)"></span>
-                        <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">
-                          My address
-                        </span>
-                      </span>
-                    </div>
-                    <div class="info">
-                      <span class="info__label"><span class="text-bold">Value to transfer</span>:&nbsp;</span>
-                      <AppShowEth :weis="request.valueToTransfer.toString()" />
-                    </div>
-                    <div class="info" v-if="request.complete">
-                      <span class="info__label"><span class="text-bold">Transferred value</span>:&nbsp;</span>
-                      <AppShowEth :weis="request.transferredValue.toString()" />
-                    </div>
-                    <div class="info" v-if="!request.complete">
-                      <span class="info__label"><span class="text-bold">Approvals</span>:&nbsp;</span>
-                      <span class="info__info">
-                        <span
-                          v-text="
-                            (request.approvalsCount | '0') +
-                            ' of ' +
-                            Math.ceil(
-                              fund.onlyContributorsCanApproveARequest
-                                ? (fund.contributors ? fund.contributors.length : 0) *
-                                    (fund.minimumApprovalsPercentageRequired / 100)
-                                : ((fund.contributors ? fund.contributors.length : 0) +
-                                    (fund.managers ? fund.managers.length : 0)) *
-                                    (fund.minimumApprovalsPercentageRequired / 100),
-                            ) +
-                            ' needed'
-                          "
-                        >
-                        </span>
-                        <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(index)">Approved</span>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="item-element item-buttons pl-3" v-if="!request.complete">
-                    <div class="buttons-item py-2" v-if="!requestApproved(index)">
-                      <button
-                        type="button"
-                        class="btn btn-primary btn-sm"
-                        v-if="!approving(index)"
-                        @click="approveRequest(index)"
-                      >
-                        <fa-icon icon="thumbs-up" class="icon mr-2" />Approve
-                      </button>
-                      <button class="btn btn-primary btn-sm" type="button" disabled v-if="approving(index)">
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-                        Loading...
-                      </button>
-                    </div>
-
-                    <div
-                      class="buttons-item py-2"
-                      v-if="
-                        compareAddresses(request.petitioner, address) &&
-                        request.approvalsCount >=
-                          Math.ceil(
-                            fund.onlyContributorsCanApproveARequest
-                              ? (fund.contributors ? fund.contributors.length : 0) *
-                                  (fund.minimumApprovalsPercentageRequired / 100)
-                              : ((fund.contributors ? fund.contributors.length : 0) +
-                                  (fund.managers ? fund.managers.length : 0)) *
-                                  (fund.minimumApprovalsPercentageRequired / 100),
-                          )
-                      "
-                    >
-                      <button type="button" class="btn btn-dark btn-sm" v-if="!finalizing(index)" @click="finalizeRequest(index)">
-                        <fa-icon icon="square-arrow-up-right" class="icon mr-2" />Finalize
-                      </button>
-                      <button class="btn btn-dark btn-sm" type="button" disabled v-if="finalizing(index)">
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-                        Loading...
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
+            <RequestsList :fund="fund" :isManager="isManager" />
           </div>
         </div>
       </div>
@@ -139,9 +34,7 @@
 <script>
 import $ from 'jquery';
 import { mapState } from 'vuex';
-import { transaction, call, event } from '@/helpers/helpers';
-import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
-import { addNotification } from '@/composables/useNotifications';
+import RequestsList from '@/components/fund/modals/request/RequestsList.vue';
 
 // modals
 import CreateRequestModal from '@/components/fund/modals/request/CreateRequestModal.vue';
@@ -150,186 +43,25 @@ export default {
   name: 'RequestsModalComponent',
   components: {
     CreateRequestModal,
+    RequestsList,
   },
   props: {
     fund: { type: Object, require: true },
     isManager: { type: Boolean, default: false },
   },
   data() {
-    return {
-      requestsApproved: [],
-      approvingRequests: [],
-      finalizingRequests: [],
-      approveRequestSubscription: null,
-    };
+    return {};
   },
   computed: {
-    ...mapState({
-      address: (state) => state.connection.address,
-    }),
+    ...mapState({}),
   },
   methods: {
-    compareAddresses,
-    getSplitAddress,
-
-    getRequestClass(request) {
-      if (request.complete) return 'request-completed';
-      if (
-        request.approvalsCount >=
-        Math.ceil(
-          this.fund.onlyContributorsCanApproveARequest
-            ? (this.fund.contributors ? this.fund.contributors.length : 0) * (this.fund.minimumApprovalsPercentageRequired / 100)
-            : ((this.fund.contributors ? this.fund.contributors.length : 0) +
-                (this.fund.managers ? this.fund.managers.length : 0)) *
-                (this.fund.minimumApprovalsPercentageRequired / 100),
-        )
-      )
-        return 'request-approved';
-      return 'request-created';
-    },
-
-    requestApproved(index) {
-      return this.requestsApproved[index];
-    },
-
     createNewRequest() {
       $('#requestsModal').modal('hide');
       $('#createRequestModal').modal('show');
     },
-
-    async approveRequest(index) {
-      if (
-        (!this.fund.onlyContributorsCanApproveARequest && this.isManager) ||
-        this.fund.minimumContributionPercentageRequired == 0 ||
-        (this.fund.totalContributions > 0 &&
-          ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address))
-            ? this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution
-            : 0) /
-            this.fund.totalContributions) *
-            100 >=
-            this.fund.minimumContributionPercentageRequired)
-      ) {
-        try {
-          this.approvingRequests.push(index);
-          await transaction(
-            { name: 'Fund', address: this.$route.params.fundAddress },
-            'approveRequest',
-            [index],
-            {},
-            true,
-            'Approve request ' + (index + 1) + ' of ' + this.fund.name,
-          );
-          this.requestsApproved[index] = true;
-          // eslint-disable-next-line vue/no-mutating-props
-          this.fund.requests[index].approvalsCount += 1;
-          addNotification({
-            message: 'Request ' + (index + 1) + ' approved',
-            type: 'success',
-          });
-        } finally {
-          this.approvingRequests = this.approvingRequests.filter((i) => i !== index);
-        }
-      } else {
-        let message = 'You have not contributed to the fund yet';
-        if (this.fund.totalContributions > 0) {
-          message =
-            'You have contributed ' +
-            ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address))
-              ? this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution
-              : 0) /
-              this.fund.totalContributions) *
-              100 +
-            '% of the ' +
-            this.fund.minimumContributionPercentageRequired +
-            '% required to approve the request';
-        }
-        addNotification({
-          message,
-          type: 'error',
-        });
-      }
-    },
-
-    async finalizeRequest(index) {
-      try {
-        this.finalizingRequests.push(index);
-        await transaction(
-          { name: 'Fund', address: this.$route.params.fundAddress },
-          'finalizeRequest',
-          [index],
-          {},
-          true,
-          'Finalize request ' + (index + 1) + ' of ' + this.fund.name,
-        );
-        // eslint-disable-next-line vue/no-mutating-props
-        this.fund.requests[index].transferredValue =
-          this.fund.requests[index].valueToTransfer > this.fund.balance
-            ? this.fund.balance
-            : this.fund.requests[index].valueToTransfer;
-        // eslint-disable-next-line vue/no-mutating-props
-        this.fund.requests[index].complete = true;
-        addNotification({
-          message: 'Request ' + (index + 1) + ' finalized',
-          type: 'success',
-        });
-      } finally {
-        this.finalizingRequests = this.approvingRequests.filter((i) => i !== index);
-      }
-    },
-
-    approving(requestIndex) {
-      if (this.approvingRequests.findIndex((i) => i === requestIndex) >= 0) return true;
-      return false;
-    },
-
-    finalizing(requestIndex) {
-      if (this.finalizingRequests.findIndex((i) => i === requestIndex) >= 0) return true;
-      return false;
-    },
   },
-  async created() {
-    const searchRequestsApproved = async () => {
-      let requestsApproved = [];
-
-      if (this.address) {
-        const totalRequests = parseInt(await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requestsCount'));
-        if (totalRequests > 0) {
-          requestsApproved = Array(totalRequests);
-
-          await Promise.all(
-            Array(totalRequests)
-              .fill()
-              .map((element, index) => {
-                return call(
-                  { name: 'Fund', address: this.$route.params.fundAddress },
-                  'getRequestApproval',
-                  [index, this.address],
-                  {},
-                  (res) => {
-                    requestsApproved[index] = res;
-                  },
-                );
-              }),
-          );
-        }
-      }
-
-      this.requestsApproved = requestsApproved;
-    };
-    await searchRequestsApproved();
-
-    this.approveRequestSubscription = await event(
-      { name: 'Fund', address: this.$route.params.fundAddress },
-      'ApproveRequest',
-      undefined,
-      () => {
-        searchRequestsApproved();
-      },
-    );
-  },
-  unmounted() {
-    if (this.approveRequestSubscription) this.approveRequestSubscription.unsubscribe();
-  },
+  created() {},
 };
 </script>
 
@@ -347,70 +79,5 @@ export default {
   align-items: center;
   padding-bottom: 10px;
   border-bottom: 1px solid rgb(156, 156, 156);
-}
-
-.no-requests {
-  margin-top: 12px;
-}
-
-.list-group-item {
-  border-radius: 10px;
-  margin-bottom: 6px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-}
-
-.request-completed {
-  background-color: rgba(0, 0, 255, 0.18);
-}
-
-.request-approved {
-  background-color: rgba(0, 128, 0, 0.21);
-}
-
-.request-created {
-  background-color: rgba(255, 0, 0, 0.15);
-}
-
-.badge {
-  font-size: 0.7rem;
-}
-
-.item-element {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: start;
-}
-
-.item-content {
-  border-left: 1px solid rgb(190, 190, 190);
-  flex-basis: 100%;
-}
-
-.info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-@media (max-width: 600px) {
-  .info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-.info__info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.item-buttons {
-  border-left: 1px solid rgb(190, 190, 190);
 }
 </style>

@@ -31,7 +31,7 @@
         </div>
         <div v-else v-text="installMetaMaskMsg"></div>
 
-        <div class="dropdown ml-3">
+        <div class="dropdown ml-3" style="display: none;">
           <fa-icon
             icon="globe"
             class="dropdown-toggle icon mr-1"

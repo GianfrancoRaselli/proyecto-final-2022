@@ -6,31 +6,44 @@
     </div>
     <div v-else>
       <div v-if="funds.length > 0">
-        <div class="searches">
+        <div class="searches pb-1">
           <form class="form-search">
             <input type="search" class="form-control" placeholder="Search by Name/Address" aria-label="Search" v-model="search" />
           </form>
 
-          <div class="dropdown filters">
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <fa-icon icon="plus" class="icon mr-2" />Add Filter
-            </button>
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="addFilterButton"
+            data-toggle="modal"
+            data-target="#filtersModal"
+          >
+            <fa-icon icon="filter" class="icon mr-2" />Add Filter
+          </button>
 
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" @click="$event.stopPropagation()">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="checkboxMyFunds" v-model="onlyShowMyFunds" />
-                <label class="form-check-label" for="checkboxMyFunds">Only show my funds</label>
-              </div>
-
-              <div class="date">
-                <input type="date" class="form-control" v-model="date" />
+          <div class="modal fade" id="filtersModal" tabindex="-1" aria-labelledby="filtersModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title mr-2" id="filtersModalLabel">Filters</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="date-filter">
+                    <div class="filter-title">Creation date</div>
+                    <input type="date" class="form-control" v-model="date" />
+                  </div>
+                  <hr />
+                  <div class="more-filters">
+                    <div class="filter-title">More filters</div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="checkboxMyFunds" v-model="onlyShowMyFunds" />
+                      <label class="form-check-label" for="checkboxMyFunds">Only show my funds</label>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -251,17 +264,9 @@ export default {
   width: 240px;
 }
 
-.filters .dropdown-menu {
-  width: max-content;
-  padding: 10px;
-}
-
-.filters .dropdown-menu.show {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: start;
-  gap: 10px;
+.filter-title {
+  font-weight: bold;
+  margin-bottom: 0.4rem;
 }
 
 .form-check {

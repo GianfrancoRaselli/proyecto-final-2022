@@ -14,9 +14,9 @@
         </div>
       </div>
       <div class="card-body">
-        <div class="body-header px-3">
+        <div class="body-header">
           <img class="img" src="../../assets/imgs/fund.png" />
-          <div class="w-100 ml-5" v-if="fund.description">
+          <div class="description" v-if="fund.description">
             <span v-text="fund.description" />
           </div>
         </div>
@@ -418,12 +418,30 @@ export default {
 
 .body-header {
   background-color: rgb(244, 244, 244);
-  padding: 10px;
+  padding: 20px;
   border-radius: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.body-header .description {
+  width: 100%;
+  padding: 30px;
+}
+
+@media (max-width: 700px) {
+  .body-header {
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .body-header .description {
+    text-align: center;
+    padding: 4px;
+  }
 }
 
 .img {
