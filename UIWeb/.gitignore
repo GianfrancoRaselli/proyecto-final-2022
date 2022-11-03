@@ -22,6 +22,7 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
+# Help files
 .annotations
 .future
 .maybe

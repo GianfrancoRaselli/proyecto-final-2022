@@ -233,10 +233,11 @@ contract Fund is ReentrancyGuard {
     uint256 _totalContributions = totalContributions;
     require(
       (!onlyContributorsCanApproveARequest && isManager[msg.sender]) ||
-        _minimumContributionPercentageRequired == 0 ||
-        (_totalContributions > 0 &&
-          ((contributions[msg.sender] / _totalContributions) * 100 >= _minimumContributionPercentageRequired)),
-      "Do not reach the minimum contribution percentage or you are not a manager"
+      _minimumContributionPercentageRequired == 0 ||
+      (
+        _totalContributions > 0 &&
+        ((contributions[msg.sender] / _totalContributions) * 100 >= _minimumContributionPercentageRequired)
+      ), "Do not reach the minimum contribution percentage or you are not a manager"
     );
 
     request.approvals[msg.sender] = true;

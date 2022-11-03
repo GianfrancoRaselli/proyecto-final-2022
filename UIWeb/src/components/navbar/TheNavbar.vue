@@ -10,10 +10,10 @@
           <li class="nav-item mr-1">
             <router-link class="nav-link" :to="{ name: 'CreateFund' }" exact v-text="createFundMsg" />
           </li>
-          <li class="nav-item mr-1">
+          <li class="nav-item mx-1">
             <router-link class="nav-link" :to="{ name: 'Funds' }" exact v-text="fundsMsg" />
           </li>
-          <li class="nav-item ml-1">
+          <li class="nav-item ml-3">
             <AppButton classes="btn-light" data-toggle="modal" data-target="#buyFundTokensModal" :text="buyFundTokensMsg" />
           </li>
         </ul>

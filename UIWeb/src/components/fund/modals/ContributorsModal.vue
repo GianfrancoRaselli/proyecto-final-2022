@@ -20,7 +20,7 @@
                   >
                 </div>
                 <div class="item-amount">
-                  <AppShowEth :weis="contribution ? contribution.toString() : '0'" />
+                  <AppShowEth :weis="c.contribution ? c.contribution.toString() : '0'" />
                 </div>
               </li>
             </ul>

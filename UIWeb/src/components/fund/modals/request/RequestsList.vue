@@ -120,7 +120,14 @@ export default {
           num = this.fund.contributors.length;
           if (this.fund.managers) {
             this.fund.managers.forEach((manager) => {
-              if (this.fund.contributors.indexOf(manager) === -1) num++;
+              let isAContributor = false;
+              for (let i = 0; i < this.fund.contributors.length; i++) {
+                if (this.fund.contributors[i].contributor === manager) {
+                  isAContributor = true;
+                  break;
+                }
+              }
+              if (!isAContributor) num++;
             });
           }
         } else {
@@ -146,9 +153,7 @@ export default {
         (!this.fund.onlyContributorsCanApproveARequest && this.isManager) ||
         this.fund.minimumContributionPercentageRequired == 0 ||
         (this.fund.totalContributions > 0 &&
-          ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address))
-            ? this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution
-            : 0) /
+          ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution || 0) /
             this.fund.totalContributions) *
             100 >=
             this.fund.minimumContributionPercentageRequired)
@@ -348,6 +353,7 @@ export default {
 }
 
 .content-buttons {
+  min-width: 120px;
   padding-left: 1rem;
   border-left: 1px solid rgb(190, 190, 190);
   display: flex;
@@ -363,6 +369,10 @@ export default {
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .content-buttons {
+    min-width: 100px;
+  }
 }
 
 @media (max-width: 500px) {
@@ -375,6 +385,7 @@ export default {
   }
 
   .content-buttons {
+    min-width: 0;
     padding: 0;
     border: none;
     margin-top: 0.5rem;
