@@ -31,6 +31,7 @@ module.exports = {
   networks: {
     ganache: {
       url: 'http://127.0.0.1:7545',
+      accounts: [process.env.GANACHE_PRIVATE_KEY],
     },
     goerli: {
       url: `https://goerli.infura.io/v3/${process.env.INFURA_KEY}`,

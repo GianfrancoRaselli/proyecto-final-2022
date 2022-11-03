@@ -3,7 +3,7 @@ export default {
     return {
       chainId: '',
       validChain: {
-        id: '0x5',
+        id: '0x539', // 0x5
         name: 'Goerli Testnet',
         coin: 'GoerliETH',
         explorer: 'https://goerli.etherscan.io',
