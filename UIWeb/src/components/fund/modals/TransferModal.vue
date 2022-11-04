@@ -23,7 +23,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  :class="{ 'form-control-error': v$.receiver.$errors.length }"
+                  :class="{ 'is-invalid': v$.receiver.$errors.length }"
                   id="receiverInput"
                   aria-describedby="receiverHelp"
                   v-model="receiver"
@@ -42,7 +42,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    :class="{ 'form-control-error': v$.value.$errors.length }"
+                    :class="{ 'is-invalid': v$.value.$errors.length }"
                     id="valueInput"
                     aria-describedby="valueHelp"
                     v-model="value"

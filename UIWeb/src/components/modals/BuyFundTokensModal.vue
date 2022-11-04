@@ -36,7 +36,7 @@
               <input
                 type="number"
                 class="form-control"
-                :class="{ 'form-control-error': v$.fundTokens.$errors.length }"
+                :class="{ 'is-invalid': v$.fundTokens.$errors.length }"
                 id="tokensInput"
                 aria-describedby="tokensHelp"
                 autofocus

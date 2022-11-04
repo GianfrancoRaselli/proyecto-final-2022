@@ -128,7 +128,7 @@ body {
   justify-self: flex-end;
 }
 
-/* common styles */
+/* animation styles */
 
 .slide-leave-to {
   opacity: 0.5;
@@ -138,6 +138,8 @@ body {
 .slide-leave-active {
   transition: opacity 0.7s, transform 0.7s;
 }
+
+/* common styles */
 
 .text-bold {
   font-weight: bold;
@@ -149,9 +151,5 @@ body {
 
 .text-center {
   text-align: center;
-}
-
-.form-control-error {
-  border: 2px solid red;
 }
 </style>

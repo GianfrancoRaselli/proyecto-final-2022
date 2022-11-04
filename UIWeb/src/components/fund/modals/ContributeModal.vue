@@ -16,7 +16,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  :class="{ 'form-control-error': v$.contributor.$errors.length }"
+                  :class="{ 'is-invalid': v$.contributor.$errors.length }"
                   id="contributorInput"
                   aria-describedby="contributorHelp"
                   v-model="contributor"
@@ -35,7 +35,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    :class="{ 'form-control-error': v$.contribution.$errors.length }"
+                    :class="{ 'is-invalid': v$.contribution.$errors.length }"
                     id="contributionAmountInput"
                     aria-describedby="contributionAmountHelp"
                     v-model="contribution"

@@ -13,7 +13,7 @@
               <input
                 type="text"
                 class="form-control"
-                :class="{ 'form-control-error': v$.newManagers.$errors.length }"
+                :class="{ 'is-invalid': v$.newManagers.$errors.length }"
                 id="newManagersInput"
                 aria-describedby="newManagersHelp"
                 v-model="newManagers"

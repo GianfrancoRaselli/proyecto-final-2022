@@ -13,7 +13,7 @@
               <input
                 type="text"
                 class="form-control"
-                :class="{ 'form-control-error': v$.data.description.$errors.length }"
+                :class="{ 'is-invalid': v$.data.description.$errors.length }"
                 id="descriptionInput"
                 aria-describedby="descriptionHelp"
                 v-model="data.description"
@@ -27,7 +27,7 @@
               <input
                 type="text"
                 class="form-control"
-                :class="{ 'form-control-error': v$.data.recipient.$errors.length }"
+                :class="{ 'is-invalid': v$.data.recipient.$errors.length }"
                 id="recipientInput"
                 aria-describedby="recipientHelp"
                 v-model="data.recipient"
@@ -44,7 +44,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    :class="{ 'form-control-error': v$.data.valueToTransfer.$errors.length }"
+                    :class="{ 'is-invalid': v$.data.valueToTransfer.$errors.length }"
                     id="valueToTransferInput"
                     aria-describedby="valueToTransferHelp"
                     v-model="data.valueToTransfer"
