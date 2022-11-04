@@ -102,8 +102,8 @@ export default {
     },
 
     async connectToMetamask() {
-      await connectToMetamask();
       this.$store.commit('setDisconnected', false);
+      await connectToMetamask();
     },
   },
 };

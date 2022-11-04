@@ -80,7 +80,7 @@ import { getMessages } from '@/dictionary';
 import { addNotification } from '@/composables/useNotifications';
 import { mapState, mapGetters } from 'vuex';
 import { getSplitAddress } from 'web3-simple-helpers/methods/general';
-import { connectToMetamask, checkValidChain, disconnect } from '@/helpers/connection';
+import { connectToMetamask, checkValidChain } from '@/helpers/connection';
 
 const MINUTE = 60000;
 
@@ -129,14 +129,13 @@ export default {
   },
   methods: {
     async connectToMetamask() {
-      await connectToMetamask();
       this.$store.commit('setDisconnected', false);
+      await connectToMetamask();
     },
     changeToTheValidChain() {
       checkValidChain();
     },
     disconnect() {
-      disconnect();
       this.$store.commit('setDisconnected', true);
     },
     copyAddress() {
