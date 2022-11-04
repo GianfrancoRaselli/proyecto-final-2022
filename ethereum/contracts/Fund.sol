@@ -233,11 +233,10 @@ contract Fund is ReentrancyGuard {
     uint256 _totalContributions = totalContributions;
     require(
       (!onlyContributorsCanApproveARequest && isManager[msg.sender]) ||
-      _minimumContributionPercentageRequired == 0 ||
-      (
-        _totalContributions > 0 &&
-        ((contributions[msg.sender] / _totalContributions) * 100 >= _minimumContributionPercentageRequired)
-      ), "Do not reach the minimum contribution percentage or you are not a manager"
+        _minimumContributionPercentageRequired == 0 ||
+        (_totalContributions > 0 &&
+          (contributions[msg.sender] * 100) / _totalContributions >= _minimumContributionPercentageRequired),
+      "Do not reach the minimum contribution percentage or you are not a manager"
     );
 
     request.approvals[msg.sender] = true;
@@ -272,7 +271,7 @@ contract Fund is ReentrancyGuard {
       }
     }
     require(
-      _totalCount == 0 || (request.approvalsCount.current() / _totalCount) * 100 >= minimumApprovalsPercentageRequired,
+      _totalCount == 0 || (request.approvalsCount.current() * 100) / _totalCount >= minimumApprovalsPercentageRequired,
       "The request has not been approved yet"
     );
 
