@@ -260,8 +260,27 @@ export default {
   gap: 10px;
 }
 
+@media (max-width: 450px) {
+  .searches {
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+    gap: 10px;
+  }
+
+  .form-search {
+    width: 100%;
+  }
+}
+
 .form-search input {
-  width: 240px;
+  min-width: 200px;
+}
+
+@media (min-width: 768px) {
+  .form-search input {
+    min-width: 240px;
+  }
 }
 
 .filter-title {
