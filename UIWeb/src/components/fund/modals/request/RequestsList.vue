@@ -305,11 +305,11 @@ export default {
 }
 
 .request-completed {
-  background-color: rgba(0, 0, 255, 0.18);
+  background-color: rgba(0, 0, 255, 0.284);
 }
 
 .request-approved {
-  background-color: rgba(0, 128, 0, 0.21);
+  background-color: rgba(0, 128, 0, 0.262);
 }
 
 .request-created {
