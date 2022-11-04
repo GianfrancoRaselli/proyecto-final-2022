@@ -305,7 +305,7 @@ export default {
 }
 
 .request-completed {
-  background-color: rgba(0, 0, 255, 0.284);
+  background-color: rgba(0, 0, 255, 0.19);
 }
 
 .request-approved {
@@ -327,7 +327,7 @@ export default {
 }
 
 .item-content {
-  border-left: 1px solid rgb(190, 190, 190);
+  border-left: 1px solid rgb(163, 163, 163);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -355,7 +355,7 @@ export default {
 .content-buttons {
   min-width: 120px;
   padding-left: 1rem;
-  border-left: 1px solid rgb(190, 190, 190);
+  border-left: 1px solid rgb(163, 163, 163);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -390,7 +390,7 @@ export default {
     border: none;
     margin-top: 0.5rem;
     padding-top: 0.5rem;
-    border-top: 1px solid rgb(190, 190, 190);
+    border-top: 1px solid rgb(163, 163, 163);
     flex-direction: row;
     justify-content: start;
   }
