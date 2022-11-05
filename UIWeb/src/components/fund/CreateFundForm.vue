@@ -1,12 +1,11 @@
 <template>
   <form @submit.prevent="handleSubmit">
-    <div class="mb-3 text-center">
-      <span class="h2 text-underline">Create Fund</span>
+    <div class="mb-3">
+      <span class="h2">Create fund</span>
     </div>
 
     <div class="fund-token-info mb-3">
-      <fa-icon icon="circle-info" class="icon mr-2" size="2x"></fa-icon
-      ><span class="info">Create a new fund costs 1 FundToken</span>
+      <fa-icon icon="circle-info" class="icon mr-2"></fa-icon><span class="info">Create a new fund costs 1 FundToken</span>
     </div>
 
     <!-- Fund Information -->
@@ -216,7 +215,7 @@
       </div>
     </div>
 
-    <button type="submit" class="btn btn-primary" v-if="!loading">Create</button>
+    <button type="submit" class="btn btn-primary" v-if="!loading">Create my fund</button>
     <button class="btn btn-primary" type="button" disabled v-if="loading">
       <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
       Loading...
@@ -486,11 +485,12 @@ export default {
 }
 
 .fund-token-info .icon {
+  font-size: 1.35rem;
   color: #1d6aa8;
 }
 
 .fund-token-info .info {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: rgb(43, 43, 43);
 }
 
