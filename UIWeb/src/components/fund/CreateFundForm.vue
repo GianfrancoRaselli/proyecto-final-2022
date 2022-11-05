@@ -1,226 +1,230 @@
 <template>
-  <form @submit.prevent="handleSubmit">
-    <div class="mb-3">
-      <span class="h2">Create fund</span>
-    </div>
-
-    <div class="fund-token-info mb-3">
-      <fa-icon icon="circle-info" class="icon mr-2"></fa-icon><span class="info">Create a new fund costs 1 FundToken</span>
-    </div>
-
-    <!-- Fund Information -->
-    <div class="fund-information">
-      <div class="form-section">
-        <span class="title">Fund Information</span>
-        <span class="step">Step 1 of 3</span>
+  <div class="container">
+    <form class="form" @submit.prevent="handleSubmit">
+      <div class="mb-3">
+        <span class="h2">Create fund</span>
       </div>
 
-      <div class="form-group">
-        <label for="typeInput">Type</label>
-        <select id="typeInput" class="form-control" v-model="data.type" :disabled="loading">
-          <option v-for="(type, i) in types" :key="i" v-text="type.type" :value="type.value" :selected="type.selected"></option>
-        </select>
+      <div class="fund-token-info mb-3">
+        <fa-icon icon="circle-info" class="icon mr-2"></fa-icon><span class="info">Create a new fund costs 1 FundToken</span>
       </div>
 
-      <div class="form-group">
-        <label for="nameInput">Name</label>
-        <input
-          type="text"
-          class="form-control"
-          :class="{ 'is-invalid': v$.data.name.$errors.length }"
-          id="nameInput"
-          aria-describedby="nameHelp"
-          autofocus
-          v-model="data.name"
-          :disabled="loading"
-        />
-        <small id="nameHelp" class="form-text text-muted"></small>
-        <AppInputErrors :errors="v$.data.name.$errors" />
-      </div>
+      <!-- Fund Information -->
+      <div class="fund-information">
+        <div class="form-section">
+          <span class="title">Fund Information</span>
+          <span class="step">Step 1 of 3</span>
+        </div>
 
-      <div class="form-group">
-        <label for="descriptionInput">Description</label>
-        <textarea
-          class="form-control"
-          :class="{ 'is-invalid': v$.data.description.$errors.length }"
-          id="descriptionInput"
-          rows="3"
-          aria-describedby="descriptionHelp"
-          v-model="data.description"
-          :disabled="loading"
-        ></textarea>
-        <small id="descriptionHelp" class="form-text text-muted"></small>
-        <AppInputErrors :errors="v$.data.description.$errors" />
-      </div>
-    </div>
+        <div class="form-group">
+          <label for="typeInput">Type</label>
+          <select id="typeInput" class="form-control" v-model="data.type" :disabled="loading">
+            <option v-for="(type, i) in types" :key="i" v-text="type.type" :value="type.value" :selected="type.selected"></option>
+          </select>
+        </div>
 
-    <!-- Managers Information -->
-    <div class="managers-information">
-      <div class="form-section">
-        <span class="title">Managers Information</span>
-        <span class="step">Step 2 of 3</span>
-      </div>
-
-      <div class="form-group">
-        <div class="custom-control custom-switch">
+        <div class="form-group">
+          <label for="nameInput">Name</label>
           <input
-            type="checkbox"
-            class="custom-control-input"
-            id="addMeAsAManagerInput"
-            v-model="data.addMeAsAManager"
-            :disabled="data.type === 'campaign' || data.type === 'donation' || loading"
+            type="text"
+            class="form-control"
+            :class="{ 'is-invalid': v$.data.name.$errors.length }"
+            id="nameInput"
+            aria-describedby="nameHelp"
+            autofocus
+            v-model="data.name"
+            :disabled="loading"
           />
-          <label class="custom-control-label" for="addMeAsAManagerInput">Add me as manager</label>
+          <small id="nameHelp" class="form-text text-muted"></small>
+          <AppInputErrors :errors="v$.data.name.$errors" />
+        </div>
+
+        <div class="form-group">
+          <label for="descriptionInput">Description<span class="extra-info">Optional</span></label>
+          <textarea
+            class="form-control"
+            :class="{ 'is-invalid': v$.data.description.$errors.length }"
+            id="descriptionInput"
+            rows="3"
+            aria-describedby="descriptionHelp"
+            v-model="data.description"
+            :disabled="loading"
+          ></textarea>
+          <small id="descriptionHelp" class="form-text text-muted"></small>
+          <AppInputErrors :errors="v$.data.description.$errors" />
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="managersInput">Managers</label>
-        <input
-          type="text"
-          class="form-control"
-          :class="{ 'is-invalid': v$.data.managers.$errors.length }"
-          id="managersInput"
-          aria-describedby="managersHelp"
-          v-model="data.managers"
-          :disabled="loading"
-        />
-        <small id="managersHelp" class="form-text text-muted">Enter address of other admins separated by comma (,)</small>
-        <AppInputErrors :errors="v$.data.managers.$errors" />
-      </div>
-
-      <div class="form-group">
-        <div class="custom-control custom-switch">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            id="managersCanBeAddedOrRemovedInput"
-            v-model="data.managersCanBeAddedOrRemoved"
-            :disabled="data.type !== '' || loading"
-          />
-          <label class="custom-control-label" for="managersCanBeAddedOrRemovedInput">Managers can be added or removed</label>
+      <!-- Managers Information -->
+      <div class="managers-information">
+        <div class="form-section">
+          <span class="title">Managers Information</span>
+          <span class="step">Step 2 of 3</span>
         </div>
-      </div>
-    </div>
 
-    <!-- Requests Information -->
-    <div class="requests-information">
-      <div class="form-section">
-        <span class="title">Requests Information</span>
-        <span class="step">Step 3 of 3</span>
-      </div>
-
-      <div class="form-group">
-        <div class="custom-control custom-switch">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            id="managersCanTransferMoneyWithoutARequestInput"
-            v-model="data.managersCanTransferMoneyWithoutARequest"
-            :disabled="data.type !== '' || loading"
-          />
-          <label class="custom-control-label" for="managersCanTransferMoneyWithoutARequestInput"
-            >Managers can transfer money without a request</label
-          >
+        <div class="form-group">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="addMeAsAManagerInput"
+              v-model="data.addMeAsAManager"
+              :disabled="data.type === 'campaign' || data.type === 'donation' || loading"
+            />
+            <label class="custom-control-label" for="addMeAsAManagerInput">Add me as manager</label>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <div class="custom-control custom-switch">
+        <div class="form-group">
+          <label for="managersInput">Managers<span class="extra-info">Optional</span></label>
           <input
-            type="checkbox"
-            class="custom-control-input"
-            id="requestsCanBeCreatedInput"
-            v-model="data.requestsCanBeCreated"
-            :disabled="data.type !== '' || loading"
+            type="text"
+            class="form-control"
+            :class="{ 'is-invalid': v$.data.managers.$errors.length }"
+            id="managersInput"
+            aria-describedby="managersHelp"
+            v-model="data.managers"
+            :disabled="loading"
           />
-          <label class="custom-control-label" for="requestsCanBeCreatedInput">Requests can be created</label>
+          <small id="managersHelp" class="form-text text-muted">Enter address of other admins separated by comma (,)</small>
+          <AppInputErrors :errors="v$.data.managers.$errors" />
+        </div>
+
+        <div class="form-group">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="managersCanBeAddedOrRemovedInput"
+              v-model="data.managersCanBeAddedOrRemoved"
+              :disabled="data.type !== '' || loading"
+            />
+            <label class="custom-control-label" for="managersCanBeAddedOrRemovedInput">Managers can be added or removed</label>
+          </div>
         </div>
       </div>
 
-      <div class="form-group">
-        <div class="custom-control custom-switch">
+      <!-- Requests Information -->
+      <div class="requests-information">
+        <div class="form-section">
+          <span class="title">Requests Information</span>
+          <span class="step">Step 3 of 3</span>
+        </div>
+
+        <div class="form-group">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="managersCanTransferMoneyWithoutARequestInput"
+              v-model="data.managersCanTransferMoneyWithoutARequest"
+              :disabled="data.type !== '' || loading"
+            />
+            <label class="custom-control-label" for="managersCanTransferMoneyWithoutARequestInput"
+              >Managers can transfer money without a request</label
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="requestsCanBeCreatedInput"
+              v-model="data.requestsCanBeCreated"
+              :disabled="data.type !== '' || loading"
+            />
+            <label class="custom-control-label" for="requestsCanBeCreatedInput">Requests can be created</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="onlyManagersCanCreateARequestInput"
+              v-model="data.onlyManagersCanCreateARequest"
+              :disabled="data.type !== '' || loading"
+            />
+            <label class="custom-control-label" for="onlyManagersCanCreateARequestInput"
+              >Only managers can create a request</label
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="onlyContributorsCanApproveARequestInput"
+              v-model="data.onlyContributorsCanApproveARequest"
+              :disabled="data.type !== '' || loading"
+            />
+            <label class="custom-control-label" for="onlyContributorsCanApproveARequestInput"
+              >Only contributors can approve a request</label
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="minimumContributionPercentageRequiredInput">Minimum contribution percentage required</label>
           <input
-            type="checkbox"
-            class="custom-control-input"
-            id="onlyManagersCanCreateARequestInput"
-            v-model="data.onlyManagersCanCreateARequest"
-            :disabled="data.type !== '' || loading"
+            type="range"
+            class="form-control-range"
+            id="minimumContributionPercentageRequiredInput"
+            v-model="data.minimumContributionPercentageRequired"
+            :disabled="loading"
           />
-          <label class="custom-control-label" for="onlyManagersCanCreateARequestInput">Only managers can create a request</label>
+        </div>
+
+        <div class="form-group">
+          <input
+            type="number"
+            class="form-control"
+            :class="{ 'is-invalid': v$.data.minimumContributionPercentageRequired.$errors.length }"
+            id="minimumContributionPercentageRequiredInput"
+            aria-describedby="minimumContributionPercentageRequiredHelp"
+            v-model="data.minimumContributionPercentageRequired"
+            :disabled="loading"
+          />
+          <AppInputErrors :errors="v$.data.minimumContributionPercentageRequired.$errors" />
+        </div>
+
+        <div class="form-group">
+          <label for="minimumApprovalsPercentageRequiredInput">Minimum approvals percentage required</label>
+          <input
+            type="range"
+            class="form-control-range"
+            id="minimumApprovalsPercentageRequiredInput"
+            v-model="data.minimumApprovalsPercentageRequired"
+            :disabled="loading"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="number"
+            class="form-control"
+            :class="{ 'is-invalid': v$.data.minimumApprovalsPercentageRequired.$errors.length }"
+            id="minimumApprovalsPercentageRequiredInput"
+            aria-describedby="minimumApprovalsPercentageRequiredHelp"
+            v-model="data.minimumApprovalsPercentageRequired"
+            :disabled="loading"
+          />
+          <AppInputErrors :errors="v$.data.minimumApprovalsPercentageRequired.$errors" />
         </div>
       </div>
 
-      <div class="form-group">
-        <div class="custom-control custom-switch">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            id="onlyContributorsCanApproveARequestInput"
-            v-model="data.onlyContributorsCanApproveARequest"
-            :disabled="data.type !== '' || loading"
-          />
-          <label class="custom-control-label" for="onlyContributorsCanApproveARequestInput"
-            >Only contributors can approve a request</label
-          >
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="minimumContributionPercentageRequiredInput">Minimum contribution percentage required</label>
-        <input
-          type="range"
-          class="form-control-range"
-          id="minimumContributionPercentageRequiredInput"
-          v-model="data.minimumContributionPercentageRequired"
-          :disabled="loading"
-        />
-      </div>
-
-      <div class="form-group">
-        <input
-          type="number"
-          class="form-control"
-          :class="{ 'is-invalid': v$.data.minimumContributionPercentageRequired.$errors.length }"
-          id="minimumContributionPercentageRequiredInput"
-          aria-describedby="minimumContributionPercentageRequiredHelp"
-          v-model="data.minimumContributionPercentageRequired"
-          :disabled="loading"
-        />
-        <AppInputErrors :errors="v$.data.minimumContributionPercentageRequired.$errors" />
-      </div>
-
-      <div class="form-group">
-        <label for="minimumApprovalsPercentageRequiredInput">Minimum approvals percentage required</label>
-        <input
-          type="range"
-          class="form-control-range"
-          id="minimumApprovalsPercentageRequiredInput"
-          v-model="data.minimumApprovalsPercentageRequired"
-          :disabled="loading"
-        />
-      </div>
-
-      <div class="form-group">
-        <input
-          type="number"
-          class="form-control"
-          :class="{ 'is-invalid': v$.data.minimumApprovalsPercentageRequired.$errors.length }"
-          id="minimumApprovalsPercentageRequiredInput"
-          aria-describedby="minimumApprovalsPercentageRequiredHelp"
-          v-model="data.minimumApprovalsPercentageRequired"
-          :disabled="loading"
-        />
-        <AppInputErrors :errors="v$.data.minimumApprovalsPercentageRequired.$errors" />
-      </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary" v-if="!loading">Create my fund</button>
-    <button class="btn btn-primary" type="button" disabled v-if="loading">
-      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      Loading...
-    </button>
-  </form>
+      <button type="submit" class="btn btn-primary" v-if="!loading">Create my fund</button>
+      <button class="btn btn-primary" type="button" disabled v-if="loading">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+      </button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -460,21 +464,38 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  padding: 0;
+}
+
 @media (min-width: 500px) {
-  form {
+  .container {
     padding: 0 15px;
   }
 }
 
 @media (min-width: 700px) {
-  form {
+  .container {
     padding: 0 50px;
   }
 }
 
 @media (min-width: 900px) {
-  form {
+  .container {
     padding: 0 100px;
+  }
+}
+
+.form {
+  padding: 10px 15px;
+  border: 0.5px solid rgba(99, 99, 99, 0.381);
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+@media (max-width: 400px) {
+  .form {
+    padding: 5px 8px;
   }
 }
 
@@ -502,9 +523,10 @@ export default {
   margin-bottom: 18px;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .form-section .title {
@@ -513,10 +535,20 @@ export default {
 
 .form-section .step {
   font-size: 0.75rem;
+  margin-left: auto;
 }
 
 .form-group label {
   color: rgba(22, 22, 22, 0.922);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-group .extra-info {
+  font-size: 0.8rem;
+  color: rgba(58, 58, 58, 0.816);
 }
 
 .custom-switch {
