@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="input-errors" v-for="error of errors" :key="error.$uid">
-      <div class="error-msg">{{ error.$message }}</div>
+      <div class="error-msg"><fa-icon icon="triangle-exclamation" class="icon mr-1"></fa-icon>{{ error.$message }}</div>
     </div>
   </div>
 </template>
