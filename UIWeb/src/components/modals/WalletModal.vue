@@ -32,7 +32,7 @@
           </div>
 
           <div class="center-line" v-if="isConnected">
-            <span v-text="splitAddress" />
+            <AppShowAddress :address="address" />
           </div>
 
           <div class="below-line" v-if="isConnected">
@@ -79,7 +79,6 @@
 import { getMessages } from '@/dictionary';
 import { addNotification } from '@/composables/useNotifications';
 import { mapState, mapGetters } from 'vuex';
-import { getSplitAddress } from 'web3-simple-helpers/methods/general';
 import { connectToMetamask, checkValidChain } from '@/helpers/connection';
 
 const MINUTE = 60000;
@@ -108,10 +107,6 @@ export default {
       recentTransactions: (state) => state.connection.recentTransactions,
     }),
     ...mapGetters(['isConnected', 'isConnectedToTheValidChain', 'validChainName', 'validChainExplorer']),
-
-    splitAddress() {
-      return getSplitAddress(this.address);
-    },
 
     recentTransactionsToShow() {
       let recentTransactionsToShow = this.recentTransactions.slice();

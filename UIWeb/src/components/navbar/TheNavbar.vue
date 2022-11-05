@@ -24,14 +24,14 @@
           <button class="btn btn-light btn-wallet" data-toggle="modal" data-target="#walletModal" v-if="isConnected">
             <fa-icon icon="wallet" class="icon mr-2 wallet-icon" size="2x" v-if="isConnectedToTheValidChain"></fa-icon
             ><fa-icon icon="triangle-exclamation" class="icon mr-2 wallet-icon wallet-warning-icon" size="2x" v-else></fa-icon
-            >{{ splitAddress }}
+            ><AppShowAddress :address="address" :show="false" />
           </button>
 
           <AppButton classes="btn-sm btn-success" :text="connectMetaMaskMsg" v-if="!isConnected" @click="connectToMetamask" />
         </div>
         <div v-else v-text="installMetaMaskMsg"></div>
 
-        <div class="dropdown ml-3" style="display: none;">
+        <div class="dropdown ml-3" style="display: none">
           <fa-icon
             icon="globe"
             class="dropdown-toggle icon mr-1"
@@ -73,7 +73,6 @@
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { hasMetamask, connectToMetamask } from '@/helpers/connection';
-import { getSplitAddress } from 'web3-simple-helpers/methods/general';
 
 export default {
   name: 'TheNavbarComponent',
@@ -92,9 +91,6 @@ export default {
     ...mapGetters(['isConnected', 'isConnectedToTheValidChain']),
 
     hasMetamask,
-    splitAddress() {
-      return getSplitAddress(this.address);
-    },
   },
   methods: {
     changeLanguage(language) {

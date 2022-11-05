@@ -11,7 +11,7 @@
     </div>
     <div class="card-body">
       <p class="card-text" v-text="fund.description" v-if="fund.description" />
-      <p class="card-text"><span class="text-bold">Creator</span>: {{ splitAddress }}</p>
+      <p class="card-text"><span class="text-bold">Creator</span>:&nbsp;<AppShowAddress :address="address" :show="false" /></p>
     </div>
     <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
   </div>
@@ -19,7 +19,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getSplitAddress, compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
+import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
   name: 'FundCardComponent',
@@ -69,10 +69,6 @@ export default {
           class: 'secondary',
         };
       return undefined;
-    },
-
-    splitAddress() {
-      return getSplitAddress(this.fund.creator);
     },
 
     createdAt() {

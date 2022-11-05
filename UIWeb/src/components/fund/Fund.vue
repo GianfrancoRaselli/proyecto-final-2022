@@ -23,7 +23,7 @@
         <p class="h5 text-center my-3 information-text">Information</p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Fund address</span>:&nbsp;</span>
-          {{ fundAddress }}
+          <AppShowAddress :address="fund.address" />
         </p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Current balance</span>:&nbsp;</span>
@@ -31,7 +31,7 @@
         </p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Creator</span>:&nbsp;</span>
-          {{ creatorAddress }}
+          <AppShowAddress :address="fund.creator" />
         </p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Managers can be added or removed</span>:&nbsp;</span>
@@ -104,7 +104,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getSplitAddress, compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
+import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event } from '@/helpers/helpers';
 
 // modals
@@ -199,14 +199,6 @@ export default {
           class: 'secondary',
         };
       return undefined;
-    },
-
-    fundAddress() {
-      return getSplitAddress(this.fund.address);
-    },
-
-    creatorAddress() {
-      return getSplitAddress(this.fund.creator);
     },
 
     createdAt() {

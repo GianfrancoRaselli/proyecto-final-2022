@@ -14,7 +14,7 @@
             <div class="info" v-if="request.petitioner">
               <span class="info__label"><span class="text-bold">Petitioner</span>:&nbsp;</span>
               <span class="info__info">
-                <span v-text="getSplitAddress(request.petitioner)"></span>
+                <AppShowAddress :address="request.petitioner" />
                 <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)">
                   My address
                 </span>
@@ -23,7 +23,7 @@
             <div class="info" v-if="request.recipient">
               <span class="info__label"><span class="text-bold">Recipient</span>:&nbsp;</span>
               <span class="info__info">
-                <span v-text="getSplitAddress(request.recipient)"></span>
+                <AppShowAddress :address="request.recipient" />
                 <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">
                   My address
                 </span>
@@ -84,7 +84,7 @@
 <script>
 import { mapState } from 'vuex';
 import { transaction, call, event } from '@/helpers/helpers';
-import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
+import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 
 export default {
@@ -108,7 +108,6 @@ export default {
   },
   methods: {
     compareAddresses,
-    getSplitAddress,
 
     maxNumOfApprovers() {
       if (this.fund.onlyContributorsCanApproveARequest) {

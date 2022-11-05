@@ -14,7 +14,7 @@
             <ul class="list-group list-group-flush" v-else>
               <li class="list-group-item" v-for="(c, index) in contributorsOrdered" :key="index">
                 <div class="item-address">
-                  <span v-text="index + 1 + '. ' + getSplitAddress(c.contributor)" />
+                  <span v-text="index + 1 + '. '" /><AppShowAddress :address="c.contributor" />
                   <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(c.contributor, address)"
                     >My address</span
                   >
@@ -33,7 +33,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
+import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
   name: 'ContributorsModalComponent',
@@ -47,7 +47,6 @@ export default {
     ...mapState({
       address: (state) => state.connection.address,
     }),
-
     contributorsOrdered() {
       return this.fund.contributors.slice().sort((a, b) => {
         return b.contribution - a.contribution;
@@ -56,7 +55,6 @@ export default {
   },
   methods: {
     compareAddresses,
-    getSplitAddress,
   },
   async created() {},
 };

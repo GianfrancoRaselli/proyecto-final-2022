@@ -13,6 +13,7 @@ import AppBadge from '@/components/global/AppBadge';
 import AppSpinner from '@/components/global/AppSpinner';
 import AppProgress from '@/components/global/AppProgress';
 import AppInputErrors from '@/components/global/AppInputErrors';
+import AppShowAddress from '@/components/global/AppShowAddress';
 import AppShowAmount from '@/components/global/AppShowAmount';
 import AppShowEth from '@/components/global/AppShowEth';
 
@@ -32,6 +33,7 @@ app.component('AppBadge', AppBadge);
 app.component('AppSpinner', AppSpinner);
 app.component('AppProgress', AppProgress);
 app.component('AppInputErrors', AppInputErrors);
+app.component('AppShowAddress', AppShowAddress);
 app.component('AppShowAmount', AppShowAmount);
 app.component('AppShowEth', AppShowEth);
 
