@@ -32,7 +32,7 @@
 
           <form @submit.prevent="handleSubmit" class="mt-3">
             <div class="form-group">
-              <label for="tokensInput">Enter the amount of tokens to buy</label>
+              <label for="tokensInput">Amount of tokens</label>
               <input
                 type="number"
                 class="form-control"
@@ -43,7 +43,6 @@
                 v-model="fundTokens"
                 :disabled="loading"
               />
-              <small id="tokensHelp" class="form-text text-muted">Enter a non-negative integer.</small>
               <AppInputErrors :errors="v$.fundTokens.$errors" />
             </div>
 

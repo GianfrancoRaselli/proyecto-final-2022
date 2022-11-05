@@ -515,6 +515,10 @@ export default {
   font-size: 0.75rem;
 }
 
+.form-group label {
+  color: rgba(22, 22, 22, 0.922);
+}
+
 .custom-switch {
   user-select: none;
 }
