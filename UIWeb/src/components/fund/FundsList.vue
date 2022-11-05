@@ -8,7 +8,18 @@
       <div v-if="funds.length > 0">
         <div class="searches pb-1">
           <form class="form-search">
-            <input type="search" class="form-control" placeholder="Search by Name/Address" aria-label="Search" v-model="search" />
+            <div class="input-container">
+              <input
+                type="search"
+                class="form-control"
+                placeholder="Search by Name/Address"
+                aria-label="Search"
+                v-model="search"
+              />
+              <div class="icon-container">
+                <fa-icon icon="magnifying-glass" class="icon" />
+              </div>
+            </div>
           </form>
 
           <button
@@ -274,13 +285,36 @@ export default {
 }
 
 .form-search input {
-  min-width: 200px;
+  min-width: 230px;
 }
 
 @media (min-width: 768px) {
   .form-search input {
-    min-width: 240px;
+    min-width: 280px;
   }
+}
+
+.input-container {
+  width: 100%;
+  position: relative;
+}
+
+.input-container .form-control {
+  padding-right: 35px;
+}
+
+.input-container .icon-container {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: rgb(79, 79, 79);
+  background-color: rgba(213, 213, 213, 0.585);
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .filter-title {
