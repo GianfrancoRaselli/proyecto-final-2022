@@ -487,15 +487,15 @@ export default {
 }
 
 .form {
-  padding: 10px 15px;
+  padding: 10px 18px;
   border: 0.5px solid rgba(99, 99, 99, 0.381);
-  border-radius: 16px;
+  border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
 @media (max-width: 400px) {
   .form {
-    padding: 5px 8px;
+    padding: 5px 10px;
   }
 }
 
