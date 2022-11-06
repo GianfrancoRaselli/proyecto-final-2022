@@ -11,7 +11,7 @@
             <div class="input-container">
               <input
                 type="search"
-                class="form-control"
+                class="form-control input"
                 placeholder="Search by Name/Address"
                 aria-label="Search"
                 v-model="search"
@@ -299,17 +299,22 @@ export default {
   position: relative;
 }
 
-.input-container .form-control {
-  padding-right: 35px;
+.input-container .input {
+  padding-left: 32px;
+}
+
+@media (min-width: 768px) {
+  .input-container .input {
+    padding-left: 38px;
+  }
 }
 
 .input-container .icon-container {
   height: 100%;
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   color: rgb(79, 79, 79);
-  background-color: rgba(213, 213, 213, 0.585);
   padding: 0 8px;
   display: flex;
   flex-direction: column;
