@@ -121,6 +121,12 @@ body {
   padding: 15px 25px 20px 25px;
 }
 
+@media (max-width: 600px) {
+  .main__page {
+    padding: 15px 15px 20px 15px;
+  }
+}
+
 .page-content__footer {
   min-height: 60px;
   height: 60px;
