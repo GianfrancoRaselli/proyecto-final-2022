@@ -1,14 +1,16 @@
 <template>
-  <div class="background">
-    <div class="bg-color">
-      <div class="content">
-        <router-link class="btn-discover-link" :to="{ name: 'Funds', params: { animation: 'slide' } }">
-          <button class="btn btn-primary btn-discover">
-            <span>Discover funds</span><fa-icon icon="arrow-right" class="img-icon ml-3"></fa-icon>
-          </button>
-        </router-link>
-      </div>
+  <div class="content">
+    <div class="header">
+      <span class="title">jdjfdk iek okpkld lkikdfik okodfle</span>
+      <span class="description">
+        jddfjsfkd dsk kopdkopk fdi keojiosr dfr opkfld kopdskop dfopko dsk dskopñop kop kok oikjijiijgh ujio kkk
+      </span>
     </div>
+    <router-link class="button" :to="{ name: 'Funds', params: { animation: 'slide' } }">
+      <button class="btn btn-primary btn-discover">
+        <span>Discover funds</span><fa-icon icon="arrow-right" class="img-icon ml-3"></fa-icon>
+      </button>
+    </router-link>
   </div>
 </template>
 
@@ -23,79 +25,62 @@ export default {
 </script>
 
 <style scoped>
-.background {
-  max-width: none;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100%;
-  background-image: url('@/assets/imgs/background-lg.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: bottom;
-}
-
-@media (max-width: 720px) {
-  .background {
-    background-image: url('@/assets/imgs/background-sm.jpg');
-    background-position: top;
-  }
-}
-
-.bg-color {
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
 .content {
-  height: 100%;
-  padding-bottom: 35px;
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  height: calc(100vh - var(--navbar-height) - var(--mobile-navbar-height) - var(--footer-height));
+  min-width: 100vw;
+  width: 100vw;
+  margin: 0;
+  padding: 0 370px 0 50px;
+  z-index: 0;
+  background-image: url('@/assets/imgs/background-sm.jpg');
+  background-repeat: no-repeat;
+  background-size: 310px 100%;
+  background-position: bottom right;
   display: flex;
   flex-direction: column;
-  justify-content: end;
-  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
 
-@media (max-width: 1200px) {
+@media (min-width: 768px) {
   .content {
-    padding-bottom: 30px;
+    height: calc(100vh - var(--navbar-height) - var(--footer-height));
   }
 }
 
-@media (max-width: 992px) {
-  .content {
-    padding-top: 150px;
-    padding-bottom: 0;
-    justify-content: start;
-  }
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.btn-discover {
-  font-family: 'Garamond', 'serif';
-  font-size: 1.4rem;
-  padding: 12px 25px;
-  border-radius: 100px;
-  animation-duration: 1s;
-  animation-name: bounce;
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.748);
+}
+
+.description {
+  font-size: 0.8rem;
+  color: rgba(72, 72, 72, 0.748);
 }
 
 @media (max-width: 720px) {
-  .btn-discover-link {
-    display: none;
+  .content {
+    padding-left: 20px;
+    padding-right: 330px;
   }
 }
 
-@keyframes bounce {
-  0% {
-    margin-top: 0;
-  }
-
-  50% {
-    margin-top: -70px;
-  }
-
-  100% {
-    margin-top: initial;
+@media (max-width: 520px) {
+  .content {
+    background: none;
+    padding: 0 30px;
+    text-align: center;
+    align-items: center;
   }
 }
 </style>

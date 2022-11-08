@@ -62,6 +62,7 @@ body {
 
   --navbar-height: 65px;
   --mobile-navbar-height: 60px;
+  --footer-height: 60px;
 }
 
 .header {
@@ -87,7 +88,7 @@ body {
 }
 
 .page-content {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--mobile-navbar-height));
   margin-bottom: var(--mobile-navbar-height);
   display: flex;
   flex-direction: column;
@@ -104,6 +105,7 @@ body {
   }
 
   .page-content {
+    min-height: 100vh;
     margin-bottom: 0;
   }
 }
@@ -128,10 +130,11 @@ body {
 }
 
 .page-content__footer {
-  min-height: 60px;
-  height: 60px;
+  min-height: var(--footer-height);
+  height: var(--footer-height);
   width: 100%;
   justify-self: flex-end;
+  z-index: 100;
 }
 
 /* animation styles */
