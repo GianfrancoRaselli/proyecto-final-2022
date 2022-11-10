@@ -487,7 +487,7 @@ export default {
 }
 
 .form {
-  padding: 15px 18px;
+  padding: 18px 18px;
   border: 0.5px solid rgba(99, 99, 99, 0.267);
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
@@ -495,11 +495,12 @@ export default {
 
 @media (max-width: 400px) {
   .form {
-    padding: 10px 10px;
+    padding: 12px 12px;
   }
 }
 
 .fund-token-info {
+  color: #1d6aa8;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -507,17 +508,15 @@ export default {
 
 .fund-token-info .icon {
   font-size: 1.35rem;
-  color: #1d6aa8;
 }
 
 .fund-token-info .info {
   font-size: 0.85rem;
-  color: rgb(43, 43, 43);
 }
 
 .form-section {
   color: rgb(62, 62, 62);
-  margin-top: 12px;
+  margin-top: 24px;
   padding-bottom: 12px;
   border-bottom: 1.5px solid rgba(110, 110, 110, 0.434);
   margin-bottom: 18px;
