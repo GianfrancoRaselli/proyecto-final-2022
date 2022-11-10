@@ -148,52 +148,59 @@ export default {
     },
 
     async approveRequest(index) {
-      if (
-        (!this.fund.onlyContributorsCanApproveARequest && this.isManager) ||
-        this.fund.minimumContributionPercentageRequired == 0 ||
-        (this.fund.totalContributions > 0 &&
-          ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution || 0) /
-            this.fund.totalContributions) *
-            100 >=
-            this.fund.minimumContributionPercentageRequired)
-      ) {
-        try {
-          this.approvingRequests.push(index);
-          await transaction(
-            { name: 'Fund', address: this.$route.params.fundAddress },
-            'approveRequest',
-            [index],
-            {},
-            true,
-            'Approve request ' + (index + 1) + ' of ' + this.fund.name,
-          );
-          this.requestsApproved[index] = true;
-          // eslint-disable-next-line vue/no-mutating-props
-          this.fund.requests[index].approvalsCount += 1;
+      if (this.address) {
+        if (
+          (!this.fund.onlyContributorsCanApproveARequest && this.isManager) ||
+          this.fund.minimumContributionPercentageRequired == 0 ||
+          (this.fund.totalContributions > 0 &&
+            ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution || 0) /
+              this.fund.totalContributions) *
+              100 >=
+              this.fund.minimumContributionPercentageRequired)
+        ) {
+          try {
+            this.approvingRequests.push(index);
+            await transaction(
+              { name: 'Fund', address: this.$route.params.fundAddress },
+              'approveRequest',
+              [index],
+              {},
+              true,
+              'Approve request ' + (index + 1) + ' of ' + this.fund.name,
+            );
+            this.requestsApproved[index] = true;
+            // eslint-disable-next-line vue/no-mutating-props
+            this.fund.requests[index].approvalsCount += 1;
+            addNotification({
+              message: 'Request ' + (index + 1) + ' approved',
+              type: 'success',
+            });
+          } finally {
+            this.approvingRequests = this.approvingRequests.filter((i) => i !== index);
+          }
+        } else {
+          let message = 'You have not contributed to the fund yet';
+          if (this.fund.totalContributions > 0) {
+            message =
+              'You have contributed ' +
+              ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address))
+                ? this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution
+                : 0) /
+                this.fund.totalContributions) *
+                100 +
+              '% of the ' +
+              this.fund.minimumContributionPercentageRequired +
+              '% required to approve a request';
+          }
           addNotification({
-            message: 'Request ' + (index + 1) + ' approved',
-            type: 'success',
+            message,
+            type: 'error',
           });
-        } finally {
-          this.approvingRequests = this.approvingRequests.filter((i) => i !== index);
         }
       } else {
-        let message = 'You have not contributed to the fund yet';
-        if (this.fund.totalContributions > 0) {
-          message =
-            'You have contributed ' +
-            ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address))
-              ? this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution
-              : 0) /
-              this.fund.totalContributions) *
-              100 +
-            '% of the ' +
-            this.fund.minimumContributionPercentageRequired +
-            '% required to approve a request';
-        }
         addNotification({
-          message,
-          type: 'error',
+          message: 'Connect to metamask to approve a request',
+          type: 'warning',
         });
       }
     },
