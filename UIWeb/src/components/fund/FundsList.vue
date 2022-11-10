@@ -50,7 +50,7 @@
                   <div class="more-filters">
                     <div class="filter-title">More filters</div>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="checkboxMyFunds" v-model="onlyShowMyFunds" />
+                      <input class="form-check-input mr-2" type="checkbox" id="checkboxMyFunds" v-model="onlyShowMyFunds" />
                       <label class="form-check-label" for="checkboxMyFunds">Only show my funds</label>
                     </div>
                   </div>
