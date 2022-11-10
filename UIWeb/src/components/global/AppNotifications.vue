@@ -76,8 +76,8 @@ export default {
 }
 
 .btn-remove-all {
-  color: #00163e;
-  background-color: rgba(255, 255, 255, 0.463);
+  color: #002f88;
+  background: rgb(240, 240, 240);
   float: right;
   margin-right: 0.5rem;
   padding: 0.15rem 0.8rem;
