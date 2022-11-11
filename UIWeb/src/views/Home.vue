@@ -92,5 +92,17 @@ export default {
     text-align: center;
     align-items: center;
   }
+
+  .title {
+    animation-duration: 1.2s;
+  }
+
+  .description {
+    animation-duration: 1.4s;
+  }
+
+  .btn-discover {
+    animation-duration: 1.8s;
+  }
 }
 </style>
