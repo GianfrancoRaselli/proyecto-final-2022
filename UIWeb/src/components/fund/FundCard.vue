@@ -11,7 +11,7 @@
     </div>
     <div class="card-body">
       <p class="card-text" v-text="fund.description" v-if="fund.description" />
-      <p class="card-text"><span class="text-bold">Creator</span>:&nbsp;<AppShowAddress :address="address" :show="false" /></p>
+      <p class="card-text"><span class="text-bold">Creator</span>:&nbsp;<AppShowAddress :address="fund.creator" :show="false" /></p>
     </div>
     <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
   </div>
