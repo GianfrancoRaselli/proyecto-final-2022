@@ -30,49 +30,45 @@ const hasMetamask = () => {
 };
 
 const connectToMetamask = async () => {
-  if (!store.state.connection.disconnected) {
-    if (hasMetamask()) {
-      //const ethereumProvider = await detectEthereumProvider();
-      const ethereumProvider = window.ethereum;
-      let provider;
-      if (ethereumProvider.providers)
-        provider = ethereumProvider.providers.find((p) => p.isMetaMask && p._handleAccountsChanged && p._handleChainChanged);
-      else provider = ethereumProvider;
-      store.commit('setProvider', provider);
-      setWeb3AndContracts(store.state.connection.provider);
+  setWeb3AndContracts();
+  if (!store.state.connection.disconnected && hasMetamask()) {
+    //const ethereumProvider = await detectEthereumProvider();
+    const ethereumProvider = window.ethereum;
+    let provider;
+    if (ethereumProvider.providers)
+      provider = ethereumProvider.providers.find((p) => p.isMetaMask && p._handleAccountsChanged && p._handleChainChanged);
+    else provider = ethereumProvider;
+    store.commit('setProvider', provider);
+    setWeb3AndContracts(store.state.connection.provider);
 
-      store.commit('setAddress', (await store.state.connection.provider.request({ method: 'eth_requestAccounts' }))[0]);
-      store.state.connection.provider.on('accountsChanged', handleAccountsChanged);
+    store.commit('setAddress', (await store.state.connection.provider.request({ method: 'eth_requestAccounts' }))[0]);
+    store.state.connection.provider.on('accountsChanged', handleAccountsChanged);
 
-      store.commit('unsubscribeFromTransfersSubscription');
-      searchFundTokensBalance();
+    store.commit('unsubscribeFromTransfersSubscription');
+    searchFundTokensBalance();
 
-      store.commit('setChainId', await store.state.connection.provider.request({ method: 'eth_chainId' }));
-      store.state.connection.provider.on('chainChanged', handleChainChanged);
-      checkValidChain();
-    } else {
-      setWeb3AndContracts();
-
-      Swal.fire({
-        position: 'center',
-        icon: 'info',
-        title: 'MetaMask Wallet',
-        text: 'You need to have metamask installed in the browser',
-        showConfirmButton: true,
-      });
-    }
+    store.commit('setChainId', await store.state.connection.provider.request({ method: 'eth_chainId' }));
+    store.state.connection.provider.on('chainChanged', handleChainChanged);
+    checkValidChain();
   } else {
-    setWeb3AndContracts();
+    Swal.fire({
+      position: 'center',
+      icon: 'info',
+      title: 'MetaMask Wallet',
+      text: 'You need to have metamask installed in the browser',
+      showConfirmButton: true,
+    });
   }
 };
 
 const setWeb3AndContracts = (provider) => {
-  if (provider) {
+  if (!provider) {
+    store.commit('setInfuraWeb3', new Web3(store.state.connection.infuraProvider));
+    store.commit('setInfuraFundFactory', new store.state.connection.infuraWeb3.eth.Contract(fundFactoryABI, fundFactoryAddress));
+  } else {
     store.commit('setWeb3', new Web3(provider));
     store.commit('setFundFactory', new store.state.connection.web3.eth.Contract(fundFactoryABI, fundFactoryAddress));
   }
-  store.commit('setInfuraWeb3', new Web3(store.state.connection.infuraProvider));
-  store.commit('setInfuraFundFactory', new store.state.connection.infuraWeb3.eth.Contract(fundFactoryABI, fundFactoryAddress));
 };
 
 const searchFundTokensBalance = () => {
