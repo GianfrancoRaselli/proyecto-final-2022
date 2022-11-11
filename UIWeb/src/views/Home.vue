@@ -62,11 +62,22 @@ export default {
   font-size: 2rem;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.748);
+
+  animation: fadeInUpBig;
+  animation-duration: 1.5s;
 }
 
 .description {
   font-size: 0.8rem;
   color: rgba(72, 72, 72, 0.748);
+
+  animation: fadeInUpBig;
+  animation-duration: 1.75s;
+}
+
+.btn-discover {
+  animation: fadeInUpBig;
+  animation-duration: 2s;
 }
 
 @media (max-width: 1150px) {

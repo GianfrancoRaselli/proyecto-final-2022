@@ -48,6 +48,7 @@ export default {
 
 <style>
 @import '~bootstrap/dist/css/bootstrap.min.css';
+@import 'animate.css';
 
 * {
   box-sizing: border-box;
