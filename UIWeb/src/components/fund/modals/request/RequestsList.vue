@@ -82,10 +82,13 @@
 </template>
 
 <script>
+import Web3 from 'web3';
 import { mapGetters } from 'vuex';
-import { transaction, call, event } from '@/helpers/helpers';
+import { transaction, call, event, convertNumberToMaxDecimals } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
+import Swal from 'sweetalert2';
+import BigNumber from 'bignumber.js';
 
 export default {
   name: 'RequestsListComponent',
@@ -216,29 +219,58 @@ export default {
     },
 
     async finalizeRequest(index) {
-      try {
-        this.finalizingRequests.push(index);
-        await transaction(
-          { name: 'Fund', address: this.$route.params.fundAddress },
-          'finalizeRequest',
-          [index],
-          {},
-          true,
-          'Finalize request ' + (index + 1) + ' of ' + this.fund.name,
-        );
-        // eslint-disable-next-line vue/no-mutating-props
-        this.fund.requests[index].transferredValue =
-          this.fund.requests[index].valueToTransfer > this.fund.balance
-            ? this.fund.balance
-            : this.fund.requests[index].valueToTransfer;
-        // eslint-disable-next-line vue/no-mutating-props
-        this.fund.requests[index].complete = true;
-        addNotification({
-          message: 'Request ' + (index + 1) + ' finalized',
-          type: 'success',
+      const successHandle = async () => {
+        try {
+          this.finalizingRequests.push(index);
+          await transaction(
+            { name: 'Fund', address: this.$route.params.fundAddress },
+            'finalizeRequest',
+            [index],
+            {},
+            true,
+            'Finalize request ' + (index + 1) + ' of ' + this.fund.name,
+          );
+          // eslint-disable-next-line vue/no-mutating-props
+          this.fund.requests[index].transferredValue =
+            this.fund.requests[index].valueToTransfer > this.fund.balance
+              ? this.fund.balance
+              : this.fund.requests[index].valueToTransfer;
+          // eslint-disable-next-line vue/no-mutating-props
+          this.fund.requests[index].complete = true;
+          addNotification({
+            message: 'Request ' + (index + 1) + ' finalized',
+            type: 'success',
+          });
+        } finally {
+          this.finalizingRequests = this.approvingRequests.filter((i) => i !== index);
+        }
+      };
+
+      if (BigNumber(this.fund.requests[index].valueToTransfer).isLessThanOrEqualTo(BigNumber(this.fund.balance))) {
+        successHandle();
+      } else {
+        const balance = this.fund.balance.toString();
+        let valueToTransfer;
+        if (balance.length <= 13) {
+          if (balance === '1') valueToTransfer = '1 Wei';
+          else valueToTransfer = balance + ' Weis';
+        } else {
+          valueToTransfer = convertNumberToMaxDecimals(Number(Web3.utils.fromWei(balance, 'ether')), 6) + ' ETH';
+        }
+
+        Swal.fire({
+          title: 'Do you want to continue anyway?',
+          text: 'If you finalize the request at this time you can only withdraw ' + valueToTransfer,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#14A44D',
+          cancelButtonColor: '#9FA6B2',
+          confirmButtonText: 'Yes, finalize anyway!',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            successHandle();
+          }
         });
-      } finally {
-        this.finalizingRequests = this.approvingRequests.filter((i) => i !== index);
       }
     },
 
