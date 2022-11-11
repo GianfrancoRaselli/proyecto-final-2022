@@ -40,6 +40,7 @@ export default {
   background-repeat: no-repeat;
   background-size: 310px 100%;
   background-position: bottom right;
+  animation: fadeInUpBig 1s;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,21 +64,18 @@ export default {
   font-weight: bold;
   color: rgba(0, 0, 0, 0.748);
 
-  animation: fadeInUpBig;
-  animation-duration: 1.5s;
+  animation: fadeInUpBig 1.8s;
 }
 
 .description {
   font-size: 0.8rem;
   color: rgba(72, 72, 72, 0.748);
 
-  animation: fadeInUpBig;
-  animation-duration: 1.75s;
+  animation: fadeInUpBig 2s;
 }
 
 .btn-discover {
-  animation: fadeInUpBig;
-  animation-duration: 2s;
+  animation: fadeInUpBig 2.5s;
 }
 
 @media (max-width: 1150px) {
