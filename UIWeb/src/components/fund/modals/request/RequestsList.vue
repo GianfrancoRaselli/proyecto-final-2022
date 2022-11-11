@@ -153,7 +153,7 @@ export default {
           (!this.fund.onlyContributorsCanApproveARequest && this.isManager) ||
           this.fund.minimumContributionPercentageRequired == 0 ||
           (this.fund.totalContributions > 0 &&
-            ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution || 0) /
+            ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address))?.contribution || 0) /
               this.fund.totalContributions) *
               100 >=
               this.fund.minimumContributionPercentageRequired)
