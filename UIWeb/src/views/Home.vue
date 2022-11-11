@@ -1,10 +1,11 @@
 <template>
   <div class="content">
     <div class="header">
-      <span class="title">jdjfdk iek okpkld lkikdfik okodfle</span>
-      <span class="description">
-        jddfjsfkd dsk kopdkopk fdi keojiosr dfr opkfld kopdskop dfopko dsk dskopñop kop kok oikjijiijgh ujio kkk
-      </span>
+      <span class="title">Transforming the way of funding</span>
+      <span class="description"
+        >We provide security and control to everyone seeking a fully decentralized way of managing common funds using the Ethereum
+        blockchain's smart contracts.</span
+      >
     </div>
     <router-link class="button" :to="{ name: 'Funds', params: { animation: 'slide' } }">
       <button class="btn btn-primary btn-discover">
@@ -33,7 +34,7 @@ export default {
   min-width: 100vw;
   width: 100vw;
   margin: 0;
-  padding: 0 370px 0 50px;
+  padding: 0 500px 0 100px;
   z-index: 0;
   background-image: url('@/assets/imgs/background-sm.jpg');
   background-repeat: no-repeat;
@@ -68,7 +69,7 @@ export default {
   color: rgba(72, 72, 72, 0.748);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 1150px) {
   .content {
     padding-left: 20px;
     padding-right: 330px;
