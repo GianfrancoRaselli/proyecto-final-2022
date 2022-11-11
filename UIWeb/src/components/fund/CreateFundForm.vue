@@ -495,7 +495,7 @@ export default {
 
 @media (max-width: 400px) {
   .form {
-    padding: 12px 12px;
+    padding: 16px 12px;
   }
 }
 
@@ -516,7 +516,7 @@ export default {
 
 .form-section {
   color: rgb(62, 62, 62);
-  margin-top: 24px;
+  margin-top: 26px;
   padding-bottom: 12px;
   border-bottom: 1.5px solid rgba(110, 110, 110, 0.434);
   margin-bottom: 18px;
