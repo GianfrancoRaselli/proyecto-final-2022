@@ -237,6 +237,8 @@ export default {
               : this.fund.requests[index].valueToTransfer;
           // eslint-disable-next-line vue/no-mutating-props
           this.fund.requests[index].complete = true;
+          // eslint-disable-next-line vue/no-mutating-props
+          this.fund.balance -= this.fund.requests[index].transferredValue;
           addNotification({
             message: 'Request ' + (index + 1) + ' finalized',
             type: 'success',

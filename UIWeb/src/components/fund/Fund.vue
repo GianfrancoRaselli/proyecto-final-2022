@@ -350,6 +350,7 @@ export default {
       'FinalizeRequest',
       undefined,
       () => {
+        getSearchSummaryPromise();
         getSearchRequestsPromise();
       },
     );
