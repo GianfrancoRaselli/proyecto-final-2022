@@ -219,7 +219,7 @@ export default {
     },
 
     async finalizeRequest(index) {
-      const successHandle = async () => {
+      const successHandler = async () => {
         try {
           this.finalizingRequests.push(index);
           await transaction(
@@ -249,7 +249,7 @@ export default {
       };
 
       if (BigNumber(this.fund.requests[index].valueToTransfer).isLessThanOrEqualTo(BigNumber(this.fund.balance))) {
-        successHandle();
+        successHandler();
       } else {
         const balance = this.fund.balance.toString();
         let valueToTransfer;
@@ -270,7 +270,7 @@ export default {
           confirmButtonText: 'Yes, finalize anyway!',
         }).then((result) => {
           if (result.isConfirmed) {
-            successHandle();
+            successHandler();
           }
         });
       }
