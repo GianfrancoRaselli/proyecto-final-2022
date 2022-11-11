@@ -107,10 +107,9 @@ export default {
     ...getMessages(['buyFundTokens']),
 
     ...mapState({
-      address: (state) => state.connection.address,
       fundTokensBalance: (state) => state.connection.fundTokensBalance,
     }),
-    ...mapGetters(['isConnected']),
+    ...mapGetters(['isConnected', 'address']),
 
     hasMetamask,
 

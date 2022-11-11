@@ -46,6 +46,11 @@ export default {
     validChainExplorer(state) {
       return state.validChain.explorer;
     },
+    
+    address(state) {
+      if (state.disconnected) return '';
+      return state.address;
+    },
   },
 
   mutations: {

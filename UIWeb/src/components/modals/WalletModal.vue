@@ -103,10 +103,9 @@ export default {
     ]),
 
     ...mapState({
-      address: (state) => state.connection.address,
       recentTransactions: (state) => state.connection.recentTransactions,
     }),
-    ...mapGetters(['isConnected', 'isConnectedToTheValidChain', 'validChainName', 'validChainExplorer']),
+    ...mapGetters(['isConnected', 'isConnectedToTheValidChain', 'validChainName', 'validChainExplorer', 'address']),
 
     recentTransactionsToShow() {
       let recentTransactionsToShow = this.recentTransactions.slice();

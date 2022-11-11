@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event } from '@/helpers/helpers';
 
@@ -155,9 +155,7 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      address: (state) => state.connection.address,
-    }),
+    ...mapGetters(['address']),
 
     isManager() {
       if (this.fund.managers.findIndex((manager) => compareAddresses(manager, this.address)) >= 0) return true;

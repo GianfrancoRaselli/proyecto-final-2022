@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -30,9 +30,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState({
-      address: (state) => state.connection.address,
-    }),
+    ...mapGetters(['address']),
 
     fundType() {
       if (

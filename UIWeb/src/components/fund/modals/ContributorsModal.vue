@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -44,9 +44,8 @@ export default {
     return {};
   },
   computed: {
-    ...mapState({
-      address: (state) => state.connection.address,
-    }),
+    ...mapGetters(['address']),
+
     contributorsOrdered() {
       return this.fund.contributors.slice().sort((a, b) => {
         return b.contribution - a.contribution;

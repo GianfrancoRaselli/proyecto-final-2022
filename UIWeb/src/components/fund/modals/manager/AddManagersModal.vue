@@ -38,7 +38,7 @@
 <script>
 import $ from 'jquery';
 import Web3 from 'web3';
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import { transaction, validateForm } from '@/helpers/helpers';
 import { useVuelidate } from '@vuelidate/core';
@@ -60,9 +60,7 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      address: (state) => state.connection.address,
-    }),
+    ...mapGetters(['address']),
   },
   validations() {
     return {

@@ -51,7 +51,7 @@
 
 <script>
 import $ from 'jquery';
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import { transaction } from '@/helpers/helpers';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
@@ -74,9 +74,7 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      address: (state) => state.connection.address,
-    }),
+    ...mapGetters(['address']),
   },
   methods: {
     compareAddresses,

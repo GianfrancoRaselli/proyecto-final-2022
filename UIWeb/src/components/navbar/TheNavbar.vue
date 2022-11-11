@@ -86,9 +86,8 @@ export default {
 
     ...mapState({
       selectedLanguage: (state) => state.config.selectedLanguage,
-      address: (state) => state.connection.address,
     }),
-    ...mapGetters(['isConnected', 'isConnectedToTheValidChain']),
+    ...mapGetters(['isConnected', 'isConnectedToTheValidChain', 'address']),
 
     hasMetamask,
   },

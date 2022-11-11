@@ -232,7 +232,7 @@ import Web3 from 'web3';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, minLength, integer, minValue, maxValue } from '@vuelidate/validators';
 import { getMessages } from '@/dictionary';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 import { transaction, validateForm } from '@/helpers/helpers';
@@ -287,9 +287,9 @@ export default {
     ...getMessages(['']),
 
     ...mapState({
-      address: (state) => state.connection.address,
       fundTokensBalance: (state) => state.connection.fundTokensBalance,
     }),
+    ...mapGetters(['address']),
   },
   watch: {
     'data.type'(newValue) {
