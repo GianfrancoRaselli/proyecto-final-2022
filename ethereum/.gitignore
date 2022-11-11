@@ -7,8 +7,9 @@ typechain
 .lastFundFactoryAddress
 .lastFundTokenAddress
 
-#Hardhat files
+# Hardhat files
 cache
 artifacts
 
+# Help files
 .annotations
