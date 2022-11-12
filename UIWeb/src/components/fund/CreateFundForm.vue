@@ -146,7 +146,7 @@
               class="custom-control-input"
               id="onlyManagersCanCreateARequestInput"
               v-model="data.onlyManagersCanCreateARequest"
-              :disabled="data.type !== '' || loading"
+              :disabled="data.type !== '' || !data.requestsCanBeCreated || loading"
             />
             <label class="custom-control-label" for="onlyManagersCanCreateARequestInput"
               >Only managers can create a request</label
@@ -161,7 +161,7 @@
               class="custom-control-input"
               id="onlyContributorsCanApproveARequestInput"
               v-model="data.onlyContributorsCanApproveARequest"
-              :disabled="data.type !== '' || loading"
+              :disabled="data.type !== '' || !data.requestsCanBeCreated || loading"
             />
             <label class="custom-control-label" for="onlyContributorsCanApproveARequestInput"
               >Only contributors can approve a request</label
@@ -170,13 +170,15 @@
         </div>
 
         <div class="form-group">
-          <label for="minimumContributionPercentageRequiredInput">Minimum contribution percentage required</label>
+          <label for="minimumContributionPercentageRequiredInput"
+            >Minimum contribution percentage required to vote a request</label
+          >
           <input
             type="range"
             class="form-control-range"
             id="minimumContributionPercentageRequiredInput"
             v-model="data.minimumContributionPercentageRequired"
-            :disabled="loading"
+            :disabled="!data.requestsCanBeCreated || loading"
           />
         </div>
 
@@ -188,19 +190,19 @@
             id="minimumContributionPercentageRequiredInput"
             aria-describedby="minimumContributionPercentageRequiredHelp"
             v-model="data.minimumContributionPercentageRequired"
-            :disabled="loading"
+            :disabled="!data.requestsCanBeCreated || loading"
           />
           <AppInputErrors :errors="v$.data.minimumContributionPercentageRequired.$errors" />
         </div>
 
         <div class="form-group">
-          <label for="minimumApprovalsPercentageRequiredInput">Minimum approvals percentage required</label>
+          <label for="minimumApprovalsPercentageRequiredInput">Minimum approvals percentage required to finalize a request</label>
           <input
             type="range"
             class="form-control-range"
             id="minimumApprovalsPercentageRequiredInput"
             v-model="data.minimumApprovalsPercentageRequired"
-            :disabled="loading"
+            :disabled="!data.requestsCanBeCreated || loading"
           />
         </div>
 
@@ -212,7 +214,7 @@
             id="minimumApprovalsPercentageRequiredInput"
             aria-describedby="minimumApprovalsPercentageRequiredHelp"
             v-model="data.minimumApprovalsPercentageRequired"
-            :disabled="loading"
+            :disabled="!data.requestsCanBeCreated || loading"
           />
           <AppInputErrors :errors="v$.data.minimumApprovalsPercentageRequired.$errors" />
         </div>
@@ -321,6 +323,18 @@ export default {
           this.data.onlyContributorsCanApproveARequest = true;
           this.data.minimumContributionPercentageRequired = 5;
           break;
+      }
+    },
+
+    'data.requestsCanBeCreated'(newValue) {
+      this.data.onlyManagersCanCreateARequest = false;
+      this.data.onlyContributorsCanApproveARequest = false;
+      if (newValue) {
+        this.data.minimumContributionPercentageRequired = 5;
+        this.data.minimumApprovalsPercentageRequired = 50;
+      } else {
+        this.data.minimumContributionPercentageRequired = 0;
+        this.data.minimumApprovalsPercentageRequired = 0;
       }
     },
   },
