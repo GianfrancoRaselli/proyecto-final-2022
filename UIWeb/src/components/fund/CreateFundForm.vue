@@ -502,7 +502,6 @@ export default {
 
 .form {
   padding: 18px 18px;
-  border: 0.5px solid rgba(99, 99, 99, 0.267);
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
