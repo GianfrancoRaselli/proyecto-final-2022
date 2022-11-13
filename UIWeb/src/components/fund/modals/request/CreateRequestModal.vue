@@ -80,6 +80,7 @@ import $ from 'jquery';
 import Web3 from 'web3';
 import { mapGetters } from 'vuex';
 import { transaction, validateForm } from '@/helpers/helpers';
+import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, numeric, minLength } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
@@ -131,8 +132,17 @@ export default {
           minValue: helpers.withMessage('Value must be greater than 0', (value) => {
             return value > 0;
           }),
+          maxValue: helpers.withMessage('Value must be less than or equal to 1000 ETH', (value) => {
+            if (this.valueToTransferUnit === 'Wei' && BigNumber(value).isLessThanOrEqualTo(1000000000000000000000)) return true;
+            if (
+              this.valueToTransferUnit === 'Ether' &&
+              BigNumber(Web3.utils.toWei(value, 'ether')).isLessThanOrEqualTo(1000000000000000000000)
+            )
+              return true;
+            return false;
+          }),
           weiValue: helpers.withMessage('Value in Wei must be an integer', (value) => {
-            if (this.valueToTransferUnit === 'Wei' && !Number.isInteger(Number(value))) return false;
+            if (this.valueToTransferUnit === 'Wei' && !BigNumber(value).isInteger()) return false;
             return true;
           }),
         },

@@ -71,6 +71,7 @@ import Web3 from 'web3';
 import { mapGetters } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { transaction, validateForm } from '@/helpers/helpers';
+import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, numeric } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
@@ -115,7 +116,7 @@ export default {
           return value > 0;
         }),
         weiValue: helpers.withMessage('Value in Wei must be an integer', (value) => {
-          if (this.contributionUnit === 'Wei' && !Number.isInteger(Number(value))) return false;
+          if (this.contributionUnit === 'Wei' && !BigNumber(value).isInteger()) return false;
           return true;
         }),
       },

@@ -75,10 +75,10 @@
 
 <script>
 import Web3 from 'web3';
-import BigNumber from 'bignumber.js';
 import { mapGetters } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { transaction, validateForm } from '@/helpers/helpers';
+import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, numeric } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
@@ -123,13 +123,13 @@ export default {
           return value > 0;
         }),
         weiValue: helpers.withMessage('Value in Wei must be an integer', (value) => {
-          if (this.unit === 'Wei' && !Number.isInteger(Number(value))) return false;
+          if (this.unit === 'Wei' && !BigNumber(value).isInteger()) return false;
           return true;
         }),
-        maxValue: helpers.withMessage('Value must be less than current balance', (value) => {
-          return BigNumber(
-            this.unit === 'Wei' ? value : Web3.utils.toWei(this.fund.balance.toString(), 'ether'),
-          ).isLessThanOrEqualTo(BigNumber(this.fund.balance));
+        maxValue: helpers.withMessage('Value must be less than or equal to the current balance', (value) => {
+          return BigNumber(this.unit === 'Wei' ? value : Web3.utils.toWei(value, 'ether')).isLessThanOrEqualTo(
+            BigNumber(this.fund.balance.toString()),
+          );
         }),
       },
     };
