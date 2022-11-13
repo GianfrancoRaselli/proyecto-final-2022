@@ -119,6 +119,13 @@ export default {
           if (this.contributionUnit === 'Wei' && !BigNumber(value).isInteger()) return false;
           return true;
         }),
+        maxDecimals: helpers.withMessage('Maximum number of decimal places allowed is 18', (value) => {
+          if (this.contributionUnit === 'Ether') {
+            const decimals = value.split('.')[1];
+            if (decimals && decimals.length > 18) return false;
+          }
+          return true;
+        }),
       },
     };
   },

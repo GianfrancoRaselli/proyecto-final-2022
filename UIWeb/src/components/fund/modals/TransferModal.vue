@@ -131,6 +131,13 @@ export default {
             BigNumber(this.fund.balance.toString()),
           );
         }),
+        maxDecimals: helpers.withMessage('Maximum number of decimal places allowed is 18', (value) => {
+          if (this.unit === 'Ether') {
+            const decimals = value.split('.')[1];
+            if (decimals && decimals.length > 18) return false;
+          }
+          return true;
+        }),
       },
     };
   },
