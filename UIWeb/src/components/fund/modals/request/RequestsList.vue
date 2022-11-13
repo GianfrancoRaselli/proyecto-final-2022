@@ -251,7 +251,7 @@ export default {
       if (BigNumber(this.fund.requests[index].valueToTransfer).isLessThanOrEqualTo(BigNumber(this.fund.balance))) {
         successHandler();
       } else {
-        const balance = this.fund.balance.toString();
+        const balance = Number(this.fund.balance).toLocaleString('fullwide', { useGrouping: false });
         let valueToTransfer;
         if (balance.length <= 13) {
           if (balance === '1') valueToTransfer = '1 Wei';
