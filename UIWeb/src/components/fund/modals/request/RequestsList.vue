@@ -244,7 +244,7 @@ export default {
             type: 'success',
           });
         } finally {
-          this.finalizingRequests = this.approvingRequests.filter((i) => i !== index);
+          this.finalizingRequests = this.finalizingRequests.filter((i) => i !== index);
         }
       };
 
