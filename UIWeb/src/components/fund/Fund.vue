@@ -27,7 +27,7 @@
         </p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Current balance</span>:&nbsp;</span>
-          <AppShowEth :weis="fund.balance.toString()" />
+          <AppShowEth :weis="fund.balance" />
         </p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Creator</span>:&nbsp;</span>
@@ -39,7 +39,7 @@
         </p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Total contributions</span>:&nbsp;</span>
-          <AppShowEth :weis="fund.totalContributions.toString()" class="mr-3" />
+          <AppShowEth :weis="fund.totalContributions" class="mr-3" />
           <button type="button" class="btn btn-link btn-show-contributors" data-toggle="modal" data-target="#contributorsModal">
             Show contributors
           </button>

@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <p class="card-text current-balance">
-            <span class="text-bold">Current balance</span>:&nbsp;<AppShowEth :weis="fund.balance.toString()" />
+            <span class="text-bold">Current balance</span>:&nbsp;<AppShowEth :weis="fund.balance" />
             <button class="btn btn-link btn-sm ml-2" @click="setCurrentBalance" v-if="fund.balance > 0">
               Transfer all balance
             </button>

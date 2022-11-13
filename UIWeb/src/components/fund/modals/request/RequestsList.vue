@@ -31,11 +31,11 @@
             </div>
             <div class="info">
               <span class="info__label"><span class="text-bold">Value to transfer</span>:&nbsp;</span>
-              <AppShowEth :weis="request.valueToTransfer.toString()" />
+              <AppShowEth :weis="request.valueToTransfer" />
             </div>
             <div class="info" v-if="request.complete">
               <span class="info__label"><span class="text-bold">Transferred value</span>:&nbsp;</span>
-              <AppShowEth :weis="request.transferredValue.toString()" />
+              <AppShowEth :weis="request.transferredValue" />
             </div>
             <div class="info" v-if="!request.complete">
               <span class="info__label"><span class="text-bold">Approvals</span>:&nbsp;</span>

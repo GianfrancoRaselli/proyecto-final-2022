@@ -136,6 +136,7 @@ const convertNumberToMaxDecimals = (number, maxNumOfDecimals) => {
   if (maxNumOfDecimals === 0) return number.toFixed(0);
   let finalNumOfDecimals = 0;
   const decimals = number.toFixed(maxNumOfDecimals).split('.')[1];
+  if (!decimals) return number.toFixed(maxNumOfDecimals);
   for (let i = maxNumOfDecimals - 1; i >= 0; i--) {
     if (decimals.charAt(i) !== '0') {
       finalNumOfDecimals = i + 1;

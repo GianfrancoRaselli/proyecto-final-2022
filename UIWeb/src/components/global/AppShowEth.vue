@@ -10,7 +10,7 @@ import { convertNumberToMaxDecimals } from '@/helpers/helpers';
 export default {
   name: 'AppShowEthComponent',
   props: {
-    weis: { type: String, required: true },
+    weis: { type: Number, required: true },
   },
   data() {
     return {
@@ -18,11 +18,16 @@ export default {
     };
   },
   computed: {
-    showWeis() {
-      return this.weis.length <= 19 - this.maxEthDecimals;
+    weisInFullString() {
+      return this.weis.toLocaleString('fullwide', { useGrouping: false });
     },
+
+    showWeis() {
+      return this.weisInFullString.length <= 19 - this.maxEthDecimals;
+    },
+
     amountInEth() {
-      return convertNumberToMaxDecimals(Number(Web3.utils.fromWei(this.weis, 'ether')), this.maxEthDecimals);
+      return convertNumberToMaxDecimals(Number(Web3.utils.fromWei(this.weisInFullString, 'ether')), this.maxEthDecimals);
     },
   },
 };

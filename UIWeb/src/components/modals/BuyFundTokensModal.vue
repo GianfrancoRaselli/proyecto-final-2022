@@ -21,7 +21,7 @@
             <small>
               <span class="h6 font-weight-bolder">FundToken price:&nbsp;</span>
               <span>
-                <AppShowEth :weis="fundTokenPriceInWeis.toString()" />
+                <AppShowEth :weis="fundTokenPriceInWeis" />
                 &nbsp;≈&nbsp;
                 <AppShowAmount :amount="fundTokenPriceInUSD" singular="USD" />
               </span>
@@ -50,7 +50,7 @@
               <small id="tokensHelp" class="form-text">
                 <span class="h6">Total price: </span>
                 <span>
-                  <AppShowEth :weis="(fundTokens * fundTokenPriceInWeis).toString()" />
+                  <AppShowEth :weis="fundTokens * fundTokenPriceInWeis" />
                   &nbsp;≈&nbsp;
                   <AppShowAmount :amount="fundTokensPriceInUSD" singular="USD" />
                 </span>
@@ -73,7 +73,7 @@
 //import $ from 'jquery';
 import Web3 from 'web3';
 import { useVuelidate } from '@vuelidate/core';
-import { required, integer, minValue } from '@vuelidate/validators';
+import { required, integer, minValue, maxValue } from '@vuelidate/validators';
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { addNotification } from '@/composables/useNotifications';
@@ -129,6 +129,7 @@ export default {
         required,
         integer,
         minValue: minValue(1),
+        maxValue: maxValue(100),
       },
     };
   },
