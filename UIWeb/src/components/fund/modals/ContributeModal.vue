@@ -98,7 +98,7 @@ export default {
   },
   watch: {
     contribution(newValue) {
-      this.contribution = newValue.replace(',', '.');
+      if (newValue) this.contribution = newValue.replace(',', '.');
     },
   },
   validations() {

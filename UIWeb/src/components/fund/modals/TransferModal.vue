@@ -105,7 +105,7 @@ export default {
   },
   watch: {
     value(newValue) {
-      this.value = newValue.replace(',', '.');
+      if (newValue) this.value = newValue.replace(',', '.');
     },
   },
   validations() {

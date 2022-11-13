@@ -110,7 +110,7 @@ export default {
   },
   watch: {
     'data.valueToTransfer'(newValue) {
-      this.data.valueToTransfer = newValue.replace(',', '.');
+      if (newValue) this.data.valueToTransfer = newValue.replace(',', '.');
     },
   },
   validations() {
