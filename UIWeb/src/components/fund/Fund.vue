@@ -128,7 +128,7 @@ export default {
       loading: true,
       fund: {
         address: '',
-        balance: 0,
+        balance: '0',
         name: '',
         description: '',
         creator: '',
@@ -136,7 +136,7 @@ export default {
         managers: [],
         managersCanBeAddedOrRemoved: false,
         contributors: [],
-        totalContributions: 0,
+        totalContributions: '0',
         managersCanTransferMoneyWithoutARequest: false,
         requests: [],
         requestsCanBeCreated: false,

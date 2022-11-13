@@ -251,13 +251,12 @@ export default {
       if (BigNumber(this.fund.requests[index].valueToTransfer).isLessThanOrEqualTo(BigNumber(this.fund.balance))) {
         successHandler();
       } else {
-        const balance = Number(this.fund.balance).toLocaleString('fullwide', { useGrouping: false });
         let valueToTransfer;
-        if (balance.length <= 13) {
-          if (balance === '1') valueToTransfer = '1 Wei';
-          else valueToTransfer = balance + ' Weis';
+        if (this.fund.balance.length <= 13) {
+          if (this.fund.balance === '1') valueToTransfer = '1 Wei';
+          else valueToTransfer = this.fund.balance + ' Weis';
         } else {
-          valueToTransfer = convertNumberToMaxDecimals(Number(Web3.utils.fromWei(balance, 'ether')), 6) + ' ETH';
+          valueToTransfer = convertNumberToMaxDecimals(Number(Web3.utils.fromWei(this.fund.balance, 'ether')), 6) + ' ETH';
         }
 
         Swal.fire({

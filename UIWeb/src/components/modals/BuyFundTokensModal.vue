@@ -96,7 +96,7 @@ export default {
   data() {
     return {
       loading: false,
-      fundTokenPriceInWeis: 0,
+      fundTokenPriceInWeis: '0',
       ethPriceInUSD: 0,
       fundTokens: 1,
       newFundTokenPriceSubscription: null,
@@ -114,9 +114,7 @@ export default {
     hasMetamask,
 
     fundTokenPriceInETH() {
-      return parseFloat(
-        Web3.utils.fromWei(Number(this.fundTokenPriceInWeis).toLocaleString('fullwide', { useGrouping: false }), 'ether'),
-      );
+      return parseFloat(Web3.utils.fromWei(this.fundTokenPriceInWeis, 'ether'));
     },
     fundTokenPriceInUSD() {
       return convertNumberToMaxDecimals(this.fundTokenPriceInETH * this.ethPriceInUSD, 2);
