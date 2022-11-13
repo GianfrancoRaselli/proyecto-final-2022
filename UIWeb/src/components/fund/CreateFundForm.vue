@@ -77,15 +77,15 @@
 
         <div class="form-group">
           <label for="managersInput">Managers<span class="extra-info">Optional</span></label>
-          <input
-            type="text"
+          <textarea
             class="form-control"
             :class="{ 'is-invalid': v$.data.managers.$errors.length }"
             id="managersInput"
+            rows="3"
             aria-describedby="managersHelp"
             v-model="data.managers"
             :disabled="loading"
-          />
+          ></textarea>
           <small id="managersHelp" class="form-text text-muted">Enter address of other admins separated by comma (,)</small>
           <AppInputErrors :errors="v$.data.managers.$errors" />
         </div>
