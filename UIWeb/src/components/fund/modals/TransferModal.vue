@@ -95,13 +95,18 @@ export default {
     return {
       loading: false,
       receiver: '',
-      value: 0,
+      value: '0',
       unit: 'Wei',
       units: ['Wei', 'Ether'],
     };
   },
   computed: {
     ...mapGetters(['address']),
+  },
+  watch: {
+    value(newValue) {
+      this.value = newValue.replace(',', '.');
+    },
   },
   validations() {
     return {
@@ -139,13 +144,13 @@ export default {
           await transaction(
             { name: 'Fund', address: this.$route.params.fundAddress },
             'transfer',
-            [this.receiver.trim(), this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value.toString(), 'ether')],
+            [this.receiver.trim(), this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value, 'ether')],
             undefined,
             true,
             'Transfer ' + this.value + ' ' + this.unit + ' to ' + getSplitAddress(this.receiver.trim()),
           );
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund.totalContributions += this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value.toString(), 'ether');
+          this.fund.totalContributions += this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value, 'ether');
           addNotification({
             message: 'Transferred ' + this.value + ' ' + this.unit,
             type: 'success',

@@ -98,7 +98,7 @@ export default {
       data: {
         description: '',
         recipient: '',
-        valueToTransfer: 0,
+        valueToTransfer: '0',
       },
       valueToTransferUnit: 'Wei',
       units: ['Wei', 'Ether'],
@@ -106,6 +106,11 @@ export default {
   },
   computed: {
     ...mapGetters(['address']),
+  },
+  watch: {
+    'data.valueToTransfer'(newValue) {
+      this.data.valueToTransfer = newValue.replace(',', '.');
+    },
   },
   validations() {
     return {
@@ -147,7 +152,7 @@ export default {
               this.data.recipient.trim(),
               this.valueToTransferUnit === 'Wei'
                 ? this.data.valueToTransfer
-                : Web3.utils.toWei(this.data.valueToTransfer.toString(), 'ether'),
+                : Web3.utils.toWei(this.data.valueToTransfer, 'ether'),
             ],
             undefined,
             true,
@@ -160,7 +165,7 @@ export default {
             valueToTransfer:
               this.valueToTransferUnit === 'Wei'
                 ? this.data.valueToTransfer
-                : Web3.utils.toWei(this.data.valueToTransfer.toString(), 'ether'),
+                : Web3.utils.toWei(this.data.valueToTransfer, 'ether'),
           });
           addNotification({
             message: 'Request created',

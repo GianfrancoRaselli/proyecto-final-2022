@@ -87,13 +87,18 @@ export default {
     return {
       loading: false,
       contributor: '',
-      contribution: 0,
+      contribution: '0',
       contributionUnit: 'Wei',
       units: ['Wei', 'Ether'],
     };
   },
   computed: {
     ...mapGetters(['address']),
+  },
+  watch: {
+    contribution(newValue) {
+      this.contribution = newValue.replace(',', '.');
+    },
   },
   validations() {
     return {
@@ -128,8 +133,7 @@ export default {
             this.contributor.trim() === this.address ? 'contribute' : 'contributeFor',
             this.contributor.trim() === this.address ? [] : [this.contributor.trim()],
             {
-              value:
-                this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution.toString(), 'ether'),
+              value: this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution, 'ether'),
             },
             true,
             'Contribute ' +
@@ -145,10 +149,9 @@ export default {
           );
           // eslint-disable-next-line vue/no-mutating-props
           this.fund.totalContributions +=
-            this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution.toString(), 'ether');
+            this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution, 'ether');
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund.balance +=
-            this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution.toString(), 'ether');
+          this.fund.balance += this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution, 'ether');
           addNotification({
             message: 'Contributed ' + this.contribution + ' ' + this.contributionUnit,
             type: 'success',
