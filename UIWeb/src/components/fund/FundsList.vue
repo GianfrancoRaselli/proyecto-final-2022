@@ -42,15 +42,89 @@
                   </button>
                 </div>
                 <div class="modal-body">
+                  <div class="order-filter">
+                    <div class="filter-title">Order by</div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="orderByRadios"
+                        id="lastCreatedRadios"
+                        value="lastCreated"
+                        v-model="filters.orderBy"
+                      />
+                      <label class="form-check-label" for="lastCreatedRadios">Last created</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="orderByRadios"
+                        id="firstCreatedRadios"
+                        value="firstCreated"
+                        v-model="filters.orderBy"
+                      />
+                      <label class="form-check-label" for="firstCreatedRadios">First created</label>
+                    </div>
+                  </div>
+
+                  <hr />
                   <div class="date-filter">
                     <div class="filter-title">Creation date</div>
-                    <input type="date" class="form-control" v-model="date" />
+                    <input type="date" class="form-control" v-model="filters.date" />
                   </div>
+
+                  <hr />
+                  <div class="type-filters">
+                    <div class="filter-title">Funds types</div>
+                    <div class="form-group">
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="checkboxAllFunds"
+                          v-model="filters.fundsTypes.allFunds"
+                        />
+                        <label class="form-check-label" for="checkboxAllFunds">All funds</label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="checkboxfriends"
+                          v-model="filters.fundsTypes.types.friends"
+                          :disabled="filters.fundsTypes.allFunds"
+                        />
+                        <label class="form-check-label" for="checkboxfriends">Friends funds</label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="checkboxcampaign"
+                          v-model="filters.fundsTypes.types.campaign"
+                          :disabled="filters.fundsTypes.allFunds"
+                        />
+                        <label class="form-check-label" for="checkboxcampaign">Campaign funds</label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="checkboxdonation"
+                          v-model="filters.fundsTypes.types.donation"
+                          :disabled="filters.fundsTypes.allFunds"
+                        />
+                        <label class="form-check-label" for="checkboxdonation">Donation funds</label>
+                      </div>
+                    </div>
+                  </div>
+
                   <hr />
                   <div class="more-filters">
                     <div class="filter-title">More filters</div>
-                    <div class="form-check">
-                      <input class="form-check-input mr-2" type="checkbox" id="checkboxMyFunds" v-model="onlyShowMyFunds" />
+                    <div class="form-group form-check">
+                      <input type="checkbox" class="form-check-input" id="checkboxMyFunds" v-model="filters.onlyShowMyFunds" />
                       <label class="form-check-label" for="checkboxMyFunds">Only show my funds</label>
                     </div>
                   </div>
@@ -98,8 +172,19 @@ export default {
       loading: true,
       progress: 0,
       search: '',
-      date: null,
-      onlyShowMyFunds: false,
+      filters: {
+        orderBy: 'lastCreated',
+        date: null,
+        fundsTypes: {
+          allFunds: true,
+          types: {
+            friends: true,
+            campaign: true,
+            donation: true,
+          },
+        },
+        onlyShowMyFunds: false,
+      },
       funds: [],
       fundsToAdd: [],
       newFundSubscription: null,
@@ -109,68 +194,11 @@ export default {
     ...mapState({ address: (state) => state.connection.address }),
 
     fundsToShow() {
-      let fundsToShow = this.funds.slice();
-
-      if (this.onlyShowMyFunds) fundsToShow = fundsToShow.filter((fund) => compareAddresses(fund.creator, this.address));
-
-      if (this.date)
-        fundsToShow = fundsToShow.filter((fund) => areTheSameDates(this.date, fromUnixTimestampToDate(fund.createdAt)));
-
-      if (this.search.trim()) {
-        const search = this.search
-          .trim()
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '');
-        fundsToShow = fundsToShow.filter(
-          (fund) =>
-            compareAddresses(fund.address, search) ||
-            compareAddresses(fund.creator, search) ||
-            fund.name
-              .trim()
-              .toLowerCase()
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .includes(search),
-        );
-      }
-
-      return fundsToShow.sort((a, b) => {
-        if (a.createdAt < b.createdAt) return 1;
-        if (a.createdAt > b.createdAt) return -1;
-        return 0;
-      });
+      return this.filterFunds(this.funds.slice());
     },
 
     fundsToAddToShow() {
-      let fundsToAddToShow = this.fundsToAdd.slice();
-
-      if (this.onlyShowMyFunds)
-        fundsToAddToShow = fundsToAddToShow.filter((fund) => compareAddresses(fund.creator, this.address));
-
-      if (this.date)
-        fundsToAddToShow = fundsToAddToShow.filter((fund) => areTheSameDates(this.date, fromUnixTimestampToDate(fund.createdAt)));
-
-      if (this.search.trim()) {
-        const search = this.search
-          .trim()
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '');
-        fundsToAddToShow = fundsToAddToShow.filter(
-          (fund) =>
-            compareAddresses(fund.address, search) ||
-            compareAddresses(fund.creator, search) ||
-            fund.name
-              .trim()
-              .toLowerCase()
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .includes(search),
-        );
-      }
-
-      return fundsToAddToShow;
+      return this.filterFunds(this.fundsToAdd.slice());
     },
 
     newFunds() {
@@ -178,7 +206,15 @@ export default {
       return this.fundsToAddToShow.length - this.fundsToShow.length;
     },
   },
-  watch: {},
+  watch: {
+    'filters.fundsTypes.allFunds'(newValue) {
+      if (newValue) {
+        this.filters.fundsTypes.types.friends = true;
+        this.filters.fundsTypes.types.campaign = true;
+        this.filters.fundsTypes.types.donation = true;
+      }
+    },
+  },
   methods: {
     async searchFunds() {
       this.loading = true;
@@ -236,6 +272,91 @@ export default {
     updateFunds() {
       this.funds = this.fundsToAdd;
       this.fundsToAdd = [];
+    },
+
+    filterFunds(fundsToFilter) {
+      // search
+      if (this.search.trim()) {
+        const search = this.search
+          .trim()
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
+        fundsToFilter = fundsToFilter.filter(
+          (fund) =>
+            compareAddresses(fund.address, search) ||
+            compareAddresses(fund.creator, search) ||
+            fund.name
+              .trim()
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .includes(search),
+        );
+      }
+
+      // creation date
+      if (this.filters.date)
+        fundsToFilter = fundsToFilter.filter((fund) =>
+          areTheSameDates(this.filters.date, fromUnixTimestampToDate(fund.createdAt)),
+        );
+
+      // funds types
+      if (!this.filters.fundsTypes.allFunds) {
+        fundsToFilter = fundsToFilter.filter((fund) => {
+          const type = this.fundType(fund);
+          if (this.filters.fundsTypes.types[type]) return true;
+          return false;
+        });
+      }
+
+      // only my funds
+      if (this.filters.onlyShowMyFunds)
+        fundsToFilter = fundsToFilter.filter((fund) => compareAddresses(fund.creator, this.address));
+
+      // order
+      if (this.filters.orderBy === 'lastCreated')
+        fundsToFilter = fundsToFilter.sort((a, b) => {
+          if (a.createdAt < b.createdAt) return 1;
+          if (a.createdAt > b.createdAt) return -1;
+          return 0;
+        });
+      else if (this.filters.orderBy === 'firstCreated')
+        fundsToFilter = fundsToFilter.sort((a, b) => {
+          if (a.createdAt > b.createdAt) return 1;
+          if (a.createdAt < b.createdAt) return -1;
+          return 0;
+        });
+
+      return fundsToFilter;
+    },
+
+    fundType(fund) {
+      if (
+        fund.managersCanBeAddedOrRemoved &&
+        fund.managersCanTransferMoneyWithoutARequest &&
+        fund.requestsCanBeCreated &&
+        !fund.onlyManagersCanCreateARequest &&
+        !fund.onlyContributorsCanApproveARequest
+      )
+        return 'friends';
+      if (
+        !fund.managersCanBeAddedOrRemoved &&
+        !fund.managersCanTransferMoneyWithoutARequest &&
+        fund.requestsCanBeCreated &&
+        fund.onlyManagersCanCreateARequest &&
+        fund.onlyContributorsCanApproveARequest
+      )
+        return 'campaign';
+      if (
+        fund.managersCanBeAddedOrRemoved &&
+        fund.managersCanTransferMoneyWithoutARequest &&
+        fund.requestsCanBeCreated &&
+        fund.onlyManagersCanCreateARequest &&
+        fund.onlyContributorsCanApproveARequest
+      )
+        return 'donation';
+      return undefined;
     },
   },
   async created() {
