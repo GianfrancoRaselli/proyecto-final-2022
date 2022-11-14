@@ -16,6 +16,7 @@ import AppInputErrors from '@/components/global/AppInputErrors';
 import AppShowAddress from '@/components/global/AppShowAddress';
 import AppShowAmount from '@/components/global/AppShowAmount';
 import AppShowEth from '@/components/global/AppShowEth';
+import AppPill from '@/components/global/AppPill';
 
 import 'bootstrap/dist/js/bootstrap.min.js';
 
@@ -36,5 +37,6 @@ app.component('AppInputErrors', AppInputErrors);
 app.component('AppShowAddress', AppShowAddress);
 app.component('AppShowAmount', AppShowAmount);
 app.component('AppShowEth', AppShowEth);
+app.component('AppPill', AppPill);
 
 app.mount('#app');

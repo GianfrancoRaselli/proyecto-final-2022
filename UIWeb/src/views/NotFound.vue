@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "NotFoundView",
+  name: 'NotFoundView',
 };
 </script>
 
@@ -44,7 +44,7 @@ export default {
 }
 
 .redirect {
-font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 @media screen and (max-width: 768px) {

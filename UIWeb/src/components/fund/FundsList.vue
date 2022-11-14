@@ -5,8 +5,8 @@
       <!--<AppProgress :progress="progress" />-->
     </div>
     <div v-else>
-      <div v-if="funds.length > 0">
-        <div class="searches pb-1">
+      <div class="filters-header" v-if="funds.length > 0">
+        <div class="filters">
           <form class="form-search">
             <div class="input-container">
               <input
@@ -133,11 +133,17 @@
             </div>
           </div>
         </div>
-        <hr />
+
+        <div class="applied-filters">
+          <span class="order-by"><span class="title">Order by</span>:&nbsp;<span class="description" v-text="orderBy"></span></span>
+          <AppPill msg="My funds" @close="filters.onlyShowMyFunds = false;" v-if="filters.onlyShowMyFunds" />
+        </div>
       </div>
+
       <button class="btn btn-outline-link btn-block btn-show my-2" @click="updateFunds" v-if="newFunds > 0">
         Show&nbsp;<AppShowAmount :amount="newFunds" singular="fund" plural="funds" />
       </button>
+
       <AppAlert msg="No funds created yet" v-if="funds.length === 0" />
       <div v-else>
         <AppAlert msg="No funds were found with those parameters" v-if="fundsToShow.length === 0" />
@@ -192,6 +198,17 @@ export default {
   },
   computed: {
     ...mapState({ address: (state) => state.connection.address }),
+
+    orderBy() {
+      // first word
+      let orderBy = this.filters.orderBy.match(/[a-z]+/g)[0];
+
+      // next words
+      const words = this.filters.orderBy.match(/[A-Z][a-z]+/g);
+      if (words && words.length > 0) orderBy = orderBy + ' ' + words.join(' ').toLowerCase();
+
+      return orderBy.charAt(0).toUpperCase() + orderBy.slice(1);
+    },
 
     fundsToShow() {
       return this.filterFunds(this.funds.slice());
@@ -383,7 +400,18 @@ export default {
   margin: auto;
 }
 
-.searches {
+.filters-header {
+  padding-bottom: 16px;
+  border-bottom: 0.2px solid rgba(136, 136, 136, 0.432);
+  margin-bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 16px;
+}
+
+.filters {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -392,8 +420,29 @@ export default {
   gap: 10px;
 }
 
+.applied-filters {
+  height: 1.3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 8px;
+}
+
+.applied-filters .order-by {
+  padding-right: 10px;
+}
+
+.applied-filters .order-by .title {
+  font-weight: bold;
+}
+
+.applied-filters .order-by .description {
+  font-size: 0.9rem;
+}
+
 @media (max-width: 450px) {
-  .searches {
+  .filters {
     flex-direction: column;
     justify-content: center;
     align-items: end;
