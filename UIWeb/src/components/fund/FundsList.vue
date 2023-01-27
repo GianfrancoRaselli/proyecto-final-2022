@@ -135,8 +135,29 @@
         </div>
 
         <div class="applied-filters">
-          <span class="order-by"><span class="title">Order by</span>:&nbsp;<span class="description" v-text="orderBy"></span></span>
-          <AppPill msg="My funds" @close="filters.onlyShowMyFunds = false;" v-if="filters.onlyShowMyFunds" />
+          <span class="order-by"
+            ><span class="title">Order by</span>:&nbsp;<span class="description" v-text="orderBy"></span
+          ></span>
+          <AppPill :msg="filters.date" @close="filters.date = null" v-if="filters.date" />
+          <AppPill
+            msg="Friends funds"
+            type="success"
+            @close="filters.fundsTypes.types.friends = false"
+            v-if="filters.fundsTypes.types.friends"
+          />
+          <AppPill
+            msg="Campaign funds"
+            type="warning"
+            @close="filters.fundsTypes.types.campaign = false"
+            v-if="filters.fundsTypes.types.campaign"
+          />
+          <AppPill
+            msg="Donation funds"
+            type="secondary"
+            @close="filters.fundsTypes.types.donation = false"
+            v-if="filters.fundsTypes.types.donation"
+          />
+          <AppPill msg="My funds" type="primary" @close="filters.onlyShowMyFunds = false" v-if="filters.onlyShowMyFunds" />
         </div>
       </div>
 
@@ -230,6 +251,15 @@ export default {
         this.filters.fundsTypes.types.campaign = true;
         this.filters.fundsTypes.types.donation = true;
       }
+    },
+    'filters.fundsTypes.types.friends'(newValue) {
+      if (!newValue) this.filters.fundsTypes.allFunds = false;
+    },
+    'filters.fundsTypes.types.campaign'(newValue) {
+      if (!newValue) this.filters.fundsTypes.allFunds = false;
+    },
+    'filters.fundsTypes.types.donation'(newValue) {
+      if (!newValue) this.filters.fundsTypes.allFunds = false;
     },
   },
   methods: {

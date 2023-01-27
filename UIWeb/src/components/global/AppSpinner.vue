@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-center">
-    <div class="spinner-border" :class="{ big: this.size === 'big' }" role="status">
+    <div class="spinner-border" :class="{ big: size === 'big' }" role="status">
       <span class="sr-only">{{ msg }}...</span>
     </div>
   </div>
