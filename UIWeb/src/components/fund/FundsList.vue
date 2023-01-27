@@ -14,7 +14,7 @@
                 class="form-control input"
                 placeholder="Search by Name/Address"
                 aria-label="Search"
-                v-model="search"
+                v-model="searching"
               />
               <div class="icon-container">
                 <fa-icon icon="magnifying-glass" class="icon" />
@@ -198,6 +198,8 @@ export default {
     return {
       loading: true,
       progress: 0,
+      searching: '',
+      searchingSubscription: null,
       search: '',
       filters: {
         orderBy: 'lastCreated',
@@ -245,6 +247,12 @@ export default {
     },
   },
   watch: {
+    searching(newValue) {
+      if (this.searchingSubscription) clearTimeout(this.searchingSubscription);
+      this.searchingSubscription = setTimeout(() => {
+        this.search = newValue;
+      }, 600);
+    },
     'filters.fundsTypes.allFunds'(newValue) {
       if (newValue) {
         this.filters.fundsTypes.types.friends = true;
