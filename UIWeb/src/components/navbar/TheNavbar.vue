@@ -1,12 +1,12 @@
 <template>
   <div class="content">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <router-link class="navbar-brand mr-3" :to="{ name: 'Home' }" exact
-        >Fund<!--<img class="brand-logo" src="@/assets/imgs/fund.jpg" />--></router-link
-      >
+      <router-link class="mr-4" :to="{ name: 'Home' }" exact
+        ><img class="brand-logo" src="@/assets/imgs/logos/1/Fund-logos_white.png"
+      /></router-link>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto align-items">
           <li class="nav-item mr-1">
             <router-link class="nav-link" :to="{ name: 'CreateFund' }" exact v-text="createFundMsg" />
           </li>
@@ -19,7 +19,7 @@
         </ul>
       </div>
 
-      <div class="navbar--menu ml-auto">
+      <div class="navbar--menu ml-auto align-items">
         <div v-if="hasMetamask">
           <button class="btn btn-light btn-wallet" data-toggle="modal" data-target="#walletModal" v-if="isConnected">
             <fa-icon icon="wallet" class="icon mr-2 wallet-icon" size="2x" v-if="isConnectedToTheValidChain"></fa-icon
@@ -106,19 +106,20 @@ export default {
 
 <style scoped>
 nav {
+  font-size: 1.04rem;
   color: white;
   height: 100%;
+  padding: 0 6px;
   margin: 0 5px;
   border-radius: 5px;
 }
 
 .brand-logo {
-  height: calc(var(--navbar-height) - 5px);
+  height: calc(var(--navbar-height) - 2px);
   width: auto;
-  border-radius: 5px;
 }
 
-.navbar--menu {
+.align-items {
   display: flex;
   justify-content: center;
   align-items: center;

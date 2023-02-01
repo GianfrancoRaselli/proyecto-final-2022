@@ -61,7 +61,7 @@ html {
 body {
   font-family: 'Roboto', monospace;
 
-  --navbar-height: 65px;
+  --navbar-height: 66px;
   --mobile-navbar-height: 60px;
   --footer-height: 60px;
 }
