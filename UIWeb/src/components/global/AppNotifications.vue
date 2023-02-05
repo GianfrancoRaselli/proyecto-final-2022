@@ -11,7 +11,7 @@
         <button type="button" class="btn btn-secondary" @click="removeNotification(notification.id)">X</button>
       </div>
       <button type="button" class="btn btn-link btn-remove-all" @click="removeNotifications" v-if="notifications.length > 0">
-        Remove all
+        Eliminar todo
       </button>
     </transition-group>
   </div>

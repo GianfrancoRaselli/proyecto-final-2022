@@ -6,6 +6,8 @@
 
 <script>
 import dayjs from 'dayjs';
+import 'dayjs/locale/es';
+dayjs.locale('es');
 import relativeTime from 'dayjs/plugin/relativeTime';
 import localizedDate from 'dayjs/plugin/localizedFormat';
 dayjs.extend(relativeTime);

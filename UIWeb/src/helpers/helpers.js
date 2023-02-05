@@ -89,29 +89,29 @@ const transaction = async (contract, method, params = [], options, showContractE
           return tx;
         } else {
           addNotification({
-            message: 'You do not have enough ' + store.getters.validChainCoin + ' to pay for the transaction',
+            message: 'No tienes suficientes ' + store.getters.validChainCoin + ' para costear la transacción',
             type: 'error',
           });
         }
       } else {
         addNotification({
-          message: 'Connect to ' + store.getters.validChainName + ' to send a transaction',
+          message: 'Conectese a ' + store.getters.validChainName + ' para enviar una transacción',
           type: 'warning',
         });
       }
     } else {
       addNotification({
-        message: 'Connect to MetaMask to send a transaction',
+        message: 'Conectese a MetaMask para enviar una transacción',
         type: 'warning',
       });
     }
   } else {
     addNotification({
-      message: 'Install MetaMask to send a transaction',
+      message: 'Instale MetaMask para enviar una transacción',
       type: 'warning',
     });
   }
-  throw new Error('The transaction could not be sent');
+  throw new Error('La transacción no pudo ser enviada');
 };
 
 const event = async (contract, event, options, func) => {

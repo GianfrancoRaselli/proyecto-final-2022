@@ -8,7 +8,7 @@
         <span v-text="fund.name" />
         <div class="fund-info">
           <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="compareAddresses(address, fund.creator)"
-            >My fund</span
+            >Mi fondo</span
           >
           <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
         </div>
@@ -20,17 +20,17 @@
             <span v-text="fund.description" />
           </div>
         </div>
-        <p class="h5 text-center my-3 information-text">Information</p>
+        <p class="h5 text-center my-3 information-text">Información</p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Fund address</span>:&nbsp;</span>
+          <span class="info__label"><span class="text-bold">Dirección</span>:&nbsp;</span>
           <AppShowAddress :address="fund.address" />
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Current balance</span>:&nbsp;</span>
+          <span class="info__label"><span class="text-bold">Balance actual</span>:&nbsp;</span>
           <AppShowEth :weis="fund.balance" />
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Creator</span>:&nbsp;</span>
+          <span class="info__label"><span class="text-bold">Creador</span>:&nbsp;</span>
           <AppShowAddress :address="fund.creator" />
         </p>
         <p class="info">
@@ -71,10 +71,10 @@
         <hr />
         <div class="buttons">
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#managersModal">
-            <fa-icon icon="person" class="icon mr-2" />Managers
+            <fa-icon icon="person" class="icon mr-2" />Administradores
           </button>
           <button type="button" class="btn btn-success" data-toggle="modal" data-target="#contributeModal">
-            <fa-icon icon="circle-dollar-to-slot" class="icon mr-2" />Contribute
+            <fa-icon icon="circle-dollar-to-slot" class="icon mr-2" />Contribuir
           </button>
           <button
             type="button"
@@ -83,10 +83,10 @@
             data-target="#transferModal"
             v-if="fund.managersCanTransferMoneyWithoutARequest && isManager"
           >
-            <fa-icon icon="money-bill-transfer" class="icon mr-2" />Transfer
+            <fa-icon icon="money-bill-transfer" class="icon mr-2" />Transferir
           </button>
           <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#requestsModal">
-            <fa-icon icon="list-check" class="icon mr-2" />Requests
+            <fa-icon icon="list-check" class="icon mr-2" />Solicitudes
           </button>
         </div>
       </div>
@@ -171,7 +171,7 @@ export default {
         !this.fund.onlyContributorsCanApproveARequest
       )
         return {
-          type: 'Friends',
+          type: 'Amigos',
           class: 'success',
         };
       if (
@@ -182,7 +182,7 @@ export default {
         this.fund.onlyContributorsCanApproveARequest
       )
         return {
-          type: 'Campaign',
+          type: 'Campaña',
           class: 'warning',
         };
       if (
@@ -193,7 +193,7 @@ export default {
         this.fund.onlyContributorsCanApproveARequest
       )
         return {
-          type: 'Donation',
+          type: 'Donación',
           class: 'secondary',
         };
       return undefined;

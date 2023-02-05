@@ -3,13 +3,13 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="createRequestModalLabel">Create request</h4>
+          <h4 class="modal-title" id="createRequestModalLabel">Crear solicitud</h4>
           <fa-icon icon="arrow-left" class="icon" @click="goBack" />
         </div>
         <div class="modal-body">
           <form @submit.prevent="handleSubmit">
             <div class="form-group">
-              <label for="descriptionInput">Description</label>
+              <label for="descriptionInput">Descripción</label>
               <input
                 type="text"
                 class="form-control"
@@ -23,7 +23,7 @@
             </div>
 
             <div class="form-group">
-              <label for="recipientInput">Recipient address</label>
+              <label for="recipientInput">Dirección del destinatario</label>
               <input
                 type="text"
                 class="form-control"
@@ -33,14 +33,14 @@
                 v-model="data.recipient"
                 :disabled="loading"
               />
-              <small id="recipientHelp" class="form-text text-muted">Enter an address</small>
+              <small id="recipientHelp" class="form-text text-muted">Ingrese una dirección</small>
               <AppInputErrors :errors="v$.data.recipient.$errors" />
             </div>
 
             <div class="form-row">
               <div class="col-8">
                 <div class="form-group">
-                  <label for="valueToTransferInput">Value to transfer</label>
+                  <label for="valueToTransferInput">Valor a transferir</label>
                   <input
                     type="text"
                     class="form-control"
@@ -55,7 +55,7 @@
               </div>
               <div class="col-4">
                 <div class="form-group">
-                  <label for="valueToTransferUnitInput">Unit</label>
+                  <label for="valueToTransferUnitInput">Unidad</label>
                   <select id="valueToTransferUnitInput" class="form-control" v-model="valueToTransferUnit" :disabled="loading">
                     <option v-for="(unit, i) in units" :key="i" v-text="unit" :value="unit"></option>
                   </select>
@@ -63,10 +63,10 @@
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" v-if="!loading">Create</button>
+            <button type="submit" class="btn btn-primary" v-if="!loading">Crear solicitud</button>
             <button class="btn btn-primary" type="button" disabled v-if="loading">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Loading...
+              Creando...
             </button>
           </form>
         </div>
@@ -122,17 +122,17 @@ export default {
         },
         recipient: {
           required,
-          mustBeAnAddress: helpers.withMessage('Value is not a valid address', (value) => {
+          mustBeAnAddress: helpers.withMessage('El valor no es una dirección válida', (value) => {
             return Web3.utils.isAddress(value.trim());
           }),
         },
         valueToTransfer: {
           required,
           numeric,
-          minValue: helpers.withMessage('Value must be greater than 0', (value) => {
+          minValue: helpers.withMessage('El valor debe ser mayor que 0', (value) => {
             return value > 0;
           }),
-          maxValue: helpers.withMessage('Value must be less than or equal to 1000 ETH', (value) => {
+          maxValue: helpers.withMessage('El valor debe ser menor o igual a 1000 ETH', (value) => {
             if (this.valueToTransferUnit === 'Wei' && BigNumber(value).isLessThanOrEqualTo(1000000000000000000000)) return true;
             if (
               this.valueToTransferUnit === 'Ether' &&
@@ -141,11 +141,11 @@ export default {
               return true;
             return false;
           }),
-          weiValue: helpers.withMessage('Value in Wei must be an integer', (value) => {
+          weiValue: helpers.withMessage('El valor en Wei debe ser un número entero', (value) => {
             if (this.valueToTransferUnit === 'Wei' && !BigNumber(value).isInteger()) return false;
             return true;
           }),
-          maxDecimals: helpers.withMessage('Maximum number of decimal places allowed is 18', (value) => {
+          maxDecimals: helpers.withMessage('La cantidad máxima de decimales permitidos es 18', (value) => {
             if (this.valueToTransferUnit === 'Ether') {
               const decimals = value.split('.')[1];
               if (decimals && decimals.length > 18) return false;
@@ -173,7 +173,7 @@ export default {
             ],
             undefined,
             true,
-            'Create request for ' + this.fund.name,
+            'Solicitud para ' + this.fund.name + ' creada',
           );
           // eslint-disable-next-line vue/no-mutating-props
           this.fund.requests.push({
@@ -185,7 +185,7 @@ export default {
                 : Web3.utils.toWei(this.data.valueToTransfer, 'ether'),
           });
           addNotification({
-            message: 'Request created',
+            message: 'Solicitud creada',
             type: 'success',
           });
           this.goBack();

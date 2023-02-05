@@ -3,22 +3,22 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="transferModalLabel">Transfer</h4>
+          <h4 class="modal-title" id="transferModalLabel">Transferir</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <p class="card-text current-balance">
-            <span class="text-bold">Current balance</span>:&nbsp;<AppShowEth :weis="fund.balance" />
+            <span class="text-bold">Balance actual</span>:&nbsp;<AppShowEth :weis="fund.balance" />
             <button class="btn btn-link btn-sm ml-2" @click="setCurrentBalance" v-if="fund.balance > 0">
-              Transfer all balance
+              Transferir todo el balance
             </button>
           </p>
           <hr />
           <form @submit.prevent="handleSubmit">
             <div class="form-group">
-              <label for="receiverInput">Receiver</label>
+              <label for="receiverInput">Destinatario</label>
               <div class="wrapper">
                 <input
                   type="text"
@@ -29,16 +29,16 @@
                   v-model="receiver"
                   :disabled="loading"
                 />
-                <span class="badge badge-pill badge-primary" v-if="compareAddresses(receiver, address)">Me</span>
+                <span class="badge badge-pill badge-primary" v-if="compareAddresses(receiver, address)">Yo</span>
               </div>
-              <small id="receiverHelp" class="form-text text-muted">Enter an address</small>
+              <small id="receiverHelp" class="form-text text-muted">Ingrese una dirección</small>
               <AppInputErrors :errors="v$.receiver.$errors" />
             </div>
 
             <div class="form-row">
               <div class="col-8">
                 <div class="form-group">
-                  <label for="valueInput">Value</label>
+                  <label for="valueInput">Valor</label>
                   <input
                     type="text"
                     class="form-control"
@@ -53,7 +53,7 @@
               </div>
               <div class="col-4">
                 <div class="form-group">
-                  <label for="unitInput">Unit</label>
+                  <label for="unitInput">Unidad</label>
                   <select id="unitInput" class="form-control" v-model="unit" :disabled="loading">
                     <option v-for="(u, i) in units" :key="i" v-text="u" :value="u"></option>
                   </select>
@@ -61,10 +61,10 @@
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" v-if="!loading">Transfer</button>
+            <button type="submit" class="btn btn-primary" v-if="!loading">Transferir</button>
             <button class="btn btn-primary" type="button" disabled v-if="loading">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Loading...
+              Transfiriendo...
             </button>
           </form>
         </div>
@@ -112,26 +112,26 @@ export default {
     return {
       receiver: {
         required,
-        mustBeAnAddress: helpers.withMessage('Value is not a valid address', (value) => {
+        mustBeAnAddress: helpers.withMessage('El valor no es una dirección válida', (value) => {
           return Web3.utils.isAddress(value.trim());
         }),
       },
       value: {
         required,
         numeric,
-        minValue: helpers.withMessage('Value must be greater than 0', (value) => {
+        minValue: helpers.withMessage('El valor debe ser mayor que 0', (value) => {
           return value > 0;
         }),
-        weiValue: helpers.withMessage('Value in Wei must be an integer', (value) => {
+        weiValue: helpers.withMessage('El valor en Wei debe ser un número entero', (value) => {
           if (this.unit === 'Wei' && !BigNumber(value).isInteger()) return false;
           return true;
         }),
-        maxValue: helpers.withMessage('Value must be less than or equal to the current balance', (value) => {
+        maxValue: helpers.withMessage('El valor debe ser menor o igual al saldo actual', (value) => {
           return BigNumber(this.unit === 'Wei' ? value : Web3.utils.toWei(value, 'ether')).isLessThanOrEqualTo(
             BigNumber(this.fund.balance.toString()),
           );
         }),
-        maxDecimals: helpers.withMessage('Maximum number of decimal places allowed is 18', (value) => {
+        maxDecimals: helpers.withMessage('La cantidad máxima de decimales permitidos es 18', (value) => {
           if (this.unit === 'Ether') {
             const decimals = value.split('.')[1];
             if (decimals && decimals.length > 18) return false;
@@ -154,12 +154,12 @@ export default {
             [this.receiver.trim(), this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value, 'ether')],
             undefined,
             true,
-            'Transfer ' + this.value + ' ' + this.unit + ' to ' + getSplitAddress(this.receiver.trim()),
+            this.value + ' ' + this.unit + ' transferidos a ' + getSplitAddress(this.receiver.trim()),
           );
           // eslint-disable-next-line vue/no-mutating-props
           this.fund.totalContributions += this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value, 'ether');
           addNotification({
-            message: 'Transferred ' + this.value + ' ' + this.unit,
+            message: 'Transferidos ' + this.value + ' ' + this.unit,
             type: 'success',
           });
           this.receiver = this.address;

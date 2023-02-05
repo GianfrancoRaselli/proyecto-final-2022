@@ -50,14 +50,14 @@
 
           <div class="recent-transactions mt-2" v-if="isConnected">
             <div class="mb-1">
-              <span class="h6 text-bold text-underline">Recent transactions</span>
+              <span class="h6 text-bold text-underline">Transacciones recientes</span>
             </div>
-            <span v-if="recentTransactionsToShow.length === 0">No transactions</span>
+            <span v-if="recentTransactionsToShow.length === 0">Sin transacciones</span>
             <div class="text-center-with-space mt-2" v-for="(transaction, index) in recentTransactionsToShow" :key="index">
               <span class="text-center">
                 <span class="float-left mr-2">
                   <div class="spinner-border text-primary" role="status" v-if="transaction.loading">
-                    <span class="sr-only">Loading...</span>
+                    <span class="sr-only"></span>
                   </div>
                   <fa-icon icon="circle-check" class="circle-check-icon" size="2x" v-else-if="transaction.success"></fa-icon>
                   <fa-icon icon="circle-xmark" class="circle-xmark-icon" size="2x" v-else></fa-icon>

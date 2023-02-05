@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title mr-2" id="buyFundTokensModalLabel">FundToken</h4>
-          <span class="add-token" @click="addFundTokenToMetaMask" v-if="hasMetamask">Add FundToken to MetaMask</span>
+          <span class="add-token" @click="addFundTokenToMetaMask" v-if="hasMetamask">Agregar FundToken a MetaMask</span>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -12,14 +12,14 @@
         <div class="modal-body">
           <div class="mb-2" v-if="address">
             <small>
-              <span class="h6 font-weight-bolder"> My balance:&nbsp;</span>
+              <span class="h6 font-weight-bolder"> Mi balance:&nbsp;</span>
               <span><AppShowAmount :amount="fundTokensBalance" singular="FundToken" plural="FundTokens" /></span>
             </small>
           </div>
 
           <div class="my-2">
             <small>
-              <span class="h6 font-weight-bolder">FundToken price:&nbsp;</span>
+              <span class="h6 font-weight-bolder">Precio del FundToken:&nbsp;</span>
               <span>
                 <AppShowEth :weis="fundTokenPriceInWeis" />
                 &nbsp;≈&nbsp;
@@ -32,7 +32,7 @@
 
           <form @submit.prevent="handleSubmit" class="mt-3">
             <div class="form-group">
-              <label for="tokensInput">Amount of tokens</label>
+              <label for="tokensInput">Cantidad de tokens a comprar</label>
               <input
                 type="number"
                 class="form-control"
@@ -48,7 +48,7 @@
 
             <div class="mb-2" v-if="fundTokens > 0">
               <small id="tokensHelp" class="form-text">
-                <span class="h6">Total price: </span>
+                <span class="h6">Precio total: </span>
                 <span>
                   <AppShowEth :weis="fundTokens * fundTokenPriceInWeis" />
                   &nbsp;≈&nbsp;
@@ -57,10 +57,10 @@
               </small>
             </div>
 
-            <button type="submit" class="btn btn-primary" v-if="!loading">Buy</button>
+            <button type="submit" class="btn btn-primary" v-if="!loading">Comprar</button>
             <button class="btn btn-primary" type="button" disabled v-if="loading">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Loading...
+              Comprando...
             </button>
           </form>
         </div>
@@ -146,10 +146,10 @@ export default {
               value: this.fundTokens * this.fundTokenPriceInWeis,
             },
             true,
-            'Buy ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
+            this.fundTokens + (this.fundTokens === 1 ? ' FundToken comprado' : ' FundTokens comprados'),
           );
           addNotification({
-            message: 'You have bought ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
+            message: 'Has comprado ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
             type: 'success',
           });
           this.fundTokens = 1;

@@ -2,13 +2,13 @@
   <div class="alert alert-danger error-alert" role="alert">
     <fa-icon icon="circle-exclamation" class="icon" size="5x" />
     <div class="error-msg large-screen">
-      <p>¡Error <strong>404</strong> - Page Not Found!</p>
+      <p>¡Error <strong>404</strong> - Página no encontrada!</p>
     </div>
     <div class="error-msg small-screen">
       <p>Error <strong>404</strong></p>
-      <p>Page Not Found</p>
+      <p>Página no encontrada</p>
     </div>
-    <router-link :to="{ name: 'Home' }" class="redirect">Go Home</router-link>
+    <router-link :to="{ name: 'Home' }" class="redirect">Volver al inicio</router-link>
   </div>
 </template>
 

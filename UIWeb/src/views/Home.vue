@@ -1,15 +1,15 @@
 <template>
   <div class="content">
     <div class="header">
-      <span class="title">Transforming the way of funding</span>
+      <span class="title">Transformando la forma de financiación</span>
       <span class="description"
-        >We provide security and control to everyone seeking a fully decentralized way of managing common funds using the Ethereum
-        blockchain's smart contracts.</span
+        >Brindamos seguridad y autocontrol a todos los que buscan una forma totalmente descentralizada de administrar fondos de
+        dinero compartidos utilizando los contratos inteligentes de la cadena de bloques de Ethereum.</span
       >
     </div>
     <router-link class="button" :to="{ name: 'Funds', params: { animation: 'slide' } }">
       <button class="btn btn-primary btn-discover">
-        <span>Discover funds</span><fa-icon icon="arrow-right" class="img-icon ml-3"></fa-icon>
+        <span>Descubrir fondos</span><fa-icon icon="arrow-right" class="img-icon ml-3"></fa-icon>
       </button>
     </router-link>
   </div>

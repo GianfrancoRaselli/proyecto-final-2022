@@ -2,29 +2,29 @@
   <div class="container">
     <form class="form" @submit.prevent="handleSubmit">
       <div class="mb-3">
-        <span class="h2">Create fund</span>
+        <span class="h2">Crear fondo</span>
       </div>
 
       <div class="fund-token-info mb-3">
-        <fa-icon icon="circle-info" class="icon mr-2"></fa-icon><span class="info">Create a new fund costs 1 FundToken</span>
+        <fa-icon icon="circle-info" class="icon mr-2"></fa-icon><span class="info">Crear un nuevo fondo cuesta 1 FundToken</span>
       </div>
 
       <!-- Fund Information -->
       <div class="fund-information">
         <div class="form-section">
-          <span class="title">Fund Information</span>
-          <span class="step">Step 1 of 3</span>
+          <span class="title">Información del fondo</span>
+          <span class="step">Paso 1 de 3</span>
         </div>
 
         <div class="form-group">
-          <label for="typeInput">Type</label>
+          <label for="typeInput">Tipo</label>
           <select id="typeInput" class="form-control" v-model="data.type" :disabled="loading">
             <option v-for="(type, i) in types" :key="i" v-text="type.type" :value="type.value" :selected="type.selected"></option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="nameInput">Name</label>
+          <label for="nameInput">Nombre</label>
           <input
             type="text"
             class="form-control"
@@ -40,7 +40,7 @@
         </div>
 
         <div class="form-group">
-          <label for="descriptionInput">Description<span class="extra-info">Optional</span></label>
+          <label for="descriptionInput">Descripción<span class="extra-info">Opcional</span></label>
           <textarea
             class="form-control"
             :class="{ 'is-invalid': v$.data.description.$errors.length }"
@@ -58,8 +58,8 @@
       <!-- Managers Information -->
       <div class="managers-information">
         <div class="form-section">
-          <span class="title">Managers Information</span>
-          <span class="step">Step 2 of 3</span>
+          <span class="title">Información de los administradores</span>
+          <span class="step">Paso 2 de 3</span>
         </div>
 
         <div class="form-group">
@@ -71,12 +71,12 @@
               v-model="data.addMeAsAManager"
               :disabled="data.type === 'campaign' || data.type === 'donation' || loading"
             />
-            <label class="custom-control-label" for="addMeAsAManagerInput">Add me as manager</label>
+            <label class="custom-control-label" for="addMeAsAManagerInput">Agregarme como administrador</label>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="managersInput">Managers<span class="extra-info">Optional</span></label>
+          <label for="managersInput">Administradores<span class="extra-info">Opcional</span></label>
           <textarea
             class="form-control"
             :class="{ 'is-invalid': v$.data.managers.$errors.length }"
@@ -86,7 +86,9 @@
             v-model="data.managers"
             :disabled="loading"
           ></textarea>
-          <small id="managersHelp" class="form-text text-muted">Enter address of other admins separated by comma (,)</small>
+          <small id="managersHelp" class="form-text text-muted"
+            >Ingrese la dirección de otros administradores separados por coma (,)</small
+          >
           <AppInputErrors :errors="v$.data.managers.$errors" />
         </div>
 
@@ -99,7 +101,9 @@
               v-model="data.managersCanBeAddedOrRemoved"
               :disabled="data.type !== '' || loading"
             />
-            <label class="custom-control-label" for="managersCanBeAddedOrRemovedInput">Managers can be added or removed</label>
+            <label class="custom-control-label" for="managersCanBeAddedOrRemovedInput"
+              >Los administradores pueden ser agregados o removidos</label
+            >
           </div>
         </div>
       </div>
@@ -107,8 +111,8 @@
       <!-- Requests Information -->
       <div class="requests-information">
         <div class="form-section">
-          <span class="title">Requests Information</span>
-          <span class="step">Step 3 of 3</span>
+          <span class="title">Información de las solicitudes</span>
+          <span class="step">Paso 3 de 3</span>
         </div>
 
         <div class="form-group">
@@ -121,7 +125,7 @@
               :disabled="data.type !== '' || loading"
             />
             <label class="custom-control-label" for="managersCanTransferMoneyWithoutARequestInput"
-              >Managers can transfer money without a request</label
+              >Los administradores pueden transferir dinero sin una solicitud</label
             >
           </div>
         </div>
@@ -135,7 +139,7 @@
               v-model="data.requestsCanBeCreated"
               :disabled="data.type !== '' || loading"
             />
-            <label class="custom-control-label" for="requestsCanBeCreatedInput">Requests can be created</label>
+            <label class="custom-control-label" for="requestsCanBeCreatedInput">Las solicitudes pueden ser creadas</label>
           </div>
         </div>
 
@@ -149,7 +153,7 @@
               :disabled="data.type !== '' || !data.requestsCanBeCreated || loading"
             />
             <label class="custom-control-label" for="onlyManagersCanCreateARequestInput"
-              >Only managers can create a request</label
+              >Solo los administradores pueden crear una solicitud</label
             >
           </div>
         </div>
@@ -164,14 +168,14 @@
               :disabled="data.type !== '' || !data.requestsCanBeCreated || loading"
             />
             <label class="custom-control-label" for="onlyContributorsCanApproveARequestInput"
-              >Only contributors can approve a request</label
+              >Solo los contribuyentes pueden aprobar una solicitud</label
             >
           </div>
         </div>
 
         <div class="form-group">
           <label for="minimumContributionPercentageRequiredInput"
-            >Minimum contribution percentage required to vote a request</label
+            >Mínimo porcentaje de contribución requerido para aprobar una solicitud</label
           >
           <input
             type="range"
@@ -196,7 +200,9 @@
         </div>
 
         <div class="form-group">
-          <label for="minimumApprovalsPercentageRequiredInput">Minimum approvals percentage required to finalize a request</label>
+          <label for="minimumApprovalsPercentageRequiredInput"
+            >Mínimo porcentaje de aprobaciones requerido para finalizar una solicitud</label
+          >
           <input
             type="range"
             class="form-control-range"
@@ -220,10 +226,10 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary" v-if="!loading">Create my fund</button>
+      <button type="submit" class="btn btn-primary" v-if="!loading">Crear fondo</button>
       <button class="btn btn-primary" type="button" disabled v-if="loading">
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Loading...
+        Creando...
       </button>
     </form>
   </div>
@@ -249,22 +255,22 @@ export default {
       loading: false,
       types: [
         {
-          type: 'Custom fund',
+          type: 'Fondo personalizado',
           value: '',
           selected: true,
         },
         {
-          type: 'Friends fund',
+          type: 'Fondo de amigos',
           value: 'friends',
           selected: false,
         },
         {
-          type: 'Campaign fund',
+          type: 'Fondo de campaña',
           value: 'campaign',
           selected: false,
         },
         {
-          type: 'Donation fund',
+          type: 'Fondo de donación',
           value: 'donation',
           selected: false,
         },
@@ -344,7 +350,7 @@ export default {
         name: { required, minLength: minLength(1) },
         description: {},
         managers: {
-          mustBeAddresses: helpers.withMessage('Some value is not a valid address', (value) => {
+          mustBeAddresses: helpers.withMessage('Algún valor no es una dirección válida', (value) => {
             if (!helpers.req(value)) return true;
             else {
               let validation = true;
@@ -358,7 +364,7 @@ export default {
             }
           }),
 
-          mustNotBeMyAddress: helpers.withMessage('You can not add your own address', (value) => {
+          mustNotBeMyAddress: helpers.withMessage('No puedes agregar tu propia dirección', (value) => {
             if (!helpers.req(value)) return true;
             else {
               let validation = true;
@@ -372,7 +378,7 @@ export default {
             }
           }),
 
-          mustNotBeRepeated: helpers.withMessage('Addresses must not be repeated', (value) => {
+          mustNotBeRepeated: helpers.withMessage('Las direcciones no pueden repetirse', (value) => {
             if (!helpers.req(value)) return true;
             else {
               let validation = true;
@@ -406,7 +412,7 @@ export default {
           return true;
         } else {
           addNotification({
-            message: 'Buy 1 FundToken to create a new fund',
+            message: 'Compra 1 FundToken para crear un nuevo fondo',
             type: 'error',
           });
           return false;
@@ -439,7 +445,7 @@ export default {
             'Create new fund: ' + this.data.name,
           );
           addNotification({
-            message: 'Fund deployed to: ' + getSplitAddress(tx.events.NewFund.returnValues.fundAddress),
+            message: 'Fondo desplegado a: ' + getSplitAddress(tx.events.NewFund.returnValues.fundAddress),
             type: 'success',
           });
           //this.$router.push({ name: 'Fund' });

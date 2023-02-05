@@ -12,7 +12,7 @@
               <input
                 type="search"
                 class="form-control input"
-                placeholder="Search by Name/Address"
+                placeholder="Buscar por nombre/dirección"
                 aria-label="Search"
                 v-model="searching"
               />
@@ -29,31 +29,31 @@
             data-toggle="modal"
             data-target="#filtersModal"
           >
-            <fa-icon icon="filter" class="icon mr-2" />Add Filter
+            <fa-icon icon="filter" class="icon mr-2" />Agregar filtro
           </button>
 
           <div class="modal fade" id="filtersModal" tabindex="-1" aria-labelledby="filtersModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title mr-2" id="filtersModalLabel">Filters</h4>
+                  <h4 class="modal-title mr-2" id="filtersModalLabel">Filtros</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
                   <div class="order-filter">
-                    <div class="filter-title">Order by</div>
+                    <div class="filter-title">Ordenar por</div>
                     <div class="form-check">
                       <input
                         class="form-check-input"
                         type="radio"
                         name="orderByRadios"
                         id="lastCreatedRadios"
-                        value="lastCreated"
+                        value="últimosCreados"
                         v-model="filters.orderBy"
                       />
-                      <label class="form-check-label" for="lastCreatedRadios">Last created</label>
+                      <label class="form-check-label" for="lastCreatedRadios">Últimos creados</label>
                     </div>
                     <div class="form-check">
                       <input
@@ -61,22 +61,22 @@
                         type="radio"
                         name="orderByRadios"
                         id="firstCreatedRadios"
-                        value="firstCreated"
+                        value="primerosCreados"
                         v-model="filters.orderBy"
                       />
-                      <label class="form-check-label" for="firstCreatedRadios">First created</label>
+                      <label class="form-check-label" for="firstCreatedRadios">Primeros creados</label>
                     </div>
                   </div>
 
                   <hr />
                   <div class="date-filter">
-                    <div class="filter-title">Creation date</div>
+                    <div class="filter-title">Fecha de creación</div>
                     <input type="date" class="form-control" v-model="filters.date" />
                   </div>
 
                   <hr />
                   <div class="type-filters">
-                    <div class="filter-title">Funds types</div>
+                    <div class="filter-title">Tipos de fondos</div>
                     <div class="form-group">
                       <div class="form-check">
                         <input
@@ -85,7 +85,7 @@
                           id="checkboxAllFunds"
                           v-model="filters.fundsTypes.allFunds"
                         />
-                        <label class="form-check-label" for="checkboxAllFunds">All funds</label>
+                        <label class="form-check-label" for="checkboxAllFunds">Todos los fondos</label>
                       </div>
                       <div class="form-check">
                         <input
@@ -95,7 +95,7 @@
                           v-model="filters.fundsTypes.types.friends"
                           :disabled="filters.fundsTypes.allFunds"
                         />
-                        <label class="form-check-label" for="checkboxfriends">Friends funds</label>
+                        <label class="form-check-label" for="checkboxfriends">Fondos de amigos</label>
                       </div>
                       <div class="form-check">
                         <input
@@ -105,7 +105,7 @@
                           v-model="filters.fundsTypes.types.campaign"
                           :disabled="filters.fundsTypes.allFunds"
                         />
-                        <label class="form-check-label" for="checkboxcampaign">Campaign funds</label>
+                        <label class="form-check-label" for="checkboxcampaign">Fondos de campañas</label>
                       </div>
                       <div class="form-check">
                         <input
@@ -115,17 +115,17 @@
                           v-model="filters.fundsTypes.types.donation"
                           :disabled="filters.fundsTypes.allFunds"
                         />
-                        <label class="form-check-label" for="checkboxdonation">Donation funds</label>
+                        <label class="form-check-label" for="checkboxdonation">Fondos de donaciones</label>
                       </div>
                     </div>
                   </div>
 
                   <hr />
                   <div class="more-filters">
-                    <div class="filter-title">More filters</div>
+                    <div class="filter-title">Más filtros</div>
                     <div class="form-group form-check">
                       <input type="checkbox" class="form-check-input" id="checkboxMyFunds" v-model="filters.onlyShowMyFunds" />
-                      <label class="form-check-label" for="checkboxMyFunds">Only show my funds</label>
+                      <label class="form-check-label" for="checkboxMyFunds">Solo mostrar mis fondos</label>
                     </div>
                   </div>
                 </div>
@@ -136,28 +136,28 @@
 
         <div class="applied-filters">
           <span class="order-by"
-            ><span class="title">Order by</span>:&nbsp;<span class="description" v-text="orderBy"></span
+            ><span class="title">Ordenados por</span>:&nbsp;<span class="description" v-text="orderBy"></span
           ></span>
           <AppPill :msg="filters.date" @close="filters.date = null" v-if="filters.date" />
           <AppPill
-            msg="Friends funds"
+            msg="Fondos de amigos"
             type="success"
             @close="filters.fundsTypes.types.friends = false"
             v-if="filters.fundsTypes.types.friends"
           />
           <AppPill
-            msg="Campaign funds"
+            msg="Fondos de campañas"
             type="warning"
             @close="filters.fundsTypes.types.campaign = false"
             v-if="filters.fundsTypes.types.campaign"
           />
           <AppPill
-            msg="Donation funds"
+            msg="Fondos de donaciones"
             type="secondary"
             @close="filters.fundsTypes.types.donation = false"
             v-if="filters.fundsTypes.types.donation"
           />
-          <AppPill msg="My funds" type="primary" @close="filters.onlyShowMyFunds = false" v-if="filters.onlyShowMyFunds" />
+          <AppPill msg="Mis fondos" type="primary" @close="filters.onlyShowMyFunds = false" v-if="filters.onlyShowMyFunds" />
         </div>
       </div>
 
@@ -165,9 +165,9 @@
         Show&nbsp;<AppShowAmount :amount="newFunds" singular="fund" plural="funds" />
       </button>
 
-      <AppAlert msg="No funds created yet" v-if="funds.length === 0" />
+      <AppAlert msg="No hay fondos creados aún" v-if="funds.length === 0" />
       <div v-else>
-        <AppAlert msg="No funds were found with those parameters" v-if="fundsToShow.length === 0" />
+        <AppAlert msg="No se encontraron fondos con esos parámetros" v-if="fundsToShow.length === 0" />
         <div class="row" v-else>
           <div
             class="col-12 col-md-6 col-lg-4 fund-card-container"
@@ -202,7 +202,7 @@ export default {
       searchingSubscription: null,
       search: '',
       filters: {
-        orderBy: 'lastCreated',
+        orderBy: 'últimosCreados',
         date: null,
         fundsTypes: {
           allFunds: true,
@@ -224,7 +224,7 @@ export default {
 
     orderBy() {
       // first word
-      let orderBy = this.filters.orderBy.match(/[a-z]+/g)[0];
+      let orderBy = this.filters.orderBy.match(/[a-z\u00C0-\u017F]+/g)[0];
 
       // next words
       const words = this.filters.orderBy.match(/[A-Z][a-z]+/g);
@@ -370,13 +370,13 @@ export default {
         fundsToFilter = fundsToFilter.filter((fund) => compareAddresses(fund.creator, this.address));
 
       // order
-      if (this.filters.orderBy === 'lastCreated')
+      if (this.filters.orderBy === 'últimosCreados')
         fundsToFilter = fundsToFilter.sort((a, b) => {
           if (a.createdAt < b.createdAt) return 1;
           if (a.createdAt > b.createdAt) return -1;
           return 0;
         });
-      else if (this.filters.orderBy === 'firstCreated')
+      else if (this.filters.orderBy === 'primerosCreados')
         fundsToFilter = fundsToFilter.sort((a, b) => {
           if (a.createdAt > b.createdAt) return 1;
           if (a.createdAt < b.createdAt) return -1;
@@ -459,11 +459,12 @@ export default {
 }
 
 .applied-filters {
-  height: 1.3rem;
+  min-height: 1.3rem;
   display: flex;
   flex-direction: row;
   justify-content: start;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
@@ -493,12 +494,12 @@ export default {
 }
 
 .form-search input {
-  min-width: 230px;
+  min-width: 250px;
 }
 
 @media (min-width: 768px) {
   .form-search input {
-    min-width: 280px;
+    min-width: 305px;
   }
 }
 
@@ -523,7 +524,7 @@ export default {
   top: 0;
   left: 0;
   color: rgb(79, 79, 79);
-  padding: 0 8px;
+  padding: 0 9px;
   display: flex;
   flex-direction: column;
   justify-content: center;

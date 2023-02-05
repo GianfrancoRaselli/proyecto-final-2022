@@ -4,7 +4,7 @@
       <div class="modal-dialog modal-dialog-centered" :class="{ 'modal-lg': fund.requests && fund.requests.length > 0 }">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="requestsModalLabel">Requests</h4>
+            <h4 class="modal-title" id="requestsModalLabel">Solicitudes</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -18,7 +18,7 @@
               "
             >
               <button type="button" class="btn btn-success btn-sm" @click="createNewRequest">
-                <fa-icon icon="plus" class="icon mr-2" />Create request
+                <fa-icon icon="plus" class="icon mr-2" />Crear solicitud
               </button>
             </div>
 

@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="contributeModalLabel">Contribute</h4>
+          <h4 class="modal-title" id="contributeModalLabel">Contribuir</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -11,7 +11,7 @@
         <div class="modal-body">
           <form @submit.prevent="handleSubmit">
             <div class="form-group">
-              <label for="contributorInput">Contributor</label>
+              <label for="contributorInput">Contribuyente</label>
               <div class="wrapper">
                 <input
                   type="text"
@@ -22,16 +22,16 @@
                   v-model="contributor"
                   :disabled="loading"
                 />
-                <span class="badge badge-pill badge-primary" v-if="compareAddresses(contributor, address)">Me</span>
+                <span class="badge badge-pill badge-primary" v-if="compareAddresses(contributor, address)">Yo</span>
               </div>
-              <small id="contributorHelp" class="form-text text-muted">Enter an address</small>
+              <small id="contributorHelp" class="form-text text-muted">Ingrese una dirección</small>
               <AppInputErrors :errors="v$.contributor.$errors" />
             </div>
 
             <div class="form-row">
               <div class="col-8">
                 <div class="form-group">
-                  <label for="contributionAmountInput">Contribution amount</label>
+                  <label for="contributionAmountInput">Cantidad a contribuir</label>
                   <input
                     type="text"
                     class="form-control"
@@ -46,7 +46,7 @@
               </div>
               <div class="col-4">
                 <div class="form-group">
-                  <label for="contributionUnitInput">Unit</label>
+                  <label for="contributionUnitInput">Unidad</label>
                   <select id="contributionUnitInput" class="form-control" v-model="contributionUnit" :disabled="loading">
                     <option v-for="(unit, i) in units" :key="i" v-text="unit" :value="unit"></option>
                   </select>
@@ -54,10 +54,10 @@
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" v-if="!loading">Contribute</button>
+            <button type="submit" class="btn btn-primary" v-if="!loading">Contribuir</button>
             <button class="btn btn-primary" type="button" disabled v-if="loading">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Loading...
+              Contribuyendo...
             </button>
           </form>
         </div>
@@ -105,21 +105,21 @@ export default {
     return {
       contributor: {
         required,
-        mustBeAnAddress: helpers.withMessage('Value is not a valid address', (value) => {
+        mustBeAnAddress: helpers.withMessage('El valor no es una dirección válida', (value) => {
           return Web3.utils.isAddress(value.trim());
         }),
       },
       contribution: {
         required,
         numeric,
-        minValue: helpers.withMessage('Value must be greater than 0', (value) => {
+        minValue: helpers.withMessage('El valor debe ser mayor que 0', (value) => {
           return value > 0;
         }),
-        weiValue: helpers.withMessage('Value in Wei must be an integer', (value) => {
+        weiValue: helpers.withMessage('El valor en Wei debe ser un número entero', (value) => {
           if (this.contributionUnit === 'Wei' && !BigNumber(value).isInteger()) return false;
           return true;
         }),
-        maxDecimals: helpers.withMessage('Maximum number of decimal places allowed is 18', (value) => {
+        maxDecimals: helpers.withMessage('La cantidad máxima de decimales permitidos es 18', (value) => {
           if (this.contributionUnit === 'Ether') {
             const decimals = value.split('.')[1];
             if (decimals && decimals.length > 18) return false;
@@ -144,15 +144,9 @@ export default {
               value: this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution, 'ether'),
             },
             true,
-            'Contribute ' +
-              this.contribution +
-              ' ' +
-              this.contributionUnit +
-              ' to ' +
-              this.fund.name +
-              this.contributor.trim() !==
+            this.contribution + ' ' + this.contributionUnit + ' contribuidos para ' + this.fund.name + this.contributor.trim() !==
               this.address
-              ? ' for ' + getSplitAddress(this.contributor.trim())
+              ? ' por ' + getSplitAddress(this.contributor.trim())
               : '',
           );
           // eslint-disable-next-line vue/no-mutating-props
@@ -161,7 +155,7 @@ export default {
           // eslint-disable-next-line vue/no-mutating-props
           this.fund.balance += this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution, 'ether');
           addNotification({
-            message: 'Contributed ' + this.contribution + ' ' + this.contributionUnit,
+            message: 'Contribuidos ' + this.contribution + ' ' + this.contributionUnit,
             type: 'success',
           });
           this.contributor = this.address;

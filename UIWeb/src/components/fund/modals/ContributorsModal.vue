@@ -3,20 +3,20 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="contributorsModalLabel">Contributors</h4>
+          <h4 class="modal-title" id="contributorsModalLabel">Contribuyentes</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="contributors-list mt-2">
-            <div class="no-contributors" v-if="fund.contributors && fund.contributors.length === 0">No contributors</div>
+            <div class="no-contributors" v-if="fund.contributors && fund.contributors.length === 0">Sin contribuyentes</div>
             <ul class="list-group list-group-flush" v-else>
               <li class="list-group-item" v-for="(c, index) in contributorsOrdered" :key="index">
                 <div class="item-address">
                   <span v-text="index + 1 + '. '" /><AppShowAddress :address="c.contributor" />
                   <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(c.contributor, address)"
-                    >My address</span
+                    >Mi dirección</span
                   >
                 </div>
                 <div class="item-amount">

@@ -3,13 +3,13 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="addManagersModalLabel">Add managers</h4>
+          <h4 class="modal-title" id="addManagersModalLabel">Agregar administradores</h4>
           <fa-icon icon="arrow-left" class="icon" @click="goBack" />
         </div>
         <div class="modal-body">
           <form @submit.prevent="handleSubmit">
             <div class="form-group">
-              <label for="newManagersInput">New managers</label>
+              <label for="newManagersInput">Nuevos administradores</label>
               <input
                 type="text"
                 class="form-control"
@@ -19,14 +19,14 @@
                 v-model="newManagers"
                 :disabled="loading"
               />
-              <small id="newManagersHelp" class="form-text text-muted">Enter address of admins separated by comma (,)</small>
+              <small id="newManagersHelp" class="form-text text-muted">Ingrese la dirección de los administradores separadas por coma (,)</small>
               <AppInputErrors :errors="v$.newManagers.$errors" />
             </div>
 
-            <button type="submit" class="btn btn-primary" v-if="!loading">Add managers</button>
+            <button type="submit" class="btn btn-primary" v-if="!loading">Agregar administradores</button>
             <button class="btn btn-primary" type="button" disabled v-if="loading">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Adding...
+              Agregando...
             </button>
           </form>
         </div>
@@ -65,7 +65,7 @@ export default {
   validations() {
     return {
       newManagers: {
-        mustEnterAnAddressAtLeast: helpers.withMessage('Enter an address at least', (value) => {
+        mustEnterAnAddressAtLeast: helpers.withMessage('Ingrese al menos una dirección', (value) => {
           if (!helpers.req(value)) return false;
           else {
             let validation = false;
@@ -79,7 +79,7 @@ export default {
           }
         }),
 
-        mustBeAddresses: helpers.withMessage('Some value is not a valid address', (value) => {
+        mustBeAddresses: helpers.withMessage('Algún valor no es una dirección válida', (value) => {
           if (!helpers.req(value)) return true;
           else {
             let validation = true;
@@ -93,7 +93,7 @@ export default {
           }
         }),
 
-        mustNotBeMyAddress: helpers.withMessage('You can not add your own address', (value) => {
+        mustNotBeMyAddress: helpers.withMessage('No puedes agregar tu propia dirección', (value) => {
           if (!helpers.req(value)) return true;
           else {
             let validation = true;
@@ -107,7 +107,7 @@ export default {
           }
         }),
 
-        mustNotBeRepeated: helpers.withMessage('Addresses must not be repeated', (value) => {
+        mustNotBeRepeated: helpers.withMessage('Las direcciones no pueden repetirse', (value) => {
           if (!helpers.req(value)) return true;
           else {
             let validation = true;
@@ -129,7 +129,7 @@ export default {
           }
         }),
 
-        mustNotBeAddedAlready: helpers.withMessage('Some address is already added as manager', (value) => {
+        mustNotBeAddedAlready: helpers.withMessage('Alguna dirección ya se encuentra agregada como administrador', (value) => {
           if (!helpers.req(value)) return true;
           else {
             let validation = true;
@@ -164,12 +164,12 @@ export default {
             [this.getArrayOfManagers()],
             undefined,
             true,
-            'Add new managers to ' + this.fund.name,
+            'Nuevos administradores agregados a ' + this.fund.name,
           );
           // eslint-disable-next-line vue/no-mutating-props
           this.fund.managers.concat(this.getArrayOfManagers());
           addNotification({
-            message: 'New managers added to ' + this.fund.name,
+            message: 'Nuevos administradores agregados a ' + this.fund.name,
             type: 'success',
           });
           this.goBack();

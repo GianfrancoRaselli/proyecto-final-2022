@@ -4,14 +4,14 @@
       <span v-text="fund.name" />
       <div class="fund-info">
         <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="compareAddresses(address, fund.creator)"
-          >My fund</span
+          >Mi fondo</span
         >
         <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
       </div>
     </div>
     <div class="card-body">
       <p class="card-text" v-text="fund.description" v-if="fund.description" />
-      <p class="card-text"><span class="text-bold">Creator</span>:&nbsp;<AppShowAddress :address="fund.creator" :show="false" /></p>
+      <p class="card-text"><span class="text-bold">Creador</span>:&nbsp;<AppShowAddress :address="fund.creator" :show="false" /></p>
     </div>
     <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
   </div>
@@ -41,7 +41,7 @@ export default {
         !this.fund.onlyContributorsCanApproveARequest
       )
         return {
-          type: 'Friends',
+          type: 'Amigos',
           class: 'success',
         };
       if (
@@ -52,7 +52,7 @@ export default {
         this.fund.onlyContributorsCanApproveARequest
       )
         return {
-          type: 'Campaign',
+          type: 'Campaña',
           class: 'warning',
         };
       if (
@@ -63,7 +63,7 @@ export default {
         this.fund.onlyContributorsCanApproveARequest
       )
         return {
-          type: 'Donation',
+          type: 'Donación',
           class: 'secondary',
         };
       return undefined;

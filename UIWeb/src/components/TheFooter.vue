@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <span class="designed-by">
-      Designed by&nbsp;<a href="https://www.linkedin.com/in/gianfranco-raselli/" target="_blank">Raselli, Gianfranco</a>
+      Diseñado por&nbsp;<a href="https://www.linkedin.com/in/gianfranco-raselli/" target="_blank">Raselli, Gianfranco</a>
     </span>
   </footer>
 </template>

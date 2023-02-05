@@ -6,13 +6,13 @@
           <li class="nav-item">
             <router-link class="item-link" :to="{ name: 'CreateFund' }" exact>
               <fa-icon icon="plus" class="link-icon" size="2x"></fa-icon>
-              <span class="link-text">Create</span>
+              <span class="link-text">Crear</span>
             </router-link>
           </li>
           <li class="nav-item">
             <router-link class="item-link" :to="{ name: 'Funds' }" exact>
               <fa-icon icon="list" class="link-icon" size="2x"></fa-icon>
-              <span class="link-text">Funds</span>
+              <span class="link-text">Fondos</span>
             </router-link>
           </li>
           <li class="nav-item">

@@ -1,6 +1,6 @@
 <template>
   <div class="requests-list mt-2">
-    <div class="no-requests" v-if="fund.requests && fund.requests.length === 0">No requests</div>
+    <div class="no-requests" v-if="fund.requests && fund.requests.length === 0">Sin solicitudes</div>
 
     <ul class="list-group list-group-flush" v-else>
       <li class="list-group-item" :class="getRequestClass(request)" v-for="(request, index) in fund.requests" :key="index">
@@ -12,11 +12,11 @@
           <div class="content-info">
             <div class="info" v-text="request.description" v-if="request.description" />
             <div class="info" v-if="request.petitioner">
-              <span class="info__label"><span class="text-bold">Petitioner</span>:&nbsp;</span>
+              <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
               <span class="info__info">
                 <AppShowAddress :address="request.petitioner" />
                 <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)">
-                  My address
+                  Mi dirección
                 </span>
               </span>
             </div>
@@ -30,15 +30,15 @@
               </span>
             </div>
             <div class="info">
-              <span class="info__label"><span class="text-bold">Value to transfer</span>:&nbsp;</span>
+              <span class="info__label"><span class="text-bold">Valor a transferir</span>:&nbsp;</span>
               <AppShowEth :weis="request.valueToTransfer" />
             </div>
             <div class="info" v-if="request.complete">
-              <span class="info__label"><span class="text-bold">Transferred value</span>:&nbsp;</span>
+              <span class="info__label"><span class="text-bold">Valor transferido</span>:&nbsp;</span>
               <AppShowEth :weis="request.transferredValue" />
             </div>
             <div class="info" v-if="!request.complete">
-              <span class="info__label"><span class="text-bold">Approvals</span>:&nbsp;</span>
+              <span class="info__label"><span class="text-bold">Aprobaciones</span>:&nbsp;</span>
               <span class="info__info">
                 <span
                   v-text="
@@ -49,7 +49,7 @@
                   "
                 >
                 </span>
-                <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(index)">Approved</span>
+                <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(index)">Aprobado</span>
               </span>
             </div>
           </div>
@@ -57,21 +57,21 @@
           <div class="content-buttons" v-if="!request.complete && (!requestApproved(index) || canFinalize(request))">
             <div class="button" v-if="!requestApproved(index)">
               <button type="button" class="btn btn-primary btn-sm" v-if="!approving(index)" @click="approveRequest(index)">
-                <fa-icon icon="thumbs-up" class="icon mr-2" />Approve
+                <fa-icon icon="thumbs-up" class="icon mr-2" />Aprobar
               </button>
               <button class="btn btn-primary btn-sm" type="button" disabled v-if="approving(index)">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-                Loading...
+                
               </button>
             </div>
 
             <div class="button" v-if="canFinalize(request)">
               <button type="button" class="btn btn-dark btn-sm" v-if="!finalizing(index)" @click="finalizeRequest(index)">
-                <fa-icon icon="square-arrow-up-right" class="icon mr-2" />Finalize
+                <fa-icon icon="square-arrow-up-right" class="icon mr-2" />Finalizar
               </button>
               <button class="btn btn-dark btn-sm" type="button" disabled v-if="finalizing(index)">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-                Loading...
+                
               </button>
             </div>
           </div>
@@ -167,13 +167,13 @@ export default {
               [index],
               {},
               true,
-              'Approve request ' + (index + 1) + ' of ' + this.fund.name,
+              'Solicitud ' + (index + 1) + ' de ' + this.fund.name + ' aprobada',
             );
             this.requestsApproved[index] = true;
             // eslint-disable-next-line vue/no-mutating-props
             this.fund.requests[index].approvalsCount += 1;
             addNotification({
-              message: 'Request ' + (index + 1) + ' approved',
+              message: 'Solicitud ' + (index + 1) + ' aprobada',
               type: 'success',
             });
           } finally {
@@ -200,7 +200,7 @@ export default {
         }
       } else {
         addNotification({
-          message: 'Connect to metamask to approve a request',
+          message: 'Conectese a MetaMask para aprobar una solicitud',
           type: 'warning',
         });
       }
@@ -228,7 +228,7 @@ export default {
             [index],
             {},
             true,
-            'Finalize request ' + (index + 1) + ' of ' + this.fund.name,
+            'Solicitud ' + (index + 1) + ' de ' + this.fund.name + ' aprobada',
           );
           // eslint-disable-next-line vue/no-mutating-props
           this.fund.requests[index].transferredValue =
@@ -240,7 +240,7 @@ export default {
           // eslint-disable-next-line vue/no-mutating-props
           this.fund.balance -= this.fund.requests[index].transferredValue;
           addNotification({
-            message: 'Request ' + (index + 1) + ' finalized',
+            message: 'Solicitud ' + (index + 1) + ' finalizada',
             type: 'success',
           });
         } finally {
@@ -260,13 +260,13 @@ export default {
         }
 
         Swal.fire({
-          title: 'Do you want to continue anyway?',
-          text: 'If you finalize the request at this time you can only withdraw ' + valueToTransfer,
+          title: '¿Quieres continuar de todos modos?',
+          text: 'Si finalizas la solicitud en este momento solo podrás retirar ' + valueToTransfer,
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#14A44D',
           cancelButtonColor: '#9FA6B2',
-          confirmButtonText: 'Yes, finalize anyway!',
+          confirmButtonText: '¡Sí, finalizar de todos modos!',
         }).then((result) => {
           if (result.isConfirmed) {
             successHandler();

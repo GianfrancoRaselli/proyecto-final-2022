@@ -1,13 +1,11 @@
 export default {
-  state () {
+  state() {
     return {
-      selectedLanguage: "English"
-    }
+      selectedLanguage: 'Español', // English
+    };
   },
 
-  getters: {
-
-  },
+  getters: {},
 
   mutations: {
     setSelectedLanguage(state, selectedLanguage) {
@@ -15,7 +13,5 @@ export default {
     },
   },
 
-  actions: {
-
-  },
+  actions: {},
 };
