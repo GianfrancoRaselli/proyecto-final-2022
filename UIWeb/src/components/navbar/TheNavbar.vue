@@ -8,13 +8,21 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto align-items">
           <li class="nav-item mr-1">
+            <fa-icon icon="plus" class="link-icon"></fa-icon>
             <router-link class="nav-link" :to="{ name: 'CreateFund' }" exact v-text="createFundMsg" />
           </li>
           <li class="nav-item mx-1">
+            <fa-icon icon="list" class="link-icon"></fa-icon>
             <router-link class="nav-link" :to="{ name: 'Funds' }" exact v-text="fundsMsg" />
           </li>
           <li class="nav-item ml-3">
-            <AppButton classes="btn-light" data-toggle="modal" data-target="#buyFundTokensModal" :text="buyFundTokensMsg" />
+            <AppButton
+              classes="btn-light"
+              data-toggle="modal"
+              data-target="#buyFundTokensModal"
+              :text="buyFundTokensMsg"
+              icon="money-bill"
+            />
           </li>
         </ul>
       </div>
@@ -117,6 +125,13 @@ nav {
 .brand-logo {
   height: calc(var(--navbar-height) - 2px);
   width: auto;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .align-items {
