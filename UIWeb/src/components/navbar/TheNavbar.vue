@@ -15,7 +15,7 @@
             <fa-icon icon="list" class="link-icon"></fa-icon>
             <router-link class="nav-link" :to="{ name: 'Funds' }" exact v-text="fundsMsg" />
           </li>
-          <li class="nav-item ml-3">
+          <li class="nav-item ml-2">
             <AppButton
               classes="btn-light"
               data-toggle="modal"

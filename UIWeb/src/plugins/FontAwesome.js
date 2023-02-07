@@ -28,6 +28,7 @@ import {
   faThumbsUp,
   faFilter,
   faMagnifyingGlass,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faGlobe);
@@ -57,6 +58,7 @@ library.add(faSquareArrowUpRight);
 library.add(faThumbsUp);
 library.add(faFilter);
 library.add(faMagnifyingGlass);
+library.add(faUsers);
 
 export default (app) => {
   app.component('fa-icon', FontAwesomeIcon);
