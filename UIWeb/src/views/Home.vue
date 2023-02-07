@@ -80,12 +80,10 @@ export default {
   min-height: calc(100vh - var(--navbar-height));
   padding: 1.5rem;
   background: white; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top right, #d4d3dd, white, white, white); /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to top right, #d4d3dd, white); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to top right,
     #d4d3dd,
-    white,
-    white,
     white
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   display: flex;
@@ -122,7 +120,7 @@ export default {
   text-align: center;
   padding: 3rem;
   padding-top: 4rem;
-  background: white; /* fallback for old browsers */
+  background: #dddce85f; /* fallback for old browsers */
   background: -webkit-linear-gradient(to bottom, #dddce85f, rgba(240, 243, 207, 0.255)); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to bottom,
@@ -238,6 +236,11 @@ export default {
 
   img {
     height: 300px;
+    max-width: 100%;
+
+    @media (max-width: 550px) {
+      height: auto;
+    }
   }
 
   .text {
