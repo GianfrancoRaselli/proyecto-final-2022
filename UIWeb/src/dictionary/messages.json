@@ -4,8 +4,8 @@
     "Español": "Conectarse a MetaMask"
   },
   "installMetaMask": {
-    "English": "You need to install MetaMask",
-    "Español": "Necesitas instalar MetaMask"
+    "English": "Install MetaMask",
+    "Español": "Instala MetaMask"
   },
   "loading": {
     "English": "loading",
@@ -30,7 +30,7 @@
   "change": {
     "English": "Change to",
     "Español": "Cambiar a"
-  }, 
+  },
   "to": {
     "English": "to",
     "Español": "a"

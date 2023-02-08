@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="main-content">
-      <img class="fund-img" src="@/assets/imgs/background-sm.jpg" />
+      <img class="fund-img" src="@/assets/imgs/main-transparent.png" />
       <div class="info">
         <div class="header">
           <p class="title">Transformando la forma de financiación</p>
@@ -18,8 +18,12 @@
       </div>
     </div>
 
+    <div class="we-content">
+      <img src="@/assets/imgs/logos/1/Fund-logos_transparent.png" />
+    </div>
+
     <div class="community-content">
-      <img src="@/assets/imgs/fund.png" />
+      <img src="@/assets/imgs/community.png" />
       <div class="text">
         <p class="title">¿Te gustaría unirte a nuestra comunidad?</p>
         <p class="description">
@@ -79,13 +83,14 @@ export default {
 .main-content {
   min-height: calc(100vh - var(--navbar-height));
   padding: 1.5rem;
-  background: white; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top right, #d4d3dd, white); /* Chrome 10-25, Safari 5.1-6 */
+  background: #4ac29a50; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom left, #ffffff, #4ac29a50); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
-    to top right,
-    #d4d3dd,
-    white
+    to bottom left,
+    #ffffff,
+    #4aacc250
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;
@@ -94,8 +99,9 @@ export default {
   gap: 35px;
 
   .fund-img {
-    height: 500px;
+    height: 350px;
     width: auto;
+    max-width: 100%;
   }
 
   .info {
@@ -116,16 +122,38 @@ export default {
   }
 }
 
+.we-content {
+  background: #eae7e781; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top left, #2c3e5045, #eae7e781); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top left,
+    #2c3e5045,
+    #eae7e781
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+
+  img {
+    height: 200px;
+    max-width: 100%;
+    margin-bottom: 2rem;
+  }
+}
+
 .community-content {
   text-align: center;
   padding: 3rem;
   padding-top: 4rem;
-  background: #dddce85f; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, #dddce85f, rgba(240, 243, 207, 0.255)); /* Chrome 10-25, Safari 5.1-6 */
+  background: #eae7e781; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top left, #2c3e5045, #eae7e781); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
-    to bottom,
-    #dddce85f,
-    rgba(240, 243, 207, 0.255)
+    to top left,
+    #2c3e5045,
+    #eae7e781
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   display: flex;
@@ -133,13 +161,14 @@ export default {
   align-items: center;
 
   img {
-    height: 100px;
-    margin-bottom: 1rem;
+    height: 220px;
+    max-width: 100%;
+    margin-bottom: 2rem;
   }
 
   .text {
     max-width: 600px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 
     .title {
       font-size: 1.6rem;
