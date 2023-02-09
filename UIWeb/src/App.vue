@@ -17,6 +17,7 @@
       </main>
       <TheFooter class="page-content__footer" />
     </div>
+    <img style="display: none;" src="@/assets/imgs/fundtoken.png" />
   </div>
 </template>
 

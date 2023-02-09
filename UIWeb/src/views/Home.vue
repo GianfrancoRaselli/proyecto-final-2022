@@ -3,7 +3,7 @@
     <div class="main-content">
       <p class="title">Sistema de administración de fondos comunes</p>
       <div class="sub-content">
-        <img class="fund-img" src="@/assets/imgs/main-transparent.png" />
+        <img class="fund-img" src="@/assets/imgs/logos/1/Fund-logos_transparent.png" />
         <div class="info">
           <div class="header">
             <p class="subtitle">Transformando la forma de financiación</p>
@@ -22,7 +22,6 @@
     </div>
 
     <div class="we-content">
-      <img src="@/assets/imgs/logos/1/Fund-logos_transparent.png" />
       <p class="title">Acerca de nosotros</p>
       <div class="questions">
         <div class="question">
@@ -170,16 +169,39 @@
         <a href="https://metamask.io/download/" target="_blank"><button class="btn btn-primary">Instalar MetaMask</button></a>
       </div>
     </div>
+
+    <div class="fundtoken-content">
+      <img src="@/assets/imgs/fundtoken.png" />
+      <div class="text">
+        <p class="title">FundToken</p>
+        <p class="description">
+          Por el momento, para poder comenzar a interactuar con la aplicación debes contar con la billetera de MetaMask instalada
+          en el navegador.
+        </p>
+        <p class="secondary-description">¡Estamos trabajando para incorporar nuevas formas de utilizar la aplicación!</p>
+        <button class="btn btn-secondary" @click="addFundTokenToMetaMask" v-if="hasMetamask">Agregar FundToken a MetaMask</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { hasMetamask } from '@/helpers/connection';
+import { addTokenToMetaMask } from '@/helpers/helpers';
+
 export default {
   name: 'HomeView',
   data() {
     return {};
   },
-  methods: {},
+  computed: {
+    hasMetamask,
+  },
+  methods: {
+    addFundTokenToMetaMask() {
+      addTokenToMetaMask();
+    },
+  },
 };
 </script>
 
@@ -206,12 +228,13 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
 
   .title {
     font-family: 'Dancing Script', cursive;
     font-size: 3.2rem;
     text-align: center;
+    animation: fadeInDownBig 0.6s;
   }
 
   .sub-content {
@@ -223,16 +246,17 @@ export default {
     gap: 2rem;
 
     .fund-img {
-      height: 350px;
+      height: 22rem;
       width: auto;
       max-width: 100%;
+      animation: fadeInRightBig 1.2s;
     }
 
     .info {
       font-size: 1.15rem;
       text-align: center;
-      max-width: 667px;
-      animation: fadeInUpBig 1s;
+      max-width: 650px;
+      animation: fadeInLeftBig 1.8s;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -264,12 +288,6 @@ export default {
   justify-content: space-around;
   align-items: center;
   gap: 1rem;
-
-  img {
-    height: 200px;
-    max-width: 100%;
-    margin-bottom: 1.5rem;
-  }
 
   .title {
     font-size: 2.2rem;
@@ -337,7 +355,7 @@ export default {
   align-items: center;
 
   img {
-    height: 220px;
+    height: 14rem;
     max-width: 100%;
     margin-bottom: 2rem;
   }
@@ -425,6 +443,61 @@ export default {
 
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+
+  @media (max-width: 1200px) {
+    padding: 6rem 2rem;
+    gap: 0.2rem;
+  }
+
+  @media (max-width: 1080px) {
+    flex-direction: column;
+    gap: 4rem;
+
+    .text {
+      text-align: center;
+      max-width: 700px;
+    }
+  }
+
+  img {
+    height: 300px;
+    max-width: 100%;
+
+    @media (max-width: 550px) {
+      height: auto;
+    }
+  }
+
+  .text {
+    .title {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .description {
+      font-size: 1.2rem;
+    }
+
+    .secondary-description {
+      font-size: 0.9rem;
+      color: rgba(0, 0, 0, 0.856);
+    }
+
+    .btn {
+      margin-top: 0.8rem;
+    }
+  }
+}
+
+.fundtoken-content {
+  padding: 6rem;
+  background: radial-gradient(circle at 10% 20%, rgb(243, 242, 229) 0%, rgba(198, 239, 211, 0.722) 90%);
+
+  display: flex;
+  flex-direction: row-reverse;
   justify-content: center;
   align-items: center;
   gap: 0.4rem;

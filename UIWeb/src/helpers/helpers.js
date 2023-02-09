@@ -118,7 +118,15 @@ const event = async (contract, event, options, func) => {
   return connect.latestEvents(await getContract(contract, 'metamask'), event, options, func);
 };
 
-const addTokenToMetaMask = (type = 'ERC20', options = { address: fundTokenAddress, symbol: 'FT', decimals: 0 }) => {
+const addTokenToMetaMask = (
+  type = 'ERC20',
+  options = {
+    address: fundTokenAddress,
+    symbol: 'FT',
+    decimals: 0,
+    image: 'https://proyecto-final-blockchain.netlify.app/img/fundtoken.13ec71f1.png',
+  },
+) => {
   return store.state.connection.provider.request({
     method: 'wallet_watchAsset',
     params: {

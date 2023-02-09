@@ -19,7 +19,7 @@
 
           <div class="my-2">
             <small>
-              <span class="h6 font-weight-bolder">Precio del FundToken:&nbsp;</span>
+              <span class="h6 font-weight-bolder">Precio FundToken:&nbsp;</span>
               <span>
                 <AppShowEth :weis="fundTokenPriceInWeis" />
                 &nbsp;≈&nbsp;
@@ -134,6 +134,10 @@ export default {
     };
   },
   methods: {
+    addFundTokenToMetaMask() {
+      addTokenToMetaMask();
+    },
+    
     async handleSubmit() {
       if (await validateForm(this.v$)) {
         try {
@@ -158,9 +162,6 @@ export default {
           this.loading = false;
         }
       }
-    },
-    addFundTokenToMetaMask() {
-      addTokenToMetaMask();
     },
   },
   async created() {
