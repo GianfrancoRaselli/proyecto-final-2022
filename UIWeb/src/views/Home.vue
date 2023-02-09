@@ -62,33 +62,47 @@
 
         <div class="question">
           <p class="ask text-warning">¿Qué ventajas nos proporciona la cadena de bloques?</p>
-          <ul class="answer">
-            <li>
-              <span class="item">Descentralización</span>: una cadena de bloques descentralizada añade una red de igual a igual a
-              las características de seguridad existentes típicas de las bases de datos de una blockchain. Los miembros de esta
-              red no tienen que confiar ni conocerse entre sí, sino que cada integrante obtiene una copia del mismo registro de
-              contabilidad de la misma.
-            </li>
-            <li>
-              <span class="item">Transparencia</span>: la transparencia se consigue publicando las reglas con las que se define el
-              funcionamiento de la cadena de bloques. Esto se logra haciendo público el código del software necesario para
-              ejecutar la red y generando una comunidad de nodos y desarrolladores que siguen este principio de transparencia.
-            </li>
-            <li>
-              <span class="item">Inmutabilidad</span>: ningún participante puede cambiar o falsificar una transacción una vez
-              grabada en el libro mayor compartido. Si el registro de una transacción incluye un dato no deseado, se debe añadir
-              una nueva transacción para revertir el error, pero ambas transacciones serán visibles.
-            </li>
-            <li>
-              <span class="item">Privacidad</span>: las direcciones de las cuentas no están ligadas a las identidades de las
-              personas. Para poder operar en la cadenad e bloques es necesario disponer del par de claves pública y privada.
-            </li>
-            <li>
-              <span class="item">Trazabilidad</span>: la cadena de bloques permite realizar un recorrido de todas las operaciones
-              que se han realizado sobre una determinada dirección, o retroceder en el tiempo y revisar las transacciones que se
-              hicieron en una fecha determinada explorando todos los bloques generados en la fecha indicada.
-            </li>
-          </ul>
+          <div class="answer">
+            <div class="item bottom-bar">
+              <p class="title">Descentralización</p>
+              <p>
+                Una cadena de bloques descentralizada añade una red de igual a igual a las características de seguridad existentes
+                típicas de las bases de datos de una blockchain. Los miembros de esta red no tienen que confiar ni conocerse entre
+                sí, sino que cada integrante obtiene una copia del mismo registro de contabilidad de la misma.
+              </p>
+            </div>
+            <div class="item bottom-bar">
+              <p class="title">Transparencia</p>
+              <p>
+                La transparencia se consigue publicando las reglas con las que se define el funcionamiento de la cadena de
+                bloques. Esto se logra haciendo público el código del software necesario para ejecutar la red y generando una
+                comunidad de nodos y desarrolladores que siguen este principio de transparencia.
+              </p>
+            </div>
+            <div class="item bottom-bar">
+              <p class="title">Inmutabilidad</p>
+              <p>
+                Ningún participante puede cambiar o falsificar una transacción una vez grabada en el libro mayor compartido. Si el
+                registro de una transacción incluye un dato no deseado, se debe añadir una nueva transacción para revertir el
+                error, pero ambas transacciones serán visibles.
+              </p>
+            </div>
+            <div class="item bottom-bar">
+              <p class="title">Privacidad</p>
+              <p>
+                Las direcciones de las cuentas no están ligadas a las identidades de las personas. Para poder operar en la cadenad
+                e bloques es necesario disponer del par de claves pública y privada.
+              </p>
+            </div>
+            <div class="item">
+              <p class="title">Trazabilidad</p>
+              <p>
+                La cadena de bloques permite realizar un recorrido de todas las operaciones que se han realizado sobre una
+                determinada dirección, o retroceder en el tiempo y revisar las transacciones que se hicieron en una fecha
+                determinada explorando todos los bloques generados en la fecha indicada.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div class="question">
@@ -170,6 +184,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
 .content {
   min-width: 100%;
   padding: 0;
@@ -177,7 +193,7 @@ export default {
 
 .main-content {
   min-height: calc(100vh - var(--navbar-height));
-  padding: 1.5rem;
+  padding: 2rem 0.4rem;
   background: #38849550; /* fallback for old browsers */
   background: -webkit-linear-gradient(to bottom left, #38849520, #38849550); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
@@ -190,12 +206,12 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
 
   .title {
-    font-size: 2.6rem;
-    font-weight: bold;
-    text-decoration: underline;
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.2rem;
+    text-align: center;
   }
 
   .sub-content {
@@ -233,7 +249,7 @@ export default {
 }
 
 .we-content {
-  padding: 3rem;
+  padding: 3rem 1.2rem;
   background: #eae7e781; /* fallback for old browsers */
   background: -webkit-linear-gradient(to left, #5c886241, #4d7a5558, #5c886241); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
@@ -256,8 +272,9 @@ export default {
   }
 
   .title {
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     font-weight: bold;
+    text-align: center;
     text-decoration: underline;
   }
 
@@ -285,12 +302,18 @@ export default {
       .answer {
         font-size: 1em;
 
-        li {
-          padding: 0.5rem;
+        .item {
+          padding: 1rem;
 
-          .item {
+          .title {
+            font-size: 1.2em;
             font-weight: bold;
           }
+        }
+
+        .bottom-bar {
+          border-bottom: 0.5px solid rgba(76, 76, 76, 0.34);
+          border-radius: 0.1rem;
         }
       }
     }
@@ -347,6 +370,7 @@ export default {
     .card {
       height: 20rem;
       width: 18rem;
+      padding: 1rem 0;
       border-radius: 1rem;
       box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 
