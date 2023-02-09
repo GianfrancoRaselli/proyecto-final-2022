@@ -22,10 +22,10 @@
     </div>
 
     <div class="we-content">
-      <p class="title">Acerca de nosotros</p>
+      <p class="about">Acerca de nosotros</p>
       <div class="questions">
         <div class="question">
-          <p class="ask text-primary">¿Quiénes somos?</p>
+          <p class="ask ask-purple">¿Quiénes somos?</p>
           <p class="answer">
             La aplicación comenzó como proyecto llevado a cabo para la materia Proyecto Final de la carrera Ingeniería en Sistemas
             de Información de la Universidad Tecnológica Nacional (UTN) ubicada en Rosario, Argentina.
@@ -33,7 +33,7 @@
         </div>
 
         <div class="question">
-          <p class="ask text-dark">¿Qúe tipo de aplicación es?</p>
+          <p class="ask ask-light">¿Qúe tipo de aplicación es?</p>
           <p class="answer">
             El sistema de administración de fondos comunes es una aplicación descentralizada que funciona sobre la cadena de
             bloques (Blockchain) de Ethereum.
@@ -41,7 +41,7 @@
         </div>
 
         <div class="question">
-          <p class="ask text-success">¿Cuál es la función de la aplicación?</p>
+          <p class="ask ask-red">¿Cuál es la función de la aplicación?</p>
           <p class="answer">
             La función principal de la aplicación es llevar un registro de los activos (Ether) que las diferentes cuentas de
             Ethereum (entidades) pongan a disposición para una causa común. Los mismos serán gestionados mediante contratos
@@ -51,7 +51,7 @@
         </div>
 
         <div class="question">
-          <p class="ask text-danger">¿Qué usos se le puede dar a la aplicación?</p>
+          <p class="ask ask-purple">¿Qué usos se le puede dar a la aplicación?</p>
           <p class="answer">
             La aplicación cuenta con distintos usos prácticos, la misma permite gestionar los fondos de donaciones, pensiones,
             seguros, campañas de inversiones, entre varios usos más que cada entidad le puede asignar personalizando diferentes
@@ -60,7 +60,7 @@
         </div>
 
         <div class="question">
-          <p class="ask text-warning">¿Qué ventajas nos proporciona la cadena de bloques?</p>
+          <p class="ask ask-light">¿Qué ventajas nos proporciona la cadena de bloques?</p>
           <div class="answer">
             <div class="item bottom-bar">
               <p class="title">Descentralización</p>
@@ -105,7 +105,7 @@
         </div>
 
         <div class="question">
-          <p class="ask text-info">¿Qué se necesita para comenzar a utilizar la aplicación?</p>
+          <p class="ask ask-red">¿Qué se necesita para comenzar a utilizar la aplicación?</p>
           <p class="answer">
             Todo lo que se necesita para comenzar a iteractuar con la aplicación es contar con la billetera MetaMask instalada en
             el navegador.
@@ -113,7 +113,7 @@
         </div>
 
         <div class="question">
-          <p class="ask text-success">¿Para qué sirve un FundToken?</p>
+          <p class="ask ask-purple">¿Para qué sirve un FundToken?</p>
           <p class="answer">
             El FundToken es la moneda interna que se puede comprar en la aplicación. La misma funciona como un ticket para poder
             crear un fondo.
@@ -121,7 +121,7 @@
         </div>
 
         <div class="question">
-          <p class="ask text-danger">¿Quiénes pueden crear un fondo?</p>
+          <p class="ask ask-light">¿Quiénes pueden crear un fondo?</p>
           <p class="answer">
             Cualquier persona, entidad o empresa que disponga de una cuenta en la billetera de MetaMask puede crear e interactuar
             con cualquier fondo.
@@ -175,10 +175,9 @@
       <div class="text">
         <p class="title">FundToken</p>
         <p class="description">
-          Por el momento, para poder comenzar a interactuar con la aplicación debes contar con la billetera de MetaMask instalada
-          en el navegador.
+          Mediante estos tokens, que pueden ser adquiridos en nuestro sitio web, las entidades podrán crear un nuevo fondo
+          abonando por realizar dicha operación un (1) FundToken.
         </p>
-        <p class="secondary-description">¡Estamos trabajando para incorporar nuevas formas de utilizar la aplicación!</p>
         <button class="btn btn-secondary" @click="addFundTokenToMetaMask" v-if="hasMetamask">Agregar FundToken a MetaMask</button>
       </div>
     </div>
@@ -232,7 +231,7 @@ export default {
 
   .title {
     font-family: 'Dancing Script', cursive;
-    font-size: 3.2rem;
+    font-size: 3.1rem;
     text-align: center;
     animation: fadeInDownBig 0.6s;
   }
@@ -246,14 +245,14 @@ export default {
     gap: 2rem;
 
     .fund-img {
-      height: 22rem;
+      height: 20rem;
       width: auto;
       max-width: 100%;
       animation: fadeInRightBig 1.2s;
     }
 
     .info {
-      font-size: 1.15rem;
+      font-size: 1.02rem;
       text-align: center;
       max-width: 650px;
       animation: fadeInLeftBig 1.8s;
@@ -264,7 +263,7 @@ export default {
 
       .header {
         .subtitle {
-          font-size: 1.8rem;
+          font-size: 1.6em;
           font-weight: bold;
         }
       }
@@ -289,11 +288,11 @@ export default {
   align-items: center;
   gap: 1rem;
 
-  .title {
-    font-size: 2.2rem;
+  .about {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
-    text-decoration: underline;
   }
 
   .questions {
@@ -315,6 +314,18 @@ export default {
       .ask {
         font-size: 1.5em;
         font-weight: bold;
+      }
+
+      .ask-purple {
+        color: #7645d9;
+      }
+
+      .ask-light {
+        color: #21a5af;
+      }
+
+      .ask-red {
+        color: #e04896;
       }
 
       .answer {
@@ -340,7 +351,7 @@ export default {
 
 .community-content {
   text-align: center;
-  padding: 3rem;
+  padding: 4rem 0.5rem 3rem 0.5rem;
   padding-top: 4rem;
   background: #eae7e781; /* fallback for old browsers */
   background: -webkit-linear-gradient(to top left, #2c3e5045, #eae7e781); /* Chrome 10-25, Safari 5.1-6 */
@@ -355,7 +366,7 @@ export default {
   align-items: center;
 
   img {
-    height: 14rem;
+    height: 13rem;
     max-width: 100%;
     margin-bottom: 2rem;
   }
@@ -365,12 +376,12 @@ export default {
     margin-bottom: 1.5rem;
 
     .title {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: bold;
     }
 
     .description {
-      font-size: 1.1rem;
+      font-size: 1.06rem;
     }
   }
 
