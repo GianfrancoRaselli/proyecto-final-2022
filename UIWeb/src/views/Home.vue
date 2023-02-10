@@ -25,7 +25,7 @@
       <p class="about">Acerca de nosotros</p>
       <div class="questions">
         <div class="question">
-          <p class="ask ask-purple">¿Quiénes somos?</p>
+          <p class="ask purple">¿Quiénes somos?</p>
           <p class="answer">
             La aplicación comenzó como proyecto llevado a cabo para la materia Proyecto Final de la carrera Ingeniería en Sistemas
             de Información de la Universidad Tecnológica Nacional (UTN) ubicada en Rosario, Argentina.
@@ -33,7 +33,7 @@
         </div>
 
         <div class="question">
-          <p class="ask ask-light">¿Qúe tipo de aplicación es?</p>
+          <p class="ask light">¿Qúe tipo de aplicación es?</p>
           <p class="answer">
             El sistema de administración de fondos comunes es una aplicación descentralizada que funciona sobre la cadena de
             bloques (Blockchain) de Ethereum.
@@ -41,7 +41,7 @@
         </div>
 
         <div class="question">
-          <p class="ask ask-red">¿Cuál es la función de la aplicación?</p>
+          <p class="ask red">¿Cuál es la función de la aplicación?</p>
           <p class="answer">
             La función principal de la aplicación es llevar un registro de los activos (Ether) que las diferentes cuentas de
             Ethereum (entidades) pongan a disposición para una causa común. Los mismos serán gestionados mediante contratos
@@ -51,7 +51,7 @@
         </div>
 
         <div class="question">
-          <p class="ask ask-purple">¿Qué usos se le puede dar a la aplicación?</p>
+          <p class="ask purple">¿Qué usos se le puede dar a la aplicación?</p>
           <p class="answer">
             La aplicación cuenta con distintos usos prácticos, la misma permite gestionar los fondos de donaciones, pensiones,
             seguros, campañas de inversiones, entre varios usos más que cada entidad le puede asignar personalizando diferentes
@@ -60,7 +60,7 @@
         </div>
 
         <div class="question">
-          <p class="ask ask-light">¿Qué ventajas nos proporciona la cadena de bloques?</p>
+          <p class="ask light">¿Qué ventajas nos proporciona la cadena de bloques?</p>
           <div class="answer">
             <div class="item bottom-bar">
               <p class="title">Descentralización</p>
@@ -103,30 +103,6 @@
             </div>
           </div>
         </div>
-
-        <div class="question">
-          <p class="ask ask-red">¿Qué se necesita para comenzar a utilizar la aplicación?</p>
-          <p class="answer">
-            Todo lo que se necesita para comenzar a iteractuar con la aplicación es contar con la billetera MetaMask instalada en
-            el navegador.
-          </p>
-        </div>
-
-        <div class="question">
-          <p class="ask ask-purple">¿Para qué sirve un FundToken?</p>
-          <p class="answer">
-            El FundToken es la moneda interna que se puede comprar en la aplicación. La misma funciona como un ticket para poder
-            crear un fondo.
-          </p>
-        </div>
-
-        <div class="question">
-          <p class="ask ask-light">¿Quiénes pueden crear un fondo?</p>
-          <p class="answer">
-            Cualquier persona, entidad o empresa que disponga de una cuenta en la billetera de MetaMask puede crear e interactuar
-            con cualquier fondo.
-          </p>
-        </div>
       </div>
     </div>
 
@@ -142,15 +118,15 @@
         <div class="card">
           <fa-icon icon="users" class="icon users-color" size="5x" />
           <span class="number">5000</span>
-          <span class="title"><span class="main users-color">Usuarios</span> registrados</span>
+          <span class="title"><span class="main purple">Usuarios</span> registrados</span>
         </div>
         <div class="card">
-          <fa-icon icon="list" class="icon funds-color" size="5x" />
+          <fa-icon icon="list" class="icon light" size="5x" />
           <span class="number">5000</span>
           <span class="title"><span class="main funds-color">Fondos</span> creados</span>
         </div>
         <div class="card">
-          <fa-icon icon="money-bill" class="icon money-color" size="5x" />
+          <fa-icon icon="money-bill" class="icon mred" size="5x" />
           <span class="number">5000</span>
           <span class="title"><span class="main money-color">ETH</span> depositados</span>
         </div>
@@ -179,6 +155,54 @@
           abonando por realizar dicha operación un (1) FundToken.
         </p>
         <button class="btn btn-secondary" @click="addFundTokenToMetaMask" v-if="hasMetamask">Agregar FundToken a MetaMask</button>
+      </div>
+    </div>
+
+    <div class="questions-content">
+      <p class="title">Preguntas frecuentes</p>
+      <div class="question">
+        <div class="ask red">¿Qué se necesita para comenzar a utilizar la aplicación?</div>
+        <div class="answer">
+          <p>
+            Todo lo que se necesita para comenzar a iteractuar con la aplicación es contar con la billetera MetaMask instalada en
+            el navegador.
+          </p>
+          <p>
+            La aplicación detecta automáticamente si la billetera está instalada, en caso de ser así, le aparecerá un botón en la
+            esquina superior derecha que le permitirá vincular una cuenta de MetaMask con el sistema:
+          </p>
+          <img src="@/assets/imgs/questions/connect-metamask.png" />
+        </div>
+      </div>
+      <div class="question">
+        <div class="ask purple">¿Cómo instalar MetaMask?</div>
+        <div class="answer"></div>
+      </div>
+      <div class="question">
+        <div class="ask light">¿Para qué sirve un FundToken?</div>
+        <div class="answer">
+          El FundToken es la moneda interna que se puede comprar en la aplicación. La misma funciona como un ticket para poder
+          crear un fondo.
+        </div>
+      </div>
+      <div class="question">
+        <div class="ask red">¿Cómo comprar FundTokens?</div>
+        <div class="answer"></div>
+      </div>
+      <div class="question">
+        <div class="ask purple">¿Quiénes pueden crear un fondo?</div>
+        <div class="answer">
+          Cualquier persona, entidad o empresa que disponga de una cuenta en la billetera de MetaMask puede crear e interactuar
+          con cualquier fondo.
+        </div>
+      </div>
+      <div class="question">
+        <div class="ask light">¿Cómo crear un fondo?</div>
+        <div class="answer"></div>
+      </div>
+      <div class="question">
+        <div class="ask red">¿Qué tipos de fondos se pueden crear?</div>
+        <div class="answer"></div>
       </div>
     </div>
   </div>
@@ -210,6 +234,18 @@ export default {
 .content {
   min-width: 100%;
   padding: 0;
+}
+
+.purple {
+  color: #7645d9;
+}
+
+.light {
+  color: #1bbac5;
+}
+
+.red {
+  color: #e74a9b;
 }
 
 .main-content {
@@ -308,24 +344,12 @@ export default {
       max-width: 45rem;
       padding: 1.4rem;
       border-radius: 1rem;
-      background-color: rgba(255, 255, 255, 0.507);
+      background-color: rgba(255, 255, 255, 0.899);
       box-shadow: rgba(0, 0, 0, 0.371) 4px 4px 4px 2px;
 
       .ask {
         font-size: 1.5em;
         font-weight: bold;
-      }
-
-      .ask-purple {
-        color: #7645d9;
-      }
-
-      .ask-light {
-        color: #21a5af;
-      }
-
-      .ask-red {
-        color: #e04896;
       }
 
       .answer {
@@ -433,18 +457,6 @@ export default {
         }
       }
     }
-
-    .users-color {
-      color: #7645d9;
-    }
-
-    .funds-color {
-      color: #1fc7d4;
-    }
-
-    .money-color {
-      color: #ed4b9e;
-    }
   }
 }
 
@@ -505,7 +517,12 @@ export default {
 
 .fundtoken-content {
   padding: 6rem;
-  background: radial-gradient(circle at 10% 20%, rgb(243, 242, 229) 0%, rgba(198, 239, 211, 0.722) 90%);
+  /* fallback for old browsers */
+  background: #b9d5bc;
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to left, rgba(185, 213, 188, 0.5), rgba(222, 237, 222, 0.5));
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to left, rgba(185, 213, 188, 0.5), rgba(222, 237, 222, 0.5));
 
   display: flex;
   flex-direction: row-reverse;
@@ -539,7 +556,8 @@ export default {
 
   .text {
     .title {
-      font-size: 2rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.4rem;
       font-weight: bold;
     }
 
@@ -554,6 +572,50 @@ export default {
 
     .btn {
       margin-top: 0.8rem;
+    }
+  }
+}
+
+.questions-content {
+  padding: 3rem 1rem;
+  /* fallback for old browsers */
+  background: #d4fc79;
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to top, rgba(212, 252, 121, 0.5), rgba(164, 222, 172, 0.548));
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to top, rgba(212, 252, 121, 0.5), rgba(164, 222, 172, 0.548));
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+
+  .title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+
+  .question {
+    width: 100%;
+    border: 0.8px solid rgba(109, 109, 109, 0.888);
+    border-radius: 0.4rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+
+    .ask {
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 1.2rem;
+      border-bottom: 0.7px solid rgba(109, 109, 109, 0.363);
+      border-radius: 0.4rem 0.4rem 0 0;
+      background-color: rgb(231, 231, 231);
+    }
+
+    .answer {
+      padding: 1.2rem;
+      border-radius: 0 0 0.4rem 0.4rem;
+      background-color: rgb(247, 247, 247);
     }
   }
 }
