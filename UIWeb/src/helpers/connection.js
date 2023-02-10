@@ -31,25 +31,27 @@ const hasMetamask = () => {
 
 const connectToMetamask = async () => {
   setWeb3AndContracts();
-  if (!store.state.connection.disconnected && hasMetamask()) {
-    //const ethereumProvider = await detectEthereumProvider();
-    const ethereumProvider = window.ethereum;
-    let provider;
-    if (ethereumProvider.providers)
-      provider = ethereumProvider.providers.find((p) => p.isMetaMask && p._handleAccountsChanged && p._handleChainChanged);
-    else provider = ethereumProvider;
-    store.commit('setProvider', provider);
-    setWeb3AndContracts(store.state.connection.provider);
+  if (hasMetamask()) {
+    if (!store.state.connection.disconnected) {
+      //const ethereumProvider = await detectEthereumProvider();
+      const ethereumProvider = window.ethereum;
+      let provider;
+      if (ethereumProvider.providers)
+        provider = ethereumProvider.providers.find((p) => p.isMetaMask && p._handleAccountsChanged && p._handleChainChanged);
+      else provider = ethereumProvider;
+      store.commit('setProvider', provider);
+      setWeb3AndContracts(store.state.connection.provider);
 
-    store.commit('setAddress', (await store.state.connection.provider.request({ method: 'eth_requestAccounts' }))[0]);
-    store.state.connection.provider.on('accountsChanged', handleAccountsChanged);
+      store.commit('setAddress', (await store.state.connection.provider.request({ method: 'eth_requestAccounts' }))[0]);
+      store.state.connection.provider.on('accountsChanged', handleAccountsChanged);
 
-    store.commit('unsubscribeFromTransfersSubscription');
-    searchFundTokensBalance();
+      store.commit('unsubscribeFromTransfersSubscription');
+      searchFundTokensBalance();
 
-    store.commit('setChainId', await store.state.connection.provider.request({ method: 'eth_chainId' }));
-    store.state.connection.provider.on('chainChanged', handleChainChanged);
-    checkValidChain();
+      store.commit('setChainId', await store.state.connection.provider.request({ method: 'eth_chainId' }));
+      store.state.connection.provider.on('chainChanged', handleChainChanged);
+      checkValidChain();
+    }
   } else {
     Swal.fire({
       position: 'center',
