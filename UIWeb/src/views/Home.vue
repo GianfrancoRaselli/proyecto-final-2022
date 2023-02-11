@@ -116,19 +116,19 @@
       </div>
       <div class="cards">
         <div class="card">
-          <fa-icon icon="users" class="icon users-color" size="5x" />
+          <fa-icon icon="users" class="icon purple" size="5x" />
           <span class="number">5000</span>
           <span class="title"><span class="main purple">Usuarios</span> registrados</span>
         </div>
         <div class="card">
           <fa-icon icon="list" class="icon light" size="5x" />
           <span class="number">5000</span>
-          <span class="title"><span class="main funds-color">Fondos</span> creados</span>
+          <span class="title"><span class="main light">Fondos</span> creados</span>
         </div>
         <div class="card">
-          <fa-icon icon="money-bill" class="icon mred" size="5x" />
+          <fa-icon icon="money-bill" class="icon red" size="5x" />
           <span class="number">5000</span>
-          <span class="title"><span class="main money-color">ETH</span> depositados</span>
+          <span class="title"><span class="main red">ETH</span> depositados</span>
         </div>
       </div>
     </div>
