@@ -160,60 +160,119 @@
 
     <div class="questions-content">
       <p class="title">Preguntas frecuentes</p>
-      <div class="question">
-        <div class="ask red">¿Qué se necesita para comenzar a utilizar la aplicación?</div>
-        <div class="answer">
-          <p>
-            Todo lo que se necesita para comenzar a iteractuar con la aplicación es contar con la billetera MetaMask instalada en
-            el navegador.
-          </p>
-          <p>
-            La aplicación detecta automáticamente si la billetera está instalada, en caso de ser así, le aparecerá un botón en la
-            esquina superior derecha que le permitirá vincular una cuenta de MetaMask con el sistema:
-          </p>
-          <img src="@/assets/imgs/questions/connect-metamask.png" />
+
+      <Question ask="¿Qué se necesita para comenzar a utilizar la aplicación?" color="red">
+        <p>
+          Todo lo que se necesita para comenzar a iteractuar con la aplicación es contar con la billetera MetaMask instalada en el
+          navegador.
+        </p>
+        <p>
+          La aplicación detecta automáticamente si la billetera está instalada, en caso de ser así, le aparecerá un botón en la
+          esquina superior derecha que le permitirá vincular una cuenta de MetaMask con el sistema:
+        </p>
+        <img src="@/assets/imgs/questions/connect-metamask.png" />
+      </Question>
+
+      <Question ask="¿Qué es MetaMask?" color="purple">
+        <p>
+          MetaMask es una billetera y un navegador al mismo tiempo, sirve para almacenar e intercambiar activos digitales y para
+          explorar nuevas aplicaciones en la web descentralizada.
+        </p>
+        <a href="https://metamask.io/" target="_blank">Explorar MetaMask</a>
+      </Question>
+
+      <Question ask="¿Cómo instalar MetaMask?" color="light">
+        <div class="steps">
+          <div class="step bottom-bar">
+            <div class="number">1</div>
+            <p>
+              Dirígete a <a href="https://metamask.io/download/" target="_blank">instalar MetaMask</a> y dale al botón «Install
+              MetaMask for Chrome», luego sigue los pasos para culminar la instalación.
+            </p>
+            <img src="@/assets/imgs/questions/step1-metamask.jpg" />
+          </div>
+          <div class="bar"></div>
+          <div class="step">
+            <div class="number">2</div>
+            <p>Aquí pulsa sobre la tachuela y se te añadirá la extensión a la barra de tareas.</p>
+            <img src="@/assets/imgs/questions/step2-metamask.jpg" />
+          </div>
+          <div class="bar"></div>
+          <div class="step">
+            <div class="number">3</div>
+            <p>
+              Haz click sobre el icono de MetaMask en la esquina superior derecha (acepta los términos y condiciones) y luego
+              click en «Crear una cartera».
+            </p>
+            <img src="@/assets/imgs/questions/step3-metamask.jpg" />
+          </div>
+          <div class="bar"></div>
+          <div class="step">
+            <div class="number">4</div>
+            <p>Ingresa una contraseña segura y haz click en «Crear».</p>
+            <img src="@/assets/imgs/questions/step4-metamask.jpg" />
+          </div>
+          <div class="bar"></div>
+          <div class="step">
+            <div class="number">5</div>
+            <p>
+              MetaMask te mostrará tu seed (semilla), haz click sobre el candado para revelarla. Es muy importante que guardes
+              estas 12 palabras, (sin ellas será imposible recuperar tu billetera en caso de pérdida). Una vez hecho esto, haz
+              click sobre el botón «Siguiente».
+            </p>
+            <img src="@/assets/imgs/questions/step5-metamask.jpg" />
+          </div>
+          <div class="bar"></div>
+          <div class="step">
+            <div class="number">6</div>
+            <p>
+              Te pedirá que introduzcas la frase secreta de respaldo, exactamente en el mismo orden en que te la dio la ventana
+              anterior. Una vez hecho, haz click en «Confirmar».
+            </p>
+            <img src="@/assets/imgs/questions/step6-metamask.jpg" />
+          </div>
+          <div class="bar"></div>
+          <div class="step">
+            <div class="number">7</div>
+            <p>
+              En esta ventana te dirá que ya habrás creado tu billetera, dándote a su vez unas pequeñas sugerencias de
+              almacenamiento seguro. Una vez leídas haz click en el botón «Todo listo».
+            </p>
+            <img src="@/assets/imgs/questions/step7-metamask.jpg" />
+          </div>
         </div>
-      </div>
-      <div class="question">
-        <div class="ask purple">¿Cómo instalar MetaMask?</div>
-        <div class="answer"></div>
-      </div>
-      <div class="question">
-        <div class="ask light">¿Para qué sirve un FundToken?</div>
-        <div class="answer">
-          El FundToken es la moneda interna que se puede comprar en la aplicación. La misma funciona como un ticket para poder
-          crear un fondo.
-        </div>
-      </div>
-      <div class="question">
-        <div class="ask red">¿Cómo comprar FundTokens?</div>
-        <div class="answer"></div>
-      </div>
-      <div class="question">
-        <div class="ask purple">¿Quiénes pueden crear un fondo?</div>
-        <div class="answer">
-          Cualquier persona, entidad o empresa que disponga de una cuenta en la billetera de MetaMask puede crear e interactuar
-          con cualquier fondo.
-        </div>
-      </div>
-      <div class="question">
-        <div class="ask light">¿Cómo crear un fondo?</div>
-        <div class="answer"></div>
-      </div>
-      <div class="question">
-        <div class="ask red">¿Qué tipos de fondos se pueden crear?</div>
-        <div class="answer"></div>
-      </div>
+      </Question>
+
+      <Question ask="¿Para qué sirve un FundToken?" color="red">
+        El FundToken es la moneda interna que se puede comprar en la aplicación. La misma funciona como un ticket para poder crear
+        un fondo.
+      </Question>
+
+      <Question ask="¿Cómo comprar FundTokens?" color="purple"> </Question>
+
+      <Question ask="¿Quiénes pueden crear un fondo?" color="light">
+        Cualquier persona, empresa o entidad que disponga de una cuenta en la billetera de MetaMask puede crear e interactuar con
+        cualquier fondo.
+      </Question>
+
+      <Question ask="¿Cómo crear un fondo?" color="red"> </Question>
+
+      <Question ask="¿Qué tipos de fondos se pueden crear?" color="purple"> </Question>
     </div>
   </div>
 </template>
 
 <script>
+import Question from '@/components/Question';
+
 import { hasMetamask } from '@/helpers/connection';
 import { addTokenToMetaMask } from '@/helpers/helpers';
 
 export default {
   name: 'HomeView',
+  components: {
+    Question,
+  },
   data() {
     return {};
   },
@@ -234,18 +293,6 @@ export default {
 .content {
   min-width: 100%;
   padding: 0;
-}
-
-.purple {
-  color: #7645d9;
-}
-
-.light {
-  color: #1bbac5;
-}
-
-.red {
-  color: #e74a9b;
 }
 
 .main-content {
@@ -281,7 +328,8 @@ export default {
     gap: 2rem;
 
     .fund-img {
-      height: 20rem;
+      height: auto;
+      max-height: 20rem;
       width: auto;
       max-width: 100%;
       animation: fadeInRightBig 1.2s;
@@ -597,25 +645,26 @@ export default {
     font-weight: bold;
   }
 
-  .question {
-    width: 100%;
-    border: 0.8px solid rgba(109, 109, 109, 0.888);
-    border-radius: 0.4rem;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  .steps {
+    .step {
+      .number {
+        display: inline-block;
+        padding: 0 0.4rem 0.2rem 0;
+        border-right: 0.1px solid rgba(110, 110, 110, 0.867);
+        border-bottom: 0.1px solid rgba(110, 110, 110, 0.867);
+        border-radius: 0 0 0.3rem 0;
+        margin-bottom: 1rem;
+      }
 
-    .ask {
-      font-size: 1.1rem;
-      font-weight: bold;
-      padding: 1.2rem;
-      border-bottom: 0.7px solid rgba(109, 109, 109, 0.363);
-      border-radius: 0.4rem 0.4rem 0 0;
-      background-color: rgb(231, 231, 231);
+      img {
+        max-width: 100%;
+      }
     }
 
-    .answer {
-      padding: 1.2rem;
-      border-radius: 0 0 0.4rem 0.4rem;
-      background-color: rgb(247, 247, 247);
+    .bar {
+      height: 0.1px;
+      margin: 1.5rem 0;
+      background-color: rgba(110, 110, 110, 0.729);
     }
   }
 }

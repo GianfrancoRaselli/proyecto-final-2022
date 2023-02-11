@@ -163,4 +163,16 @@ body {
 .text-center {
   text-align: center;
 }
+
+.purple {
+  color: #7645d9;
+}
+
+.light {
+  color: #1bbac5;
+}
+
+.red {
+  color: #e74a9b;
+}
 </style>
