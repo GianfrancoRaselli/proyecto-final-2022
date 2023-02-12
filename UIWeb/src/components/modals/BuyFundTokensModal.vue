@@ -3,8 +3,10 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title mr-2" id="buyFundTokensModalLabel">FundToken</h4>
-          <span class="add-token" @click="addFundTokenToMetaMask" v-if="hasMetamask">Agregar FundToken a MetaMask</span>
+          <div class="header-info">
+            <h4 class="modal-title mr-2" id="buyFundTokensModalLabel">FundToken</h4>
+            <span class="add-token" @click="addFundTokenToMetaMask" v-if="hasMetamask">Agregar FundToken a MetaMask</span>
+          </div>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -137,7 +139,7 @@ export default {
     addFundTokenToMetaMask() {
       addTokenToMetaMask();
     },
-    
+
     async handleSubmit() {
       if (await validateForm(this.v$)) {
         try {
@@ -183,10 +185,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal-header {
   display: flex;
-  align-items: baseline;
+
+  .header-info {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
 }
 
 .add-token {

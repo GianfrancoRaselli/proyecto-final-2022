@@ -175,4 +175,8 @@ body {
 .red {
   color: #e74a9b;
 }
+
+.grey {
+  color: rgb(79, 79, 79);
+}
 </style>

@@ -170,7 +170,7 @@
           La aplicación detecta automáticamente si la billetera está instalada, en caso de ser así, le aparecerá un botón en la
           esquina superior derecha que le permitirá vincular una cuenta de MetaMask con el sistema:
         </p>
-        <img src="@/assets/imgs/questions/connect-metamask.png" />
+        <p><img src="@/assets/imgs/questions/connect-metamask.png" /></p>
       </Question>
 
       <Question ask="¿Qué es MetaMask?" color="purple">
@@ -178,24 +178,24 @@
           MetaMask es una billetera y un navegador al mismo tiempo, sirve para almacenar e intercambiar activos digitales y para
           explorar nuevas aplicaciones en la web descentralizada.
         </p>
-        <a href="https://metamask.io/" target="_blank">Explorar MetaMask</a>
+        <p><a href="https://metamask.io/" target="_blank">Explorar MetaMask</a></p>
       </Question>
 
       <Question ask="¿Cómo instalar MetaMask?" color="light">
         <div class="steps">
-          <div class="step bottom-bar">
+          <div class="step">
             <div class="number">1</div>
             <p>
               Dirígete a <a href="https://metamask.io/download/" target="_blank">instalar MetaMask</a> y dale al botón «Install
               MetaMask for Chrome», luego sigue los pasos para culminar la instalación.
             </p>
-            <img src="@/assets/imgs/questions/step1-metamask.jpg" />
+            <p><img src="@/assets/imgs/questions/step1-metamask.jpg" /></p>
           </div>
           <div class="bar"></div>
           <div class="step">
             <div class="number">2</div>
             <p>Aquí pulsa sobre la tachuela y se te añadirá la extensión a la barra de tareas.</p>
-            <img src="@/assets/imgs/questions/step2-metamask.jpg" />
+            <p><img src="@/assets/imgs/questions/step2-metamask.jpg" /></p>
           </div>
           <div class="bar"></div>
           <div class="step">
@@ -204,13 +204,13 @@
               Haz click sobre el icono de MetaMask en la esquina superior derecha (acepta los términos y condiciones) y luego
               click en «Crear una cartera».
             </p>
-            <img src="@/assets/imgs/questions/step3-metamask.jpg" />
+            <p><img src="@/assets/imgs/questions/step3-metamask.jpg" /></p>
           </div>
           <div class="bar"></div>
           <div class="step">
             <div class="number">4</div>
             <p>Ingresa una contraseña segura y haz click en «Crear».</p>
-            <img src="@/assets/imgs/questions/step4-metamask.jpg" />
+            <p><img src="@/assets/imgs/questions/step4-metamask.jpg" /></p>
           </div>
           <div class="bar"></div>
           <div class="step">
@@ -220,7 +220,7 @@
               estas 12 palabras, (sin ellas será imposible recuperar tu billetera en caso de pérdida). Una vez hecho esto, haz
               click sobre el botón «Siguiente».
             </p>
-            <img src="@/assets/imgs/questions/step5-metamask.jpg" />
+            <p><img src="@/assets/imgs/questions/step5-metamask.jpg" /></p>
           </div>
           <div class="bar"></div>
           <div class="step">
@@ -229,7 +229,7 @@
               Te pedirá que introduzcas la frase secreta de respaldo, exactamente en el mismo orden en que te la dio la ventana
               anterior. Una vez hecho, haz click en «Confirmar».
             </p>
-            <img src="@/assets/imgs/questions/step6-metamask.jpg" />
+            <p><img src="@/assets/imgs/questions/step6-metamask.jpg" /></p>
           </div>
           <div class="bar"></div>
           <div class="step">
@@ -238,7 +238,7 @@
               En esta ventana te dirá que ya habrás creado tu billetera, dándote a su vez unas pequeñas sugerencias de
               almacenamiento seguro. Una vez leídas haz click en el botón «Todo listo».
             </p>
-            <img src="@/assets/imgs/questions/step7-metamask.jpg" />
+            <p><img src="@/assets/imgs/questions/step7-metamask.jpg" /></p>
           </div>
         </div>
       </Question>
@@ -248,16 +248,101 @@
         un fondo.
       </Question>
 
-      <Question ask="¿Cómo comprar FundTokens?" color="purple"> </Question>
+      <Question ask="¿Cómo comprar FundTokens?" color="purple">
+        <div class="steps">
+          <div class="step">
+            <div class="number">1</div>
+            <p>Desde cualquier parte de la aplicación dale al botón «Comprar FundTokens» en la barra de navegación superior.</p>
+            <p><img src="@/assets/imgs/questions/step1.1-fundtoken.png" /></p>
+            <p>
+              En caso de estar navegando desde un dispositivo móvil debe dirigirse a la parte inferior, y darle al botón
+              «FundToken».
+            </p>
+            <p><img src="@/assets/imgs/questions/step1.2-fundtoken.png" /></p>
+          </div>
+          <div class="bar"></div>
+          <div class="step">
+            <div class="number">2</div>
+            <p>En la ventana emergente indique la cantidad de FundTokens que desea comprar.</p>
+            <p><img src="@/assets/imgs/questions/step2-fundtoken.png" /></p>
+          </div>
+          <div class="bar"></div>
+          <div class="step">
+            <div class="number">3</div>
+            <p>
+              Dale al botón «Comprar» para confirmar la compra (para poder proceder con la compra debes estar conectado a la
+              aplicación con una cuenta de MetaMask).
+            </p>
+            <p><img src="@/assets/imgs/questions/step3-fundtoken.png" /></p>
+          </div>
+          <div class="bar"></div>
+          <div class="step">
+            <div class="number">4</div>
+            <p>
+              Finalmente, se le abrirá una nueva ventana de MetaMask indicandole el costo de la compra, para finalizar la misma
+              debe darle al botón «Confirmar».
+            </p>
+            <p><img src="@/assets/imgs/questions/step4-fundtoken.png" /></p>
+          </div>
+        </div>
+      </Question>
 
       <Question ask="¿Quiénes pueden crear un fondo?" color="light">
         Cualquier persona, empresa o entidad que disponga de una cuenta en la billetera de MetaMask puede crear e interactuar con
         cualquier fondo.
       </Question>
 
-      <Question ask="¿Cómo crear un fondo?" color="red"> </Question>
+      <Question ask="¿Cómo crear un fondo?" color="red">
+        <div class="steps">
+          <div class="step">
+            <div class="number">1</div>
+            <p>Desde cualquier parte de la aplicación dale al botón «Crear fondo» en la barra de navegación superior.</p>
+            <p><img src="@/assets/imgs/questions/step1.1-createfund.png" /></p>
+            <p>
+              En caso de estar navegando desde un dispositivo móvil debe dirigirse a la parte inferior, y darle al botón «Crear».
+            </p>
+            <p><img src="@/assets/imgs/questions/step1.2-createfund.png" /></p>
+          </div>
+          <div class="bar"></div>
+          <div class="step">
+            <div class="number">2</div>
+            <p>
+              Aquí debe personalizar los parámetros del fondo a crear según sus necesidades (una vez creado no se pueden
+              modificar). Para facilitarle la tarea, puede seleccionar un tipo de fondo (que ya viene con varias opciones
+              configuradas) al comienzo del formulario. En caso de que dichos tipos no se adapten a tus preferencias, puede
+              seleccionar «Fondo personalizado» y configurar todos los parámetros a su gusto.
+            </p>
+            <p>
+              Luego, debe darle al botón «Crear fondo» (para eso debe disponer de al menos 1 FundToken en su cuenta de MetaMask).
+            </p>
+            <p><img src="@/assets/imgs/questions/step2-createfund.png" /></p>
+          </div>
+        </div>
+      </Question>
 
-      <Question ask="¿Qué tipos de fondos se pueden crear?" color="purple"> </Question>
+      <Question ask="¿Qué tipos de fondos se pueden crear?" color="purple">
+        <div class="fund-types">
+          <div class="fund-type">
+            <p class="fund-type-title light">Fondo de amigos</p>
+            <p class="fund-type-description">dsfjfj jk jkdsfjkfds jds</p>
+          </div>
+          <div class="fund-type">
+            <p class="fund-type-title red">Fondo de campaña</p>
+            <p class="fund-type-description">
+              dsfduj df ldgkf kjf pfd gf g fd fd gf g g gf g h gf gh hf h g gh gf ffjk ¿0df ijfjgf fdjo g og ifkocf dfgf fjfj jk
+              jkdsfjkfds jds
+            </p>
+          </div>
+          <div class="fund-type">
+            <p class="fund-type-title purple">Fondo de donación</p>
+            <p class="fund-type-description">dsfjfj jk jkdsfjkfds jds</p>
+          </div>
+          <div class="fund-type">
+            <p class="fund-type-title grey">Fondo personalizado</p>
+            <p class="fund-type-description">dsfjfjjo o' iji d fd djk jkdsfjkfds jds</p>
+          </div>
+        </div>
+      </Question>
     </div>
   </div>
 </template>
@@ -585,7 +670,7 @@ export default {
 
   @media (max-width: 1080px) {
     flex-direction: column;
-    gap: 4rem;
+    gap: 2.2rem;
 
     .text {
       text-align: center;
@@ -645,6 +730,10 @@ export default {
     font-weight: bold;
   }
 
+  img {
+    max-width: 100%;
+  }
+
   .steps {
     .step {
       .number {
@@ -655,16 +744,51 @@ export default {
         border-radius: 0 0 0.3rem 0;
         margin-bottom: 1rem;
       }
-
-      img {
-        max-width: 100%;
-      }
     }
 
     .bar {
       height: 0.1px;
       margin: 1.5rem 0;
       background-color: rgba(110, 110, 110, 0.729);
+    }
+  }
+
+  .fund-types {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    row-gap: 1rem;
+
+    .fund-type {
+      text-align: center;
+      width: 24%;
+      padding: 1rem;
+      border: 0.2px solid rgb(123, 123, 123);
+      border-radius: 0.8rem;
+
+      .fund-type-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+    }
+  }
+
+  @media (max-width: 980px) {
+    .fund-types {
+      flex-wrap: wrap;
+
+      .fund-type {
+        width: 49%;
+      }
+    }
+  }
+
+  @media (max-width: 500px) {
+    .fund-types {
+      .fund-type {
+        width: 100%;
+      }
     }
   }
 }
