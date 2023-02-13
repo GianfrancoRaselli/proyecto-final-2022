@@ -1,5 +1,8 @@
 {
   "editor.formatOnSave": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "prettier.printWidth": 130
+  "prettier.printWidth": 130,
+  "[vue]": {
+    "editor.defaultFormatter": "Vue.volar"
+  }
 }

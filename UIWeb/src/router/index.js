@@ -9,17 +9,17 @@ const routes = [
   },
   {
     name: 'CreateFund',
-    path: '/createFund',
+    path: '/crearFondo',
     component: () => import('@/views/CreateFund'),
   },
   {
     name: 'Funds',
-    path: '/funds',
+    path: '/fondos',
     component: () => import('@/views/Funds'),
   },
   {
     name: 'Fund',
-    path: '/fund/:fundAddress',
+    path: '/fondo/:fundAddress',
     component: () => import('@/views/Fund'),
   },
   {
