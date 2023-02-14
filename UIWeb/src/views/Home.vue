@@ -22,6 +22,16 @@
       </div>
     </div>
 
+    <div class="latest-funds-content">
+      <p class="title">Últimos fondos creados</p>
+      <AppSpinner class="spinner" size="medium" v-if="loading" />
+      <div class="funds" v-else>
+        <div class="fund" v-for="(fund, index) in fundsToShow" :key="index" @click="redirect(fund.address)">
+          <FundCard class="fund-card" :fund="fund" />
+        </div>
+      </div>
+    </div>
+
     <div class="we-content">
       <p class="about">Acerca de nosotros</p>
       <div class="questions">
@@ -392,26 +402,74 @@
 </template>
 
 <script>
+import FundCard from '@/components/fund/FundCard';
 import Question from '@/components/Question';
 
 import { hasMetamask } from '@/helpers/connection';
-import { addTokenToMetaMask } from '@/helpers/helpers';
+import { call, addTokenToMetaMask } from '@/helpers/helpers';
 
 export default {
   name: 'HomeView',
   components: {
+    FundCard,
     Question,
   },
   data() {
-    return {};
+    return {
+      loading: true,
+      progress: 0,
+      funds: [],
+    };
   },
   computed: {
     hasMetamask,
+
+    fundsToShow() {
+      return this.filterFunds(this.funds.slice());
+    },
   },
   methods: {
     addFundTokenToMetaMask() {
       addTokenToMetaMask();
     },
+
+    async searchFunds() {
+      this.loading = true;
+      this.progress = 0;
+
+      const fundsAddress = await call('FundFactory', 'getDeployedFunds');
+      const totalFunds = fundsAddress.length;
+      const funds = Array(totalFunds);
+
+      let callsResolved = 0;
+      await Promise.all(
+        Array(totalFunds)
+          .fill()
+          .map((element, index) => {
+            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, (res) => {
+              funds[index] = res;
+
+              callsResolved++;
+              this.progress = Math.round((callsResolved / totalFunds) * 100);
+            });
+          }),
+      );
+
+      this.funds = funds;
+      this.progress = 100;
+      this.loading = false;
+    },
+
+    filterFunds(fundsToFilter) {
+      return fundsToFilter.sort((a, b) => {
+        if (a.createdAt < b.createdAt) return 1;
+        if (a.createdAt > b.createdAt) return -1;
+        return 0;
+      }).slice(0, 10);
+    }
+  },
+  async created() {
+    this.searchFunds();
   },
 };
 </script>
@@ -482,6 +540,44 @@ export default {
         }
       }
     }
+  }
+}
+
+.latest-funds-content {
+  padding: 3rem 1rem;
+
+  .title {
+    font-size: 1.9rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .funds {
+    padding-bottom: 0.6rem;
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 1rem;
+
+    .fund {
+      width: 25rem;
+      max-width: 85%;
+      flex-shrink: 0;
+    }
+  }
+
+  .funds::-webkit-scrollbar {
+    height: 12px;
+    border-radius: 10px;
+    background-color: rgb(175, 175, 175);
+  }
+
+  .funds::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgb(74, 74, 74);
   }
 }
 

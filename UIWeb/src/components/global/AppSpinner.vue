@@ -10,7 +10,7 @@
 export default {
   name: 'AppSpinnerComponent',
   props: {
-    msg: { type: String, default: 'Loading' },
+    msg: { type: String, default: 'Cargando' },
     size: { type: String, default: 'normal' },
   },
 };
@@ -20,6 +20,11 @@ export default {
 .big {
   height: 4rem;
   width: 4rem;
+}
+
+.medium {
+  height: 2.6rem;
+  width: 2.6rem;
 }
 
 .small {
