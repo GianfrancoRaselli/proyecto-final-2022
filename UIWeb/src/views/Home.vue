@@ -501,8 +501,9 @@ export default {
   gap: 1rem;
 
   .title {
-    font-family: 'Dancing Script', cursive;
     font-size: 3.1rem;
+    font-weight: bold;
+    font-family: 'Dancing Script', cursive;
     text-align: center;
     animation: fadeInDownBig 0.6s;
   }
@@ -535,8 +536,9 @@ export default {
 
       .header {
         .subtitle {
-          font-size: 1.6em;
+          font-size: 2.2em;
           font-weight: bold;
+          font-family: 'Dancing Script', cursive;
         }
       }
     }
@@ -547,8 +549,9 @@ export default {
   padding: 3rem 1rem;
 
   .title {
-    font-size: 1.9rem;
+    font-size: 2.5rem;
     font-weight: bold;
+    font-family: 'Dancing Script', cursive;
     text-align: center;
     margin-bottom: 2.5rem;
   }
@@ -868,9 +871,9 @@ export default {
   gap: 1rem;
 
   .title {
-    font-family: 'Dancing Script', cursive;
     font-size: 2.5rem;
     font-weight: bold;
+    font-family: 'Dancing Script', cursive;
   }
 
   img {
