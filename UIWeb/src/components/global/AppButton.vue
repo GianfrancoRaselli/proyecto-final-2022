@@ -1,7 +1,7 @@
 <template>
   <button class="btn" :class="classes">
-    <fa-icon :icon="icon" class="icon mr-1" size="1x" v-if="icon"></fa-icon
-    >{{ text }}
+    <fa-icon :icon="icon" class="icon mr-1" size="1x" v-if="icon" />
+    <span v-text="text"></span>
   </button>
 </template>
 
@@ -17,9 +17,22 @@ export default {
 </script>
 
 <style scoped>
+.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
 .btn-sm {
   padding: 4px;
   font-size: small;
+}
+
+.btn-md {
+  padding: 8px;
+  font-size: 14px;
 }
 
 .btn-radius {

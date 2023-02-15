@@ -21,6 +21,18 @@
               <span class="link-text">FundToken</span>
             </a>
           </li>
+          <li class="nav-item">
+            <router-link class="item-link" :to="{ name: 'AboutUs' }" exact>
+              <fa-icon icon="building" class="link-icon" size="2x"></fa-icon>
+              <span class="link-text">Nosotros</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="item-link" :to="{ name: 'FrequentQuestions' }" exact>
+              <fa-icon icon="question" class="link-icon" size="2x"></fa-icon>
+              <span class="link-text">Preguntas</span>
+            </router-link>
+          </li>
         </ul>
       </div>
     </nav>
@@ -46,7 +58,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 nav {
   color: white;
   height: 100%;
@@ -65,21 +77,27 @@ nav {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-}
-
-.item-link {
-  cursor: pointer;
-  color: white;
-  text-decoration: none;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-}
 
-.link-text {
-  font-size: 0.8rem;
+  .nav-item {
+    width: 20%;
+
+    .item-link {
+      cursor: pointer;
+      color: white;
+      text-decoration: none;
+      height: 100%;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+
+      .link-text {
+        font-size: 0.8rem;
+      }
+    }
+  }
 }
 </style>

@@ -23,6 +23,16 @@ const routes = [
     component: () => import('@/views/Fund'),
   },
   {
+    name: 'AboutUs',
+    path: '/nosotros',
+    component: () => import('@/views/AboutUs'),
+  },
+  {
+    name: 'FrequentQuestions',
+    path: '/preguntasFrecuentes',
+    component: () => import('@/views/FrequentQuestions'),
+  },
+  {
     name: 'NotFound',
     path: '/:pathMatch(.*)*',
     component: () => import('@/views/NotFound'),
@@ -33,10 +43,14 @@ const router = createRouter({
   history: createWebHistory(),
   linkActiveClass: 'active',
   routes,
-  scrollBehavior(to) {
-    const scroll = {};
-    if (to.meta.toTop) scroll.top = 0;
-    if (to.meta.smoothScroll) scroll.behavior = 'smooth';
+  scrollBehavior(/*to*/) {
+    const scroll = {
+      top: 0,
+    };
+    // if (to.hash) {
+    //   scroll.el = to.hash;
+    //   scroll.behavior = 'smooth';
+    // }
     return scroll;
   },
 });
