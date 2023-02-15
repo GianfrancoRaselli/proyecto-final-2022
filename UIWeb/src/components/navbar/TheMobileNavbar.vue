@@ -75,6 +75,8 @@ nav {
 .navbar-nav {
   height: 100%;
   width: 100%;
+  padding: 0 5px;
+
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -82,7 +84,7 @@ nav {
   gap: 1rem;
 
   .nav-item {
-    width: 18%;
+    width: 16%;
     padding: 2px 0;
     border-radius: 6px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 8px, rgba(0, 0, 0, 0.24) 0px 0px 4px;
