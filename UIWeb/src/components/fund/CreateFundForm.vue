@@ -438,7 +438,7 @@ export default {
   padding: 18px 18px;
   border: 0.05px solid rgba(167, 167, 167, 0.296);
   border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 4px, rgba(0, 0, 0, 0.24) 0px 0px 2px;
 }
 
 @media (max-width: 400px) {

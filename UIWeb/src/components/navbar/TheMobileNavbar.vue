@@ -79,9 +79,13 @@ nav {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
 
   .nav-item {
-    width: 20%;
+    width: 18%;
+    padding: 2px 0;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 4px, rgba(0, 0, 0, 0.24) 0px 0px 2px;
 
     .item-link {
       cursor: pointer;
