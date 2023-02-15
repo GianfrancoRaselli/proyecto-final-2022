@@ -42,15 +42,31 @@ const connectToMetamask = async () => {
       store.commit('setProvider', provider);
       setWeb3AndContracts(store.state.connection.provider);
 
-      store.commit('setAddress', (await store.state.connection.provider.request({ method: 'eth_requestAccounts' }))[0]);
+      store.commit(
+        'setAddress',
+        (
+          await store.state.connection.provider.request({
+            method: 'eth_requestAccounts',
+          })
+        )[0],
+      );
+      store.state.connection.provider.removeListener('accountsChanged', handleAccountsChanged);
       store.state.connection.provider.on('accountsChanged', handleAccountsChanged);
 
       store.commit('unsubscribeFromTransfersSubscription');
       searchFundTokensBalance();
 
-      store.commit('setChainId', await store.state.connection.provider.request({ method: 'eth_chainId' }));
+      store.commit(
+        'setChainId',
+        await store.state.connection.provider.request({
+          method: 'eth_chainId',
+        }),
+      );
+      store.state.connection.provider.removeListener('chainChanged', handleChainChanged);
       store.state.connection.provider.on('chainChanged', handleChainChanged);
       checkValidChain();
+
+      if (!store.state.connection.signature) signMessage();
     }
   } else {
     Swal.fire({
@@ -81,7 +97,9 @@ const searchFundTokensBalance = () => {
       return event(
         'FundToken',
         'Transfer',
-        { filter: JSON.parse('{"' + filterBy + '":"' + store.state.connection.address + '"}') },
+        {
+          filter: JSON.parse('{"' + filterBy + '":"' + store.state.connection.address + '"}'),
+        },
         async () => {
           store.commit('setFundTokensBalance', await call('FundToken', 'balanceOf', [store.state.connection.address]));
         },
@@ -93,7 +111,7 @@ const searchFundTokensBalance = () => {
   });
 };
 
-const handleAccountsChanged = async (accounts) => {
+const handleAccountsChanged = (accounts) => {
   if (!accounts[0]) {
     store.state.connection.provider.removeListener('accountsChanged', handleAccountsChanged);
     store.state.connection.provider.removeListener('chainChanged', handleChainChanged);
@@ -102,17 +120,21 @@ const handleAccountsChanged = async (accounts) => {
   store.commit('unsubscribeFromTransfersSubscription');
   store.commit('clearRecentTransactions');
   store.commit('setAddress', accounts[0]);
+  store.commit('setSignature', null);
 
-  if (store.state.connection.address) searchFundTokensBalance();
+  if (store.state.connection.address) {
+    searchFundTokensBalance();
+    if (!store.state.connection.disconnected) signMessage();
+  }
 };
 
 const handleChainChanged = (chainId) => {
   store.commit('setChainId', chainId);
 };
 
-const checkValidChain = async () => {
+const checkValidChain = () => {
   if (!store.getters.isConnectedToTheValidChain) {
-    await store.state.connection.provider.request({
+    store.state.connection.provider.request({
       method: 'wallet_switchEthereumChain',
       params: [
         {
@@ -123,4 +145,15 @@ const checkValidChain = async () => {
   }
 };
 
-export { hasMetamask, connectToMetamask, handleAccountsChanged, handleChainChanged, checkValidChain };
+const signMessage = () => {
+  store.state.connection.web3.eth.personal.sign(
+    'Firme este mensaje para probar que tiene acceso a esta billetera para iniciar sesión.\n\nEsto no le costará ningún Ether.',
+    store.state.connection.address,
+    (err, signature) => {
+      if (err) store.commit('setSignature', null);
+      else store.commit('setSignature', signature);
+    },
+  );
+};
+
+export { hasMetamask, connectToMetamask, checkValidChain };

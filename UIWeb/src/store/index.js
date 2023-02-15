@@ -1,9 +1,8 @@
-import { createStore } from 'vuex'
-import createPersistedState from "vuex-persistedstate";
+import { createStore } from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 
-import config from './modules/config'
-import connection from './modules/connection'
-
+import config from './modules/config';
+import connection from './modules/connection';
 
 export default createStore({
   state() {
@@ -28,6 +27,7 @@ export default createStore({
         'connection.address',
         'connection.chainId',
         'connection.disconnected',
+        'connection.signature',
         'connection.recentTransactionsCount',
         'connection.recentTransactions',
       ],

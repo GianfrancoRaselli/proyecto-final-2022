@@ -10,6 +10,7 @@ export default {
       },
       address: '',
       disconnected: false,
+      signature: null,
       provider: null,
       infuraProvider: 'https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a',
       web3: null,
@@ -64,6 +65,10 @@ export default {
 
     setDisconnected(state, disconnected) {
       state.disconnected = disconnected;
+    },
+
+    setSignature(state, signature) {
+      state.signature = signature;
     },
 
     setProvider(state, provider) {
