@@ -20,26 +20,26 @@ const entitySchema = new Schema(
       type: String,
       required: true,
     },
-    phone: {
-      type: String,
-      trim: true,
-      maxLength: 50,
-      default: undefined,
-    },
     email: {
       type: String,
       trim: true,
       maxLength: 80,
       default: undefined,
     },
-    url: {
+    phone: {
       type: String,
       trim: true,
-      maxLength: 80,
+      maxLength: 50,
       default: undefined,
     },
     photo: {
       type: String,
+      default: undefined,
+    },
+    url: {
+      type: String,
+      trim: true,
+      maxLength: 80,
       default: undefined,
     },
   },

@@ -147,7 +147,7 @@ const checkValidChain = () => {
 
 const signMessage = () => {
   store.state.connection.web3.eth.personal.sign(
-    'Firme este mensaje para probar que tiene acceso a esta billetera para iniciar sesión.\n\nEsto no le costará ningún Ether.',
+    'Firme este mensaje para validar que tiene acceso a esta billetera para iniciar sesión.\n\nEsto no le costará ningún Ether.',
     store.state.connection.address,
     (err, signature) => {
       if (err) store.commit('setSignature', null);
