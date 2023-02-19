@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -21,7 +21,7 @@ app.use("/", require("./routes"));
 
 // starting the server
 app.listen(process.env.PORT || port, () => {
-  console.log("Server on port: " + process.env.PORT);
+  console.log("Server on port: " + (process.env.PORT || port));
 
   //connect to db
   mongoose

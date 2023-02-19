@@ -1,31 +1,72 @@
 const { Entity } = require("../models/index");
+const multer = require("multer");
 
 const create = async (req, res) => {
-  const { fullname, type, email, phone, photo, url } = req.body;
-  const entity = new Entity({
-    address: req.entityAddress,
-    fullname,
-    type,
-    email,
-    phone,
-    photo,
-    url,
-  });
-  const savedEntity = await entity.save();
-  return res.status(200).json(savedEntity);
+  if (await Entity.findOne({ address: req.entityAddress })) {
+    const { fullname, type, email, phone, photoExtension, url } = req.body;
+
+    // new entity
+    const entity = new Entity({
+      address: req.entityAddress,
+      fullname,
+      type,
+      email,
+      phone,
+      photo: photoExtension ? req.entityAddress + "." + photoExtension : null,
+      url,
+    });
+
+    // save the entity in the DB
+    const savedEntity = await entity.save();
+
+    // save the photo in disk
+    if (photoExtension)
+      multer({
+        storage: multer.diskStorage({
+          destination: "./uploads",
+          filename(_, _, cb) {
+            return cb(null, req.entityAddress + "." + photoExtension);
+          },
+        }),
+      }).single("photo")();
+
+    return res.status(200).json(savedEntity);
+  } else {
+    return res.send(400).send({ message: "La entidad ya ha sido creada" });
+  }
 };
 
 const update = async (req, res) => {
-  const { fullname, type, email, phone, photo, url } = req.body;
   let entityToUpdate = await Entity.findOne({ address: req.entityAddress });
-  entityToUpdate.fullname = fullname;
-  entityToUpdate.type = type;
-  entityToUpdate.email = email;
-  entityToUpdate.phone = phone;
-  entityToUpdate.photo = photo;
-  entityToUpdate.url = url;
-  const savedEntity = await entityToUpdate.save();
-  return res.status(200).json(savedEntity);
+  if (entityToUpdate) {
+    const { fullname, type, email, phone, photoExtension, url } = req.body;
+
+    // update fields
+    entityToUpdate.fullname = fullname;
+    entityToUpdate.type = type;
+    entityToUpdate.email = email;
+    entityToUpdate.phone = phone;
+    if (photoExtension) entityToUpdate.photo = req.entityAddress + "." + photoExtension;
+    entityToUpdate.url = url;
+
+    // save the entity in the DB
+    const savedEntity = await entityToUpdate.save();
+
+    // save the photo in disk
+    if (photoExtension)
+      multer({
+        storage: multer.diskStorage({
+          destination: "./uploads",
+          filename(_, _, cb) {
+            return cb(null, req.entityAddress + "." + photoExtension);
+          },
+        }),
+      }).single("photo")();
+
+    return res.status(200).json(savedEntity);
+  } else {
+    return res.send(400).send({ message: "La entidad aún no ha sido creada" });
+  }
 };
 
 const get = async (req, res) => {
