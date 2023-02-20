@@ -7,6 +7,6 @@ router.get("/", (req, res) => {
 });
 router.use("/entity", require("./entityRoutes"));
 router.use("/fund", require("./fundRoutes"));
-router.use("/images", express.static("./uploads"));
+router.use("/images", express.static("../uploads"));
 
 module.exports = router;

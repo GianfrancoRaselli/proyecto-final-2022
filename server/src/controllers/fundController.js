@@ -21,7 +21,7 @@ const create = async (req, res) => {
       multer({
         storage: multer.diskStorage({
           destination: "./uploads",
-          filename(_, _, cb) {
+          filename(_, file, cb) {
             return cb(null, req.fundAddress + "." + photoExtension);
           },
         }),
@@ -50,7 +50,7 @@ const update = async (req, res) => {
       multer({
         storage: multer.diskStorage({
           destination: "./uploads",
-          filename(_, _, cb) {
+          filename(_, file, cb) {
             return cb(null, req.fundAddress + "." + photoExtension);
           },
         }),
