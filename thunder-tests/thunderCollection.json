@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
+    "colName": "server routes",
+    "created": "2023-02-20T15:39:53.763Z",
+    "sortNum": 10000,
+    "folders": [],
+    "settings": {
+      "headers": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": "{{SIGNATURE}}"
+      },
+      "tests": [],
+      "options": {
+        "baseUrl": "http://localhost:4000/"
+      }
+    }
+  }
+]

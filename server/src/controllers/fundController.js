@@ -2,15 +2,14 @@ const { Fund } = require("../models/index");
 const multer = require("multer");
 
 const create = async (req, res) => {
-  if (await Fund.findOne({ address: req.fundAddress })) {
-    const { description, photoExtension } = req.body;
-
+  const { address, description, photoExtension } = req.body;
+  if (await Fund.findOne({ address: address })) {
     // new fund
     const fund = new Fund({
-      address: req.fundAddress,
+      address: address,
       creator: req.entityAddress,
       description,
-      photo: photoExtension ? req.fundAddress + "." + photoExtension : null,
+      photo: photoExtension ? address + "." + photoExtension : null,
     });
 
     // save the fund in the DB
@@ -22,7 +21,7 @@ const create = async (req, res) => {
         storage: multer.diskStorage({
           destination: "./uploads",
           filename(_, file, cb) {
-            return cb(null, req.fundAddress + "." + photoExtension);
+            return cb(null, address + "." + photoExtension);
           },
         }),
       }).single("photo")();
@@ -34,13 +33,13 @@ const create = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  let fundToUpdate = await Fund.findOne({ address: req.fundAddress });
+  let fundToUpdate = await Fund.findOne({ address: req.params.address });
   if (fundToUpdate) {
     const { description, photoExtension } = req.body;
 
     // update fields
     fundToUpdate.description = description;
-    if (photoExtension) fundToUpdate.photo = req.fundAddress + "." + photoExtension;
+    if (photoExtension) fundToUpdate.photo = req.params.address + "." + photoExtension;
 
     // save the fund in the DB
     const savedFund = await fundToUpdate.save();
@@ -51,7 +50,7 @@ const update = async (req, res) => {
         storage: multer.diskStorage({
           destination: "./uploads",
           filename(_, file, cb) {
-            return cb(null, req.fundAddress + "." + photoExtension);
+            return cb(null, req.params.address + "." + photoExtension);
           },
         }),
       }).single("photo")();

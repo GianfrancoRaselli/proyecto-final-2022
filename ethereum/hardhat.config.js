@@ -38,16 +38,30 @@ module.exports = {
       accounts: [process.env.PRIVATE_KEY],
     },
   },
-  abiExporter: {
-    path: '../UIWeb/src/assets/abis',
-    runOnCompile: true,
-    clear: true,
-    flat: true,
-    only: ['FundFactory', 'FundToken', 'Fund'],
-    spacing: 2,
-    pretty: false,
-    format: 'json', // Alternative to pretty
-  },
+  abiExporter: [
+    // server
+    {
+      path: '../server/abis',
+      runOnCompile: true,
+      clear: true,
+      flat: true,
+      only: ['Fund.sol'],
+      spacing: 2,
+      pretty: false,
+      format: 'json', // Alternative to pretty
+    },
+    // UIWeb
+    {
+      path: '../UIWeb/src/assets/abis',
+      runOnCompile: true,
+      clear: true,
+      flat: true,
+      only: ['FundFactory.sol', 'FundToken.sol', 'Fund.sol'],
+      spacing: 2,
+      pretty: false,
+      format: 'json', // Alternative to pretty
+    },
+  ],
   etherscan: {
     apiKey: {
       goerli: process.env.ETHERSCAN_KEY,

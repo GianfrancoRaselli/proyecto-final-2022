@@ -8,11 +8,8 @@ const authenticate = async (req, res, next) => {
     const signature = req.headers.authorization.split(" ")[1];
     if (signature) {
       try {
-        const entityAddress = await new Web3().eth.accounts.recover(message, signature);
-        if (req.body.entityAddress.toUpperCase() === entityAddress.toUpperCase()) {
-          req.entityAddress = entityAddress;
-          return next();
-        }
+        req.entityAddress = await new Web3().eth.accounts.recover(message, signature);
+        return next();
       } catch (e) {
         return res.status(401).send({
           message: "unauthenticated",

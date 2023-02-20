@@ -1,22 +1,13 @@
-const Web3 = require("web3");
 const { Fund } = require("../models/index");
+const Web3 = require("web3");
+const fundABI = require("../../abis/Fund");
 
-const message = "Firme este mensaje para validar la dirección del fondo.\n\nEsto no le costará ningún Ether.";
-
-const updateEntity = async (req, res, next) => {
-  if (req.entityAddress.toUpperCase() === req.params.address.toUpperCase()) {
-    return next();
-  }
-  return res.status(401).send({
-    message: "unauthorized",
-  });
-};
-
-const fundAddress = async (req, res, next) => {
+const createFund = async (req, res, next) => {
   try {
-    const fundAddress = await new Web3().eth.accounts.recover(message, req.body.fundSignature);
-    if (req.body.fundAddress.toUpperCase() === fundAddress.toUpperCase()) {
-      req.fundAddress = fundAddress;
+    const web3 = new Web3("https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a");
+    const fund = new web3.eth.Contract(fundABI, req.body.address);
+    const creatorAddress = await fund.methods.creator.call();
+    if (req.entityAddress.toUpperCase() === creatorAddress.toUpperCase()) {
       return next();
     }
   } catch (e) {
@@ -45,4 +36,4 @@ const updateFund = async (req, res, next) => {
   }
 };
 
-module.exports = { updateEntity, fundAddress, updateFund };
+module.exports = { createFund, updateFund };

@@ -7,5 +7,6 @@
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "thunder-client.saveToWorkspace": true
 }
