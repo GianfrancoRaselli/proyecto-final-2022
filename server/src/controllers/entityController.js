@@ -2,7 +2,7 @@ const { Entity } = require("../models/index");
 const multer = require("multer");
 
 const create = async (req, res) => {
-  if (await Entity.findOne({ address: req.entityAddress })) {
+  if (!(await Entity.findOne({ address: req.entityAddress }))) {
     const { fullname, type, email, phone, photoExtension, url } = req.body;
 
     // new entity
@@ -12,7 +12,7 @@ const create = async (req, res) => {
       type,
       email,
       phone,
-      photo: photoExtension ? req.entityAddress + "." + photoExtension : null,
+      photo: photoExtension ? req.entityAddress + "." + photoExtension : undefined,
       url,
     });
 
@@ -32,7 +32,7 @@ const create = async (req, res) => {
 
     return res.status(200).json(savedEntity);
   } else {
-    return res.send(400).send({ message: "La entidad ya ha sido creada" });
+    return res.status(400).send({ message: "La entidad ya ha sido creada" });
   }
 };
 
@@ -65,7 +65,7 @@ const update = async (req, res) => {
 
     return res.status(200).json(savedEntity);
   } else {
-    return res.send(400).send({ message: "La entidad aún no ha sido creada" });
+    return res.status(400).send({ message: "La entidad aún no ha sido creada" });
   }
 };
 

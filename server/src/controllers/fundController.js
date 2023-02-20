@@ -9,7 +9,7 @@ const create = async (req, res) => {
       address: address,
       creator: req.entityAddress,
       description,
-      photo: photoExtension ? address + "." + photoExtension : null,
+      photo: photoExtension ? address + "." + photoExtension : undefined,
     });
 
     // save the fund in the DB
@@ -28,7 +28,7 @@ const create = async (req, res) => {
 
     return res.status(200).json(savedFund);
   } else {
-    return res.send(400).send({ message: "El fondo ya ha sido creada" });
+    return res.status(400).send({ message: "El fondo ya ha sido creada" });
   }
 };
 
@@ -57,7 +57,7 @@ const update = async (req, res) => {
 
     return res.status(200).json(savedFund);
   } else {
-    return res.send(400).send({ message: "El fondo aún no ha sido creada" });
+    return res.status(400).send({ message: "El fondo aún no ha sido creada" });
   }
 };
 
