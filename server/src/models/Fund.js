@@ -21,7 +21,7 @@ const fundSchema = new Schema(
       required: true,
       maxLength: 1000,
     },
-    photo: {
+    image: {
       type: String,
       default: undefined,
     },

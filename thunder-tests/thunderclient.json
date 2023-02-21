@@ -15,27 +15,18 @@
     "_id": "b47cb540-2097-4784-bd5d-f3b34ddc9792",
     "colId": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
     "containerId": "",
-    "name": "createEntityWithoutPhoto",
+    "name": "createEntity",
     "url": "entity",
     "method": "POST",
     "sortNum": 20000,
     "created": "2023-02-20T15:43:09.792Z",
-    "modified": "2023-02-21T18:58:05.197Z",
+    "modified": "2023-02-21T20:45:09.355Z",
     "headers": [],
     "params": [],
     "body": {
-      "type": "formdata",
-      "raw": "",
-      "form": [
-        {
-          "name": "fullname",
-          "value": "Gianfranco Raselli"
-        },
-        {
-          "name": "type",
-          "value": "persona"
-        }
-      ]
+      "type": "json",
+      "raw": "{\n  \"fullname\": \"Gianfranco Raselli\",\n  \"type\": \"Persona\"\n}",
+      "form": []
     },
     "tests": []
   }

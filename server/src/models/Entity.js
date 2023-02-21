@@ -32,7 +32,7 @@ const entitySchema = new Schema(
       maxLength: 50,
       default: undefined,
     },
-    photo: {
+    image: {
       type: String,
       default: undefined,
     },
