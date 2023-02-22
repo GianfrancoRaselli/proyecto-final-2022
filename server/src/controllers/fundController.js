@@ -4,7 +4,7 @@ const multer = require("multer");
 const create = async (req, res) => {
   const { address, description } = req.body;
 
-  if (await Fund.findOne({ address: address })) {
+  if (!(await Fund.findOne({ address: address }))) {
     // new fund
     const fund = new Fund({
       address: address,

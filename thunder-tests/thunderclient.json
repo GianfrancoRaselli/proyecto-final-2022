@@ -87,5 +87,82 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "12deb953-3877-4b23-ba00-2161ba300ca3",
+    "colId": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
+    "containerId": "",
+    "name": "createFund",
+    "url": "fund",
+    "method": "POST",
+    "sortNum": 60000,
+    "created": "2023-02-22T14:05:53.559Z",
+    "modified": "2023-02-22T14:52:05.927Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"address\": \"0x352e945Fd5E808131240F17722F05A5908E252a5\",\n  \"description\": \"Una description muy muuuy larga\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "07ebb612-b612-405f-825e-8665b449e49a",
+    "colId": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
+    "containerId": "",
+    "name": "updateFund",
+    "url": "fund/0x352e945Fd5E808131240F17722F05A5908E252a5",
+    "method": "PUT",
+    "sortNum": 70000,
+    "created": "2023-02-22T14:06:05.954Z",
+    "modified": "2023-02-22T14:57:01.468Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"description\": \"Una description muy muuuy larga\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "8c05746f-5217-44ab-8993-3e2b2b3af5b9",
+    "colId": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
+    "containerId": "",
+    "name": "uploadFundImage",
+    "url": "fund/uploadImage/0x352e945Fd5E808131240F17722F05A5908E252a5",
+    "method": "PUT",
+    "sortNum": 80000,
+    "created": "2023-02-22T14:06:26.349Z",
+    "modified": "2023-02-22T15:00:09.214Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [],
+      "files": [
+        {
+          "name": "image",
+          "value": "..\\..\\photo.jpg"
+        }
+      ]
+    },
+    "tests": []
+  },
+  {
+    "_id": "0a0e39f1-ed55-4c4c-a4eb-e2d58f1891cd",
+    "colId": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
+    "containerId": "",
+    "name": "getFund",
+    "url": "fund/0x352e945Fd5E808131240F17722F05A5908E252a5",
+    "method": "GET",
+    "sortNum": 90000,
+    "created": "2023-02-22T14:06:33.827Z",
+    "modified": "2023-02-22T15:00:56.043Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]
