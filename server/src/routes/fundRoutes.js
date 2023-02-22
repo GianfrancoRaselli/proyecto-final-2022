@@ -8,7 +8,7 @@ const { create, update, uploadImage, get } = require("../controllers/fundControl
 
 router.post("/", authenticate, createFund, create);
 router.put("/:address", authenticate, updateFund, update);
-router.put("/:address", authenticate, updateFund, uploadImage);
+router.put("/uploadImage/:address", authenticate, updateFund, uploadImage);
 router.get("/:address", get);
 
 module.exports = router;

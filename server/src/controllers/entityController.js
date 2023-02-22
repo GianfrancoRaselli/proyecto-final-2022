@@ -58,7 +58,7 @@ const uploadImage = async (req, res) => {
           return cb(null, req.entityAddress + ".jpeg");
         },
       }),
-    }).single("photo")(req, res, async (err) => {
+    }).single("image")(req, res, async (err) => {
       if (err) {
         return res.send(400).send({ message: "Error al guardar la imagen" });
       }

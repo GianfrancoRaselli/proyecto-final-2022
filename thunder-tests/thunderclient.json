@@ -29,5 +29,63 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "32ca8cc7-cdbb-4b13-9558-0a5599702c10",
+    "colId": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
+    "containerId": "",
+    "name": "updateEntity",
+    "url": "entity",
+    "method": "PUT",
+    "sortNum": 30000,
+    "created": "2023-02-22T03:15:42.168Z",
+    "modified": "2023-02-22T03:17:12.122Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"fullname\": \"Gianfranco Raselli\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "da813f29-9194-4a9e-89d2-62bf29f8ea85",
+    "colId": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
+    "containerId": "",
+    "name": "uploadEntityImage",
+    "url": "entity/uploadImage",
+    "method": "PUT",
+    "sortNum": 40000,
+    "created": "2023-02-22T03:18:05.761Z",
+    "modified": "2023-02-22T03:19:50.866Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [],
+      "files": [
+        {
+          "name": "image",
+          "value": "..\\..\\profile.jpg"
+        }
+      ]
+    },
+    "tests": []
+  },
+  {
+    "_id": "b0d4af4e-346c-46b4-b5e7-e68ceb4fd346",
+    "colId": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
+    "containerId": "",
+    "name": "getEntity",
+    "url": "entity/0x83bCaE28bdc13DA35617A1d648729CD373111dA9",
+    "method": "GET",
+    "sortNum": 50000,
+    "created": "2023-02-22T03:21:58.520Z",
+    "modified": "2023-02-22T03:24:51.631Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

@@ -7,7 +7,7 @@ const { create, update, uploadImage, get } = require("../controllers/entityContr
 
 router.post("/", authenticate, create);
 router.put("/", authenticate, update);
-router.put("/upload", authenticate, uploadImage);
+router.put("/uploadImage", authenticate, uploadImage);
 router.get("/:address", get);
 
 module.exports = router;
