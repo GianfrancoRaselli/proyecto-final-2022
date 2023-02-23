@@ -3,16 +3,16 @@ export default {
     return {
       chainId: '',
       validChain: {
-        id: '0x5',
-        name: 'Goerli Testnet',
-        coin: 'GoerliETH',
-        explorer: 'https://goerli.etherscan.io',
+        id: '0x539', // 0x5
+        name: 'Ganache', // Goerli Testnet
+        coin: 'ETH', // GoerliETH
+        explorer: '', // https://goerli.etherscan.io
       },
       address: '',
       disconnected: false,
       signature: null,
       provider: null,
-      infuraProvider: 'https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a',
+      infuraProvider: 'http://localhost:7545', // https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a
       web3: null,
       fundFactory: null,
       infuraWeb3: null,
@@ -47,7 +47,7 @@ export default {
     validChainExplorer(state) {
       return state.validChain.explorer;
     },
-    
+
     address(state) {
       if (state.disconnected) return '';
       return state.address;

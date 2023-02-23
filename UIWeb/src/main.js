@@ -4,6 +4,7 @@ import App from './App.vue';
 import router from '@/router';
 import store from '@/store';
 import FontAwesome from '@/plugins/FontAwesome';
+import '@/axios';
 
 import AppNotifications from '@/components/global/AppNotifications';
 import AppDate from '@/components/global/AppDate';

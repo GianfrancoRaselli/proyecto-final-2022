@@ -15,7 +15,8 @@
       </div>
       <div class="card-body">
         <div class="body-header">
-          <img class="img" src="../../assets/imgs/fund.png" />
+          <img class="img" :src="'http://localhost:4000/images/' + fund.image" v-if="fund.image" />
+          <img class="img" src="@/assets/imgs/fund.png" v-else />
           <div class="description" v-if="fund.description">
             <span v-text="fund.description" />
           </div>
@@ -90,10 +91,13 @@
           </button>
         </div>
       </div>
-      <div class="card-footer text-muted text-center"><AppDate :date="createdAt" /></div>
+      <div class="card-footer text-muted text-center">
+        <AppDate :date="createdAt" />
+      </div>
     </div>
 
     <!-- modals -->
+    <CreateFundModal :fund="fund" />
     <ManagersModal :fund="fund" :isManager="isManager" />
     <ContributeModal :fund="fund" />
     <ContributorsModal :fund="fund" />
@@ -103,11 +107,14 @@
 </template>
 
 <script>
+import $ from 'jquery';
 import { mapGetters } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event } from '@/helpers/helpers';
+import axios from 'axios';
 
 // modals
+import CreateFundModal from '@/components/fund/CreateFundModal';
 import ManagersModal from '@/components/fund/modals/manager/ManagersModal.vue';
 import ContributeModal from '@/components/fund/modals/ContributeModal.vue';
 import ContributorsModal from '@/components/fund/modals/ContributorsModal.vue';
@@ -117,6 +124,7 @@ import RequestsModal from '@/components/fund/modals/request/RequestsModal.vue';
 export default {
   name: 'FundComponent',
   components: {
+    CreateFundModal,
     ManagersModal,
     ContributeModal,
     ContributorsModal,
@@ -131,6 +139,7 @@ export default {
         balance: '0',
         name: '',
         description: '',
+        image: '',
         creator: '',
         createdAt: 0,
         managers: [],
@@ -211,6 +220,9 @@ export default {
       return new Promise((resolve) => {
         const searchSummary = async () => {
           this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
+          const extraInformation = await axios.get('fund/' + this.$route.params.fundAddress);
+          this.fund.description = extraInformation.data.description;
+          this.fund.image = extraInformation.data.image;
           await getSearchContributorsPromise(this.fund.contributors);
           resolve();
         };
@@ -354,6 +366,11 @@ export default {
         getSearchRequestsPromise();
       },
     );
+  },
+  mounted() {
+    if (this.$route.query.nuevo) {
+      $('#createFundModal').modal('show');
+    }
   },
   unmounted() {
     if (this.newManagerSubscription) this.newManagerSubscription.unsubscribe();

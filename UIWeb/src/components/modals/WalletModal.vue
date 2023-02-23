@@ -10,17 +10,24 @@
         </div>
         <div class="modal-body">
           <div class="first-line">
-            <span class="text-muted" v-if="isConnected">{{ connectedMsg }} <span v-if="isConnectedToTheValidChain">{{
-              toMsg
-            }} {{ validChainName }}</span></span>
+            <span class="text-muted" v-if="isConnected"
+              >{{ connectedMsg }} <span v-if="isConnectedToTheValidChain">{{ toMsg }} {{ validChainName }}</span></span
+            >
             <span class="text-muted" v-if="!isConnected" v-text="disconnectedMsg" />
             <div class="first-line-btns">
-              <AppButton classes="btn-sm btn-warning btn-radius mr-2" :text="changeMsg + ' ' + validChainName"
-                v-if="isConnected && !isConnectedToTheValidChain" @click="changeToTheValidChain" />
-              <AppButton classes="btn-sm btn-danger btn-radius" :text="disconnectMsg" v-if="isConnected"
-                @click="disconnect" />
-              <AppButton classes="btn-sm btn-success btn-radius" :text="connectMetaMaskMsg" v-if="!isConnected"
-                @click="connectToMetamask" />
+              <AppButton
+                classes="btn-sm btn-warning btn-radius mr-2"
+                :text="changeMsg + ' ' + validChainName"
+                v-if="isConnected && !isConnectedToTheValidChain"
+                @click="changeToTheValidChain"
+              />
+              <AppButton classes="btn-sm btn-danger btn-radius" :text="disconnectMsg" v-if="isConnected" @click="disconnect" />
+              <AppButton
+                classes="btn-sm btn-success btn-radius"
+                :text="connectMetaMaskMsg"
+                v-if="!isConnected"
+                @click="connectToMetamask"
+              />
             </div>
           </div>
 
@@ -29,12 +36,15 @@
           </div>
 
           <div class="below-line" v-if="isConnected">
-            <AppButton classes="btn-sm btn-link btn-radius btn-copy mr-2" :text="copyAddressMsg" icon="copy"
-              @click="copyAddress" />
+            <AppButton
+              classes="btn-sm btn-link btn-radius btn-copy mr-2"
+              :text="copyAddressMsg"
+              icon="copy"
+              @click="copyAddress"
+            />
 
             <a :href="validChainExplorer + '/address/' + address" target="_blank">
-              <AppButton classes="btn-sm btn-link btn-radius" :text="viewExplorerMsg"
-                icon="arrow-up-right-from-square" />
+              <AppButton classes="btn-sm btn-link btn-radius" :text="viewExplorerMsg" icon="arrow-up-right-from-square" />
             </a>
           </div>
 
@@ -43,15 +53,13 @@
               <span class="h6 text-bold text-underline">Transacciones recientes</span>
             </div>
             <span v-if="recentTransactionsToShow.length === 0">Sin transacciones</span>
-            <div class="text-center-with-space mt-2" v-for="(transaction, index) in recentTransactionsToShow"
-              :key="index">
+            <div class="text-center-with-space mt-2" v-for="(transaction, index) in recentTransactionsToShow" :key="index">
               <span class="text-center">
                 <span class="float-left mr-2">
                   <div class="spinner-border text-primary" role="status" v-if="transaction.loading">
                     <span class="sr-only"></span>
                   </div>
-                  <fa-icon icon="circle-check" class="circle-check-icon" size="2x"
-                    v-else-if="transaction.success"></fa-icon>
+                  <fa-icon icon="circle-check" class="circle-check-icon" size="2x" v-else-if="transaction.success"></fa-icon>
                   <fa-icon icon="circle-xmark" class="circle-xmark-icon" size="2x" v-else></fa-icon>
                 </span>
                 <span class="text-start" v-text="transaction.message"></span>

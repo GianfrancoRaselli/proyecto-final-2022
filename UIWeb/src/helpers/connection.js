@@ -145,15 +145,16 @@ const checkValidChain = () => {
   }
 };
 
-const signMessage = () => {
-  store.state.connection.web3.eth.personal.sign(
-    'Firme este mensaje para validar que tiene acceso a esta billetera para iniciar sesión.\n\nEsto no le costará ningún Ether.',
-    store.state.connection.address,
-    (err, signature) => {
-      if (err) store.commit('setSignature', null);
-      else store.commit('setSignature', signature);
-    },
-  );
+const signMessage = async () => {
+  try {
+    const signature = await store.state.connection.web3.eth.personal.sign(
+      'Firme este mensaje para validar que tiene acceso a esta billetera para iniciar sesión.\n\nEsto no le costará ningún Ether.',
+      store.state.connection.address,
+    );
+    store.commit('setSignature', signature);
+  } catch (e) {
+    store.commit('setSignature', null);
+  }
 };
 
-export { hasMetamask, connectToMetamask, checkValidChain };
+export { hasMetamask, connectToMetamask, checkValidChain, signMessage };
