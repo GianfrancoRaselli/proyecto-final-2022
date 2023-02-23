@@ -10,7 +10,7 @@ const fundTokenPrice = 100;
 before(async function() {
   FundFactory = await ethers.getContractFactory('FundFactory');
   Fund = await ethers.getContractFactory('Fund');
-  defaultCreateFundArgs = ['Name', 'Description', [(await ethers.getSigners())[0].address]];
+  defaultCreateFundArgs = ['Name', [(await ethers.getSigners())[0].address]];
 });
 
 beforeEach(async function() {
@@ -51,7 +51,6 @@ describe('FundFactory contract', function() {
         .withArgs(
           await fundFactory.deployedFunds(0),
           createFundArgs[0],
-          createFundArgs[1],
           (await ethers.getSigners())[0].address,
           (await ethers.provider.getBlock(createFundTx.blockNumber)).timestamp,
         );
@@ -60,7 +59,6 @@ describe('FundFactory contract', function() {
       .withNamedArgs({
         fundAddress: await fundFactory.deployedFunds(0),
         name: createFundArgs[0],
-        description: createFundArgs[1],
         creator: (await ethers.getSigners())[0].address,
         createdAt: createFundTx.timestamp,
       })

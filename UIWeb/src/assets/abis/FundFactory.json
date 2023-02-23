@@ -45,12 +45,6 @@
         "type": "string"
       },
       {
-        "indexed": false,
-        "internalType": "string",
-        "name": "description",
-        "type": "string"
-      },
-      {
         "indexed": true,
         "internalType": "address",
         "name": "creator",
@@ -129,11 +123,6 @@
       {
         "internalType": "string",
         "name": "_name",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_description",
         "type": "string"
       },
       {

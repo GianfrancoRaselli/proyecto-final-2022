@@ -29,7 +29,7 @@ contract FundFactory is Ownable {
 
   event FundTokensBuyed(address indexed buyer, uint256 fundTokensBuyed);
 
-  event NewFund(address fundAddress, string name, string description, address indexed creator, uint256 createdAt);
+  event NewFund(address fundAddress, string name, address indexed creator, uint256 createdAt);
 
   constructor(uint256 _fundTokenPrice) payable {
     fundToken = new FundToken();
@@ -61,7 +61,6 @@ contract FundFactory is Ownable {
   // Function to create new fund and store it in the factory
   function createFund(
     string memory _name,
-    string memory _description,
     address[] memory _managers,
     bool _managersCanBeAddedOrRemoved,
     bool _managersCanTransferMoneyWithoutARequest,
@@ -84,7 +83,6 @@ contract FundFactory is Ownable {
 
     Fund _newFund = new Fund(
       _name,
-      _description,
       msg.sender,
       _managers,
       _managersCanBeAddedOrRemoved,
@@ -97,7 +95,7 @@ contract FundFactory is Ownable {
     );
     deployedFunds.push(_newFund);
 
-    emit NewFund(address(_newFund), _name, _description, msg.sender, block.timestamp);
+    emit NewFund(address(_newFund), _name, msg.sender, block.timestamp);
   }
 
   function getDeployedFundsCount() public view returns (uint256) {

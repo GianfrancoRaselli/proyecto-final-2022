@@ -10,18 +10,7 @@ async function main() {
       .trim(),
   );
 
-  await fundFactory.createFund(
-    'Name',
-    'Description',
-    [(await ethers.getSigners())[0].address],
-    true,
-    true,
-    true,
-    false,
-    false,
-    5,
-    50,
-  );
+  await fundFactory.createFund('Name', [(await ethers.getSigners())[0].address], true, true, true, false, false, 5, 50);
 }
 
 main()

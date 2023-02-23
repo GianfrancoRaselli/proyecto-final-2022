@@ -30,7 +30,6 @@ contract Fund is ReentrancyGuard {
   // Fund data
 
   string public name;
-  string public description;
   address public immutable creator;
   uint256 public immutable createdAt = block.timestamp;
 
@@ -82,7 +81,6 @@ contract Fund is ReentrancyGuard {
 
   constructor(
     string memory _name,
-    string memory _description,
     address _creator,
     address[] memory _managers,
     bool _managersCanBeAddedOrRemoved,
@@ -94,7 +92,6 @@ contract Fund is ReentrancyGuard {
     uint256 _minimumApprovalsPercentageRequired
   ) {
     name = _name;
-    description = _description;
     creator = _creator;
     for (uint256 i; i < _managers.length; ) {
       managers.push(_managers[i]);
@@ -312,7 +309,6 @@ contract Fund is ReentrancyGuard {
     _address = address(this);
     _balance = balance();
     _name = name;
-    _description = description;
     _creator = creator;
     _createdAt = createdAt;
     _managers = managers;

@@ -7,11 +7,6 @@
         "type": "string"
       },
       {
-        "internalType": "string",
-        "name": "_description",
-        "type": "string"
-      },
-      {
         "internalType": "address",
         "name": "_creator",
         "type": "address"
@@ -353,19 +348,6 @@
         "internalType": "address",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "description",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
       }
     ],
     "stateMutability": "view",
