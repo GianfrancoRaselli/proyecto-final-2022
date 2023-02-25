@@ -8,8 +8,7 @@
           <div class="header">
             <p class="subtitle">Transformando la forma de financiación</p>
             <p class="description">
-              Brindamos seguridad y autocontrol a todos los que buscan una forma totalmente descentralizada de
-              administrar fondos
+              Brindamos seguridad y autocontrol a todos los que buscan una forma totalmente descentralizada de administrar fondos
               de dinero compartidos utilizando los contratos inteligentes de la cadena de bloques de Ethereum.
             </p>
           </div>
@@ -27,7 +26,7 @@
       <AppSpinner class="spinner" size="medium" v-if="loading" />
       <div class="funds" v-else>
         <div class="fund" v-for="(fund, index) in fundsToShow" :key="index" @click="redirect(fund.address)">
-          <FundCard class="fund-card" :fund="fund" />
+          <FundCard :fund="fund" />
         </div>
       </div>
     </div>
@@ -64,14 +63,11 @@
       <div class="text">
         <p class="title">¡Instala MetaMask!</p>
         <p class="description">
-          Por el momento, para poder comenzar a interactuar con la aplicación debes contar con la billetera de MetaMask
-          instalada
+          Por el momento, para poder comenzar a interactuar con la aplicación debes contar con la billetera de MetaMask instalada
           en el navegador.
         </p>
-        <p class="secondary-description">¡Estamos trabajando para incorporar nuevas formas de utilizar la aplicación!
-        </p>
-        <a href="https://metamask.io/download/" target="_blank"><button class="btn btn-primary">Instalar
-            MetaMask</button></a>
+        <p class="secondary-description">¡Estamos trabajando para incorporar nuevas formas de utilizar la aplicación!</p>
+        <a href="https://metamask.io/download/" target="_blank"><button class="btn btn-primary">Instalar MetaMask</button></a>
       </div>
     </div>
 
@@ -80,12 +76,10 @@
       <div class="text">
         <p class="title">FundToken</p>
         <p class="description">
-          Mediante estos tokens, que pueden ser adquiridos en nuestro sitio web, las entidades podrán crear un nuevo
-          fondo
+          Mediante estos tokens, que pueden ser adquiridos en nuestro sitio web, las entidades podrán crear un nuevo fondo
           abonando por realizar dicha operación un (1) FundToken.
         </p>
-        <button class="btn btn-secondary" @click="addFundTokenToMetaMask" v-if="hasMetamask">Agregar FundToken a
-          MetaMask</button>
+        <button class="btn btn-secondary" @click="addFundTokenToMetaMask" v-if="hasMetamask">Agregar FundToken a MetaMask</button>
       </div>
     </div>
   </div>
@@ -96,6 +90,7 @@ import FundCard from '@/components/fund/FundCard';
 
 import { hasMetamask } from '@/helpers/connection';
 import { call, addTokenToMetaMask } from '@/helpers/helpers';
+import axios from 'axios';
 
 export default {
   name: 'HomeView',
@@ -134,8 +129,11 @@ export default {
         Array(totalFunds)
           .fill()
           .map((element, index) => {
-            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, (res) => {
-              funds[index] = res;
+            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, async (fund) => {
+              const { data: extraInformation } = await axios.get('fund/' + fund.address);
+              fund.description = extraInformation?.description;
+              fund.image = extraInformation?.image;
+              funds[index] = fund;
 
               callsResolved++;
               this.progress = Math.round((callsResolved / totalFunds) * 100);
@@ -149,12 +147,18 @@ export default {
     },
 
     filterFunds(fundsToFilter) {
-      return fundsToFilter.sort((a, b) => {
-        if (a.createdAt < b.createdAt) return 1;
-        if (a.createdAt > b.createdAt) return -1;
-        return 0;
-      }).slice(0, 10);
-    }
+      return fundsToFilter
+        .sort((a, b) => {
+          if (a.createdAt < b.createdAt) return 1;
+          if (a.createdAt > b.createdAt) return -1;
+          return 0;
+        })
+        .slice(0, 10);
+    },
+
+    redirect(fundAddress) {
+      this.$router.push({ name: 'Fund', params: { fundAddress } });
+    },
   },
   async created() {
     this.searchFunds();
@@ -177,9 +181,7 @@ export default {
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to bottom left, #38849520, #38849550);
   /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom left,
-      #38849520,
-      #38849550);
+  background: linear-gradient(to bottom left, #38849520, #38849550);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   display: flex;
@@ -251,7 +253,7 @@ export default {
   }
 
   .funds {
-    padding-bottom: 0.6rem;
+    padding-bottom: 1.1rem;
     overflow: auto;
     display: flex;
     flex-direction: row;
@@ -263,6 +265,10 @@ export default {
       width: 25rem;
       max-width: 85%;
       flex-shrink: 0;
+      padding: 0.4rem 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
   }
 
@@ -290,9 +296,7 @@ export default {
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to top left, #2c3e5045, #eae7e781);
   /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top left,
-      #2c3e5045,
-      #eae7e781);
+  background: linear-gradient(to top left, #2c3e5045, #eae7e781);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   display: flex;

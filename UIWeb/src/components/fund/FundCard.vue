@@ -10,8 +10,12 @@
       </div>
     </div>
     <div class="card-body">
-      <p class="card-text" v-text="fund.description" v-if="fund.description" />
-      <p class="card-text"><span class="text-bold">Creador</span>:&nbsp;<AppShowAddress :address="fund.creator" :show="false" /></p>
+      <img class="img" :src="'http://localhost:4000/images/' + fund.image" v-if="fund.image" />
+      <img class="img" src="@/assets/imgs/fund.png" v-else />
+      <div class="info">
+        <p v-text="fund.description" v-if="fund.description" />
+        <p><span class="text-bold">Creador</span>:&nbsp;<AppShowAddress :address="fund.creator" :show="false" /></p>
+      </div>
     </div>
     <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
   </div>
@@ -80,7 +84,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .card {
   height: 98%;
   position: relative;
@@ -114,6 +118,14 @@ export default {
 .card-body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
+  align-items: center;
+  gap: 2rem;
+
+  .img {
+    height: 8rem;
+    width: 8rem;
+    border-radius: 2rem;
+  }
 }
 </style>

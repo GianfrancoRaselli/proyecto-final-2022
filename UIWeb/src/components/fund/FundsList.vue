@@ -188,6 +188,7 @@ import FundCard from '@/components/fund/FundCard';
 import { mapState } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event, areTheSameDates } from '@/helpers/helpers';
+import axios from 'axios';
 
 export default {
   name: 'FundsListComponent',
@@ -284,8 +285,11 @@ export default {
         Array(totalFunds)
           .fill()
           .map((element, index) => {
-            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, (res) => {
-              funds[index] = res;
+            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, async (fund) => {
+              const { data: extraInformation } = await axios.get('fund/' + fund.address);
+              fund.description = extraInformation?.description;
+              fund.image = extraInformation?.image;
+              funds[index] = fund;
 
               callsResolved++;
               this.progress = Math.round((callsResolved / totalFunds) * 100);
@@ -310,8 +314,11 @@ export default {
           Array(totalFunds)
             .fill()
             .map((element, index) => {
-              return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, (res) => {
-                funds[index] = res;
+              return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, async (fund) => {
+                const { data: extraInformation } = await axios.get('fund/' + fund.address);
+                fund.description = extraInformation?.description;
+                fund.image = extraInformation?.image;
+                funds[index] = fund;
               });
             }),
         );

@@ -220,9 +220,9 @@ export default {
       return new Promise((resolve) => {
         const searchSummary = async () => {
           this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
-          const extraInformation = await axios.get('fund/' + this.$route.params.fundAddress);
-          this.fund.description = extraInformation.data.description;
-          this.fund.image = extraInformation.data.image;
+          const { data: extraInformation } = await axios.get('fund/' + this.$route.params.fundAddress);
+          this.fund.description = extraInformation?.description;
+          this.fund.image = extraInformation?.image;
           await getSearchContributorsPromise(this.fund.contributors);
           resolve();
         };
@@ -453,9 +453,9 @@ export default {
 }
 
 .img {
-  height: 200px;
-  width: 200px;
-  border-radius: 85px;
+  height: 20rem;
+  width: 20rem;
+  border-radius: 4rem;
 }
 
 .information-text {
