@@ -44,6 +44,18 @@
                 <div class="modal-body">
                   <div class="order-filter">
                     <div class="filter-title">Ordenar por</div>
+
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="orderByRadios"
+                        id="relevanceRadios"
+                        value="relevancia"
+                        v-model="filters.orderBy"
+                      />
+                      <label class="form-check-label" for="relevanceRadios">Relevancia</label>
+                    </div>
                     <div class="form-check">
                       <input
                         class="form-check-input"
@@ -184,11 +196,12 @@
 </template>
 
 <script>
-import FundCard from '@/components/fund/FundCard';
+import BigNumber from 'bignumber.js';
 import { mapState } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event, areTheSameDates } from '@/helpers/helpers';
 import axios from 'axios';
+import FundCard from '@/components/fund/FundCard';
 
 export default {
   name: 'FundsListComponent',
@@ -203,7 +216,7 @@ export default {
       searchingSubscription: null,
       search: '',
       filters: {
-        orderBy: 'últimosCreados',
+        orderBy: 'relevancia',
         date: null,
         fundsTypes: {
           allFunds: true,
@@ -383,13 +396,19 @@ export default {
         fundsToFilter = fundsToFilter.filter((fund) => compareAddresses(fund.creator, this.address));
 
       // order
+      if (this.filters.orderBy === 'relevancia')
+        fundsToFilter = fundsToFilter.sort((a, b) => {
+          if (BigNumber(a.totalContributions).isLessThan(BigNumber(b.totalContributions))) return 1;
+          if (BigNumber(a.totalContributions).isGreaterThan(BigNumber(b.totalContributions))) return -1;
+          return 0;
+        });
       if (this.filters.orderBy === 'últimosCreados')
         fundsToFilter = fundsToFilter.sort((a, b) => {
           if (a.createdAt < b.createdAt) return 1;
           if (a.createdAt > b.createdAt) return -1;
           return 0;
         });
-      else if (this.filters.orderBy === 'primerosCreados')
+      if (this.filters.orderBy === 'primerosCreados')
         fundsToFilter = fundsToFilter.sort((a, b) => {
           if (a.createdAt > b.createdAt) return 1;
           if (a.createdAt < b.createdAt) return -1;
