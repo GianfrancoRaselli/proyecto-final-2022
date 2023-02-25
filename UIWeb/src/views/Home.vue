@@ -130,9 +130,12 @@ export default {
           .fill()
           .map((element, index) => {
             return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, async (fund) => {
-              const { data: extraInformation } = await axios.get('fund/' + fund.address);
-              fund.description = extraInformation?.description;
-              fund.image = extraInformation?.image;
+              const { data: fundExtraInformation } = await axios.get('fund/' + fund.address);
+              if (fundExtraInformation) {
+                const { description, image } = fundExtraInformation;
+                fund.description = description;
+                fund.image = image;
+              }
               funds[index] = fund;
 
               callsResolved++;

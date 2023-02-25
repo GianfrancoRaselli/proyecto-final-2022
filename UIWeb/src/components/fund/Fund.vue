@@ -220,9 +220,12 @@ export default {
       return new Promise((resolve) => {
         const searchSummary = async () => {
           this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
-          const { data: extraInformation } = await axios.get('fund/' + this.$route.params.fundAddress);
-          this.fund.description = extraInformation?.description;
-          this.fund.image = extraInformation?.image;
+          const { data: fundExtraInformation } = await axios.get('fund/' + this.$route.params.fundAddress);
+          if (fundExtraInformation) {
+            const { description, image } = fundExtraInformation;
+            this.fund.description = description;
+            this.fund.image = image;
+          }
           await getSearchContributorsPromise(this.fund.contributors);
           resolve();
         };
