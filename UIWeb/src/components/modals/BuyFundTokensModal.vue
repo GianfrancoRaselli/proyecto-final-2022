@@ -75,7 +75,7 @@
 //import $ from 'jquery';
 import Web3 from 'web3';
 import { useVuelidate } from '@vuelidate/core';
-import { required, integer, minValue, maxValue } from '@vuelidate/validators';
+import { helpers } from '@vuelidate/validators';
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { addNotification } from '@/composables/useNotifications';
@@ -128,10 +128,22 @@ export default {
   validations() {
     return {
       fundTokens: {
-        required,
-        integer,
-        minValue: minValue(1),
-        maxValue: maxValue(100),
+        required: helpers.withMessage('Debe ingresar un valor', (value) => {
+          if (value) return true;
+          else return false;
+        }),
+        integer: helpers.withMessage('Debe ingresar un número entero', (value) => {
+          if (Number.isInteger(value)) return true;
+          else return false;
+        }),
+        minValue: helpers.withMessage('El valor mínimo permitido es 1', (value) => {
+          if (value >= 1) return true;
+          else return false;
+        }),
+        maxValue: helpers.withMessage('El valor máximo permitido es 100', (value) => {
+          if (value <= 100) return true;
+          else return false;
+        }),
       },
     };
   },

@@ -62,7 +62,7 @@ import $ from 'jquery';
 import { mapState } from 'vuex';
 import { signMessage } from '@/helpers/connection';
 import { useVuelidate } from '@vuelidate/core';
-import { helpers, required, minLength, maxLength } from '@vuelidate/validators';
+import { helpers } from '@vuelidate/validators';
 import { validateForm } from '@/helpers/helpers';
 import { addNotification } from '@/composables/useNotifications';
 import axios from 'axios';
@@ -92,7 +92,20 @@ export default {
   validations() {
     return {
       data: {
-        description: { required, minLength: minLength(1), maxLength: maxLength(1000) },
+        description: {
+          required: helpers.withMessage('Debe ingresar un valor', (value) => {
+            if (value) return true;
+            else return false;
+          }),
+          minLength: helpers.withMessage('La cantidad mínima de caracteres permitidos es 1', (value) => {
+            if (value.length >= 1) return true;
+            else return false;
+          }),
+          maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 1000', (value) => {
+            if (value.length <= 1000) return true;
+            else return false;
+          }),
+        },
         image: {
           wrongFormat: helpers.withMessage('Formatos permitidos: JPEG, JPG y PNG', (value) => {
             if (!helpers.req(value)) return true;
