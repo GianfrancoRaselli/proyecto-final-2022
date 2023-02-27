@@ -7,16 +7,17 @@
     <div v-else>
       <div class="filters-header" v-if="funds.length > 0">
         <div class="filters">
-          <form class="form-search">
+          <form class="fund-search-form">
             <div class="input-container">
               <input
                 type="search"
-                class="form-control input"
+                class="input"
                 placeholder="Buscar por nombre/dirección"
-                aria-label="Search"
+                aria-label="Buscar"
                 v-model="searching"
+                @keydown.enter.prevent="search = searching"
               />
-              <div class="icon-container">
+              <div class="icon-container" @click="search = searching">
                 <fa-icon icon="magnifying-glass" class="icon" />
               </div>
             </div>
@@ -213,7 +214,6 @@ export default {
       loading: true,
       progress: 0,
       searching: '',
-      searchingSubscription: null,
       search: '',
       filters: {
         orderBy: 'relevancia',
@@ -261,12 +261,6 @@ export default {
     },
   },
   watch: {
-    searching(newValue) {
-      if (this.searchingSubscription) clearTimeout(this.searchingSubscription);
-      this.searchingSubscription = setTimeout(() => {
-        this.search = newValue;
-      }, 600);
-    },
     'filters.fundsTypes.allFunds'(newValue) {
       if (newValue) {
         this.filters.fundsTypes.types.friends = true;
@@ -458,7 +452,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .loading {
   position: fixed;
   top: 25vh;
@@ -512,7 +506,7 @@ export default {
   font-size: 0.9rem;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 460px) {
   .filters {
     flex-direction: column;
     justify-content: center;
@@ -520,47 +514,48 @@ export default {
     gap: 10px;
   }
 
-  .form-search {
+  .fund-search-form {
     width: 100%;
   }
 }
 
-.form-search input {
-  min-width: 250px;
-}
-
-@media (min-width: 768px) {
-  .form-search input {
-    min-width: 305px;
-  }
-}
-
 .input-container {
-  width: 100%;
   position: relative;
-}
 
-.input-container .input {
-  padding-left: 32px;
-}
+  .input {
+    height: 2.2rem;
+    width: 100%;
+    min-width: 20rem;
+    padding: 1.1rem 3rem 1.1rem 0.5rem;
+    border: 0.1px solid rgb(141, 141, 141);
+    border-radius: 5px;
+  }
 
-@media (min-width: 768px) {
-  .input-container .input {
-    padding-left: 38px;
+  .icon-container {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: rgb(53, 53, 53);
+    background-color: rgb(194, 194, 194);
+    border-top: 0.1px solid rgb(141, 141, 141);
+    border-right: 0.1px solid rgb(141, 141, 141);
+    border-bottom: 0.1px solid rgb(141, 141, 141);
+    border-radius: 0 5px 5px 0;
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icon-container:hover {
+    cursor: pointer;
   }
 }
 
-.input-container .icon-container {
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: rgb(79, 79, 79);
-  padding: 0 9px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+*:focus {
+  outline: none;
 }
 
 .filter-title {
