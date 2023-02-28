@@ -291,7 +291,6 @@ contract Fund is ReentrancyGuard {
       address _address,
       uint256 _balance,
       string memory _name,
-      string memory _description,
       address _creator,
       uint256 _createdAt,
       address[] memory _managers,

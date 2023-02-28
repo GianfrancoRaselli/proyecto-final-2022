@@ -75,9 +75,14 @@ const uploadImage = async (req, res) => {
   }
 };
 
+const getAmount = async (req, res) => {
+  const amount = await Entity.find().countDocuments();
+  return res.status(200).json(amount);
+};
+
 const get = async (req, res) => {
   const entity = await Entity.findOne({ address: req.params.address });
   return res.status(200).json(entity);
 };
 
-module.exports = { create, update, uploadImage, get };
+module.exports = { create, update, uploadImage, get, getAmount };

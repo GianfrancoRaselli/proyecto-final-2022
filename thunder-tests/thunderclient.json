@@ -178,5 +178,19 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "e79b9b50-3a02-429e-b166-e485eb0d6e81",
+    "colId": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
+    "containerId": "",
+    "name": "getEntityAmount",
+    "url": "entity/amount",
+    "method": "GET",
+    "sortNum": 110000,
+    "created": "2023-02-28T01:57:58.329Z",
+    "modified": "2023-02-28T01:59:58.505Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

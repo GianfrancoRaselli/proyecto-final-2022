@@ -42,17 +42,17 @@
       <div class="cards">
         <div class="card">
           <fa-icon icon="users" class="icon purple" size="5x" />
-          <span class="number">5000</span>
+          <span class="number" v-text="community.users" />
           <span class="title"><span class="main purple">Usuarios</span> registrados</span>
         </div>
         <div class="card">
           <fa-icon icon="list" class="icon light" size="5x" />
-          <span class="number">5000</span>
+          <span class="number" v-text="community.funds" />
           <span class="title"><span class="main light">Fondos</span> creados</span>
         </div>
         <div class="card">
           <fa-icon icon="money-bill" class="icon red" size="5x" />
-          <span class="number">5000</span>
+          <span class="number" v-text="community.ethers" />
           <span class="title"><span class="main red">ETH</span> depositados</span>
         </div>
       </div>
@@ -89,7 +89,8 @@
 import FundCard from '@/components/fund/FundCard';
 
 import { hasMetamask } from '@/helpers/connection';
-import { call, addTokenToMetaMask } from '@/helpers/helpers';
+import { call, addTokenToMetaMask, convertNumberToMaxDecimals } from '@/helpers/helpers';
+import Web3 from 'web3';
 import axios from 'axios';
 
 export default {
@@ -102,6 +103,11 @@ export default {
       loading: true,
       progress: 0,
       funds: [],
+      community: {
+        users: 0,
+        funds: 0,
+        ethers: 0,
+      },
     };
   },
   computed: {
@@ -121,12 +127,13 @@ export default {
       this.progress = 0;
 
       const fundsAddress = await call('FundFactory', 'getDeployedFunds');
-      const totalFunds = fundsAddress.length;
-      const funds = Array(totalFunds);
+      this.community.funds = fundsAddress.length;
+      const funds = Array(this.community.funds);
 
       let callsResolved = 0;
+      let weis = 0;
       await Promise.all(
-        Array(totalFunds)
+        Array(this.community.funds)
           .fill()
           .map((element, index) => {
             return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, async (fund) => {
@@ -138,14 +145,19 @@ export default {
               }
               funds[index] = fund;
 
+              weis += fund.totalContributions;
+
               callsResolved++;
-              this.progress = Math.round((callsResolved / totalFunds) * 100);
+              this.progress = Math.round((callsResolved / this.community.funds) * 100);
             });
           }),
       );
 
       this.funds = funds;
-      this.progress = 100;
+      this.community.ethers = convertNumberToMaxDecimals(
+        Number(Web3.utils.fromWei(weis.toLocaleString('fullwide', { useGrouping: false }), 'ether')),
+        0,
+      );
       this.loading = false;
     },
 
@@ -162,9 +174,16 @@ export default {
     redirect(fundAddress) {
       this.$router.push({ name: 'Fund', params: { fundAddress } });
     },
+
+    async searchUsers() {
+      axios.get('entity/amount').then((res) => {
+        this.community.users = res.data;
+      });
+    },
   },
   async created() {
     this.searchFunds();
+    this.searchUsers();
   },
 };
 </script>

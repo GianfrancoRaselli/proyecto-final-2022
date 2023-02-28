@@ -179,7 +179,7 @@ const validateForm = async (validations) => {
     return true;
   } else {
     addNotification({
-      message: 'Fix fields with errors',
+      message: 'Corrige los campos con errores',
       type: 'error',
     });
     return false;
