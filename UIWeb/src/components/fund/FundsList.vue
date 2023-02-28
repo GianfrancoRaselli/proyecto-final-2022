@@ -198,7 +198,7 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event, areTheSameDates } from '@/helpers/helpers';
 import axios from 'axios';
@@ -234,7 +234,7 @@ export default {
     };
   },
   computed: {
-    ...mapState({ address: (state) => state.connection.address }),
+    ...mapGetters(['address']),
 
     orderBy() {
       // first word

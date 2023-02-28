@@ -31,6 +31,7 @@ import {
   faUsers,
   faQuestion,
   faBuilding,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faGlobe);
@@ -63,6 +64,7 @@ library.add(faMagnifyingGlass);
 library.add(faUsers);
 library.add(faQuestion);
 library.add(faBuilding);
+library.add(faUser);
 
 export default (app) => {
   app.component('fa-icon', FontAwesomeIcon);

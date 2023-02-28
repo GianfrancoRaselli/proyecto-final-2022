@@ -72,14 +72,14 @@ const transaction = async (contract, method, params = [], options, showContractE
           !options ||
           !options.value ||
           BigNumber(options.value).isLessThanOrEqualTo(
-            BigNumber(await store.state.connection.web3.eth.getBalance(store.state.connection.address)),
+            BigNumber(await store.state.connection.web3.eth.getBalance(store.getters.address)),
           )
         ) {
           const tx = connect.transaction(
             await getContract(contract, 'metamask'),
             method,
             params,
-            store.state.connection.address,
+            store.getters.address,
             options,
             (err) => {
               if (showContractError) addNotification({ message: err.message, type: 'error' });

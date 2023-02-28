@@ -36,16 +36,21 @@
           </div>
 
           <div class="below-line" v-if="isConnected">
-            <AppButton
-              classes="btn-sm btn-link btn-radius btn-copy mr-2"
-              :text="copyAddressMsg"
-              icon="copy"
-              @click="copyAddress"
-            />
+            <div class="address">
+              <AppButton classes="btn-sm btn-link btn-radius btn-copy" :text="copyAddressMsg" icon="copy" @click="copyAddress" />
 
-            <a :href="validChainExplorer + '/address/' + address" target="_blank">
-              <AppButton classes="btn-sm btn-link btn-radius" :text="viewExplorerMsg" icon="arrow-up-right-from-square" />
-            </a>
+              <a :href="validChainExplorer + '/address/' + address" target="_blank">
+                <AppButton classes="btn-sm btn-link btn-radius" :text="viewExplorerMsg" icon="arrow-up-right-from-square" />
+              </a>
+            </div>
+            <div class="user">
+              <AppButton
+                classes="btn-sm btn-link btn-radius btn-profile"
+                text="Ver mi perfil"
+                icon="user"
+                @click="redirectToMyProfile"
+              />
+            </div>
           </div>
 
           <div class="recent-transactions mt-2" v-if="isConnected">
@@ -76,6 +81,7 @@
 </template>
 
 <script>
+import $ from 'jquery';
 import { getMessages } from '@/dictionary';
 import { addNotification } from '@/composables/useNotifications';
 import { mapState, mapGetters } from 'vuex';
@@ -126,13 +132,16 @@ export default {
       this.$store.commit('setDisconnected', false);
       await connectToMetamask();
     },
+
     changeToTheValidChain() {
       checkValidChain();
     },
+
     disconnect() {
       this.$store.commit('setDisconnected', true);
       this.$store.commit('setSignature', null);
     },
+
     copyAddress() {
       navigator.clipboard.writeText(this.address);
       addNotification({
@@ -140,22 +149,30 @@ export default {
         type: 'success',
       });
     },
+
+    redirectToMyProfile() {
+      $('#walletModal').modal('hide');
+      this.$router.push({
+        name: 'Profile',
+        params: { address: this.address },
+      });
+    },
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .first-line {
   font-size: small;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
 
-.first-line-btns {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  .first-line-btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .center-line {
@@ -165,16 +182,23 @@ export default {
 
 .below-line {
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
-}
+  align-items: start;
+  gap: 0.3rem;
 
-.below-line .btn {
-  color: rgb(67, 67, 67);
-}
+  .btn {
+    color: rgb(67, 67, 67);
+  }
 
-.btn-copy {
-  text-decoration: none;
+  .address {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
 }
 
 .text-center {

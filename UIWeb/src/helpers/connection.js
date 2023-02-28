@@ -90,7 +90,7 @@ const setWeb3AndContracts = (provider) => {
 };
 
 const searchFundTokensBalance = () => {
-  call('FundToken', 'balanceOf', [store.state.connection.address], {}, async (res) => {
+  call('FundToken', 'balanceOf', [store.getters.address], {}, async (res) => {
     store.commit('setFundTokensBalance', res);
 
     const getEvent = (filterBy) => {
@@ -98,10 +98,10 @@ const searchFundTokensBalance = () => {
         'FundToken',
         'Transfer',
         {
-          filter: JSON.parse('{"' + filterBy + '":"' + store.state.connection.address + '"}'),
+          filter: JSON.parse('{"' + filterBy + '":"' + store.getters.address + '"}'),
         },
         async () => {
-          store.commit('setFundTokensBalance', await call('FundToken', 'balanceOf', [store.state.connection.address]));
+          store.commit('setFundTokensBalance', await call('FundToken', 'balanceOf', [store.getters.address]));
         },
       );
     };
@@ -122,7 +122,7 @@ const handleAccountsChanged = (accounts) => {
   store.commit('setAddress', accounts[0]);
   store.commit('setSignature', null);
 
-  if (store.state.connection.address) {
+  if (store.getters.address) {
     searchFundTokensBalance();
     if (!store.state.connection.disconnected) signMessage();
   }
@@ -149,7 +149,7 @@ const signMessage = async () => {
   try {
     const signature = await store.state.connection.web3.eth.personal.sign(
       'Firme este mensaje para validar que tiene acceso a esta billetera para iniciar sesión.\n\nEsto no le costará ningún Ether.',
-      store.state.connection.address,
+      store.getters.address,
     );
     store.commit('setSignature', signature);
   } catch (e) {

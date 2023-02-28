@@ -33,6 +33,11 @@ const routes = [
     component: () => import('@/views/FrequentQuestions'),
   },
   {
+    name: 'Profile',
+    path: '/perfil/:address',
+    component: () => import('@/views/Profile'),
+  },
+  {
     name: 'NotFound',
     path: '/:pathMatch(.*)*',
     component: () => import('@/views/NotFound'),
