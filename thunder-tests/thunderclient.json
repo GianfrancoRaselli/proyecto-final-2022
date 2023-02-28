@@ -20,12 +20,12 @@
     "method": "POST",
     "sortNum": 20000,
     "created": "2023-02-20T15:43:09.792Z",
-    "modified": "2023-02-21T20:45:09.355Z",
+    "modified": "2023-02-28T22:23:04.620Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"fullname\": \"Gianfranco Raselli\",\n  \"type\": \"Persona\"\n}",
+      "raw": "{\n  \"fullname\": \"Gianfranco Raselli\",\n  \"type\": \"Persona\",\n  \"email\": \"gianrase@hotmail.com\",\n  \"phone\": \"(3482) 334910\",\n  \"url\": \"https://www.instagram.com/gianfrancoraselli/\"\n}",
       "form": []
     },
     "tests": []
@@ -79,11 +79,11 @@
     "colId": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
     "containerId": "",
     "name": "getEntity",
-    "url": "entity/0x83bCaE28bdc13DA35617A1d648729CD373111dA9",
+    "url": "entity/0xb0eaa5419a35f7e638910f1c47c747486d5cced2",
     "method": "GET",
     "sortNum": 50000,
     "created": "2023-02-22T03:21:58.520Z",
-    "modified": "2023-02-22T03:24:51.631Z",
+    "modified": "2023-02-28T22:28:51.045Z",
     "headers": [],
     "params": [],
     "tests": []

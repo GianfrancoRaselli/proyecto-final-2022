@@ -223,9 +223,9 @@ export default {
   .sub-content {
     display: flex;
     flex-direction: row-reverse;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
     gap: 2rem;
 
     .fund-img {

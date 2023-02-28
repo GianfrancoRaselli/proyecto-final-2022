@@ -488,9 +488,9 @@ export default {
   min-height: 1.3rem;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: start;
   align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
 }
 

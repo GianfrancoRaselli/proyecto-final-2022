@@ -69,7 +69,7 @@ const uploadImage = async (req, res) => {
 };
 
 const get = async (req, res) => {
-  const fund = await Fund.findOne({ address: req.params.address });
+  const fund = await Fund.findOne({ address: req.params.address.toLowerCase() });
   return res.status(200).json(fund);
 };
 

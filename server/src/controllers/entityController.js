@@ -81,7 +81,7 @@ const getAmount = async (req, res) => {
 };
 
 const get = async (req, res) => {
-  const entity = await Entity.findOne({ address: req.params.address });
+  const entity = await Entity.findOne({ address: req.params.address.toLowerCase() });
   return res.status(200).json(entity);
 };
 

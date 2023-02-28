@@ -203,8 +203,8 @@ export default {
 
   .header-info {
     display: flex;
-    align-items: baseline;
     flex-wrap: wrap;
+    align-items: baseline;
   }
 }
 

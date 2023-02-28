@@ -194,9 +194,9 @@ export default {
   .address {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
-    flex-wrap: wrap;
     gap: 0.3rem;
   }
 }
