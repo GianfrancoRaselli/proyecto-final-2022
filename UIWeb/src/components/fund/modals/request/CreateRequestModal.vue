@@ -82,7 +82,7 @@ import { mapGetters } from 'vuex';
 import { transaction, validateForm } from '@/helpers/helpers';
 import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
-import { helpers } from '@vuelidate/validators';
+import { helpers, required, numeric, minValue, minLength } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
 
 export default {
@@ -117,36 +117,19 @@ export default {
     return {
       data: {
         description: {
-          required: helpers.withMessage('Debe ingresar un valor', (value) => {
-            if (value) return true;
-            else return false;
-          }),
-          minLength: helpers.withMessage('Debe ingresar al menos un carácter', (value) => {
-            if (value.length >= 1) return true;
-            else return false;
-          }),
+          required: helpers.withMessage('Debe ingresar un valor', required),
+          minLength: helpers.withMessage('Debe ingresar al menos un carácter', minLength(1)),
         },
         recipient: {
-          required: helpers.withMessage('Debe ingresar un valor', (value) => {
-            if (value) return true;
-            else return false;
-          }),
+          required: helpers.withMessage('Debe ingresar un valor', required),
           mustBeAnAddress: helpers.withMessage('El valor no es una dirección válida', (value) => {
             return Web3.utils.isAddress(value.trim());
           }),
         },
         valueToTransfer: {
-          required: helpers.withMessage('Debe ingresar un valor', (value) => {
-            if (value) return true;
-            else return false;
-          }),
-          numeric: helpers.withMessage('Debe ingresar un valor numérico', (value) => {
-            if (!isNaN(value)) return true;
-            else return false;
-          }),
-          minValue: helpers.withMessage('El valor debe ser mayor a 0', (value) => {
-            return value > 0;
-          }),
+          required: helpers.withMessage('Debe ingresar un valor', required),
+          numeric: helpers.withMessage('Debe ingresar un valor numérico', numeric),
+          minValue: helpers.withMessage('El valor debe ser mayor a 0', minValue(1)),
           maxValue: helpers.withMessage('El valor debe ser menor o igual a 1000 ETH', (value) => {
             if (this.valueToTransferUnit === 'Wei' && BigNumber(value).isLessThanOrEqualTo(1000000000000000000000)) return true;
             if (
@@ -162,7 +145,7 @@ export default {
           }),
           maxDecimals: helpers.withMessage('La cantidad máxima de decimales permitidos es 18', (value) => {
             if (this.valueToTransferUnit === 'Ether') {
-              const decimals = value.split('.')[1];
+              const decimals = value.trim().split('.')[1];
               if (decimals && decimals.length > 18) return false;
             }
             return true;
@@ -183,8 +166,8 @@ export default {
               this.data.description,
               this.data.recipient.trim(),
               this.valueToTransferUnit === 'Wei'
-                ? this.data.valueToTransfer
-                : Web3.utils.toWei(this.data.valueToTransfer, 'ether'),
+                ? this.data.valueToTransfer.trim()
+                : Web3.utils.toWei(this.data.valueToTransfer.trim(), 'ether'),
             ],
             undefined,
             true,
@@ -196,8 +179,8 @@ export default {
             recipient: this.data.recipient.trim(),
             valueToTransfer:
               this.valueToTransferUnit === 'Wei'
-                ? this.data.valueToTransfer
-                : Web3.utils.toWei(this.data.valueToTransfer, 'ether'),
+                ? this.data.valueToTransfer.trim()
+                : Web3.utils.toWei(this.data.valueToTransfer.trim(), 'ether'),
           });
           addNotification({
             message: 'Solicitud creada',

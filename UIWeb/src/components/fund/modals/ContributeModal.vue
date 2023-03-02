@@ -73,7 +73,7 @@ import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/g
 import { transaction, validateForm } from '@/helpers/helpers';
 import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
-import { helpers } from '@vuelidate/validators';
+import { helpers, required, numeric, minValue } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
 
 export default {
@@ -104,33 +104,22 @@ export default {
   validations() {
     return {
       contributor: {
-        required: helpers.withMessage('Debe ingresar un valor', (value) => {
-          if (value) return true;
-          else return false;
-        }),
+        required: helpers.withMessage('Debe ingresar un valor', required),
         mustBeAnAddress: helpers.withMessage('El valor no es una dirección válida', (value) => {
           return Web3.utils.isAddress(value.trim());
         }),
       },
       contribution: {
-        required: helpers.withMessage('Debe ingresar un valor', (value) => {
-          if (value) return true;
-          else return false;
-        }),
-        numeric: helpers.withMessage('Debe ingresar un valor numérico', (value) => {
-          if (!isNaN(value)) return true;
-          else return false;
-        }),
-        minValue: helpers.withMessage('El valor debe ser mayor a 0', (value) => {
-          return value > 0;
-        }),
+        required: helpers.withMessage('Debe ingresar un valor', required),
+        numeric: helpers.withMessage('Debe ingresar un valor numérico', numeric),
+        minValue: helpers.withMessage('El valor debe ser mayor a 0', minValue(1)),
         weiValue: helpers.withMessage('El valor en Wei debe ser un número entero', (value) => {
           if (this.contributionUnit === 'Wei' && !BigNumber(value).isInteger()) return false;
           return true;
         }),
         maxDecimals: helpers.withMessage('La cantidad máxima de decimales permitidos es 18', (value) => {
           if (this.contributionUnit === 'Ether') {
-            const decimals = value.split('.')[1];
+            const decimals = value.trim().split('.')[1];
             if (decimals && decimals.length > 18) return false;
           }
           return true;
@@ -150,21 +139,28 @@ export default {
             this.contributor.trim() === this.address ? 'contribute' : 'contributeFor',
             this.contributor.trim() === this.address ? [] : [this.contributor.trim()],
             {
-              value: this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution, 'ether'),
+              value:
+                this.contributionUnit === 'Wei' ? this.contribution.trim() : Web3.utils.toWei(this.contribution.trim(), 'ether'),
             },
             true,
-            this.contribution + ' ' + this.contributionUnit + ' contribuidos para ' + this.fund.name + this.contributor.trim() !==
+            this.contribution.trim() +
+              ' ' +
+              this.contributionUnit +
+              ' contribuidos para ' +
+              this.fund.name +
+              this.contributor.trim() !==
               this.address
               ? ' por ' + getSplitAddress(this.contributor.trim())
               : '',
           );
           // eslint-disable-next-line vue/no-mutating-props
           this.fund.totalContributions +=
-            this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution, 'ether');
+            this.contributionUnit === 'Wei' ? this.contribution.trim() : Web3.utils.toWei(this.contribution.trim(), 'ether');
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund.balance += this.contributionUnit === 'Wei' ? this.contribution : Web3.utils.toWei(this.contribution, 'ether');
+          this.fund.balance +=
+            this.contributionUnit === 'Wei' ? this.contribution.trim() : Web3.utils.toWei(this.contribution.trim(), 'ether');
           addNotification({
-            message: 'Contribuidos ' + this.contribution + ' ' + this.contributionUnit,
+            message: 'Contribuidos ' + this.contribution.trim() + ' ' + this.contributionUnit,
             type: 'success',
           });
           this.contributor = this.address;

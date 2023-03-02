@@ -223,7 +223,7 @@
 <script>
 import Web3 from 'web3';
 import { useVuelidate } from '@vuelidate/core';
-import { helpers } from '@vuelidate/validators';
+import { helpers, required, minLength, integer, minValue, maxValue } from '@vuelidate/validators';
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
@@ -332,14 +332,8 @@ export default {
     return {
       data: {
         name: {
-          required: helpers.withMessage('Debe ingresar un valor', (value) => {
-            if (value) return true;
-            else return false;
-          }),
-          minLength: helpers.withMessage('Debe ingresar al menos un carácter', (value) => {
-            if (value.length >= 1) return true;
-            else return false;
-          }),
+          required: helpers.withMessage('Debe ingresar un valor', required),
+          minLength: helpers.withMessage('Debe ingresar al menos un carácter', minLength(1)),
         },
         managers: {
           mustBeAddresses: helpers.withMessage('Algún valor no es una dirección válida', (value) => {
@@ -393,40 +387,16 @@ export default {
           }),
         },
         minimumContributionPercentageRequired: {
-          required: helpers.withMessage('Debe ingresar un valor', (value) => {
-            if (value) return true;
-            else return false;
-          }),
-          integer: helpers.withMessage('Debe ingresar un número entero', (value) => {
-            if (Number.isInteger(value)) return true;
-            else return false;
-          }),
-          minValue: helpers.withMessage('El valor mínimo permitido es 0', (value) => {
-            if (value >= 0) return true;
-            else return false;
-          }),
-          maxValue: helpers.withMessage('El valor máximo permitido es 100', (value) => {
-            if (value <= 100) return true;
-            else return false;
-          }),
+          required: helpers.withMessage('Debe ingresar un valor', required),
+          integer: helpers.withMessage('Debe ingresar un número entero', integer),
+          minValue: helpers.withMessage('El valor mínimo permitido es 0', minValue(0)),
+          maxValue: helpers.withMessage('El valor máximo permitido es 100', maxValue(100)),
         },
         minimumApprovalsPercentageRequired: {
-          required: helpers.withMessage('Debe ingresar un valor', (value) => {
-            if (value) return true;
-            else return false;
-          }),
-          integer: helpers.withMessage('Debe ingresar un número entero', (value) => {
-            if (Number.isInteger(value)) return true;
-            else return false;
-          }),
-          minValue: helpers.withMessage('El valor mínimo permitido es 0', (value) => {
-            if (value >= 0) return true;
-            else return false;
-          }),
-          maxValue: helpers.withMessage('El valor máximo permitido es 100', (value) => {
-            if (value <= 100) return true;
-            else return false;
-          }),
+          required: helpers.withMessage('Debe ingresar un valor', required),
+          integer: helpers.withMessage('Debe ingresar un número entero', integer),
+          minValue: helpers.withMessage('El valor mínimo permitido es 0', minValue(0)),
+          maxValue: helpers.withMessage('El valor máximo permitido es 100', maxValue(100)),
         },
       },
     };
@@ -584,22 +554,5 @@ export default {
 .form-section .step {
   font-size: 0.75rem;
   margin-left: auto;
-}
-
-.form-group label {
-  color: rgba(22, 22, 22, 0.922);
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.form-group .extra-info {
-  font-size: 0.8rem;
-  color: rgba(58, 58, 58, 0.816);
-}
-
-.custom-switch {
-  user-select: none;
 }
 </style>

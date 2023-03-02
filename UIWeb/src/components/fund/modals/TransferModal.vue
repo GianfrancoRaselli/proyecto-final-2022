@@ -80,7 +80,7 @@ import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/g
 import { transaction, validateForm } from '@/helpers/helpers';
 import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
-import { helpers } from '@vuelidate/validators';
+import { helpers, required, numeric, minValue } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
 
 export default {
@@ -111,26 +111,15 @@ export default {
   validations() {
     return {
       receiver: {
-        required: helpers.withMessage('Debe ingresar un valor', (value) => {
-          if (value) return true;
-          else return false;
-        }),
+        required: helpers.withMessage('Debe ingresar un valor', required),
         mustBeAnAddress: helpers.withMessage('El valor no es una dirección válida', (value) => {
           return Web3.utils.isAddress(value.trim());
         }),
       },
       value: {
-        required: helpers.withMessage('Debe ingresar un valor', (value) => {
-          if (value) return true;
-          else return false;
-        }),
-        numeric: helpers.withMessage('Debe ingresar un valor numérico', (value) => {
-          if (!isNaN(value)) return true;
-          else return false;
-        }),
-        minValue: helpers.withMessage('El valor debe ser mayor a 0', (value) => {
-          return value > 0;
-        }),
+        required: helpers.withMessage('Debe ingresar un valor', required),
+        numeric: helpers.withMessage('Debe ingresar un valor numérico', numeric),
+        minValue: helpers.withMessage('El valor debe ser mayor a 0', minValue(1)),
         weiValue: helpers.withMessage('El valor en Wei debe ser un número entero', (value) => {
           if (this.unit === 'Wei' && !BigNumber(value).isInteger()) return false;
           return true;
@@ -142,7 +131,7 @@ export default {
         }),
         maxDecimals: helpers.withMessage('La cantidad máxima de decimales permitidos es 18', (value) => {
           if (this.unit === 'Ether') {
-            const decimals = value.split('.')[1];
+            const decimals = value.trim().split('.')[1];
             if (decimals && decimals.length > 18) return false;
           }
           return true;
@@ -160,15 +149,15 @@ export default {
           await transaction(
             { name: 'Fund', address: this.$route.params.fundAddress },
             'transfer',
-            [this.receiver.trim(), this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value, 'ether')],
+            [this.receiver.trim(), this.unit === 'Wei' ? this.value.trim() : Web3.utils.toWei(this.value.trim(), 'ether')],
             undefined,
             true,
-            this.value + ' ' + this.unit + ' transferidos a ' + getSplitAddress(this.receiver.trim()),
+            this.value.trim() + ' ' + this.unit + ' transferidos a ' + getSplitAddress(this.receiver.trim()),
           );
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund.totalContributions += this.unit === 'Wei' ? this.value : Web3.utils.toWei(this.value, 'ether');
+          this.fund.totalContributions += this.unit === 'Wei' ? this.value.trim() : Web3.utils.toWei(this.value.trim(), 'ether');
           addNotification({
-            message: 'Transferidos ' + this.value + ' ' + this.unit,
+            message: 'Transferidos ' + this.value.trim() + ' ' + this.unit,
             type: 'success',
           });
           this.receiver = this.address;

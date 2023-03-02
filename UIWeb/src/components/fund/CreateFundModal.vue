@@ -62,7 +62,7 @@ import $ from 'jquery';
 import { mapState } from 'vuex';
 import { signMessage } from '@/helpers/connection';
 import { useVuelidate } from '@vuelidate/core';
-import { helpers } from '@vuelidate/validators';
+import { helpers, required, minLength, maxLength } from '@vuelidate/validators';
 import { validateForm } from '@/helpers/helpers';
 import { addNotification } from '@/composables/useNotifications';
 import axios from 'axios';
@@ -93,18 +93,9 @@ export default {
     return {
       data: {
         description: {
-          required: helpers.withMessage('Debe ingresar un valor', (value) => {
-            if (value) return true;
-            else return false;
-          }),
-          minLength: helpers.withMessage('La cantidad mínima de caracteres permitidos es 1', (value) => {
-            if (value.length >= 1) return true;
-            else return false;
-          }),
-          maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 1000', (value) => {
-            if (value.length <= 1000) return true;
-            else return false;
-          }),
+          required: helpers.withMessage('Debe ingresar un valor', required),
+          minLength: helpers.withMessage('Debe ingresar al menos un carácter', minLength(1)),
+          maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 1000', maxLength(1000)),
         },
         image: {
           wrongFormat: helpers.withMessage('Formatos permitidos: JPEG, JPG y PNG', (value) => {
@@ -136,9 +127,11 @@ export default {
             description: this.data.description,
           });
 
-          let formData = new FormData();
-          formData.append('image', this.data.image);
-          await axios.put('fund/uploadImage/' + this.fund.address, formData);
+          if (this.data.image) {
+            let formData = new FormData();
+            formData.append('image', this.data.image);
+            await axios.put('fund/uploadImage/' + this.fund.address, formData);
+          }
 
           addNotification({
             message: 'Información guardada',

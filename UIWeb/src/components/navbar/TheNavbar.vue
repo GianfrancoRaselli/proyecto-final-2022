@@ -1,8 +1,9 @@
 <template>
   <div class="content">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <router-link :to="{ name: 'Home' }" exact><img class="brand-logo"
-          src="@/assets/imgs/logos/1/Fund-logos_white.png" /></router-link>
+      <router-link :to="{ name: 'Home' }" exact
+        ><img class="brand-logo" src="@/assets/imgs/logos/1/Fund-logos_white.png"
+      /></router-link>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto align-items">
@@ -17,15 +18,23 @@
             <router-link class="nav-link" :to="{ name: 'AboutUs' }" exact text="Nosotros" />
           </li>
           <li class="nav-item">
-            <router-link class="nav-link nav-link-large" :to="{ name: 'FrequentQuestions' }" exact
-              text="Preguntas frecuentes" />
+            <router-link class="nav-link nav-link-large" :to="{ name: 'FrequentQuestions' }" exact text="Preguntas frecuentes" />
             <router-link class="nav-link nav-link-small" :to="{ name: 'FrequentQuestions' }" exact text="Preguntas" />
           </li>
           <li class="nav-item nav-item-fund-token">
-            <AppButton classes="btn-md btn-light nav-link-large" data-toggle="modal" data-target="#buyFundTokensModal"
-              text="Comprar FundTokens" />
-            <AppButton classes="btn-md btn-light nav-link-small" data-toggle="modal" data-target="#buyFundTokensModal"
-              icon="money-bill" text="FundToken" />
+            <AppButton
+              classes="btn-md btn-light nav-link-large"
+              data-toggle="modal"
+              data-target="#buyFundTokensModal"
+              text="Comprar FundTokens"
+            />
+            <AppButton
+              classes="btn-md btn-light nav-link-small"
+              data-toggle="modal"
+              data-target="#buyFundTokensModal"
+              icon="money-bill"
+              text="FundToken"
+            />
           </li>
         </ul>
       </div>
@@ -33,27 +42,45 @@
       <div class="navbar--menu ml-auto align-items">
         <div v-if="hasMetamask">
           <button class="btn btn-light btn-wallet" data-toggle="modal" data-target="#walletModal" v-if="isConnected">
-            <fa-icon icon="wallet" class="icon mr-2 wallet-icon" size="2x"
-              v-if="isConnectedToTheValidChain"></fa-icon><fa-icon icon="triangle-exclamation"
-              class="icon mr-2 wallet-icon wallet-warning-icon" size="2x" v-else></fa-icon>
+            <fa-icon icon="wallet" class="icon mr-2 wallet-icon" size="2x" v-if="isConnectedToTheValidChain"></fa-icon
+            ><fa-icon icon="triangle-exclamation" class="icon mr-2 wallet-icon wallet-warning-icon" size="2x" v-else></fa-icon>
             <AppShowAddress :address="address" :show="false" />
           </button>
 
-          <AppButton classes="btn-sm btn-success" :text="connectMetaMaskMsg" v-if="!isConnected"
-            @click="connectToMetamask" />
+          <AppButton classes="btn-sm btn-success" :text="connectMetaMaskMsg" v-if="!isConnected" @click="connectToMetamask" />
         </div>
         <div v-else v-text="installMetaMaskMsg"></div>
 
         <div class="dropdown ml-3" style="display: none">
-          <fa-icon icon="globe" class="dropdown-toggle icon mr-1" size="1x" type="button" id="dropdownMenuButton"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></fa-icon>
+          <fa-icon
+            icon="globe"
+            class="dropdown-toggle icon mr-1"
+            size="1x"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          ></fa-icon>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-            <div class="dropdown-item dropdown-item--language" v-for="(language, index) in languages" :key="index"
-              @click="changeLanguage(language)">
+            <div
+              class="dropdown-item dropdown-item--language"
+              v-for="(language, index) in languages"
+              :key="index"
+              @click="changeLanguage(language)"
+            >
               <span :class="{ 'text-bold': selectedLanguage === language }" v-text="language" />
-              <fa-icon icon="check" class="dropdown-toggle icon mr-1" size="1x" type="button" id="dropdownMenuButton"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                v-if="selectedLanguage === language"></fa-icon>
+              <fa-icon
+                icon="check"
+                class="dropdown-toggle icon mr-1"
+                size="1x"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                v-if="selectedLanguage === language"
+              ></fa-icon>
             </div>
           </div>
         </div>

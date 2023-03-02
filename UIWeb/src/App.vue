@@ -17,7 +17,7 @@
       </main>
       <TheFooter class="page-content__footer" />
     </div>
-    <img style="display: none;" src="@/assets/imgs/fundtoken.png" />
+    <img style="display: none" src="@/assets/imgs/fundtoken.png" />
   </div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import 'animate.css';
 
@@ -178,5 +178,24 @@ body {
 
 .grey {
   color: rgb(79, 79, 79);
+}
+
+.form-group {
+  label {
+    color: rgba(22, 22, 22, 0.922);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .extra-info {
+      font-size: 0.8rem;
+      color: rgba(58, 58, 58, 0.816);
+    }
+  }
+
+  .custom-switch {
+    user-select: none;
+  }
 }
 </style>

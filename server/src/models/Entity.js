@@ -15,7 +15,7 @@ const entitySchema = new Schema(
       trim: true,
       required: true,
       minLength: 2,
-      maxLength: 50,
+      maxLength: 80,
     },
     type: {
       type: String,
@@ -24,14 +24,14 @@ const entitySchema = new Schema(
     email: {
       type: String,
       trim: true,
+      required: true,
       maxLength: 80,
-      default: undefined,
     },
     phone: {
       type: String,
       trim: true,
+      required: true,
       maxLength: 50,
-      default: undefined,
     },
     image: {
       type: String,
@@ -40,7 +40,7 @@ const entitySchema = new Schema(
     url: {
       type: String,
       trim: true,
-      maxLength: 80,
+      maxLength: 320,
       default: undefined,
     },
   },
