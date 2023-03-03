@@ -26,6 +26,10 @@ const fundSchema = new Schema(
       type: String,
       default: undefined,
     },
+    imageVersion: {
+      type: Number,
+      default: 0,
+    },
   },
   { collection: "funds", timestamps: true }
 );

@@ -1,5 +1,6 @@
 const { Entity } = require("../models/index");
 const multer = require("multer");
+const fs = require("fs");
 
 const create = async (req, res) => {
   if (!(await Entity.findOne({ address: req.entityAddress }))) {
@@ -50,12 +51,22 @@ const update = async (req, res) => {
 const uploadImage = async (req, res) => {
   let entityToUpdate = await Entity.findOne({ address: req.entityAddress });
   if (entityToUpdate) {
+    // remove prior image
+    if (entityToUpdate.image) {
+      fs.unlink("uploads/" + entityToUpdate.image, (err) => {
+        if (err) console.log(err);
+      });
+    }
+
+    // set next image name
+    nextImageName = req.entityAddress + "v" + (entityToUpdate.imageVersion + 1) + ".jpeg";
+
     // save the image in disk
     multer({
       storage: multer.diskStorage({
         destination: "./uploads",
         filename(_, file, cb) {
-          return cb(null, req.entityAddress + ".jpeg");
+          return cb(null, nextImageName);
         },
       }),
     }).single("image")(req, res, async (err) => {
@@ -64,12 +75,38 @@ const uploadImage = async (req, res) => {
       }
 
       // save the name image in the DB
-      entityToUpdate.image = req.entityAddress + ".jpeg";
+      entityToUpdate.image = nextImageName;
+      entityToUpdate.imageVersion = entityToUpdate.imageVersion + 1;
       const savedEntity = await entityToUpdate.save();
 
       // return success
       return res.status(200).json(savedEntity);
     });
+  } else {
+    return res.status(400).send({ message: "La entidad aún no ha sido creada" });
+  }
+};
+
+const removeImage = async (req, res) => {
+  let entityToUpdate = await Entity.findOne({ address: req.entityAddress });
+  if (entityToUpdate) {
+    if (entityToUpdate.image) {
+      // remove image
+      fs.unlink("uploads/" + entityToUpdate.image, (err) => {
+        if (err) console.log(err);
+      });
+
+      // update field
+      entityToUpdate.image = undefined;
+
+      // save the entity in the DB
+      const savedEntity = await entityToUpdate.save();
+
+      // return success
+      return res.status(200).json(savedEntity);
+    } else {
+      return res.status(200).json(entityToUpdate);
+    }
   } else {
     return res.status(400).send({ message: "La entidad aún no ha sido creada" });
   }
@@ -85,4 +122,4 @@ const get = async (req, res) => {
   return res.status(200).json(entity);
 };
 
-module.exports = { create, update, uploadImage, get, getAmount };
+module.exports = { create, update, uploadImage, removeImage, get, getAmount };

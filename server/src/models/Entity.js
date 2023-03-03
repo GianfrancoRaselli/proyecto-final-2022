@@ -33,15 +33,19 @@ const entitySchema = new Schema(
       required: true,
       maxLength: 50,
     },
-    image: {
-      type: String,
-      default: undefined,
-    },
     url: {
       type: String,
       trim: true,
       maxLength: 320,
       default: undefined,
+    },
+    image: {
+      type: String,
+      default: undefined,
+    },
+    imageVersion: {
+      type: Number,
+      default: 0,
     },
   },
   { collection: "entities", timestamps: true }

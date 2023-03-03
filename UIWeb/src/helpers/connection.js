@@ -75,6 +75,7 @@ const connectToMetamask = async () => {
       title: 'MetaMask Wallet',
       text: 'Necesitas tener metamask instalado en el navegador para utilizar la aplicación',
       showConfirmButton: true,
+      confirmButtonText: 'Confirmar',
     });
   }
 };
@@ -120,7 +121,7 @@ const handleAccountsChanged = (accounts) => {
   store.commit('unsubscribeFromTransfersSubscription');
   store.commit('clearRecentTransactions');
   store.commit('setAddress', accounts[0]);
-  store.commit('setSignature', null);
+  store.commit('setSignature', undefined);
 
   if (store.getters.address) {
     searchFundTokensBalance();

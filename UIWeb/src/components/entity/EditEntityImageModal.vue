@@ -1,11 +1,5 @@
 <template>
-  <div
-    class="modal fade"
-    id="editEntityImageImageModal"
-    tabindex="-1"
-    aria-labelledby="editEntityImageModalLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="editEntityImageModal" tabindex="-1" aria-labelledby="editEntityImageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -17,18 +11,18 @@
         <div class="modal-body">
           <form class="form" @submit.prevent="handleSubmit">
             <div class="form-group">
-              <label for="imageInput">Imagen<span class="extra-info">Opcional</span></label>
               <input
                 type="file"
                 class="form-control-file"
-                :class="{ 'is-invalid': v$.data.image.$errors.length }"
+                :class="{ 'is-invalid': v$.image.$errors.length }"
                 id="imageInput"
+                ref="imageInput"
                 aria-describedby="imageHelp"
                 @change="getFile"
                 :disabled="loading"
               />
               <small id="imageHelp" class="form-text text-muted"></small>
-              <AppInputErrors :errors="v$.data.image.$errors" />
+              <AppInputErrors :errors="v$.image.$errors" />
             </div>
 
             <button type="submit" class="btn btn-primary" v-if="!loading">Actualizar</button>
@@ -75,24 +69,19 @@ export default {
   watch: {},
   validations() {
     return {
-      data: {
-        image: {
-          required: helpers.withMessage('Debe ingresar un valor', required),
-          wrongFormat: helpers.withMessage('Formatos permitidos: JPEG, JPG y PNG', (value) => {
-            if (!helpers.req(value)) return true;
-            else {
-              const format = value.name.split('.').pop();
-              if (format === 'jpeg' || format === 'jpg' || format === 'png') return true;
-              return false;
-            }
-          }),
-        },
+      image: {
+        required: helpers.withMessage('Debe seleccionar una imagen', required),
+        wrongFormat: helpers.withMessage('Formatos permitidos: JPEG, JPG y PNG', (value) => {
+          const format = value.name.split('.').pop();
+          if (format === 'jpeg' || format === 'jpg' || format === 'png') return true;
+          return false;
+        }),
       },
     };
   },
   methods: {
     getFile(e) {
-      this.data.image = e.target.files[0];
+      this.image = e.target.files[0];
     },
 
     async handleSubmit() {
@@ -103,7 +92,7 @@ export default {
           if (!this.signature) await signMessage();
 
           let formData = new FormData();
-          formData.append('image', this.data.image);
+          formData.append('image', this.image);
           await axios.put('entity/uploadImage', formData);
 
           this.$emit('update');
@@ -112,6 +101,8 @@ export default {
             type: 'success',
           });
           $('#editEntityImageModal').modal('hide');
+          this.$refs['imageInput'].value = '';
+          this.image = undefined;
         } finally {
           this.loading = false;
         }

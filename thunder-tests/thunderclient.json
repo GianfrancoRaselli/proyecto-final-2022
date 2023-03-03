@@ -192,5 +192,19 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "ed504157-01d3-43a1-b761-9b97867ed4f7",
+    "colId": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
+    "containerId": "",
+    "name": "removeEntityImage",
+    "url": "entity/removeImage",
+    "method": "DELETE",
+    "sortNum": 120000,
+    "created": "2023-03-02T23:42:57.708Z",
+    "modified": "2023-03-02T23:43:13.667Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

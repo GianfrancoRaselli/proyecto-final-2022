@@ -3,12 +3,18 @@
     <div class="entity-card">
       <AppSpinner class="spinner" size="big" v-if="loading" />
       <div class="entity-card-content" v-else>
-        <img
-          class="profile-img magnify-img"
-          :src="'http://localhost:4000/images/' + entity.image"
-          v-if="entity && entity.image"
-        />
-        <img class="profile-img" src="@/assets/imgs/user-not-found.png" v-else />
+        <div class="img-container">
+          <img
+            class="profile-img magnify-img"
+            :src="'http://localhost:4000/images/' + entity.image"
+            v-if="entity && entity.image"
+          />
+          <img class="profile-img" src="@/assets/imgs/user-not-found.png" v-else />
+          <div class="icons" v-if="isMyProfile">
+            <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editEntityImageModal" v-if="entity" />
+            <fa-icon icon="trash" class="icon red" @click="openRemoveImage" v-if="entity && entity.image" />
+          </div>
+        </div>
         <div class="information">
           <div class="header">
             <span class="fullname" v-if="entity" v-text="entity.fullname" />
@@ -45,47 +51,82 @@
       </div>
 
       <EditEntityModal :entity="entity" @update="getEntityData" />
-      <EditEntityModalImage @update="getEntityData" />
+      <EditEntityImageModal @update="getEntityData" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
+import { addNotification } from '@/composables/useNotifications';
+import { signMessage } from '@/helpers/connection';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 
 import EditEntityModal from '@/components/entity/EditEntityModal';
-import EditEntityModalImage from '@/components/entity/EditEntityModal';
+import EditEntityImageModal from '@/components/entity/EditEntityImageModal';
 
 export default {
   name: 'ProfileView',
   components: {
     EditEntityModal,
-    EditEntityModalImage,
+    EditEntityImageModal,
   },
   data() {
     return {
       loading: true,
-      isMyProfile: false,
       entity: null,
     };
   },
   computed: {
     ...mapGetters(['address']),
+    ...mapState({
+      signature: (state) => state.connection.signature,
+    }),
+
+    isMyProfile() {
+      return compareAddresses(this.address, this.$route.params.address);
+    },
   },
   methods: {
     getEntityData() {
       this.loading = true;
-      this.fund = undefined;
       axios.get('entity/' + this.$route.params.address).then((res) => {
         this.entity = res.data;
         this.loading = false;
       });
     },
+
+    openRemoveImage() {
+      Swal.fire({
+        title: 'Eliminar imagen',
+        text: '¿Está seguro que desea eliminar la imagen del perfil?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#9FA6B2',
+        confirmButtonText: '¡Sí, eliminar!',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.removeImage();
+        }
+      });
+    },
+
+    async removeImage() {
+      if (!this.signature) await signMessage();
+      axios.delete('entity/removeImage').then(() => {
+        this.entity.image = undefined;
+        addNotification({
+          message: 'Imagen eliminada',
+          type: 'success',
+        });
+      });
+    },
   },
   async created() {
-    if (compareAddresses(this.address, this.$route.params.address)) this.isMyProfile = true;
     this.getEntityData();
   },
 };
@@ -112,16 +153,45 @@ export default {
     align-items: center;
     gap: 1.5rem;
 
-    .profile-img {
-      height: 15rem;
-      width: 15rem;
-      border-radius: 15rem;
-    }
+    .img-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
 
-    .magnify-img:hover {
-      height: 23rem;
-      width: 23rem;
-      border-radius: 1rem;
+      .profile-img {
+        height: 15rem;
+        width: 15rem;
+        border-radius: 15rem;
+      }
+
+      .magnify-img:hover {
+        height: 21rem;
+        width: 21rem;
+        border-radius: 1rem;
+      }
+
+      .icons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+
+        .icon {
+          user-select: none;
+          height: 1.5rem;
+          width: 1.5rem;
+          padding: 0.5rem;
+          border-radius: 1.5rem;
+        }
+
+        .icon:hover {
+          cursor: pointer;
+          background-color: rgb(225, 225, 225);
+        }
+      }
     }
 
     .information {

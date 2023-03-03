@@ -61,7 +61,6 @@
               </button>
               <button class="btn btn-primary btn-sm" type="button" disabled v-if="approving(index)">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-                
               </button>
             </div>
 
@@ -71,7 +70,6 @@
               </button>
               <button class="btn btn-dark btn-sm" type="button" disabled v-if="finalizing(index)">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-                
               </button>
             </div>
           </div>
@@ -267,6 +265,7 @@ export default {
           confirmButtonColor: '#14A44D',
           cancelButtonColor: '#9FA6B2',
           confirmButtonText: '¡Sí, finalizar de todos modos!',
+          cancelButtonText: 'Cancelar',
         }).then((result) => {
           if (result.isConfirmed) {
             successHandler();

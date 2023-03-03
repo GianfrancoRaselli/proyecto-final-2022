@@ -61,6 +61,7 @@ html {
 
 body {
   font-family: 'Roboto', monospace;
+  padding-right: 0 !important;
 
   --navbar-height: 66px;
   --mobile-navbar-height: 60px;
