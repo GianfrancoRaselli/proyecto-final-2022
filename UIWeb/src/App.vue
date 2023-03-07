@@ -199,4 +199,8 @@ body {
     user-select: none;
   }
 }
+
+.btn-link {
+  padding: 0;
+}
 </style>

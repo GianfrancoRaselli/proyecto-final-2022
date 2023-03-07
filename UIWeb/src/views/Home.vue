@@ -25,7 +25,7 @@
       <p class="title">Últimos fondos creados</p>
       <AppSpinner class="spinner" size="medium" v-if="loading" />
       <div class="funds" v-else>
-        <div class="fund" v-for="(fund, index) in fundsToShow" :key="index" @click="redirect(fund.address)">
+        <div class="fund" v-for="(fund, index) in fundsToShow" :key="index">
           <FundCard :fund="fund" />
         </div>
       </div>
@@ -169,10 +169,6 @@ export default {
           return 0;
         })
         .slice(0, 10);
-    },
-
-    redirect(fundAddress) {
-      this.$router.push({ name: 'Fund', params: { fundAddress } });
     },
 
     async searchUsers() {

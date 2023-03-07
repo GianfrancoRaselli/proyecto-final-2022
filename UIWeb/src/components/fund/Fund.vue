@@ -32,7 +32,9 @@
         </p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Creador</span>:&nbsp;</span>
-          <AppShowAddress :address="fund.creator" />
+          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#entityModal">
+            <AppShowAddress :address="fund.creator" />
+          </button>
         </p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Managers can be added or removed</span>:&nbsp;</span>
@@ -98,6 +100,7 @@
 
     <!-- modals -->
     <CreateFundModal :fund="fund" />
+    <EntityModal />
     <ManagersModal :fund="fund" :isManager="isManager" />
     <ContributeModal :fund="fund" />
     <ContributorsModal :fund="fund" />
@@ -115,6 +118,7 @@ import axios from 'axios';
 
 // modals
 import CreateFundModal from '@/components/fund/CreateFundModal';
+import EntityModal from '@/components/fund/modals/EntityModal';
 import ManagersModal from '@/components/fund/modals/manager/ManagersModal.vue';
 import ContributeModal from '@/components/fund/modals/ContributeModal.vue';
 import ContributorsModal from '@/components/fund/modals/ContributorsModal.vue';
@@ -125,6 +129,7 @@ export default {
   name: 'FundComponent',
   components: {
     CreateFundModal,
+    EntityModal,
     ManagersModal,
     ContributeModal,
     ContributorsModal,
@@ -484,7 +489,6 @@ export default {
 
 .btn-show-contributors {
   font-size: 0.9rem;
-  padding: 0;
 }
 
 .btn-show-contributors:focus {

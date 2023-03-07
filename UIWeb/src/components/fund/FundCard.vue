@@ -1,5 +1,5 @@
 <template>
-  <div class="card text-center">
+  <div class="card text-center" @click="redirect">
     <div class="card-header">
       <span v-text="fund.name" />
       <div class="fund-info">
@@ -14,19 +14,34 @@
       <img class="img" src="@/assets/imgs/fund.png" v-else />
       <div class="info">
         <p v-text="fund.description" v-if="fund.description" />
-        <p><span class="text-bold">Creador</span>:&nbsp;<AppShowAddress :address="fund.creator" :show="false" /></p>
+        <p>
+          <span class="text-bold">Creador</span>:&nbsp;<button
+            type="button"
+            class="btn btn-link"
+            data-toggle="modal"
+            data-target="#entityModal"
+          >
+            <AppShowAddress id="creatorAddress" :address="fund.creator" :show="false" />
+          </button>
+        </p>
       </div>
     </div>
     <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
   </div>
+  <EntityModal :fund="fund" />
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
+import EntityModal from '@/components/fund/modals/EntityModal';
+
 export default {
   name: 'FundCardComponent',
+  components: {
+    EntityModal,
+  },
   props: {
     fund: { type: Object, require: true },
   },
@@ -80,6 +95,10 @@ export default {
   watch: {},
   methods: {
     compareAddresses,
+
+    redirect(event) {
+      if (event.target.id !== 'creatorAddress') this.$router.push({ name: 'Fund', params: { fundAddress: this.fund.address } });
+    },
   },
 };
 </script>

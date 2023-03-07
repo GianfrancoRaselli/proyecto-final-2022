@@ -182,12 +182,7 @@
       <div v-else>
         <AppAlert msg="No se encontraron fondos con esos parámetros" v-if="fundsToShow.length === 0" />
         <div class="row" v-else>
-          <div
-            class="col-12 col-md-6 col-lg-4 fund-card-container"
-            v-for="(fund, index) in fundsToShow"
-            :key="index"
-            @click="redirect(fund.address)"
-          >
+          <div class="col-12 col-md-6 col-lg-4 fund-card-container" v-for="(fund, index) in fundsToShow" :key="index">
             <FundCard class="fund-card" :fund="fund" />
           </div>
         </div>
@@ -338,10 +333,6 @@ export default {
       }
 
       this.fundsToAdd = funds;
-    },
-
-    redirect(fundAddress) {
-      this.$router.push({ name: 'Fund', params: { fundAddress } });
     },
 
     updateFunds() {

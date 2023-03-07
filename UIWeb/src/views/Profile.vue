@@ -44,7 +44,7 @@
           <div class="not-entity" v-else>
             <p class="title" v-if="!isMyProfile">La entidad no existe o aún no ha sido creada.</p>
             <p class="title" v-else>La entidad aún no ha sido creada.</p>
-            <p class="subtitle" v-if="!isMyProfile">¡Inténtelo nuevamente luego!</p>
+            <p class="subtitle" v-if="!isMyProfile">¡Inténtelo nuevamente más tarde!</p>
             <AppButton classes="btn-primary" text="Crear entidad" data-toggle="modal" data-target="#editEntityModal" v-else />
           </div>
         </div>
@@ -235,8 +235,8 @@ export default {
           font-size: 1.6rem;
         }
 
-        .subtitel {
-          font-size: 1.3rem;
+        .subtitle {
+          font-size: 1.2rem;
           color: rgb(35, 35, 35);
         }
       }
