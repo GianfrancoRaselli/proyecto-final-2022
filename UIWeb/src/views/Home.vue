@@ -23,10 +23,44 @@
 
     <div class="latest-funds-content">
       <p class="title">Últimos fondos creados</p>
-      <AppSpinner class="spinner" size="medium" v-if="loading" />
-      <div class="funds" v-else>
-        <div class="fund" v-for="(fund, index) in fundsToShow" :key="index">
-          <FundCard :fund="fund" />
+      <AppSpinner class="spinner" size="medium" v-if="loadingFunds" />
+      <div v-else>
+        <p class="no-funds" v-if="fundsToShow.length === 0">Aún no se ha creado ningún fondo.</p>
+        <div class="funds" v-else>
+          <div class="fund" v-for="(fund, index) in fundsToShow" :key="index">
+            <FundCard :fund="fund" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="entities-content">
+      <p class="title">Entidades creadas</p>
+      <AppSpinner class="spinner" size="medium" v-if="loadingEntities" />
+      <div v-else>
+        <p class="no-entities" v-if="entities.length === 0">Aún no se ha creado ninguna entidad.</p>
+        <div v-else>
+          <form class="entity-search-form">
+            <div class="input-container">
+              <input
+                type="search"
+                class="input"
+                placeholder="Buscar por nombre/dirección"
+                aria-label="Buscar"
+                v-model="entitySearching"
+                @keydown.enter.prevent="entitySearch = entitySearching"
+              />
+              <div class="icon-container" @click="entitySearch = entitySearching">
+                <fa-icon icon="magnifying-glass" class="icon" />
+              </div>
+            </div>
+          </form>
+          <p class="no-entities" v-if="entitiesToShow.length === 0">No existen entidades coincidentes con la búsqueda.</p>
+          <div class="entities" v-else>
+            <div class="entity" v-for="(entity, index) in entitiesToShow" :key="index">
+              <EntityCard :entity="entity" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -86,23 +120,30 @@
 </template>
 
 <script>
-import FundCard from '@/components/fund/FundCard';
-
 import { hasMetamask } from '@/helpers/connection';
 import { call, addTokenToMetaMask, convertNumberToMaxDecimals } from '@/helpers/helpers';
+import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import Web3 from 'web3';
 import axios from 'axios';
+
+import FundCard from '@/components/fund/FundCard';
+import EntityCard from '@/components/entity/EntityCard';
 
 export default {
   name: 'HomeView',
   components: {
     FundCard,
+    EntityCard,
   },
   data() {
     return {
-      loading: true,
-      progress: 0,
+      loadingFunds: true,
+      progressFunds: 0,
       funds: [],
+      loadingEntities: true,
+      entitySearching: '',
+      entitySearch: '',
+      entities: [],
       community: {
         users: 0,
         funds: 0,
@@ -116,6 +157,28 @@ export default {
     fundsToShow() {
       return this.filterFunds(this.funds.slice());
     },
+
+    entitiesToShow() {
+      let entitiesToShow = this.entities;
+      if (this.entitySearch.trim()) {
+        const entitySearch = this.entitySearch
+          .trim()
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
+        entitiesToShow = entitiesToShow.filter(
+          (entity) =>
+            compareAddresses(entity.address, entitySearch) ||
+            entity.fullname
+              .trim()
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .includes(entitySearch),
+        );
+      }
+      return entitiesToShow;
+    },
   },
   methods: {
     addFundTokenToMetaMask() {
@@ -123,8 +186,8 @@ export default {
     },
 
     async searchFunds() {
-      this.loading = true;
-      this.progress = 0;
+      this.loadingFunds = true;
+      this.progressFunds = 0;
 
       const fundsAddress = await call('FundFactory', 'getDeployedFunds');
       this.community.funds = fundsAddress.length;
@@ -148,7 +211,7 @@ export default {
               weis += fund.totalContributions;
 
               callsResolved++;
-              this.progress = Math.round((callsResolved / this.community.funds) * 100);
+              this.progressFunds = Math.round((callsResolved / this.community.funds) * 100);
             });
           }),
       );
@@ -158,7 +221,7 @@ export default {
         Number(Web3.utils.fromWei(weis.toLocaleString('fullwide', { useGrouping: false }), 'ether')),
         0,
       );
-      this.loading = false;
+      this.loadingFunds = false;
     },
 
     filterFunds(fundsToFilter) {
@@ -171,6 +234,14 @@ export default {
         .slice(0, 10);
     },
 
+    async searchEntities() {
+      this.loadingEntities = true;
+      axios.get('entity').then((res) => {
+        this.entities = res.data;
+        this.loadingEntities = false;
+      });
+    },
+
     async searchUsers() {
       axios.get('entity/amount').then((res) => {
         this.community.users = res.data;
@@ -179,6 +250,7 @@ export default {
   },
   async created() {
     this.searchFunds();
+    this.searchEntities();
     this.searchUsers();
   },
 };
@@ -255,19 +327,19 @@ export default {
 
 .latest-funds-content {
   padding: 3rem 1rem;
-  /* fallback for old browsers */
-  background: rgba(215, 218, 219, 0.477);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-linear-gradient(to top, rgba(233, 235, 238, 0.121), rgba(215, 218, 219, 0.477));
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to top, rgb(251, 251, 251), rgb(249, 249, 249));
+  background-image: linear-gradient(135deg, #f5f7fa 0%, #dee4ed 100%);
 
   .title {
     font-size: 2.5rem;
     font-weight: bold;
     font-family: 'Dancing Script', cursive;
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .no-funds {
+    text-align: center;
+    font-size: 1.1rem;
   }
 
   .funds {
@@ -301,6 +373,105 @@ export default {
   }
 
   .funds::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgb(74, 74, 74);
+  }
+}
+
+.entities-content {
+  padding: 3rem 1rem;
+  background-image: linear-gradient(-225deg, #fffeff 0%, #f3ffff 100%);
+
+  .title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .no-entities {
+    text-align: center;
+    font-size: 1.1rem;
+  }
+
+  .entity-search-form {
+    width: 22rem;
+    margin: auto;
+    margin-top: -0.7rem;
+    margin-bottom: 1.8rem;
+
+    @media (max-width: 460px) {
+      width: 100%;
+    }
+
+    .input-container {
+      position: relative;
+
+      .input {
+        height: 2.2rem;
+        width: 100%;
+        min-width: 20rem;
+        padding: 1.1rem 3rem 1.1rem 0.5rem;
+        border: 0.1px solid rgb(141, 141, 141);
+        border-radius: 5px;
+      }
+
+      .icon-container {
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: rgb(53, 53, 53);
+        background-color: rgb(194, 194, 194);
+        border-top: 0.1px solid rgb(141, 141, 141);
+        border-right: 0.1px solid rgb(141, 141, 141);
+        border-bottom: 0.1px solid rgb(141, 141, 141);
+        border-radius: 0 5px 5px 0;
+        padding: 0 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .icon-container:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .entities {
+    padding-bottom: 1.1rem;
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 1rem;
+
+    .entity {
+      width: 20rem;
+      max-width: 85%;
+      flex-shrink: 0;
+      padding: 0.4rem 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  .entities::-webkit-scrollbar {
+    height: 12px;
+    border-radius: 10px;
+    background-color: rgb(175, 175, 175);
+
+    @media only screen and (hover: none) and (pointer: coarse) {
+      display: none;
+    }
+  }
+
+  .entities::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: rgb(74, 74, 74);
   }
@@ -449,12 +620,9 @@ export default {
 
 .fundtoken-content {
   padding: 6rem;
-  /* fallback for old browsers */
-  background: #b9d5bc;
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-linear-gradient(to left, rgba(185, 213, 188, 0.5), rgba(222, 237, 222, 0.5));
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to left, rgba(185, 213, 188, 0.5), rgba(222, 237, 222, 0.5));
+  background-image: radial-gradient(73% 147%, #ece2df 59%, #eadfdf 100%),
+    radial-gradient(91% 146%, rgba(255, 255, 255, 0.5) 47%, rgba(0, 0, 0, 0.5) 100%);
+  background-blend-mode: screen;
 
   display: flex;
   flex-direction: row-reverse;

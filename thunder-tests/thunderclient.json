@@ -206,5 +206,19 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "5885befd-1895-4c54-8db8-24a020e9702e",
+    "colId": "b3831ec5-9bab-4557-832b-d559e38b8e4d",
+    "containerId": "",
+    "name": "getEntities",
+    "url": "entity",
+    "method": "GET",
+    "sortNum": 130000,
+    "created": "2023-03-07T15:48:50.675Z",
+    "modified": "2023-03-07T15:48:55.109Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

@@ -117,9 +117,14 @@ const getAmount = async (req, res) => {
   return res.status(200).json(amount);
 };
 
+const getAll = async (req, res) => {
+  const entities = await Entity.find();
+  return res.status(200).json(entities);
+};
+
 const get = async (req, res) => {
   const entity = await Entity.findOne({ address: req.params.address.toLowerCase() });
   return res.status(200).json(entity);
 };
 
-module.exports = { create, update, uploadImage, removeImage, get, getAmount };
+module.exports = { create, update, uploadImage, removeImage, getAmount, getAll, get };
