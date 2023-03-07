@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import $ from 'jquery';
 import axios from 'axios';
 
 export default {
@@ -55,11 +54,11 @@ export default {
   watch: {},
   methods: {
     goToProfile() {
-      $('#entityModal').modal('hide');
-      this.$router.push({
+      const routeData = this.$router.resolve({
         name: 'Profile',
         params: { address: this.fund.creator },
       });
+      window.open(routeData.href, '_blank');
     },
   },
   created() {
