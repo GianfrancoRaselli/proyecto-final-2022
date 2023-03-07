@@ -96,11 +96,12 @@
       <div class="card-footer text-muted text-center">
         <AppDate :date="createdAt" />
       </div>
+
+      <EntityModal :fund="fund" />
     </div>
 
     <!-- modals -->
     <CreateFundModal :fund="fund" />
-    <EntityModal />
     <ManagersModal :fund="fund" :isManager="isManager" />
     <ContributeModal :fund="fund" />
     <ContributorsModal :fund="fund" />
