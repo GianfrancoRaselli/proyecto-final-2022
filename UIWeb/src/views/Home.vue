@@ -257,8 +257,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
-
 .content {
   min-width: 100%;
   padding: 0;
