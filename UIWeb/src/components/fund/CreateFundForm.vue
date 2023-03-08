@@ -6,7 +6,7 @@
       </div>
 
       <div class="fund-token-info mb-3">
-        <fa-icon icon="circle-info" class="icon mr-2"></fa-icon><span class="info">Crear un nuevo fondo cuesta 1 FundToken</span>
+        <fa-icon icon="circle-info" class="icon"></fa-icon><span class="info">Crear un nuevo fondo cuesta 1 FundToken</span>
       </div>
 
       <!-- Fund Information -->
@@ -18,23 +18,53 @@
 
         <div class="form-group">
           <label for="typeInput">Tipo</label>
-          <select id="typeInput" class="form-control" v-model="data.type" :disabled="loading">
-            <option v-for="(type, i) in types" :key="i" v-text="type.type" :value="type.value" :selected="type.selected"></option>
-          </select>
+          <div class="info-input">
+            <select id="typeInput" class="form-control" v-model="data.type" :disabled="loading">
+              <option
+                v-for="(type, i) in types"
+                :key="i"
+                v-text="type.type"
+                :value="type.value"
+                :selected="type.selected"
+              ></option>
+            </select>
+            <div class="info">
+              <fa-icon
+                icon="question"
+                class="icon"
+                @mouseover="info.type.mouse = true"
+                @mouseleave="info.type.mouse = false"
+                @click="info.type.click = !info.type.click"
+              />
+              <div class="my-tooltip" v-if="info.type.mouse || info.type.click">isdjksdsdkssdkdskds koas dko sadkosd</div>
+            </div>
+          </div>
         </div>
 
         <div class="form-group">
           <label for="nameInput">Nombre</label>
-          <input
-            type="text"
-            class="form-control"
-            :class="{ 'is-invalid': v$.data.name.$errors.length }"
-            id="nameInput"
-            aria-describedby="nameHelp"
-            autofocus
-            v-model="data.name"
-            :disabled="loading"
-          />
+          <div class="info-input">
+            <input
+              type="text"
+              class="form-control"
+              :class="{ 'is-invalid': v$.data.name.$errors.length }"
+              id="nameInput"
+              aria-describedby="nameHelp"
+              autofocus
+              v-model="data.name"
+              :disabled="loading"
+            />
+            <div class="info">
+              <fa-icon
+                icon="question"
+                class="icon"
+                @mouseover="info.name.mouse = true"
+                @mouseleave="info.name.mouse = false"
+                @click="info.name.click = !info.name.click"
+              />
+              <div class="my-tooltip" v-if="info.name.mouse || info.name.click">isdjksdsdkssdkdskds koas dko sadkosd</div>
+            </div>
+          </div>
           <small id="nameHelp" class="form-text text-muted"></small>
           <AppInputErrors :errors="v$.data.name.$errors" />
         </div>
@@ -47,29 +77,57 @@
           </div>
 
           <div class="form-group">
-            <div class="custom-control custom-switch">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="addMeAsAManagerInput"
-                v-model="data.addMeAsAManager"
-                :disabled="data.type === 'campaign' || data.type === 'donation' || loading"
-              />
-              <label class="custom-control-label" for="addMeAsAManagerInput">Agregarme como administrador</label>
+            <div class="info-input">
+              <div class="custom-control custom-switch">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="addMeAsAManagerInput"
+                  v-model="data.addMeAsAManager"
+                  :disabled="data.type === 'campaign' || data.type === 'donation' || loading"
+                />
+                <label class="custom-control-label" for="addMeAsAManagerInput">Agregarme como administrador</label>
+              </div>
+              <div class="info">
+                <fa-icon
+                  icon="question"
+                  class="icon"
+                  @mouseover="info.addMeAsAManager.mouse = true"
+                  @mouseleave="info.addMeAsAManager.mouse = false"
+                  @click="info.addMeAsAManager.click = !info.addMeAsAManager.click"
+                />
+                <div class="my-tooltip" v-if="info.addMeAsAManager.mouse || info.addMeAsAManager.click">
+                  isdjksdsdkssdkdskds koas dko sadkosd
+                </div>
+              </div>
             </div>
           </div>
 
           <div class="form-group">
             <label for="managersInput">Administradores<span class="extra-info">Opcional</span></label>
-            <textarea
-              class="form-control"
-              :class="{ 'is-invalid': v$.data.managers.$errors.length }"
-              id="managersInput"
-              rows="3"
-              aria-describedby="managersHelp"
-              v-model="data.managers"
-              :disabled="loading"
-            ></textarea>
+            <div class="info-input">
+              <textarea
+                class="form-control"
+                :class="{ 'is-invalid': v$.data.managers.$errors.length }"
+                id="managersInput"
+                rows="3"
+                aria-describedby="managersHelp"
+                v-model="data.managers"
+                :disabled="loading"
+              ></textarea>
+              <div class="info">
+                <fa-icon
+                  icon="question"
+                  class="icon"
+                  @mouseover="info.managers.mouse = true"
+                  @mouseleave="info.managers.mouse = false"
+                  @click="info.managers.click = !info.managers.click"
+                />
+                <div class="my-tooltip" v-if="info.managers.mouse || info.managers.click">
+                  isdjksdsdkssdkdskds koas dko sadkosd
+                </div>
+              </div>
+            </div>
             <small id="managersHelp" class="form-text text-muted"
               >Ingrese la dirección de otros administradores separados por coma (,)</small
             >
@@ -77,17 +135,31 @@
           </div>
 
           <div class="form-group">
-            <div class="custom-control custom-switch">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="managersCanBeAddedOrRemovedInput"
-                v-model="data.managersCanBeAddedOrRemoved"
-                :disabled="data.type !== '' || loading"
-              />
-              <label class="custom-control-label" for="managersCanBeAddedOrRemovedInput"
-                >Los administradores pueden ser agregados o removidos</label
-              >
+            <div class="info-input">
+              <div class="custom-control custom-switch">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="managersCanBeAddedOrRemovedInput"
+                  v-model="data.managersCanBeAddedOrRemoved"
+                  :disabled="data.type !== '' || loading"
+                />
+                <label class="custom-control-label" for="managersCanBeAddedOrRemovedInput"
+                  >Los administradores pueden ser agregados o removidos</label
+                >
+              </div>
+              <div class="info">
+                <fa-icon
+                  icon="question"
+                  class="icon"
+                  @mouseover="info.managersCanBeAddedOrRemoved.mouse = true"
+                  @mouseleave="info.managersCanBeAddedOrRemoved.mouse = false"
+                  @click="info.managersCanBeAddedOrRemoved.click = !info.managersCanBeAddedOrRemoved.click"
+                />
+                <div class="my-tooltip" v-if="info.managersCanBeAddedOrRemoved.mouse || info.managersCanBeAddedOrRemoved.click">
+                  isdjksdsdkssdkdskds koas dko sadkosd
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -101,60 +173,122 @@
         </div>
 
         <div class="form-group">
-          <div class="custom-control custom-switch">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              id="managersCanTransferMoneyWithoutARequestInput"
-              v-model="data.managersCanTransferMoneyWithoutARequest"
-              :disabled="data.type !== '' || loading"
-            />
-            <label class="custom-control-label" for="managersCanTransferMoneyWithoutARequestInput"
-              >Los administradores pueden transferir dinero sin una solicitud</label
-            >
+          <div class="info-input">
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="managersCanTransferMoneyWithoutARequestInput"
+                v-model="data.managersCanTransferMoneyWithoutARequest"
+                :disabled="data.type !== '' || loading"
+              />
+              <label class="custom-control-label" for="managersCanTransferMoneyWithoutARequestInput"
+                >Los administradores pueden transferir dinero sin una solicitud</label
+              >
+            </div>
+            <div class="info">
+              <fa-icon
+                icon="question"
+                class="icon"
+                @mouseover="info.managersCanTransferMoneyWithoutARequest.mouse = true"
+                @mouseleave="info.managersCanTransferMoneyWithoutARequest.mouse = false"
+                @click="info.managersCanTransferMoneyWithoutARequest.click = !info.managersCanTransferMoneyWithoutARequest.click"
+              />
+              <div
+                class="my-tooltip"
+                v-if="info.managersCanTransferMoneyWithoutARequest.mouse || info.managersCanTransferMoneyWithoutARequest.click"
+              >
+                isdjksdsdkssdkdskds koas dko sadkosd
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="form-group">
-          <div class="custom-control custom-switch">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              id="requestsCanBeCreatedInput"
-              v-model="data.requestsCanBeCreated"
-              :disabled="data.type !== '' || loading"
-            />
-            <label class="custom-control-label" for="requestsCanBeCreatedInput">Las solicitudes pueden ser creadas</label>
+          <div class="info-input">
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="requestsCanBeCreatedInput"
+                v-model="data.requestsCanBeCreated"
+                :disabled="data.type !== '' || loading"
+              />
+              <label class="custom-control-label" for="requestsCanBeCreatedInput">Las solicitudes pueden ser creadas</label>
+            </div>
+            <div class="info">
+              <fa-icon
+                icon="question"
+                class="icon"
+                @mouseover="info.requestsCanBeCreated.mouse = true"
+                @mouseleave="info.requestsCanBeCreated.mouse = false"
+                @click="info.requestsCanBeCreated.click = !info.requestsCanBeCreated.click"
+              />
+              <div class="my-tooltip" v-if="info.requestsCanBeCreated.mouse || info.requestsCanBeCreated.click">
+                isdjksdsdkssdkdskds koas dko sadkosd
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="form-group">
-          <div class="custom-control custom-switch">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              id="onlyManagersCanCreateARequestInput"
-              v-model="data.onlyManagersCanCreateARequest"
-              :disabled="data.type !== '' || !data.requestsCanBeCreated || loading"
-            />
-            <label class="custom-control-label" for="onlyManagersCanCreateARequestInput"
-              >Solo los administradores pueden crear una solicitud</label
-            >
+          <div class="info-input">
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="onlyManagersCanCreateARequestInput"
+                v-model="data.onlyManagersCanCreateARequest"
+                :disabled="data.type !== '' || !data.requestsCanBeCreated || loading"
+              />
+              <label class="custom-control-label" for="onlyManagersCanCreateARequestInput"
+                >Solo los administradores pueden crear una solicitud</label
+              >
+            </div>
+            <div class="info">
+              <fa-icon
+                icon="question"
+                class="icon"
+                @mouseover="info.onlyManagersCanCreateARequest.mouse = true"
+                @mouseleave="info.onlyManagersCanCreateARequest.mouse = false"
+                @click="info.onlyManagersCanCreateARequest.click = !info.onlyManagersCanCreateARequest.click"
+              />
+              <div class="my-tooltip" v-if="info.onlyManagersCanCreateARequest.mouse || info.onlyManagersCanCreateARequest.click">
+                isdjksdsdkssdkdskds koas dko sadkosd
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="form-group">
-          <div class="custom-control custom-switch">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              id="onlyContributorsCanApproveARequestInput"
-              v-model="data.onlyContributorsCanApproveARequest"
-              :disabled="data.type !== '' || !data.requestsCanBeCreated || loading"
-            />
-            <label class="custom-control-label" for="onlyContributorsCanApproveARequestInput"
-              >Solo los contribuyentes pueden aprobar una solicitud</label
-            >
+          <div class="info-input">
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="onlyContributorsCanApproveARequestInput"
+                v-model="data.onlyContributorsCanApproveARequest"
+                :disabled="data.type !== '' || !data.requestsCanBeCreated || loading"
+              />
+              <label class="custom-control-label" for="onlyContributorsCanApproveARequestInput"
+                >Solo los contribuyentes pueden aprobar una solicitud</label
+              >
+            </div>
+            <div class="info">
+              <fa-icon
+                icon="question"
+                class="icon"
+                @mouseover="info.onlyContributorsCanApproveARequest.mouse = true"
+                @mouseleave="info.onlyContributorsCanApproveARequest.mouse = false"
+                @click="info.onlyContributorsCanApproveARequest.click = !info.onlyContributorsCanApproveARequest.click"
+              />
+              <div
+                class="my-tooltip"
+                v-if="info.onlyContributorsCanApproveARequest.mouse || info.onlyContributorsCanApproveARequest.click"
+              >
+                isdjksdsdkssdkdskds koas dko sadkosd
+              </div>
+            </div>
           </div>
         </div>
 
@@ -172,15 +306,32 @@
         </div>
 
         <div class="form-group">
-          <input
-            type="number"
-            class="form-control"
-            :class="{ 'is-invalid': v$.data.minimumContributionPercentageRequired.$errors.length }"
-            id="minimumContributionPercentageRequiredInput"
-            aria-describedby="minimumContributionPercentageRequiredHelp"
-            v-model="data.minimumContributionPercentageRequired"
-            :disabled="!data.requestsCanBeCreated || loading"
-          />
+          <div class="info-input">
+            <input
+              type="number"
+              class="form-control"
+              :class="{ 'is-invalid': v$.data.minimumContributionPercentageRequired.$errors.length }"
+              id="minimumContributionPercentageRequiredInput"
+              aria-describedby="minimumContributionPercentageRequiredHelp"
+              v-model="data.minimumContributionPercentageRequired"
+              :disabled="!data.requestsCanBeCreated || loading"
+            />
+            <div class="info">
+              <fa-icon
+                icon="question"
+                class="icon"
+                @mouseover="info.minimumContributionPercentageRequired.mouse = true"
+                @mouseleave="info.minimumContributionPercentageRequired.mouse = false"
+                @click="info.minimumContributionPercentageRequired.click = !info.minimumContributionPercentageRequired.click"
+              />
+              <div
+                class="my-tooltip"
+                v-if="info.minimumContributionPercentageRequired.mouse || info.minimumContributionPercentageRequired.click"
+              >
+                isdjksdsdkssdkdskds koas dko sadkosd
+              </div>
+            </div>
+          </div>
           <AppInputErrors :errors="v$.data.minimumContributionPercentageRequired.$errors" />
         </div>
 
@@ -198,15 +349,32 @@
         </div>
 
         <div class="form-group">
-          <input
-            type="number"
-            class="form-control"
-            :class="{ 'is-invalid': v$.data.minimumApprovalsPercentageRequired.$errors.length }"
-            id="minimumApprovalsPercentageRequiredInput"
-            aria-describedby="minimumApprovalsPercentageRequiredHelp"
-            v-model="data.minimumApprovalsPercentageRequired"
-            :disabled="!data.requestsCanBeCreated || loading"
-          />
+          <div class="info-input">
+            <input
+              type="number"
+              class="form-control"
+              :class="{ 'is-invalid': v$.data.minimumApprovalsPercentageRequired.$errors.length }"
+              id="minimumApprovalsPercentageRequiredInput"
+              aria-describedby="minimumApprovalsPercentageRequiredHelp"
+              v-model="data.minimumApprovalsPercentageRequired"
+              :disabled="!data.requestsCanBeCreated || loading"
+            />
+            <div class="info">
+              <fa-icon
+                icon="question"
+                class="icon"
+                @mouseover="info.minimumApprovalsPercentageRequired.mouse = true"
+                @mouseleave="info.minimumApprovalsPercentageRequired.mouse = false"
+                @click="info.minimumApprovalsPercentageRequired.click = !info.minimumApprovalsPercentageRequired.click"
+              />
+              <div
+                class="my-tooltip"
+                v-if="info.minimumApprovalsPercentageRequired.mouse || info.minimumApprovalsPercentageRequired.click"
+              >
+                isdjksdsdkssdkdskds koas dko sadkosd
+              </div>
+            </div>
+          </div>
           <AppInputErrors :errors="v$.data.minimumApprovalsPercentageRequired.$errors" />
         </div>
       </div>
@@ -272,6 +440,52 @@ export default {
         onlyContributorsCanApproveARequest: false,
         minimumContributionPercentageRequired: 5,
         minimumApprovalsPercentageRequired: 50,
+      },
+      info: {
+        type: {
+          mouse: false,
+          click: false,
+        },
+        name: {
+          mouse: false,
+          click: false,
+        },
+        addMeAsAManager: {
+          mouse: false,
+          click: false,
+        },
+        managers: {
+          mouse: false,
+          click: false,
+        },
+        managersCanBeAddedOrRemoved: {
+          mouse: false,
+          click: false,
+        },
+        managersCanTransferMoneyWithoutARequest: {
+          mouse: false,
+          click: false,
+        },
+        requestsCanBeCreated: {
+          mouse: false,
+          click: false,
+        },
+        onlyManagersCanCreateARequest: {
+          mouse: false,
+          click: false,
+        },
+        onlyContributorsCanApproveARequest: {
+          mouse: false,
+          click: false,
+        },
+        minimumContributionPercentageRequired: {
+          mouse: false,
+          click: false,
+        },
+        minimumApprovalsPercentageRequired: {
+          mouse: false,
+          click: false,
+        },
       },
     };
   },
@@ -481,7 +695,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .container {
   padding: 0;
 }
@@ -519,18 +733,16 @@ export default {
 }
 
 .fund-token-info {
+  font-size: 1rem;
   color: #1d6aa8;
   display: flex;
   flex-direction: row;
   align-items: center;
-}
+  gap: 0.6rem;
 
-.fund-token-info .icon {
-  font-size: 1.35rem;
-}
-
-.fund-token-info .info {
-  font-size: 0.85rem;
+  .icon {
+    font-size: 1.68em;
+  }
 }
 
 .form-section {
@@ -547,12 +759,53 @@ export default {
   gap: 8px;
 }
 
-.form-section .title {
-  font-size: 1.2rem;
+.form-section {
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .step {
+    font-size: 0.75rem;
+    margin-left: auto;
+  }
 }
 
-.form-section .step {
-  font-size: 0.75rem;
-  margin-left: auto;
+.info-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+
+  .info {
+    position: relative;
+
+    .icon {
+      user-select: none;
+      height: 1.2rem;
+      width: 1.2rem;
+      font-size: 1.2rem;
+      padding: 0.5rem;
+      border-radius: 1.2rem;
+      color: rgb(47, 47, 47);
+    }
+
+    .icon:hover {
+      cursor: pointer;
+      background-color: rgb(225, 225, 225);
+    }
+
+    .my-tooltip {
+      position: absolute;
+      top: 50%;
+      right: 120%;
+      transform: translateY(-50%);
+      color: rgb(255, 255, 255);
+      background-color: rgb(50, 50, 50);
+      padding: 1rem;
+      border: 0.1px solid rgb(233, 233, 233);
+      border-radius: 0.4rem;
+    }
+  }
 }
 </style>
