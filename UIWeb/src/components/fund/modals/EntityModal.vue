@@ -11,7 +11,7 @@
         <div class="modal-body">
           <!--  -->
           <div class="entity-information" v-if="entity">
-            <img class="profile-img" :src="'http://localhost:4000/images/' + entity.image" v-if="entity.image" />
+            <img class="profile-img" :src="serverUrl + 'images/' + entity.image" v-if="entity.image" />
             <img class="profile-img" src="@/assets/imgs/user-not-found.png" v-else />
             <span class="fullname" v-text="entity.fullname" />
             <span class="type" v-text="entity.type" />
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { serverUrl } from '@/siteConfig';
 import axios from 'axios';
 
 export default {
@@ -47,6 +48,7 @@ export default {
   },
   data() {
     return {
+      serverUrl,
       entity: null,
     };
   },

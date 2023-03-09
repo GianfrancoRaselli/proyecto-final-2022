@@ -4,11 +4,7 @@
       <AppSpinner class="spinner" size="big" v-if="loading" />
       <div class="entity-card-content" v-else>
         <div class="img-container">
-          <img
-            class="profile-img magnify-img"
-            :src="'http://localhost:4000/images/' + entity.image"
-            v-if="entity && entity.image"
-          />
+          <img class="profile-img magnify-img" :src="serverUrl + 'images/' + entity.image" v-if="entity && entity.image" />
           <img class="profile-img" src="@/assets/imgs/user-not-found.png" v-else />
           <div class="icons" v-if="isMyProfile">
             <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editEntityImageModal" v-if="entity" />
@@ -57,6 +53,7 @@
 </template>
 
 <script>
+import { serverUrl } from '@/siteConfig';
 import { mapGetters, mapState } from 'vuex';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
@@ -75,6 +72,7 @@ export default {
   },
   data() {
     return {
+      serverUrl,
       loading: true,
       entity: null,
     };

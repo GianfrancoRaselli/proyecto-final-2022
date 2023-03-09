@@ -15,7 +15,7 @@
       </div>
       <div class="card-body">
         <div class="body-header">
-          <img class="img" :src="'http://localhost:4000/images/' + fund.image" v-if="fund.image" />
+          <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
           <img class="img" src="@/assets/imgs/fund.png" v-else />
           <div class="description" v-if="fund.description">
             <span v-text="fund.description" />
@@ -112,6 +112,7 @@
 
 <script>
 import $ from 'jquery';
+import { serverUrl } from '@/siteConfig';
 import { mapGetters } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event } from '@/helpers/helpers';
@@ -139,6 +140,7 @@ export default {
   },
   data() {
     return {
+      serverUrl,
       loading: true,
       fund: {
         address: '',

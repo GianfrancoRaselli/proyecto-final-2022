@@ -4,7 +4,7 @@
       <span v-text="entity.fullname" />
     </div>
     <div class="card-body">
-      <img class="img" :src="'http://localhost:4000/images/' + entity.image" v-if="entity.image" />
+      <img class="img" :src="serverUrl + 'images/' + entity.image" v-if="entity.image" />
       <img class="img" src="@/assets/imgs/user-not-found.png" v-else />
       <span class="type" v-text="entity.type" />
       <span class="address"><AppShowAddress :address="entity.address" /></span>
@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { serverUrl } from '@/siteConfig';
+
 export default {
   name: 'EntityCardComponent',
   components: {},
@@ -20,7 +22,7 @@ export default {
     entity: { type: Object, require: true },
   },
   data() {
-    return {};
+    return { serverUrl };
   },
   computed: {},
   watch: {},
