@@ -8,7 +8,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 // initializations
-const port = 4000;
+const PORT = 4000;
 const app = express();
 
 // middlewares
@@ -20,8 +20,8 @@ app.use(bodyParser.json());
 app.use("/", require("./routes"));
 
 // starting the server
-app.listen(process.env.PORT || port, () => {
-  console.log("Server on port: " + (process.env.PORT || port));
+app.listen(process.env.PORT || PORT, () => {
+  console.log("Server on port: " + (process.env.PORT || PORT));
 
   //connect to db
   mongoose

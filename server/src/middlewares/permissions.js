@@ -4,8 +4,11 @@ const fundABI = require("../../abis/Fund");
 
 const createFund = async (req, res, next) => {
   try {
-    console.log("req.entityAddress");
-    const web3 = new Web3("http://127.0.0.1:7545"); // https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a
+    const web3 = new Web3(
+      process.env.IS_LOCALHOST === "true"
+        ? "http://127.0.0.1:7545"
+        : "https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a"
+    );
     const fund = new web3.eth.Contract(fundABI, req.body.address);
     const creatorAddress = await fund.methods.creator().call();
     if (req.entityAddress.toUpperCase() === creatorAddress.toUpperCase()) {
