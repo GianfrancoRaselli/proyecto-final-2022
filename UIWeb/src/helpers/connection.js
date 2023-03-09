@@ -4,8 +4,8 @@ import Swal from 'sweetalert2';
 import { call, event } from '@/helpers/helpers';
 //import detectEthereumProvider from '@metamask/detect-provider';
 
-import fundFactoryABI from '../assets/abis/FundFactory';
-import { fundFactoryAddress } from '../assets/lastAddresses';
+import fundFactoryABI from '@/assets/abis/FundFactory';
+import { fundFactoryAddress } from '@/siteConfig';
 
 const hasMetamask = () => {
   const ethereumProvider = window.ethereum;

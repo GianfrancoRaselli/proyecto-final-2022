@@ -1,3 +1,6 @@
+import ganacheAddresses from '@/assets/addresses/ganache.json';
+import goerliAddresses from '@/assets/addresses/goerli.json';
+
 // configurable
 const forceProduction = false;
 
@@ -28,6 +31,8 @@ const isLocalhost = isLocalhostTemp;
 const serverUrl = isLocalhost ? serverUrlLocalhost : serverUrlProduction;
 const network = isLocalhost ? ganacheNetwork : goerliNetwork;
 const infuraProvider = isLocalhost ? infuraProviderLocalhost : infuraProviderProduction;
+const fundFactoryAddress = isLocalhost ? ganacheAddresses.fundFactoryAddress : goerliAddresses.fundFactoryAddress;
+const fundTokenAddress = isLocalhost ? ganacheAddresses.fundTokenAddress : goerliAddresses.fundTokenAddress;
 
 // exports
-export { isLocalhost, serverUrl, network, infuraProvider };
+export { isLocalhost, serverUrl, network, infuraProvider, fundFactoryAddress, fundTokenAddress };

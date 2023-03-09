@@ -5,8 +5,8 @@ import connect from 'web3-simple-helpers/methods/connect';
 import { addNotification } from '@/composables/useNotifications';
 import { hasMetamask } from './connection';
 
-import fundTokenABI from '../assets/abis/FundToken';
-import { fundTokenAddress } from '../assets/lastAddresses';
+import fundTokenABI from '@/assets/abis/FundToken';
+import { fundTokenAddress } from '@/siteConfig';
 
 async function getContract(contract, provider = 'infura') {
   if (provider === 'metamask' && store.state.connection.provider) {

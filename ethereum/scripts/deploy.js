@@ -22,10 +22,8 @@ async function main() {
   console.log('FundToken deployed to:', await fundFactory.fundToken());
 
   // Save the last addresses deployed
-  fs.writeFileSync('.lastFundFactoryAddress', fundFactory.address);
-  fs.writeFileSync('.lastFundTokenAddress', await fundFactory.fundToken());
   fs.writeFileSync(
-    '../UIWeb/src/assets/lastAddresses.json',
+    '../UIWeb/src/assets/addresses/' + hre.network.name + '.json',
     JSON.stringify({ fundFactoryAddress: fundFactory.address, fundTokenAddress: await fundFactory.fundToken() }),
   );
 
