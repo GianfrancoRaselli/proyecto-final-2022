@@ -134,7 +134,7 @@
                 />
                 <div class="my-tooltip" v-if="info.managers">
                   Aquí puede agregar todos los administradores que desee, por ejemplo: 0x83bCaE28bdc13DA35617A1d648729CD373111dA9,
-                  0x3Df8Aea0789c1007E5e6F6876773A1dce65b41Be, ...
+                  0x3Df8Aea0789c1007E5e6F6876773A1dce65b41Be.
                 </div>
               </div>
             </div>
@@ -785,6 +785,7 @@ export default {
     }
 
     .my-tooltip {
+      word-wrap: break-word;
       position: absolute;
       top: 50%;
       right: 120%;
@@ -804,6 +805,10 @@ export default {
       }
 
       @media (max-width: 450px) {
+        max-width: 20rem;
+      }
+
+      @media (max-width: 370px) {
         max-width: 14rem;
       }
     }
