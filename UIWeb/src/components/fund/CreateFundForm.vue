@@ -1,12 +1,29 @@
 <template>
   <div class="container">
     <form class="form" @submit.prevent="handleSubmit">
-      <div class="mb-3">
+      <div class="form-title mb-3">
         <span class="h2">Crear fondo</span>
       </div>
 
-      <div class="fund-token-info mb-3">
-        <fa-icon icon="circle-info" class="icon"></fa-icon><span class="info">Crear un nuevo fondo cuesta 1 FundToken</span>
+      <div class="information mb-3">
+        <div class="information-title">Información importante</div>
+        <div class="information-info">
+          <div>
+            <fa-icon icon="angle-right" class="icon mr-2"></fa-icon
+            ><span class="info"
+              >Crear un nuevo fondo cuesta 1 FundToken. Por lo tanto, necesitas contar con dicho token en MetaMask, el cual será
+              debitado automáticamente al crear el fondo.</span
+            >
+          </div>
+          <div class="separator"></div>
+          <div>
+            <fa-icon icon="angle-right" class="icon mr-2"></fa-icon>
+            <span class="info"
+              >Todos los datos que ingreses a continuación serán almacenados en la cadena de bloques. Por lo tanto, no podrán ser
+              modificados una vez creado el fondo.</span
+            >
+          </div>
+        </div>
       </div>
 
       <!-- Fund Information -->
@@ -29,14 +46,12 @@
               ></option>
             </select>
             <div class="info">
-              <fa-icon
-                icon="question"
-                class="icon"
-                @mouseover="info.type.mouse = true"
-                @mouseleave="info.type.mouse = false"
-                @click="info.type.click = !info.type.click"
-              />
-              <div class="my-tooltip" v-if="info.type.mouse || info.type.click">isdjksdsdkssdkdskds koas dko sadkosd</div>
+              <fa-icon icon="question" class="icon" :class="{ 'icon-active': info.type }" @click="info.type = !info.type" />
+              <div class="my-tooltip" v-if="info.type">
+                Le ofrecemos la facilidad de seleccionar 3 tipos de fondos diferentes que vienen con diferentes parámetros ya
+                configurados para su uso. En caso de querer una configuración al 100% puede optar por elegir un "fondo
+                personalizado".
+              </div>
             </div>
           </div>
         </div>
@@ -55,14 +70,8 @@
               :disabled="loading"
             />
             <div class="info">
-              <fa-icon
-                icon="question"
-                class="icon"
-                @mouseover="info.name.mouse = true"
-                @mouseleave="info.name.mouse = false"
-                @click="info.name.click = !info.name.click"
-              />
-              <div class="my-tooltip" v-if="info.name.mouse || info.name.click">isdjksdsdkssdkdskds koas dko sadkosd</div>
+              <fa-icon icon="question" class="icon" :class="{ 'icon-active': info.name }" @click="info.name = !info.name" />
+              <div class="my-tooltip" v-if="info.name">Nombre identificatorio del fondo.</div>
             </div>
           </div>
           <small id="nameHelp" class="form-text text-muted"></small>
@@ -92,12 +101,13 @@
                 <fa-icon
                   icon="question"
                   class="icon"
-                  @mouseover="info.addMeAsAManager.mouse = true"
-                  @mouseleave="info.addMeAsAManager.mouse = false"
-                  @click="info.addMeAsAManager.click = !info.addMeAsAManager.click"
+                  :class="{ 'icon-active': info.addMeAsAManager }"
+                  @click="info.addMeAsAManager = !info.addMeAsAManager"
                 />
-                <div class="my-tooltip" v-if="info.addMeAsAManager.mouse || info.addMeAsAManager.click">
-                  isdjksdsdkssdkdskds koas dko sadkosd
+                <div class="my-tooltip" v-if="info.addMeAsAManager">
+                  Un administrador podrá tener la facultad de: agregar y remover nuevos administradores, transferir dinero del
+                  fondo sin una solicitud previa, crear solicitudes de retiro de dinero, aprobar solicitudes sin haber aportado al
+                  fondo previamente.
                 </div>
               </div>
             </div>
@@ -119,12 +129,12 @@
                 <fa-icon
                   icon="question"
                   class="icon"
-                  @mouseover="info.managers.mouse = true"
-                  @mouseleave="info.managers.mouse = false"
-                  @click="info.managers.click = !info.managers.click"
+                  :class="{ 'icon-active': info.managers }"
+                  @click="info.managers = !info.managers"
                 />
-                <div class="my-tooltip" v-if="info.managers.mouse || info.managers.click">
-                  isdjksdsdkssdkdskds koas dko sadkosd
+                <div class="my-tooltip" v-if="info.managers">
+                  Aquí puede agregar todos los administradores que desee, por ejemplo: 0x83bCaE28bdc13DA35617A1d648729CD373111dA9,
+                  0x3Df8Aea0789c1007E5e6F6876773A1dce65b41Be, ...
                 </div>
               </div>
             </div>
@@ -152,12 +162,12 @@
                 <fa-icon
                   icon="question"
                   class="icon"
-                  @mouseover="info.managersCanBeAddedOrRemoved.mouse = true"
-                  @mouseleave="info.managersCanBeAddedOrRemoved.mouse = false"
-                  @click="info.managersCanBeAddedOrRemoved.click = !info.managersCanBeAddedOrRemoved.click"
+                  :class="{ 'icon-active': info.managersCanBeAddedOrRemoved }"
+                  @click="info.managersCanBeAddedOrRemoved = !info.managersCanBeAddedOrRemoved"
                 />
-                <div class="my-tooltip" v-if="info.managersCanBeAddedOrRemoved.mouse || info.managersCanBeAddedOrRemoved.click">
-                  isdjksdsdkssdkdskds koas dko sadkosd
+                <div class="my-tooltip" v-if="info.managersCanBeAddedOrRemoved">
+                  Si esta opción está activada los administradores agregados anteriormente podrán agregar o remover a nuevos
+                  administradores.
                 </div>
               </div>
             </div>
@@ -190,15 +200,12 @@
               <fa-icon
                 icon="question"
                 class="icon"
-                @mouseover="info.managersCanTransferMoneyWithoutARequest.mouse = true"
-                @mouseleave="info.managersCanTransferMoneyWithoutARequest.mouse = false"
-                @click="info.managersCanTransferMoneyWithoutARequest.click = !info.managersCanTransferMoneyWithoutARequest.click"
+                :class="{ 'icon-active': info.managersCanTransferMoneyWithoutARequest }"
+                @click="info.managersCanTransferMoneyWithoutARequest = !info.managersCanTransferMoneyWithoutARequest"
               />
-              <div
-                class="my-tooltip"
-                v-if="info.managersCanTransferMoneyWithoutARequest.mouse || info.managersCanTransferMoneyWithoutARequest.click"
-              >
-                isdjksdsdkssdkdskds koas dko sadkosd
+              <div class="my-tooltip" v-if="info.managersCanTransferMoneyWithoutARequest">
+                Si esta opción esta activada los administradores podrán transferir el dinero del fondo sin crear una solicitud
+                previa.
               </div>
             </div>
           </div>
@@ -220,12 +227,12 @@
               <fa-icon
                 icon="question"
                 class="icon"
-                @mouseover="info.requestsCanBeCreated.mouse = true"
-                @mouseleave="info.requestsCanBeCreated.mouse = false"
-                @click="info.requestsCanBeCreated.click = !info.requestsCanBeCreated.click"
+                :class="{ 'icon-active': info.requestsCanBeCreated }"
+                @click="info.requestsCanBeCreated = !info.requestsCanBeCreated"
               />
-              <div class="my-tooltip" v-if="info.requestsCanBeCreated.mouse || info.requestsCanBeCreated.click">
-                isdjksdsdkssdkdskds koas dko sadkosd
+              <div class="my-tooltip" v-if="info.requestsCanBeCreated">
+                Si esta opción esta activada estará habilitada la función de crear solicitudes para retirar dinero del fondo. En
+                caso contrario, solo podrán retirar dinero los administradores.
               </div>
             </div>
           </div>
@@ -249,12 +256,12 @@
               <fa-icon
                 icon="question"
                 class="icon"
-                @mouseover="info.onlyManagersCanCreateARequest.mouse = true"
-                @mouseleave="info.onlyManagersCanCreateARequest.mouse = false"
-                @click="info.onlyManagersCanCreateARequest.click = !info.onlyManagersCanCreateARequest.click"
+                :class="{ 'icon-active': info.onlyManagersCanCreateARequest }"
+                @click="info.onlyManagersCanCreateARequest = !info.onlyManagersCanCreateARequest"
               />
-              <div class="my-tooltip" v-if="info.onlyManagersCanCreateARequest.mouse || info.onlyManagersCanCreateARequest.click">
-                isdjksdsdkssdkdskds koas dko sadkosd
+              <div class="my-tooltip" v-if="info.onlyManagersCanCreateARequest">
+                Si esta opción esta activada solo los administradores podrán crear solicitudes para retirar dinero del fondo. En
+                caso contrario, cualquier entidad puede crear una solicitud que luego deberá ser aprobada para retirar el dinero.
               </div>
             </div>
           </div>
@@ -278,15 +285,12 @@
               <fa-icon
                 icon="question"
                 class="icon"
-                @mouseover="info.onlyContributorsCanApproveARequest.mouse = true"
-                @mouseleave="info.onlyContributorsCanApproveARequest.mouse = false"
-                @click="info.onlyContributorsCanApproveARequest.click = !info.onlyContributorsCanApproveARequest.click"
+                :class="{ 'icon-active': info.onlyContributorsCanApproveARequest }"
+                @click="info.onlyContributorsCanApproveARequest = !info.onlyContributorsCanApproveARequest"
               />
-              <div
-                class="my-tooltip"
-                v-if="info.onlyContributorsCanApproveARequest.mouse || info.onlyContributorsCanApproveARequest.click"
-              >
-                isdjksdsdkssdkdskds koas dko sadkosd
+              <div class="my-tooltip" v-if="info.onlyContributorsCanApproveARequest">
+                Si esta opción esta activada solo los contribuyentes del fondo podrán aprobar una solicitud de retiro de dinero.
+                En caso contrario, los administradores también podrán hacerlo sin haber aportado al fondo previamente.
               </div>
             </div>
           </div>
@@ -320,15 +324,12 @@
               <fa-icon
                 icon="question"
                 class="icon"
-                @mouseover="info.minimumContributionPercentageRequired.mouse = true"
-                @mouseleave="info.minimumContributionPercentageRequired.mouse = false"
-                @click="info.minimumContributionPercentageRequired.click = !info.minimumContributionPercentageRequired.click"
+                :class="{ 'icon-active': info.minimumContributionPercentageRequired }"
+                @click="info.minimumContributionPercentageRequired = !info.minimumContributionPercentageRequired"
               />
-              <div
-                class="my-tooltip"
-                v-if="info.minimumContributionPercentageRequired.mouse || info.minimumContributionPercentageRequired.click"
-              >
-                isdjksdsdkssdkdskds koas dko sadkosd
+              <div class="my-tooltip" v-if="info.minimumContributionPercentageRequired">
+                Porcentaje mínimo de dinero que una entidad debe aportar al total historico de contribuciones del fondo para poder
+                aprobar una solicitud de retiro de dinero.
               </div>
             </div>
           </div>
@@ -363,15 +364,13 @@
               <fa-icon
                 icon="question"
                 class="icon"
-                @mouseover="info.minimumApprovalsPercentageRequired.mouse = true"
-                @mouseleave="info.minimumApprovalsPercentageRequired.mouse = false"
-                @click="info.minimumApprovalsPercentageRequired.click = !info.minimumApprovalsPercentageRequired.click"
+                :class="{ 'icon-active': info.minimumApprovalsPercentageRequired }"
+                @click="info.minimumApprovalsPercentageRequired = !info.minimumApprovalsPercentageRequired"
               />
-              <div
-                class="my-tooltip"
-                v-if="info.minimumApprovalsPercentageRequired.mouse || info.minimumApprovalsPercentageRequired.click"
-              >
-                isdjksdsdkssdkdskds koas dko sadkosd
+              <div class="my-tooltip" v-if="info.minimumApprovalsPercentageRequired">
+                Porcentaje mínimo de aprobaciones necesarias para que la entidad que creó la solicitud pueda finalmente retirar el
+                dinero. El mismo se calcula en base a la cantidad de contibuyentes del fondo, sumado al número de administradores,
+                en el caso que también estén habilitados para aprobar solicitudes.
               </div>
             </div>
           </div>
@@ -442,50 +441,17 @@ export default {
         minimumApprovalsPercentageRequired: 50,
       },
       info: {
-        type: {
-          mouse: false,
-          click: false,
-        },
-        name: {
-          mouse: false,
-          click: false,
-        },
-        addMeAsAManager: {
-          mouse: false,
-          click: false,
-        },
-        managers: {
-          mouse: false,
-          click: false,
-        },
-        managersCanBeAddedOrRemoved: {
-          mouse: false,
-          click: false,
-        },
-        managersCanTransferMoneyWithoutARequest: {
-          mouse: false,
-          click: false,
-        },
-        requestsCanBeCreated: {
-          mouse: false,
-          click: false,
-        },
-        onlyManagersCanCreateARequest: {
-          mouse: false,
-          click: false,
-        },
-        onlyContributorsCanApproveARequest: {
-          mouse: false,
-          click: false,
-        },
-        minimumContributionPercentageRequired: {
-          mouse: false,
-          click: false,
-        },
-        minimumApprovalsPercentageRequired: {
-          mouse: false,
-          click: false,
-        },
+        type: false,
+        name: false,
+        addMeAsAManager: false,
+        managers: false,
+        managersCanBeAddedOrRemoved: false,
+        managersCanTransferMoneyWithoutARequest: false,
+        requestsCanBeCreated: false,
+        onlyManagersCanCreateARequest: false,
+        onlyContributorsCanApproveARequest: false,
+        minimumContributionPercentageRequired: false,
+        minimumApprovalsPercentageRequired: false,
       },
     };
   },
@@ -732,16 +698,35 @@ export default {
   }
 }
 
-.fund-token-info {
-  font-size: 1rem;
-  color: #1d6aa8;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.6rem;
+.information {
+  .information-title {
+    font-size: 1.46rem;
+    color: rgb(18, 18, 18);
+    padding-right: 0.3rem;
+    border-bottom: 0.1px solid rgb(135, 135, 135);
+    border-right: 0.1px solid rgb(135, 135, 135);
+    border-radius: 0 0 6px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
 
-  .icon {
-    font-size: 1.68em;
+  .information-info {
+    margin-top: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.6rem;
+
+    .info {
+      font-size: 0.95rem;
+      color: rgb(18, 18, 18);
+    }
+
+    .separator {
+      height: 0.1px;
+      background-color: rgb(199, 199, 199);
+    }
   }
 }
 
@@ -792,7 +777,11 @@ export default {
 
     .icon:hover {
       cursor: pointer;
-      background-color: rgb(225, 225, 225);
+      background-color: rgb(230, 230, 230);
+    }
+
+    .icon-active {
+      background-color: rgb(202, 202, 202);
     }
 
     .my-tooltip {
@@ -800,11 +789,23 @@ export default {
       top: 50%;
       right: 120%;
       transform: translateY(-50%);
+      z-index: 200;
+      height: auto;
+      width: max-content;
+      max-width: 35rem;
       color: rgb(255, 255, 255);
       background-color: rgb(50, 50, 50);
-      padding: 1rem;
+      padding: 0.5rem;
       border: 0.1px solid rgb(233, 233, 233);
       border-radius: 0.4rem;
+
+      @media (max-width: 1000px) {
+        max-width: 25rem;
+      }
+
+      @media (max-width: 450px) {
+        max-width: 14rem;
+      }
     }
   }
 }
