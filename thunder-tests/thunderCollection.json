@@ -13,7 +13,7 @@
       },
       "tests": [],
       "options": {
-        "baseUrl": "http://localhost:4000/"
+        "baseUrl": "{{SERVER}}"
       }
     }
   }
