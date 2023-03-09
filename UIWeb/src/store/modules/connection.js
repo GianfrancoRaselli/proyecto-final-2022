@@ -1,18 +1,15 @@
+import { network, infuraProvider } from '@/siteConfig';
+
 export default {
   state() {
     return {
       chainId: '',
-      validChain: {
-        id: '0x539', // 0x5
-        name: 'Ganache', // Goerli Testnet
-        coin: 'ETH', // GoerliETH
-        explorer: '', // https://goerli.etherscan.io
-      },
+      validChain: network,
       address: '',
       disconnected: false,
       signature: null,
       provider: null,
-      infuraProvider: 'http://localhost:7545', // https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a
+      infuraProvider,
       web3: null,
       fundFactory: null,
       infuraWeb3: null,
