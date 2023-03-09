@@ -805,11 +805,15 @@ export default {
       }
 
       @media (max-width: 450px) {
-        max-width: 20rem;
+        max-width: 21rem;
       }
 
       @media (max-width: 370px) {
-        max-width: 14rem;
+        max-width: 17rem;
+      }
+
+      @media (max-width: 325px) {
+        max-width: 13rem;
       }
     }
   }
