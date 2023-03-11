@@ -781,7 +781,7 @@ export default {
     }
 
     .icon-active {
-      background-color: rgb(202, 202, 202);
+      background-color: rgb(208, 208, 208) !important;
     }
 
     .my-tooltip {
