@@ -2,9 +2,9 @@ import ganacheAddresses from '@/assets/addresses/ganache.json';
 import goerliAddresses from '@/assets/addresses/goerli.json';
 
 // configurable
-const forceProduction = false;
+const forceProduction = true;
 
-const serverUrlLocalhost = 'https://proyecto-final-2022-server.onrender.com/'; // http://localhost:4000/
+const serverUrlLocalhost = 'http://localhost:4000/';
 const serverUrlProduction = 'https://proyecto-final-2022-server.onrender.com/';
 
 const ganacheNetwork = {
@@ -34,5 +34,4 @@ const infuraProvider = isLocalhost ? infuraProviderLocalhost : infuraProviderPro
 const fundFactoryAddress = isLocalhost ? ganacheAddresses.fundFactoryAddress : goerliAddresses.fundFactoryAddress;
 const fundTokenAddress = isLocalhost ? ganacheAddresses.fundTokenAddress : goerliAddresses.fundTokenAddress;
 
-// exports
 export { isLocalhost, serverUrl, network, infuraProvider, fundFactoryAddress, fundTokenAddress };
