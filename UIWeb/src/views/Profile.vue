@@ -54,7 +54,7 @@
 
 <script>
 import { serverUrl } from '@/siteConfig';
-import { mapGetters, mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 import { signMessage } from '@/helpers/connection';
@@ -78,10 +78,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['address']),
     ...mapState({
       signature: (state) => state.connection.signature,
     }),
+    ...mapGetters(['address']),
 
     isMyProfile() {
       return compareAddresses(this.address, this.$route.params.address);

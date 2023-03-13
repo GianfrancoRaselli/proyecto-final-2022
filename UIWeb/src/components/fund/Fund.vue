@@ -118,7 +118,7 @@
 <script>
 import $ from 'jquery';
 import { serverUrl } from '@/siteConfig';
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event } from '@/helpers/helpers';
 import { signMessage } from '@/helpers/connection';
@@ -182,6 +182,9 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      signature: (state) => state.connection.signature,
+    }),
     ...mapGetters(['address']),
 
     isMyFund() {
@@ -259,7 +262,7 @@ export default {
     async removeImage() {
       if (!this.signature) await signMessage();
       axios.delete('fund/removeImage/' + this.fund.address).then(() => {
-        this.entity.image = undefined;
+        this.fund.image = undefined;
         addNotification({
           message: 'Imagen eliminada',
           type: 'success',

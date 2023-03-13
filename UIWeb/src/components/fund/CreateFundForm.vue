@@ -396,6 +396,7 @@ import { mapState, mapGetters } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 import { transaction, validateForm } from '@/helpers/helpers';
+import axios from 'axios';
 
 export default {
   name: 'CreateFundFormComponent',
@@ -619,6 +620,9 @@ export default {
             true,
             'Create new fund: ' + this.data.name,
           );
+          await axios.post('fund', {
+            address: tx.events.NewFund.returnValues.fundAddress,
+          });
           addNotification({
             message: 'Fondo desplegado a: ' + getSplitAddress(tx.events.NewFund.returnValues.fundAddress),
             type: 'success',

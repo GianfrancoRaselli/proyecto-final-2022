@@ -122,8 +122,7 @@ export default {
 
           if (!this.signature) await signMessage();
 
-          await axios.post('fund', {
-            address: this.fund.address,
+          await axios.put('fund/' + this.fund.address, {
             description: this.data.description,
           });
 
