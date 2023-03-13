@@ -145,7 +145,7 @@ export default {
   .img {
     height: 8rem;
     width: 8rem;
-    border-radius: 2rem;
+    border-radius: 1.2rem;
   }
 }
 </style>
