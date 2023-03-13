@@ -1,9 +1,9 @@
 <template>
-  <div class="modal fade" id="editEntityImageModal" tabindex="-1" aria-labelledby="editEntityImageModalLabel" aria-hidden="true">
+  <div class="modal fade" id="editImageModal" tabindex="-1" aria-labelledby="editImageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="editEntityImageModalLabel">Actualizar imagen</h4>
+          <h4 class="modal-title" id="editImageModalLabel">Actualizar imagen</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -48,12 +48,14 @@ import { addNotification } from '@/composables/useNotifications';
 import axios from 'axios';
 
 export default {
-  name: 'editEntityImageModalComponent',
+  name: 'editImageModalComponent',
   setup() {
     return { v$: useVuelidate() };
   },
   components: {},
-  props: {},
+  props: {
+    fundAddress: { type: String, default: undefined },
+  },
   emits: ['update'],
   data() {
     return {
@@ -93,14 +95,17 @@ export default {
 
           let formData = new FormData();
           formData.append('image', this.image);
-          await axios.put('entity/uploadImage', formData);
 
-          this.$emit('update');
+          let imageName;
+          if (!this.fundAddress) imageName = (await axios.put('entity/uploadImage', formData)).data.image;
+          else imageName = (await axios.put('fund/uploadImage/' + this.fundAddress, formData)).data.image;
+
+          this.$emit('update', imageName);
           addNotification({
             message: 'Imagen actualizada',
             type: 'success',
           });
-          $('#editEntityImageModal').modal('hide');
+          $('#editImageModal').modal('hide');
           this.$refs['imageInput'].value = '';
           this.image = undefined;
         } finally {

@@ -7,16 +7,20 @@
       <div class="card-header text-center">
         <span v-text="fund.name" />
         <div class="fund-info">
-          <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="compareAddresses(address, fund.creator)"
-            >Mi fondo</span
-          >
+          <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="isMyFund">Mi fondo</span>
           <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
         </div>
       </div>
       <div class="card-body">
         <div class="body-header">
-          <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
-          <img class="img" src="@/assets/imgs/fund.png" v-else />
+          <div class="img-container">
+            <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund && fund.image" />
+            <img class="img" src="@/assets/imgs/fund.png" v-else />
+            <div class="icons" v-if="isMyFund">
+              <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" />
+              <fa-icon icon="trash" class="icon red" @click="openRemoveImage" v-if="fund && fund.image" />
+            </div>
+          </div>
           <div class="description" v-if="fund.description">
             <span v-text="fund.description" />
           </div>
@@ -102,6 +106,7 @@
 
     <!-- modals -->
     <CreateFundModal :fund="fund" />
+    <EditImageModal :fundAddress="fund.address" @update="updateImage" v-if="isMyFund" />
     <ManagersModal :fund="fund" :isManager="isManager" />
     <ContributeModal :fund="fund" />
     <ContributorsModal :fund="fund" />
@@ -116,10 +121,14 @@ import { serverUrl } from '@/siteConfig';
 import { mapGetters } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event } from '@/helpers/helpers';
+import { signMessage } from '@/helpers/connection';
+import { addNotification } from '@/composables/useNotifications';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 
 // modals
 import CreateFundModal from '@/components/fund/CreateFundModal';
+import EditImageModal from '@/components/EditImageModal';
 import EntityModal from '@/components/fund/modals/EntityModal';
 import ManagersModal from '@/components/fund/modals/manager/ManagersModal.vue';
 import ContributeModal from '@/components/fund/modals/ContributeModal.vue';
@@ -131,6 +140,7 @@ export default {
   name: 'FundComponent',
   components: {
     CreateFundModal,
+    EditImageModal,
     EntityModal,
     ManagersModal,
     ContributeModal,
@@ -173,6 +183,10 @@ export default {
   },
   computed: {
     ...mapGetters(['address']),
+
+    isMyFund() {
+      return compareAddresses(this.address, this.fund.creator);
+    },
 
     isManager() {
       if (this.fund.managers.findIndex((manager) => compareAddresses(manager, this.address)) >= 0) return true;
@@ -221,7 +235,37 @@ export default {
     },
   },
   methods: {
-    compareAddresses,
+    updateImage(imageName) {
+      this.fund.image = imageName;
+    },
+
+    openRemoveImage() {
+      Swal.fire({
+        title: 'Eliminar imagen',
+        text: '¿Está seguro que desea eliminar la imagen del fondo?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#9FA6B2',
+        confirmButtonText: '¡Sí, eliminar!',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.removeImage();
+        }
+      });
+    },
+
+    async removeImage() {
+      if (!this.signature) await signMessage();
+      axios.delete('fund/removeImage/' + this.fund.address).then(() => {
+        this.entity.image = undefined;
+        addNotification({
+          message: 'Imagen eliminada',
+          type: 'success',
+        });
+      });
+    },
   },
   async created() {
     const getSearchSummaryPromise = () => {
@@ -395,113 +439,136 @@ export default {
 };
 </script>
 
-<style scoped>
-.card {
-  position: relative;
-}
-
-.card-header {
-  padding-left: 80px;
-  padding-right: 80px;
-}
-
-.fund-info {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-}
-
-.my-fund-info {
-  width: fit-content;
-}
-
+<style lang="scss" scoped>
 .loading {
   position: fixed;
   top: 25vh;
   left: 0;
   width: 100%;
+
+  .spinner {
+    margin: auto;
+  }
 }
 
-.spinner {
-  margin: auto;
-}
+.card {
+  position: relative;
 
-@media (min-width: 768px) {
-  .card {
+  @media (min-width: 768px) {
     margin: 0 30px;
   }
-}
 
-.body-header {
-  background-color: rgb(244, 244, 244);
-  padding: 20px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
+  .card-header {
+    padding-left: 80px;
+    padding-right: 80px;
 
-.body-header .description {
-  width: 100%;
-  padding: 30px;
-}
+    .fund-info {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: end;
 
-@media (max-width: 700px) {
+      .my-fund-info {
+        width: fit-content;
+      }
+    }
+  }
+
   .body-header {
-    padding: 5px;
+    background-color: rgb(244, 244, 244);
+    padding: 20px;
+    border-radius: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 700px) {
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .description {
+      width: 100%;
+      padding: 30px;
+
+      @media (max-width: 700px) {
+        text-align: center;
+        padding: 4px;
+      }
+    }
+
+    .img-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+
+      .img {
+        height: 20rem;
+        width: 20rem;
+        border-radius: 1.5rem;
+      }
+
+      .icons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+
+        .icon {
+          user-select: none;
+          height: 1.5rem;
+          width: 1.5rem;
+          padding: 0.5rem;
+          border-radius: 1.5rem;
+        }
+
+        .icon:hover {
+          cursor: pointer;
+          background-color: rgb(225, 225, 225);
+        }
+      }
+    }
   }
 
-  .body-header .description {
-    text-align: center;
-    padding: 4px;
+  .information-text {
+    color: white;
+    background-color: rgb(85, 85, 202);
+    padding: 8px;
+    border-radius: 5px;
   }
-}
 
-.img {
-  height: 20rem;
-  width: 20rem;
-  border-radius: 4rem;
-}
-
-.information-text {
-  color: white;
-  background-color: rgb(85, 85, 202);
-  padding: 8px;
-  border-radius: 5px;
-}
-
-.info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-@media (max-width: 600px) {
   .info {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+
+    @media (max-width: 600px) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .btn-show-contributors {
+      font-size: 0.9rem;
+    }
+
+    .btn-show-contributors:focus {
+      box-shadow: none;
+    }
   }
-}
 
-.btn-show-contributors {
-  font-size: 0.9rem;
-}
-
-.btn-show-contributors:focus {
-  box-shadow: none;
-}
-
-.buttons {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 6px;
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
 }
 </style>

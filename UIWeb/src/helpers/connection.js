@@ -152,6 +152,7 @@ const signMessage = async () => {
       'Firme este mensaje para validar que tiene acceso a esta billetera para iniciar sesión.\n\nEsto no le costará ningún Ether.',
       store.getters.address,
     );
+    console.log('Signature: ' + signature);
     store.commit('setSignature', signature);
   } catch (e) {
     store.commit('setSignature', null);

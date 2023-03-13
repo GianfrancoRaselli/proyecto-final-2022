@@ -7,7 +7,7 @@
           <img class="profile-img magnify-img" :src="serverUrl + 'images/' + entity.image" v-if="entity && entity.image" />
           <img class="profile-img" src="@/assets/imgs/user-not-found.png" v-else />
           <div class="icons" v-if="isMyProfile">
-            <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editEntityImageModal" v-if="entity" />
+            <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" v-if="entity" />
             <fa-icon icon="trash" class="icon red" @click="openRemoveImage" v-if="entity && entity.image" />
           </div>
         </div>
@@ -47,7 +47,7 @@
       </div>
 
       <EditEntityModal :entity="entity" @update="getEntityData" />
-      <EditEntityImageModal @update="getEntityData" />
+      <EditImageModal @update="updateImage" />
     </div>
   </div>
 </template>
@@ -62,13 +62,13 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 
 import EditEntityModal from '@/components/entity/EditEntityModal';
-import EditEntityImageModal from '@/components/entity/EditEntityImageModal';
+import EditImageModal from '@/components/EditImageModal';
 
 export default {
   name: 'ProfileView',
   components: {
     EditEntityModal,
-    EditEntityImageModal,
+    EditImageModal,
   },
   data() {
     return {
@@ -94,6 +94,10 @@ export default {
         this.entity = res.data;
         this.loading = false;
       });
+    },
+
+    updateImage(imageName) {
+      this.entity.image = imageName;
     },
 
     openRemoveImage() {
