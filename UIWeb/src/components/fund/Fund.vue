@@ -21,19 +21,34 @@
               <fa-icon icon="trash" class="icon red" @click="openRemoveImage" v-if="fund && fund.image" />
             </div>
           </div>
-          <div class="description" v-if="fund.description">
-            <div class="form-group" v-if="isMyFund">
-              <textarea
-                class="form-control"
-                :class="{ 'is-invalid': v$.data.description.$errors.length }"
-                id="descriptionInput"
-                rows="3"
-                aria-describedby="descriptionHelp"
-                v-model="data.description"
-                :disabled="loading"
-              ></textarea>
-              <AppInputErrors :errors="v$.data.description.$errors" />
-            </div>
+          <div class="description" v-if="isMyFund || fund.description">
+            <form class="form" @submit.prevent="handleSubmit" v-if="isMyFund">
+              <div class="form-group">
+                <textarea
+                  class="form-control"
+                  :class="{ 'is-invalid': v$.editDescription.new.$errors.length }"
+                  id="descriptionInput"
+                  rows="12"
+                  aria-describedby="descriptionHelp"
+                  v-model="editDescription.new"
+                  :disabled="editDescription.loading"
+                ></textarea>
+                <AppInputErrors :errors="v$.editDescription.new.$errors" />
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary"
+                :disabled="fund.description === editDescription.new"
+                v-if="!editDescription.loading"
+              >
+                Actualizar descripción
+              </button>
+              <button class="btn btn-primary" type="button" disabled v-else>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Actualizando...
+              </button>
+            </form>
             <span v-text="fund.description" v-else />
           </div>
         </div>
@@ -135,6 +150,9 @@ import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/m
 import { call, event } from '@/helpers/helpers';
 import { signMessage } from '@/helpers/connection';
 import { addNotification } from '@/composables/useNotifications';
+import { useVuelidate } from '@vuelidate/core';
+import { helpers, maxLength } from '@vuelidate/validators';
+import { validateForm } from '@/helpers/helpers';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
@@ -150,6 +168,9 @@ import RequestsModal from '@/components/fund/modals/request/RequestsModal.vue';
 
 export default {
   name: 'FundComponent',
+  setup() {
+    return { v$: useVuelidate({ $scope: false }) };
+  },
   components: {
     CreateFundModal,
     EditImageModal,
@@ -183,6 +204,10 @@ export default {
         onlyContributorsCanApproveARequest: false,
         minimumContributionPercentageRequired: 0,
         minimumApprovalsPercentageRequired: 0,
+      },
+      editDescription: {
+        loading: false,
+        new: '',
       },
       newManagerSubscription: null,
       removeManagerSubscription: null,
@@ -249,6 +274,15 @@ export default {
       return fromUnixTimestampToDate(this.fund.createdAt);
     },
   },
+  validations() {
+    return {
+      editDescription: {
+        new: {
+          maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 1000', maxLength(1000)),
+        },
+      },
+    };
+  },
   methods: {
     updateImage(imageName) {
       this.fund.image = imageName;
@@ -281,6 +315,27 @@ export default {
         });
       });
     },
+
+    async handleSubmit() {
+      if (await validateForm(this.v$)) {
+        try {
+          this.editDescription.loading = true;
+          if (!this.signature) await signMessage();
+          await axios.put('fund/' + this.fund.address, {
+            description: this.editDescription.new,
+          });
+          this.fund.description = this.editDescription.new;
+          addNotification({
+            message: 'Descripción actualizada',
+            type: 'success',
+          });
+        } catch {
+          this.editDescription.new = this.fund.description;
+        } finally {
+          this.editDescription.loading = false;
+        }
+      }
+    },
   },
   async created() {
     const getSearchSummaryPromise = () => {
@@ -291,6 +346,7 @@ export default {
           if (fundExtraInformation) {
             const { description, image } = fundExtraInformation;
             this.fund.description = description;
+            this.editDescription.new = description;
             this.fund.image = image;
           }
           await getSearchContributorsPromise(this.fund.contributors);
@@ -500,7 +556,7 @@ export default {
     justify-content: center;
     align-items: center;
 
-    @media (max-width: 700px) {
+    @media (max-width: 1000px) {
       padding: 5px;
       display: flex;
       flex-direction: column;
@@ -542,16 +598,14 @@ export default {
     }
 
     .description {
+      word-wrap: break-word;
+      word-break: break-all;
       width: 100%;
-      padding: 3rem;
+      padding: 2rem;
 
-      @media (max-width: 920px) {
-        padding: 1.5rem;
-      }
-
-      @media (max-width: 700px) {
+      @media (max-width: 1000px) {
         text-align: center;
-        padding: 1rem;
+        padding: 1.5rem;
       }
     }
   }
