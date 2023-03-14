@@ -19,7 +19,6 @@ const fundSchema = new Schema(
     description: {
       type: String,
       trim: true,
-      required: true,
       maxLength: 1000,
     },
     image: {

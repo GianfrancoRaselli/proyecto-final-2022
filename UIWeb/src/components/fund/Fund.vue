@@ -22,7 +22,19 @@
             </div>
           </div>
           <div class="description" v-if="fund.description">
-            <span v-text="fund.description" />
+            <div class="form-group" v-if="isMyFund">
+              <textarea
+                class="form-control"
+                :class="{ 'is-invalid': v$.data.description.$errors.length }"
+                id="descriptionInput"
+                rows="3"
+                aria-describedby="descriptionHelp"
+                v-model="data.description"
+                :disabled="loading"
+              ></textarea>
+              <AppInputErrors :errors="v$.data.description.$errors" />
+            </div>
+            <span v-text="fund.description" v-else />
           </div>
         </div>
         <p class="h5 text-center my-3 information-text">Información</p>
@@ -494,16 +506,6 @@ export default {
       flex-direction: column;
     }
 
-    .description {
-      width: 100%;
-      padding: 30px;
-
-      @media (max-width: 700px) {
-        text-align: center;
-        padding: 4px;
-      }
-    }
-
     .img-container {
       display: flex;
       flex-direction: column;
@@ -536,6 +538,20 @@ export default {
           cursor: pointer;
           background-color: rgb(225, 225, 225);
         }
+      }
+    }
+
+    .description {
+      width: 100%;
+      padding: 3rem;
+
+      @media (max-width: 920px) {
+        padding: 1.5rem;
+      }
+
+      @media (max-width: 700px) {
+        text-align: center;
+        padding: 1rem;
       }
     }
   }
