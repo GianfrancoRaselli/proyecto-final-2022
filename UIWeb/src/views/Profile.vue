@@ -49,6 +49,16 @@
       <EditEntityModal :entity="entity" @update="getEntityData" />
       <EditImageModal @update="updateImage" />
     </div>
+
+    <!-- Fondos creados -->
+
+    <!-- Fondos en los que es administrador -->
+
+    <!-- Contribuciones -->
+
+    <!-- Transferencias -->
+
+    <!-- Solicitudes creadas -->
   </div>
 </template>
 

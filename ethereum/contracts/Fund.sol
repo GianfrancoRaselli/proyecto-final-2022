@@ -190,11 +190,7 @@ contract Fund is ReentrancyGuard {
     emit Transfer(msg.sender, _to, _value);
   }
 
-  function createRequest(
-    string memory _description,
-    address _recipient,
-    uint256 _valueToTransfer
-  ) public {
+  function createRequest(string memory _description, address _recipient, uint256 _valueToTransfer) public {
     require(requestsCanBeCreated, "Requests can not be created");
 
     bool _isManager = isManager[msg.sender];

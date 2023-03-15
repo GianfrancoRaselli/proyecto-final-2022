@@ -8,5 +8,8 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "thunder-client.saveToWorkspace": true
+  "thunder-client.saveToWorkspace": true,
+  "[solidity]": {
+    "editor.defaultFormatter": "NomicFoundation.hardhat-solidity"
+  },
 }
