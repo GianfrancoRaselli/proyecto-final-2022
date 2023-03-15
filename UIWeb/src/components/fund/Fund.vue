@@ -341,7 +341,12 @@ export default {
     const getSearchSummaryPromise = () => {
       return new Promise((resolve) => {
         const searchSummary = async () => {
-          this.fund = await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary');
+          const { requests, ...fundWithoutRequests } = await call(
+            { name: 'Fund', address: this.$route.params.fundAddress },
+            'getSummary',
+          );
+          console.log(requests);
+          this.fund = Object.assign(this.fund, fundWithoutRequests);
           const { data: fundExtraInformation } = await axios.get('fund/' + this.$route.params.fundAddress);
           if (fundExtraInformation) {
             const { description, image } = fundExtraInformation;
