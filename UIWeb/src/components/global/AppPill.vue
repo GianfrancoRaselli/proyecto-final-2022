@@ -38,6 +38,11 @@ export default {
   background-color: #6c757d;
 }
 
+.pill-dark {
+  color: #fff;
+  background-color: #23272b;
+}
+
 .pill-success {
   color: #fff;
   background-color: #28a745;

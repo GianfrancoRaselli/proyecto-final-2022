@@ -164,19 +164,19 @@
           <AppPill :msg="filters.date" @close="filters.date = null" v-if="filters.date" />
           <AppPill
             msg="Fondos personalizados"
-            type="secondary"
+            type="dark"
             @close="filters.fundsTypes.types.personalized = false"
             v-if="filters.fundsTypes.types.personalized"
           />
           <AppPill
             msg="Fondos de amigos"
-            type="secondary"
+            type="success"
             @close="filters.fundsTypes.types.friends = false"
             v-if="filters.fundsTypes.types.friends"
           />
           <AppPill
             msg="Fondos de campañas"
-            type="secondary"
+            type="warning"
             @close="filters.fundsTypes.types.campaign = false"
             v-if="filters.fundsTypes.types.campaign"
           />
