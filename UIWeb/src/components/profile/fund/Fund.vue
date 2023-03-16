@@ -77,7 +77,10 @@
         </div>
       </div>
     </div>
-    <ManagersModal :id="fund.address" :managers="fund.managers" />
+    <ManagersModal :fundAddress="fund.address" :managers="fund.managers" />
+    <ContributionsModal :fundAddress="fund.address" />
+    <TransfersModal :fundAddress="fund.address" />
+    <RequestsModal :fundAddress="fund.address" />
   </div>
 </template>
 
@@ -88,11 +91,17 @@ import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 // modals
 import ManagersModal from '@/components/profile/fund/modals/ManagersModal';
+import ContributionsModal from '@/components/profile/fund/modals/ContributionsModal';
+import TransfersModal from '@/components/profile/fund/modals/TransfersModal';
+import RequestsModal from '@/components/profile/fund/modals/RequestsModal';
 
 export default {
   name: 'ProfileFundComponent',
   components: {
     ManagersModal,
+    ContributionsModal,
+    TransfersModal,
+    RequestsModal
   },
   props: {
     fund: { type: Object, required: true },

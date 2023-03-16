@@ -104,22 +104,22 @@
         </p>
         <hr />
         <div class="buttons">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#managersModal">
+          <button type="button" class="btn btn-managers" data-toggle="modal" data-target="#managersModal">
             <fa-icon icon="person" class="icon mr-2" />Administradores
           </button>
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#contributeModal">
+          <button type="button" class="btn btn-contributions" data-toggle="modal" data-target="#contributeModal">
             <fa-icon icon="circle-dollar-to-slot" class="icon mr-2" />Contribuir
           </button>
           <button
             type="button"
-            class="btn btn-secondary"
+            class="btn btn-transfers"
             data-toggle="modal"
             data-target="#transferModal"
             v-if="fund.managersCanTransferMoneyWithoutARequest && isManager"
           >
             <fa-icon icon="money-bill-transfer" class="icon mr-2" />Transferir
           </button>
-          <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#requestsModal">
+          <button type="button" class="btn btn-requests" data-toggle="modal" data-target="#requestsModal">
             <fa-icon icon="list-check" class="icon mr-2" />Solicitudes
           </button>
         </div>
@@ -647,6 +647,26 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 6px;
+
+    .btn-managers {
+      color: white;
+      background-color: rgba(57, 57, 221, 0.97);
+    }
+
+    .btn-contributions {
+      color: white;
+      background-color: rgba(45, 151, 45, 0.985);
+    }
+
+    .btn-transfers {
+      color: white;
+      background-color: rgba(209, 41, 41, 0.96);
+    }
+
+    .btn-requests {
+      color: black;
+      background-color: rgba(255, 166, 0, 0.96);
+    }
   }
 }
 </style>

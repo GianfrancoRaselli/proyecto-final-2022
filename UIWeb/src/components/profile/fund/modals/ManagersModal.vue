@@ -2,15 +2,15 @@
   <div>
     <div
       class="modal fade"
-      :id="'profileManagersModal' + id"
+      :id="'profileManagersModal' + fundAddress"
       tabindex="-1"
-      :aria-labelledby="'profileManagersModalLabel' + id"
+      :aria-labelledby="'profileManagersModalLabel' + fundAddress"
       aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" :id="'profileManagersModalLabel' + id">Administradores</h4>
+            <h4 class="modal-title" :id="'profileManagersModalLabel' + fundAddress">Administradores</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -42,7 +42,7 @@ export default {
   name: 'ProfileManagersModalComponent',
   components: {},
   props: {
-    id: { type: String, required: true },
+    fundAddress: { type: String, required: true },
     managers: { type: Array, required: true },
   },
   data() {
