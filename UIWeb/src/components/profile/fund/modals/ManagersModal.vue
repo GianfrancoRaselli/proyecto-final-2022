@@ -16,17 +16,18 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="managers-list">
-              <div class="no-managers" v-if="managers && managers.length === 0">Sin administradores</div>
-              <ul class="list-group list-group-flush" v-else>
-                <li class="list-group-item" v-for="(manager, index) in managers" :key="index">
-                  <span
-                    ><span v-text="index + 1 + '. '" /><AppShowAddress class="manager-address" :address="manager" @click="goToProfile(manager)"
-                  /></span>
-                  <span class="badge badge-pill badge-primary" v-if="compareAddresses(manager, address)">Mi dirección</span>
-                </li>
-              </ul>
-            </div>
+            <div class="no-managers" v-if="managers && managers.length === 0">Sin administradores</div>
+            <ul class="list-group list-group-flush" v-else>
+              <li class="list-group-item" v-for="(manager, index) in managers" :key="index">
+                <span
+                  ><span v-text="index + 1 + '. '" /><AppShowAddress
+                    class="manager-address"
+                    :address="manager"
+                    @click="goToProfile(manager)"
+                /></span>
+                <span class="badge badge-pill badge-primary" v-if="compareAddresses(manager, address)">Mi dirección</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

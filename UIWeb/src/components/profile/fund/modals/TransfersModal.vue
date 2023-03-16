@@ -43,7 +43,10 @@ export default {
     fundAddress: { type: String, required: true },
   },
   data() {
-    return {};
+    return {
+      loading: true,
+      transfers: [],
+    };
   },
   computed: {
     ...mapGetters(['address']),

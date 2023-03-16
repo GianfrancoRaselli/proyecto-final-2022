@@ -34,6 +34,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { call } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -43,7 +44,10 @@ export default {
     fundAddress: { type: String, required: true },
   },
   data() {
-    return {};
+    return {
+      loading: true,
+      requests: [],
+    };
   },
   computed: {
     ...mapGetters(['address']),
@@ -52,8 +56,31 @@ export default {
     compareAddresses,
 
     async getRequests() {
-      
-    }
+      this.loading = true;
+
+      try {
+        const totalRequests = parseInt(await call({ name: 'Fund', address: this.fundAddress }, 'requestsCount'));
+        let requests = [];
+
+        if (totalRequests > 0) {
+          requests = Array(totalRequests);
+
+          await Promise.all(
+            Array(totalRequests)
+              .fill()
+              .map((element, index) => {
+                return call({ name: 'Fund', address: this.fundAddress }, 'requests', [index], {}, (res) => {
+                  requests[index] = res;
+                });
+              }),
+          );
+        }
+
+        this.requests = requests;
+      } finally {
+        this.loading = false;
+      }
+    },
   },
   async created() {
     this.getRequests();
