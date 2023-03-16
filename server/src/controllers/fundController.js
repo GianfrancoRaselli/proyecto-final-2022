@@ -29,7 +29,7 @@ const update = async (req, res) => {
     const { description } = req.body;
 
     // update fields
-    if (description) fundToUpdate.description = description;
+    fundToUpdate.description = description;
 
     // save the fund in the DB
     const savedFund = await fundToUpdate.save();

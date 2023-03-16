@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="description" v-if="isMyFund || fund.description">
-            <form class="form" @submit.prevent="handleSubmit" v-if="isMyFund">
+            <form class="form" @submit.prevent="handleEditDescriptionSubmit" v-if="isMyFund">
               <div class="form-group">
                 <textarea
                   class="form-control"
@@ -316,7 +316,7 @@ export default {
       });
     },
 
-    async handleSubmit() {
+    async handleEditDescriptionSubmit() {
       if (await validateForm(this.v$)) {
         try {
           this.editDescription.loading = true;
