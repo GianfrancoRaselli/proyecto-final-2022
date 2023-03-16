@@ -1,79 +1,83 @@
 <template>
-  <div class="fund" @click="redirect">
-    <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
-    <img class="img" src="@/assets/imgs/fund.png" v-else />
-    <div class="content">
-      <div class="top-line">
-        <span class="header">
-          <span class="name" v-text="fund.name"></span>
-          <fa-icon icon="circle" class="icon" />
-          <span class="type" v-text="type"></span>
-        </span>
-        <AppDate class="createdAt" :date="createdAt" />
-      </div>
-      <div class="description" v-text="fund.description"></div>
-      <div class="bottom-line">
-        <div
-          class="icon-container"
-          :class="{ 'icon-container-managers-hover': mouseOverManagers }"
-          data-toggle="tooltip"
-          data-placement="bottom"
-          title="Administradores"
-          @click="iconContainerClick"
-          @mouseover="mouseOverManagers = true"
-          @mouseleave="mouseOverManagers = false"
-        >
-          <fa-icon icon="person" class="icon" :class="{ 'icon-managers-hover': mouseOverManagers }" /><span class="amount"
-            >5</span
-          >
+  <div>
+    <div class="fund" @click="redirect">
+      <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
+      <img class="img" src="@/assets/imgs/fund.png" v-else />
+      <div class="content">
+        <div class="top-line">
+          <span class="header">
+            <span class="name" v-text="fund.name"></span>
+            <fa-icon icon="circle" class="icon" />
+            <span class="type" v-text="type"></span>
+          </span>
+          <AppDate class="createdAt" :date="createdAt" />
         </div>
-        <div
-          class="icon-container"
-          :class="{ 'icon-container-contributions-hover': mouseOverContributions }"
-          data-toggle="tooltip"
-          data-placement="bottom"
-          title="Contribuciones"
-          @click="iconContainerClick"
-          @mouseover="mouseOverContributions = true"
-          @mouseleave="mouseOverContributions = false"
-        >
-          <fa-icon
-            icon="circle-dollar-to-slot"
-            class="icon"
-            :class="{ 'icon-contributions-hover': mouseOverContributions }"
-          /><span class="amount">5</span>
-        </div>
-        <div
-          class="icon-container"
-          :class="{ 'icon-container-transfers-hover': mouseOverTransfers }"
-          data-toggle="tooltip"
-          data-placement="bottom"
-          title="Transferencias"
-          @click="iconContainerClick"
-          @mouseover="mouseOverTransfers = true"
-          @mouseleave="mouseOverTransfers = false"
-        >
-          <fa-icon icon="money-bill-transfer" class="icon" :class="{ 'icon-transfers-hover': mouseOverTransfers }" /><span
-            class="amount"
-            >5</span
+        <div class="description" v-text="fund.description"></div>
+        <div class="bottom-line">
+          <div
+            class="icon-container"
+            :class="{ 'icon-container-managers-hover': mouseOverManagers }"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Administradores"
+            @click="managersClick"
+            @mouseover="mouseOverManagers = true"
+            @mouseleave="mouseOverManagers = false"
           >
-        </div>
-        <div
-          class="icon-container"
-          :class="{ 'icon-container-requests-hover': mouseOverRequests }"
-          data-toggle="tooltip"
-          data-placement="bottom"
-          title="Solicitudes"
-          @click="iconContainerClick"
-          @mouseover="mouseOverRequests = true"
-          @mouseleave="mouseOverRequests = false"
-        >
-          <fa-icon icon="list-check" class="icon" :class="{ 'icon-requests-hover': mouseOverRequests }" /><span class="amount"
-            >5</span
+            <fa-icon icon="person" class="icon" :class="{ 'icon-managers-hover': mouseOverManagers }" /><span
+              class="amount"
+              v-text="fund.managers.length"
+            ></span>
+          </div>
+          <div
+            class="icon-container"
+            :class="{ 'icon-container-contributions-hover': mouseOverContributions }"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Contribuciones"
+            @click="contributionsClick"
+            @mouseover="mouseOverContributions = true"
+            @mouseleave="mouseOverContributions = false"
           >
+            <fa-icon
+              icon="circle-dollar-to-slot"
+              class="icon"
+              :class="{ 'icon-contributions-hover': mouseOverContributions }"
+            /><span class="amount">5</span>
+          </div>
+          <div
+            class="icon-container"
+            :class="{ 'icon-container-transfers-hover': mouseOverTransfers }"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Transferencias"
+            @click="transfersClick"
+            @mouseover="mouseOverTransfers = true"
+            @mouseleave="mouseOverTransfers = false"
+          >
+            <fa-icon icon="money-bill-transfer" class="icon" :class="{ 'icon-transfers-hover': mouseOverTransfers }" /><span
+              class="amount"
+              >5</span
+            >
+          </div>
+          <div
+            class="icon-container"
+            :class="{ 'icon-container-requests-hover': mouseOverRequests }"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Solicitudes"
+            @click="requestsClick"
+            @mouseover="mouseOverRequests = true"
+            @mouseleave="mouseOverRequests = false"
+          >
+            <fa-icon icon="list-check" class="icon" :class="{ 'icon-requests-hover': mouseOverRequests }" /><span class="amount"
+              >5</span
+            >
+          </div>
         </div>
       </div>
     </div>
+    <ManagersModal :id="fund.address" :managers="fund.managers" />
   </div>
 </template>
 
@@ -82,9 +86,14 @@ import $ from 'jquery';
 import { serverUrl } from '@/siteConfig';
 import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
+// modals
+import ManagersModal from '@/components/profile/fund/modals/ManagersModal';
+
 export default {
   name: 'ProfileFundComponent',
-  components: {},
+  components: {
+    ManagersModal,
+  },
   props: {
     fund: { type: Object, required: true },
   },
@@ -132,13 +141,29 @@ export default {
     },
   },
   methods: {
-    iconContainerClick() {
-      this.canRedirect = false;
-    },
-
     redirect() {
       if (this.canRedirect) this.$router.push({ name: 'Fund', params: { fundAddress: this.fund.address } });
       this.canRedirect = true;
+    },
+
+    managersClick() {
+      this.canRedirect = false;
+      $('#profileManagersModal' + this.fund.address).modal('show');
+    },
+
+    contributionsClick() {
+      this.canRedirect = false;
+      $('#profileContributionsModal' + this.fund.address).modal('show');
+    },
+
+    transfersClick() {
+      this.canRedirect = false;
+      $('#profileTransfersModal' + this.fund.address).modal('show');
+    },
+
+    requestsClick() {
+      this.canRedirect = false;
+      $('#profileRequestsModal' + this.fund.address).modal('show');
     },
   },
   created() {

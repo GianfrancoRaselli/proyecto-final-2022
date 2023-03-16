@@ -18,8 +18,9 @@
           <span class="text-bold">Creador</span>:&nbsp;<button
             type="button"
             class="btn btn-link"
+            @click="openEntityModalClick"
             data-toggle="modal"
-            data-target="#entityModal"
+            :data-target="'#entityModal' + fund.creator"
           >
             <AppShowAddress id="creatorAddress" :address="fund.creator" :show="false" />
           </button>
@@ -28,7 +29,7 @@
     </div>
     <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
   </div>
-  <EntityModal :fund="fund" />
+  <EntityModal :address="fund.creator" />
 </template>
 
 <script>
@@ -47,7 +48,10 @@ export default {
     fund: { type: Object, required: true },
   },
   data() {
-    return { serverUrl };
+    return {
+      serverUrl,
+      canRedirect: true,
+    };
   },
   computed: {
     ...mapGetters(['address']),
@@ -97,8 +101,13 @@ export default {
   methods: {
     compareAddresses,
 
-    redirect(event) {
-      if (event.target.id !== 'creatorAddress') this.$router.push({ name: 'Fund', params: { fundAddress: this.fund.address } });
+    redirect() {
+      if (this.canRedirect) this.$router.push({ name: 'Fund', params: { fundAddress: this.fund.address } });
+      this.canRedirect = true;
+    },
+
+    openEntityModalClick() {
+      this.canRedirect = false;
     },
   },
 };

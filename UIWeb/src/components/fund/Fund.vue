@@ -63,7 +63,7 @@
         </p>
         <p class="info">
           <span class="info__label"><span class="text-bold">Creador</span>:&nbsp;</span>
-          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#entityModal">
+          <button type="button" class="btn btn-link" data-toggle="modal" :data-target="'#entityModal' + fund.creator">
             <AppShowAddress :address="fund.creator" />
           </button>
         </p>
@@ -128,7 +128,7 @@
         <AppDate :date="createdAt" />
       </div>
 
-      <EntityModal :fund="fund" />
+      <EntityModal :address="fund.creator" />
     </div>
 
     <!-- modals -->
