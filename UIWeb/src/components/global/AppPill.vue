@@ -40,7 +40,7 @@ export default {
 
 .pill-dark {
   color: #fff;
-  background-color: #23272b;
+  background-color: #23272bea;
 }
 
 .pill-success {
