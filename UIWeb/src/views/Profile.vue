@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="entity-card">
-      <AppSpinner class="spinner" size="big" v-if="loading" />
+      <AppSpinner class="spinner" size="big" v-if="loadingEntity" />
       <div class="entity-card-content" v-else>
         <div class="img-container">
           <img class="profile-img magnify-img" :src="serverUrl + 'images/' + entity.image" v-if="entity && entity.image" />
@@ -51,6 +51,7 @@
     </div>
 
     <!-- Fondos creados -->
+    <CreatedFunds :loading="loadingFunds" :funds="funds" />
 
     <!-- Fondos en los que es administrador -->
 
@@ -65,6 +66,7 @@
 <script>
 import { serverUrl } from '@/siteConfig';
 import { mapState, mapGetters } from 'vuex';
+import { call } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 import { signMessage } from '@/helpers/connection';
@@ -73,18 +75,22 @@ import axios from 'axios';
 
 import EditEntityModal from '@/components/entity/EditEntityModal';
 import EditImageModal from '@/components/EditImageModal';
+import CreatedFunds from '@/components/profile/CreatedFunds';
 
 export default {
   name: 'ProfileView',
   components: {
     EditEntityModal,
     EditImageModal,
+    CreatedFunds,
   },
   data() {
     return {
       serverUrl,
-      loading: true,
+      loadingEntity: true,
       entity: null,
+      loadingFunds: true,
+      funds: null,
     };
   },
   computed: {
@@ -99,10 +105,10 @@ export default {
   },
   methods: {
     getEntityData() {
-      this.loading = true;
+      this.loadingEntity = true;
       axios.get('entity/' + this.$route.params.address).then((res) => {
         this.entity = res.data;
-        this.loading = false;
+        this.loadingEntity = false;
       });
     },
 
@@ -137,9 +143,34 @@ export default {
         });
       });
     },
+
+    async getAllFunds() {
+      this.loadingFunds = true;
+      const fundsAddress = await call('FundFactory', 'getDeployedFunds');
+      const totalFunds = fundsAddress.length;
+      const funds = Array(totalFunds);
+      await Promise.all(
+        Array(totalFunds)
+          .fill()
+          .map((element, index) => {
+            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, async (fund) => {
+              const { data: fundExtraInformation } = await axios.get('fund/' + fund.address);
+              if (fundExtraInformation) {
+                const { description, image } = fundExtraInformation;
+                fund.description = description;
+                fund.image = image;
+              }
+              funds[index] = fund;
+            });
+          }),
+      );
+      this.funds = funds;
+      this.loadingFunds = false;
+    },
   },
   async created() {
     this.getEntityData();
+    this.getAllFunds();
   },
 };
 </script>

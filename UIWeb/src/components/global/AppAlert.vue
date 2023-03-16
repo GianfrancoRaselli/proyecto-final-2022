@@ -6,7 +6,7 @@
 export default {
   name: "AppAlertComponent",
   props: {
-    msg: { type: String, require: true },
+    msg: { type: String, required: true },
     type: { type: String, default: 'alert-primary' },
   },
 };

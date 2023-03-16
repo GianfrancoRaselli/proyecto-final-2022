@@ -91,7 +91,7 @@ import BigNumber from 'bignumber.js';
 export default {
   name: 'RequestsListComponent',
   props: {
-    fund: { type: Object, require: true },
+    fund: { type: Object, required: true },
     isManager: { type: Boolean, default: false },
   },
   data() {

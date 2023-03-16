@@ -19,7 +19,7 @@ export default {
   name: 'EntityCardComponent',
   components: {},
   props: {
-    entity: { type: Object, require: true },
+    entity: { type: Object, required: true },
   },
   data() {
     return { serverUrl };

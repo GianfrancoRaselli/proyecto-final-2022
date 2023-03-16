@@ -104,31 +104,41 @@
                         <input
                           type="checkbox"
                           class="form-check-input"
-                          id="checkboxfriends"
+                          id="checkboxPersonalized"
+                          v-model="filters.fundsTypes.types.personalized"
+                          :disabled="filters.fundsTypes.allFunds"
+                        />
+                        <label class="form-check-label" for="checkboxPersonalized">Fondos de amigos</label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="checkboxFriends"
                           v-model="filters.fundsTypes.types.friends"
                           :disabled="filters.fundsTypes.allFunds"
                         />
-                        <label class="form-check-label" for="checkboxfriends">Fondos de amigos</label>
+                        <label class="form-check-label" for="checkboxFriends">Fondos de amigos</label>
                       </div>
                       <div class="form-check">
                         <input
                           type="checkbox"
                           class="form-check-input"
-                          id="checkboxcampaign"
+                          id="checkboxCampaign"
                           v-model="filters.fundsTypes.types.campaign"
                           :disabled="filters.fundsTypes.allFunds"
                         />
-                        <label class="form-check-label" for="checkboxcampaign">Fondos de campañas</label>
+                        <label class="form-check-label" for="checkboxCampaign">Fondos de campañas</label>
                       </div>
                       <div class="form-check">
                         <input
                           type="checkbox"
                           class="form-check-input"
-                          id="checkboxdonation"
+                          id="checkboxDonation"
                           v-model="filters.fundsTypes.types.donation"
                           :disabled="filters.fundsTypes.allFunds"
                         />
-                        <label class="form-check-label" for="checkboxdonation">Fondos de donaciones</label>
+                        <label class="form-check-label" for="checkboxDonation">Fondos de donaciones</label>
                       </div>
                     </div>
                   </div>
@@ -153,14 +163,20 @@
           ></span>
           <AppPill :msg="filters.date" @close="filters.date = null" v-if="filters.date" />
           <AppPill
+            msg="Fondos personalizados"
+            type="secondary"
+            @close="filters.fundsTypes.types.personalized = false"
+            v-if="filters.fundsTypes.types.personalized"
+          />
+          <AppPill
             msg="Fondos de amigos"
-            type="success"
+            type="secondary"
             @close="filters.fundsTypes.types.friends = false"
             v-if="filters.fundsTypes.types.friends"
           />
           <AppPill
             msg="Fondos de campañas"
-            type="warning"
+            type="secondary"
             @close="filters.fundsTypes.types.campaign = false"
             v-if="filters.fundsTypes.types.campaign"
           />
@@ -216,6 +232,7 @@ export default {
         fundsTypes: {
           allFunds: true,
           types: {
+            personalized: true,
             friends: true,
             campaign: true,
             donation: true,
@@ -258,10 +275,14 @@ export default {
   watch: {
     'filters.fundsTypes.allFunds'(newValue) {
       if (newValue) {
+        this.filters.fundsTypes.types.personalized = true;
         this.filters.fundsTypes.types.friends = true;
         this.filters.fundsTypes.types.campaign = true;
         this.filters.fundsTypes.types.donation = true;
       }
+    },
+    'filters.fundsTypes.types.personalized'(newValue) {
+      if (!newValue) this.filters.fundsTypes.allFunds = false;
     },
     'filters.fundsTypes.types.friends'(newValue) {
       if (!newValue) this.filters.fundsTypes.allFunds = false;
@@ -428,7 +449,7 @@ export default {
         fund.onlyContributorsCanApproveARequest
       )
         return 'donation';
-      return undefined;
+      return 'personalized';
     },
   },
   async created() {

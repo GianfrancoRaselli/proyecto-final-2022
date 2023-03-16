@@ -38,7 +38,7 @@ import { compareAddresses } from 'web3-simple-helpers/methods/general';
 export default {
   name: 'ContributorsModalComponent',
   props: {
-    fund: { type: Object, require: true },
+    fund: { type: Object, required: true },
   },
   data() {
     return {};

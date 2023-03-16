@@ -44,7 +44,7 @@ export default {
   name: 'entityModalComponent',
   components: {},
   props: {
-    fund: { type: Object, require: true },
+    fund: { type: Object, required: true },
   },
   data() {
     return {

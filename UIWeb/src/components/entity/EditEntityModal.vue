@@ -107,7 +107,7 @@ export default {
   },
   components: {},
   props: {
-    entity: { type: Object, require: true },
+    entity: { type: Object, required: true },
   },
   emits: ['update'],
   data() {

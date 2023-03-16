@@ -12,8 +12,8 @@
 export default {
   name: 'QuestionComponent',
   props: {
-    ask: { type: String, require: true },
-    color: { type: String, require: true },
+    ask: { type: String, required: true },
+    color: { type: String, required: true },
   },
   data() {
     return {

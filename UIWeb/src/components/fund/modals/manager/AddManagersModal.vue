@@ -51,7 +51,7 @@ export default {
     return { v$: useVuelidate() };
   },
   props: {
-    fund: { type: Object, require: true },
+    fund: { type: Object, required: true },
   },
   data() {
     return {

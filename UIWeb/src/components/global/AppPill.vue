@@ -6,7 +6,7 @@
 export default {
   name: 'AppPillComponent',
   props: {
-    msg: { type: String, require: true },
+    msg: { type: String, required: true },
     type: { type: String },
   },
   emits: ['close'],
@@ -15,7 +15,7 @@ export default {
 
 <style scoped>
 .pill {
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   background-color: rgba(200, 200, 200, 0.547);
   padding: 4px 12px;
   border-radius: 20px;
@@ -49,7 +49,7 @@ export default {
 }
 
 .icon {
-  font-size: 1.25rem;
+  font-size: 1.38em;
 }
 
 .icon:hover {

@@ -44,7 +44,7 @@ export default {
     EntityModal,
   },
   props: {
-    fund: { type: Object, require: true },
+    fund: { type: Object, required: true },
   },
   data() {
     return { serverUrl };

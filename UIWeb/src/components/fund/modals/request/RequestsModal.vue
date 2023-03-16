@@ -46,7 +46,7 @@ export default {
     RequestsList,
   },
   props: {
-    fund: { type: Object, require: true },
+    fund: { type: Object, required: true },
     isManager: { type: Boolean, default: false },
   },
   data() {
