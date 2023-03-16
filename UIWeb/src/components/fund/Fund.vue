@@ -665,7 +665,7 @@ export default {
 
     .btn-requests {
       color: black;
-      background-color: rgba(255, 166, 0, 0.96);
+      background-color: rgba(255, 166, 0, 0.954);
     }
   }
 }
