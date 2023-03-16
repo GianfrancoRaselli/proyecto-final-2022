@@ -20,7 +20,9 @@
               <div class="no-managers" v-if="managers && managers.length === 0">Sin administradores</div>
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(manager, index) in managers" :key="index">
-                  <span><span v-text="index + 1 + '. '" /><AppShowAddress :address="manager" /></span>
+                  <span
+                    ><span v-text="index + 1 + '. '" /><AppShowAddress class="manager-address" :address="manager" @click="goToProfile(manager)"
+                  /></span>
                   <span class="badge badge-pill badge-primary" v-if="compareAddresses(manager, address)">Mi dirección</span>
                 </li>
               </ul>
@@ -51,6 +53,14 @@ export default {
   },
   methods: {
     compareAddresses,
+
+    goToProfile(address) {
+      const routeData = this.$router.resolve({
+        name: 'Profile',
+        params: { address },
+      });
+      window.open(routeData.href, '_blank');
+    },
   },
   async created() {},
 };
@@ -63,6 +73,11 @@ export default {
   justify-content: space-between;
   align-items: center;
   gap: 0.4rem;
+}
+
+.manager-address:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .badge {
