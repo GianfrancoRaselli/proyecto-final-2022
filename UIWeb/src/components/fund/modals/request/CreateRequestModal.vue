@@ -24,15 +24,18 @@
 
             <div class="form-group">
               <label for="recipientInput">Dirección del destinatario</label>
-              <input
-                type="text"
-                class="form-control"
-                :class="{ 'is-invalid': v$.data.recipient.$errors.length }"
-                id="recipientInput"
-                aria-describedby="recipientHelp"
-                v-model="data.recipient"
-                :disabled="loading"
-              />
+              <div class="wrapper">
+                <input
+                  type="text"
+                  class="form-control"
+                  :class="{ 'is-invalid': v$.data.recipient.$errors.length }"
+                  id="recipientInput"
+                  aria-describedby="recipientHelp"
+                  v-model="data.recipient"
+                  :disabled="loading"
+                />
+                <span class="badge badge-pill badge-primary" v-if="compareAddresses(data.recipient, address)">Yo</span>
+              </div>
               <small id="recipientHelp" class="form-text text-muted">Ingrese una dirección</small>
               <AppInputErrors :errors="v$.data.recipient.$errors" />
             </div>
@@ -80,6 +83,7 @@ import $ from 'jquery';
 import Web3 from 'web3';
 import { mapGetters } from 'vuex';
 import { transaction, validateForm } from '@/helpers/helpers';
+import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, numeric, minValue, minLength } from '@vuelidate/validators';
@@ -155,6 +159,8 @@ export default {
     };
   },
   methods: {
+    compareAddresses,
+
     async handleSubmit() {
       if (await validateForm(this.v$)) {
         try {
@@ -218,5 +224,16 @@ export default {
 .modal-header .icon {
   cursor: pointer;
   color: grey;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.wrapper .badge {
+  font-size: 0.8rem;
+  position: absolute;
+  top: 10px;
+  right: 4px;
 }
 </style>
