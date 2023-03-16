@@ -1,10 +1,12 @@
 <template>
-  <span :title="humanFriendlyDate">
+  <span data-toggle="tooltip" data-placement="top" :title="humanFriendlyDate">
     {{ diffForHumans }}
   </span>
 </template>
 
 <script>
+import $ from 'jquery';
+
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 dayjs.locale('es');
@@ -32,6 +34,11 @@ export default {
       return fromNow.charAt(0).toUpperCase() + fromNow.slice(1);
     },
   },
+  created() {
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  }
 };
 </script>
 
