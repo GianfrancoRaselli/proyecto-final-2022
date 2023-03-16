@@ -43,9 +43,9 @@
                 <span
                   v-text="
                     (request.approvalsCount | '0') +
-                    ' of ' +
+                    ' de ' +
                     Math.ceil(maxNumOfApprovers() * (fund.minimumApprovalsPercentageRequired / 100)) +
-                    ' needed'
+                    ' necesarias'
                   "
                 >
                 </span>

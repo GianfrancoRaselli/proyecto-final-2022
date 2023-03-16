@@ -43,7 +43,11 @@
               icon="circle-dollar-to-slot"
               class="icon"
               :class="{ 'icon-contributions-hover': mouseOverContributions }"
-            /><span class="amount">5</span>
+            /><span
+              class="amount"
+              v-text="amountOfContributions"
+              v-if="amountOfContributions || amountOfContributions === 0"
+            ></span>
           </div>
           <div
             class="icon-container"
@@ -57,8 +61,9 @@
           >
             <fa-icon icon="money-bill-transfer" class="icon" :class="{ 'icon-transfers-hover': mouseOverTransfers }" /><span
               class="amount"
-              >5</span
-            >
+              v-text="amountOfTransfers"
+              v-if="amountOfTransfers || amountOfTransfers === 0"
+            ></span>
           </div>
           <div
             class="icon-container"
@@ -70,17 +75,19 @@
             @mouseover="mouseOverRequests = true"
             @mouseleave="mouseOverRequests = false"
           >
-            <fa-icon icon="list-check" class="icon" :class="{ 'icon-requests-hover': mouseOverRequests }" /><span class="amount"
-              >5</span
-            >
+            <fa-icon icon="list-check" class="icon" :class="{ 'icon-requests-hover': mouseOverRequests }" /><span
+              class="amount"
+              v-text="amountOfRequests"
+              v-if="amountOfRequests || amountOfRequests === 0"
+            ></span>
           </div>
         </div>
       </div>
     </div>
     <ManagersModal :fundAddress="fund.address" :managers="fund.managers" />
-    <ContributionsModal :fundAddress="fund.address" />
-    <TransfersModal :fundAddress="fund.address" />
-    <RequestsModal :fundAddress="fund.address" />
+    <ContributionsModal :fundAddress="fund.address" @contributions="(amount) => (amountOfContributions = amount)" />
+    <TransfersModal :fundAddress="fund.address" @transfers="(amount) => (amountOfTransfers = amount)" />
+    <RequestsModal :fundAddress="fund.address" :fund="fund" @requests="(amount) => (amountOfRequests = amount)" />
   </div>
 </template>
 
@@ -101,7 +108,7 @@ export default {
     ManagersModal,
     ContributionsModal,
     TransfersModal,
-    RequestsModal
+    RequestsModal,
   },
   props: {
     fund: { type: Object, required: true },
@@ -114,6 +121,9 @@ export default {
       mouseOverContributions: false,
       mouseOverTransfers: false,
       mouseOverRequests: false,
+      amountOfContributions: null,
+      amountOfTransfers: null,
+      amountOfRequests: null,
     };
   },
   computed: {

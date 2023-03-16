@@ -42,6 +42,7 @@ export default {
   props: {
     fundAddress: { type: String, required: true },
   },
+  emits: ['contributions'],
   data() {
     return {
       loading: true,
@@ -54,9 +55,7 @@ export default {
   methods: {
     compareAddresses,
 
-    async getContributions() {
-      
-    }
+    async getContributions() {},
   },
   async created() {
     this.getContributions();
