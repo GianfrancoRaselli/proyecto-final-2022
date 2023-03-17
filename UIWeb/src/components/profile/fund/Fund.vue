@@ -5,12 +5,12 @@
       <img class="img" src="@/assets/imgs/fund.png" v-else />
       <div class="content">
         <div class="top-line">
+          <AppDate class="createdAt" :date="createdAt" />
           <span class="header">
             <span class="name" v-text="fund.name"></span>
             <fa-icon icon="circle" class="icon" />
             <span class="type" v-text="type"></span>
           </span>
-          <AppDate class="createdAt" :date="createdAt" />
         </div>
         <div class="description" v-text="fund.description"></div>
         <div class="bottom-line">
@@ -209,29 +209,50 @@ export default {
     height: 4rem;
     width: 4rem;
     border-radius: 4rem;
+
+    @media (max-width: 400px) {
+      height: 3.6rem;
+      width: 3.6rem;
+      border-radius: 3.6rem;
+    }
   }
 
   .content {
-    word-wrap: break-word;
-    word-break: break-all;
     width: 100%;
 
     .top-line {
       display: flex;
-      flex-direction: row;
+      flex-direction: row-reverse;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 1rem;
+      gap: 0.2rem;
+
+      .createdAt {
+        font-size: 0.8rem;
+        min-width: fit-content;
+        margin-left: auto;
+        padding-left: 0.8rem;
+        align-self: flex-start;
+      }
 
       .header {
-        width: 100%;
+        margin-right: auto;
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         align-items: center;
-        gap: 0.4rem;
+        gap: 0.3rem;
+
+        @media (max-width: 600px) {
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 0;
+        }
 
         .name {
-          font-size: 1.2rem;
+          font-size: 1.15rem;
           font-weight: bold;
         }
 
@@ -239,28 +260,34 @@ export default {
           height: 0.2rem;
           width: 0.2rem;
           color: rgb(97, 97, 97);
+
+          @media (max-width: 600px) {
+            display: none;
+          }
         }
 
         .type {
-          font-size: 0.88rem;
+          font-size: 0.85rem;
         }
-      }
-
-      .createdAt {
-        font-size: 0.92rem;
-        min-width: fit-content;
       }
     }
 
     .description {
+      word-wrap: break-word;
+      word-break: break-all;
       padding: 0.4rem 0;
     }
 
     .bottom-line {
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       align-items: center;
       gap: 1.6rem;
+
+      @media (max-width: 500px) {
+        gap: 0.7rem;
+      }
 
       .icon-container {
         display: flex;

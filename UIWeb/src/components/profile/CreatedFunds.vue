@@ -55,7 +55,7 @@ export default {
 
 <style lang="scss" scoped>
 .created-funds-container {
-  padding: 1.5rem;
+  padding-top: 1.5rem;
 
   .title {
     font-size: 2.34rem;
@@ -65,11 +65,15 @@ export default {
   }
 
   .content {
-    padding: 0 4rem;
+    padding: 0 5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 920px) {
+      padding: 0;
+    }
 
     .funds {
       width: 100%;
