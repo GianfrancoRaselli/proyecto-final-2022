@@ -21,7 +21,7 @@
               </span>
             </div>
             <div class="info" v-if="request.recipient">
-              <span class="info__label"><span class="text-bold">Recipient</span>:&nbsp;</span>
+              <span class="info__label"><span class="text-bold">Destinatario</span>:&nbsp;</span>
               <span class="info__info">
                 <AppShowAddress class="hover" :address="request.recipient" @click="goToProfile(request.recipient)" />
                 <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">

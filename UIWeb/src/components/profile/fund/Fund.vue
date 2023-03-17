@@ -197,7 +197,7 @@ export default {
 
 <style lang="scss" scoped>
 .fund {
-  padding: 0.6rem;
+  padding: 0.65rem 0.55rem;
   border: 1px solid rgb(238, 238, 238);
   display: flex;
   flex-direction: row;

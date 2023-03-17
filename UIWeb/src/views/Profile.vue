@@ -52,16 +52,54 @@
       <EditImageModal @update="updateImage" />
     </div>
 
-    <!-- Fondos creados -->
-    <CreatedFunds :loading="loadingFunds" :funds="funds" />
+    <div class="extra-informacion">
+      <div class="header">
+        <div class="item" @click="extraInformation.fundsCreated = true">
+          <span class="span" :class="{ 'span-active': extraInformation.fundsCreated }">Fondos creados</span>
+          <div class="bar" :class="{ 'bar-active': extraInformation.fundsCreated }"></div>
+        </div>
+        <div class="item" @click="extraInformation.fundsAdmin = true">
+          <span class="span" :class="{ 'item-active': extraInformation.fundsAdmin }">Administrador</span>
+          <div class="bar" :class="{ 'bar-active': extraInformation.fundsAdmin }"></div>
+        </div>
+        <div class="item" @click="extraInformation.contributions = true">
+          <span class="span" :class="{ 'item-active': extraInformation.contributions }">Contribuciones</span>
+          <div class="bar" :class="{ 'bar-active': extraInformation.contributions }"></div>
+        </div>
+        <div class="item" @click="extraInformation.transfersMade = true">
+          <span class="span" :class="{ 'item-active': extraInformation.transfersMade }">Transferencias realizadas</span>
+          <div class="bar" :class="{ 'bar-active': extraInformation.transfersMade }"></div>
+        </div>
+        <div class="item" @click="extraInformation.transferReceived = true">
+          <span class="span" :class="{ 'item-active': extraInformation.transferReceived }">Transferencias recibidas</span>
+          <div class="bar" :class="{ 'bar-active': extraInformation.transferReceived }"></div>
+        </div>
+        <div class="item" @click="extraInformation.requestsCreated = true">
+          <span class="span" :class="{ 'item-active': extraInformation.requestsCreated }">Solicitudes creadas</span>
+          <div class="bar" :class="{ 'bar-active': extraInformation.requestsCreated }"></div>
+        </div>
+        <div class="item" @click="extraInformation.requestsReceiver = true">
+          <span class="span" :class="{ 'item-active': extraInformation.requestsReceiver }">Destinatario</span>
+          <div class="bar" :class="{ 'bar-active': extraInformation.requestsReceiver }"></div>
+        </div>
+      </div>
+      <div class="body">
+        <!-- Fondos creados -->
+        <FundsCreated :loading="loadingFunds" :funds="funds" v-if="extraInformation.fundsCreated" />
 
-    <!-- Fondos en los que es administrador -->
+        <!-- Fondos en los que es administrador -->
 
-    <!-- Contribuciones -->
+        <!-- Contribuciones -->
 
-    <!-- Transferencias -->
+        <!-- Transferencias realizadas -->
 
-    <!-- Solicitudes creadas -->
+        <!-- Transferencias recibidas -->
+
+        <!-- Solicitudes creadas -->
+
+        <!-- Solicitudes en la que es destinatario -->
+      </div>
+    </div>
   </div>
 </template>
 
@@ -77,14 +115,14 @@ import axios from 'axios';
 
 import EditEntityModal from '@/components/entity/EditEntityModal';
 import EditImageModal from '@/components/EditImageModal';
-import CreatedFunds from '@/components/profile/CreatedFunds';
+import FundsCreated from '@/components/profile/FundsCreated';
 
 export default {
   name: 'ProfileView',
   components: {
     EditEntityModal,
     EditImageModal,
-    CreatedFunds,
+    FundsCreated,
   },
   data() {
     return {
@@ -93,6 +131,15 @@ export default {
       entity: null,
       loadingFunds: true,
       funds: null,
+      extraInformation: {
+        fundsCreated: true,
+        fundsAdmin: false,
+        contributions: false,
+        transfersMade: false,
+        transferReceived: false,
+        requestsCreated: false,
+        requestsReceiver: false,
+      },
     };
   },
   computed: {
@@ -103,6 +150,78 @@ export default {
 
     isMyProfile() {
       return compareAddresses(this.address, this.$route.params.address);
+    },
+  },
+  watch: {
+    'extraInformation.fundsCreated'(newValue) {
+      if (newValue) {
+        this.extraInformation.fundsAdmin = false;
+        this.extraInformation.contributions = false;
+        this.extraInformation.transfersMade = false;
+        this.extraInformation.transferReceived = false;
+        this.extraInformation.requestsCreated = false;
+        this.extraInformation.requestsReceiver = false;
+      }
+    },
+    'extraInformation.fundsAdmin'(newValue) {
+      if (newValue) {
+        this.extraInformation.fundsCreated = false;
+        this.extraInformation.contributions = false;
+        this.extraInformation.transfersMade = false;
+        this.extraInformation.transferReceived = false;
+        this.extraInformation.requestsCreated = false;
+        this.extraInformation.requestsReceiver = false;
+      }
+    },
+    'extraInformation.contributions'(newValue) {
+      if (newValue) {
+        this.extraInformation.fundsCreated = false;
+        this.extraInformation.fundsAdmin = false;
+        this.extraInformation.transfersMade = false;
+        this.extraInformation.transferReceived = false;
+        this.extraInformation.requestsCreated = false;
+        this.extraInformation.requestsReceiver = false;
+      }
+    },
+    'extraInformation.transfersMade'(newValue) {
+      if (newValue) {
+        this.extraInformation.fundsCreated = false;
+        this.extraInformation.fundsAdmin = false;
+        this.extraInformation.contributions = false;
+        this.extraInformation.transferReceived = false;
+        this.extraInformation.requestsCreated = false;
+        this.extraInformation.requestsReceiver = false;
+      }
+    },
+    'extraInformation.transferReceived'(newValue) {
+      if (newValue) {
+        this.extraInformation.fundsCreated = false;
+        this.extraInformation.fundsAdmin = false;
+        this.extraInformation.contributions = false;
+        this.extraInformation.transfersMade = false;
+        this.extraInformation.requestsCreated = false;
+        this.extraInformation.requestsReceiver = false;
+      }
+    },
+    'extraInformation.requestsCreated'(newValue) {
+      if (newValue) {
+        this.extraInformation.fundsCreated = false;
+        this.extraInformation.fundsAdmin = false;
+        this.extraInformation.contributions = false;
+        this.extraInformation.transfersMade = false;
+        this.extraInformation.transferReceived = false;
+        this.extraInformation.requestsReceiver = false;
+      }
+    },
+    'extraInformation.requestsReceiver'(newValue) {
+      if (newValue) {
+        this.extraInformation.fundsCreated = false;
+        this.extraInformation.fundsAdmin = false;
+        this.extraInformation.contributions = false;
+        this.extraInformation.transfersMade = false;
+        this.extraInformation.transferReceived = false;
+        this.extraInformation.requestsCreated = false;
+      }
     },
   },
   methods: {
@@ -298,6 +417,77 @@ export default {
         }
       }
     }
+  }
+}
+
+.extra-informacion {
+  padding: 2rem 6rem;
+
+  @media (max-width: 920px) {
+    padding: 2rem 0;
+  }
+
+  .header {
+    margin-bottom: 0.7rem;
+    padding-bottom: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: auto;
+
+    .item {
+      min-width: fit-content;
+      padding: 0 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .span {
+        display: block;
+        font-size: 1.07rem;
+        color: rgb(70, 70, 70);
+        padding: 1rem 0;
+      }
+
+      .span-active {
+        font-weight: bold;
+        color: rgb(0, 0, 0);
+        padding-bottom: 0.6rem;
+      }
+
+      .bar {
+        display: none;
+        background-color: rgb(29, 155, 240);
+        height: 0.4rem;
+        width: 100%;
+        border-radius: 1rem;
+      }
+
+      .bar-active {
+        display: block;
+      }
+    }
+
+    .item:hover {
+      cursor: pointer;
+      background-color: rgb(235, 235, 235);
+    }
+  }
+
+  .header::-webkit-scrollbar {
+    height: 10px;
+    border-radius: 10px;
+    background-color: rgb(175, 175, 175);
+
+    @media only screen and (hover: none) and (pointer: coarse) {
+      display: none;
+    }
+  }
+
+  .header::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgb(74, 74, 74);
   }
 }
 </style>

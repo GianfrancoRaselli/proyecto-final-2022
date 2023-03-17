@@ -1,11 +1,8 @@
 <template>
   <div class="created-funds-container">
-    <p class="title">Fondos creados</p>
-    <div class="content">
-      <AppSpinner class="spinner" size="medium" v-if="loading" />
-      <div class="funds" v-else>
-        <Fund v-for="(fund, i) in fundsToShow" :key="i" :fund="fund" />
-      </div>
+    <AppSpinner class="spinner" size="medium" v-if="loading" />
+    <div class="funds" v-else>
+      <Fund v-for="(fund, i) in fundsToShow" :key="i" :fund="fund" />
     </div>
   </div>
 </template>
@@ -16,7 +13,7 @@ import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import Fund from '@/components/profile/fund/Fund';
 
 export default {
-  name: 'CreatedFundsComponent',
+  name: 'FundsCreatedComponent',
   components: {
     Fund,
   },
@@ -55,32 +52,20 @@ export default {
 
 <style lang="scss" scoped>
 .created-funds-container {
-  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-  .title {
-    font-size: 2.34rem;
-    font-weight: bold;
-    font-family: 'Dancing Script', cursive;
-    text-align: center;
+  .spinner {
+    margin-top: 2rem;
   }
 
-  .content {
-    padding: 0 5rem;
+  .funds {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    @media (max-width: 920px) {
-      padding: 0;
-    }
-
-    .funds {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+    justify-content: space-between;
   }
 }
 </style>
