@@ -127,6 +127,7 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     gap: 0.4rem;
@@ -137,6 +138,7 @@ export default {
 
     .badge {
       font-size: 0.75rem;
+      margin-left: auto;
     }
   }
 

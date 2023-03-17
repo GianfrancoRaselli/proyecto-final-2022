@@ -129,6 +129,7 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     gap: 0.4rem;
@@ -138,6 +139,7 @@ export default {
     }
 
     .badges {
+      margin-left: auto;
       display: flex;
       flex-direction: row;
       justify-content: center;
