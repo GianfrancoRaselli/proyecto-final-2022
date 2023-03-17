@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import router from '@/router';
 import store from '@/store';
 import { convertEthPrice } from 'web3-simple-helpers/methods/general';
 import connect from 'web3-simple-helpers/methods/connect';
@@ -186,4 +187,22 @@ const validateForm = async (validations) => {
   }
 };
 
-export { call, transaction, event, validateForm, addTokenToMetaMask, ethPriceInUSD, convertNumberToMaxDecimals, areTheSameDates };
+const goToProfile = (address) => {
+  const routeData = router.resolve({
+    name: 'Profile',
+    params: { address },
+  });
+  window.open(routeData.href, '_blank');
+};
+
+export {
+  call,
+  transaction,
+  event,
+  validateForm,
+  addTokenToMetaMask,
+  ethPriceInUSD,
+  convertNumberToMaxDecimals,
+  areTheSameDates,
+  goToProfile,
+};

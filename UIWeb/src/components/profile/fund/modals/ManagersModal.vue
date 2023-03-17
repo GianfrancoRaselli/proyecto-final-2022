@@ -21,7 +21,7 @@
               <li class="list-group-item" v-for="(manager, index) in managers" :key="index">
                 <span
                   ><span v-text="index + 1 + '. '" /><AppShowAddress
-                    class="manager-address"
+                    class="hover"
                     :address="manager"
                     @click="goToProfile(manager)"
                 /></span>
@@ -37,6 +37,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { goToProfile } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -54,14 +55,7 @@ export default {
   },
   methods: {
     compareAddresses,
-
-    goToProfile(address) {
-      const routeData = this.$router.resolve({
-        name: 'Profile',
-        params: { address },
-      });
-      window.open(routeData.href, '_blank');
-    },
+    goToProfile,
   },
   async created() {},
 };
@@ -74,11 +68,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   gap: 0.4rem;
-}
-
-.manager-address:hover {
-  cursor: pointer;
-  text-decoration: underline;
 }
 
 .badge {

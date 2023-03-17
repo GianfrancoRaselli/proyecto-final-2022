@@ -204,4 +204,9 @@ body {
 .btn-link {
   padding: 0;
 }
+
+.hover:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
 </style>

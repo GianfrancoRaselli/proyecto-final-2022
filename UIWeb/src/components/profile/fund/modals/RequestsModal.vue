@@ -31,7 +31,7 @@
                     <div class="info" v-if="request.petitioner">
                       <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
                       <span class="info__info">
-                        <AppShowAddress :address="request.petitioner" />
+                        <AppShowAddress class="hover" :address="request.petitioner" @click="goToProfile(request.petitioner)" />
                         <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)">
                           Mi dirección
                         </span>
@@ -40,7 +40,7 @@
                     <div class="info" v-if="request.recipient">
                       <span class="info__label"><span class="text-bold">Recipient</span>:&nbsp;</span>
                       <span class="info__info">
-                        <AppShowAddress :address="request.recipient" />
+                        <AppShowAddress class="hover" :address="request.recipient" @click="goToProfile(request.recipient)" />
                         <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">
                           My address
                         </span>
@@ -82,7 +82,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { call } from '@/helpers/helpers';
+import { call, goToProfile } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -106,6 +106,7 @@ export default {
   },
   methods: {
     compareAddresses,
+    goToProfile,
 
     getRequestClass(request) {
       if (request.complete) return 'request-completed';

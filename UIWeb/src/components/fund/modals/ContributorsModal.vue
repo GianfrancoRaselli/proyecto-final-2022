@@ -14,7 +14,11 @@
             <ul class="list-group list-group-flush" v-else>
               <li class="list-group-item" v-for="(c, index) in contributorsOrdered" :key="index">
                 <div class="item-address">
-                  <span v-text="index + 1 + '. '" /><AppShowAddress :address="c.contributor" />
+                  <span v-text="index + 1 + '. '" /><AppShowAddress
+                    class="hover"
+                    :address="c.contributor.toString()"
+                    @click="goToProfile(c.contributor)"
+                  />
                   <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(c.contributor, address)"
                     >Mi dirección</span
                   >
@@ -33,6 +37,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { goToProfile } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -54,6 +59,7 @@ export default {
   },
   methods: {
     compareAddresses,
+    goToProfile,
   },
   async created() {},
 };
