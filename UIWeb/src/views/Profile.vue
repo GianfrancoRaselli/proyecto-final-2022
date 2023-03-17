@@ -3,9 +3,11 @@
     <div class="entity-card">
       <AppSpinner class="spinner" size="big" v-if="loadingEntity" />
       <div class="entity-card-content" v-else>
-        <div class="img-container">
-          <img class="profile-img magnify-img" :src="serverUrl + 'images/' + entity.image" v-if="entity && entity.image" />
-          <img class="profile-img" src="@/assets/imgs/user-not-found.png" v-else />
+        <div class="img-center">
+          <div class="img-container">
+            <img class="profile-img magnify-img" :src="serverUrl + 'images/' + entity.image" v-if="entity && entity.image" />
+            <img class="profile-img" src="@/assets/imgs/user-not-found.png" v-else />
+          </div>
           <div class="icons" v-if="isMyProfile">
             <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" v-if="entity" />
             <fa-icon icon="trash" class="icon red" @click="openRemoveImage" v-if="entity && entity.image" />
@@ -191,28 +193,40 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: row-reverse;
-    flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
     gap: 1.5rem;
 
-    .img-container {
+    @media (max-width: 680px) {
+      text-align: center;
+      flex-direction: column;
+    }
+
+    .img-center {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      gap: 0.8rem;
 
-      .profile-img {
-        height: 15rem;
-        width: 15rem;
-        border-radius: 15rem;
-      }
+      .img-container {
+        height: 17rem;
+        width: 17rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
-      .magnify-img:hover {
-        height: 21rem;
-        width: 21rem;
-        border-radius: 1rem;
+        .profile-img {
+          height: 15rem;
+          width: 15rem;
+          border-radius: 15rem;
+        }
+
+        .magnify-img:hover {
+          height: 17rem;
+          width: 17rem;
+          border-radius: 1rem;
+        }
       }
 
       .icons {
