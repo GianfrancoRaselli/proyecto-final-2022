@@ -82,26 +82,27 @@ export default {
 
     async getContributions() {
       this.loading = true;
+      this.$emit('contributions', 0);
 
       try {
-        this.$emit('contributions', 0);
-        (
-          await event(
-            { name: 'Fund', address: this.fundAddress },
-            'Contribute',
-            undefined,
-            async (err, event) => {
+        await event(
+          { name: 'Fund', address: this.fundAddress },
+          'Contribute',
+          undefined,
+          async (err, events) => {
+            events.forEach(async (event) => {
               const block = await this.$store.state.connection.infuraWeb3.eth.getBlock(event.blockNumber);
               this.contributions.push({
                 contributor: event.returnValues.contributor,
                 value: event.returnValues.value,
                 timestamp: block.timestamp,
               });
-              this.$emit('contributions', this.contributions.length);
-            },
-            true,
-          )
-        ).unsubscribe();
+            });
+
+            this.$emit('contributions', events.length);
+          },
+          true,
+        );
       } finally {
         this.loading = false;
       }

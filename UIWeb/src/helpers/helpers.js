@@ -116,9 +116,8 @@ const transaction = async (contract, method, params = [], options, showContractE
   throw new Error('La transacción no pudo ser enviada');
 };
 
-const event = async (contract, event, options, func, allEvents) => {
-  if (allEvents)
-    return connect.events(await getContract(contract, 'metamask'), event, { fromBlock: firstBlock, ...options }, func);
+const event = async (contract, event, options, func, pastEvents) => {
+  if (pastEvents) return connect.pastEvents(await getContract(contract), event, { fromBlock: firstBlock, ...options }, func);
   return connect.latestEvents(await getContract(contract, 'metamask'), event, options, func);
 };
 
