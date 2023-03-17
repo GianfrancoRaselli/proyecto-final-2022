@@ -201,6 +201,15 @@ body {
   }
 }
 
+.badge {
+  height: fit-content;
+  min-width: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .btn-link {
   padding: 0;
 }

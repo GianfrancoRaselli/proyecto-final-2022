@@ -5,6 +5,7 @@ import { convertEthPrice } from 'web3-simple-helpers/methods/general';
 import connect from 'web3-simple-helpers/methods/connect';
 import { addNotification } from '@/composables/useNotifications';
 import { hasMetamask } from './connection';
+import { firstBlock } from '@/siteConfig';
 
 import fundTokenABI from '@/assets/abis/FundToken';
 import { fundTokenAddress } from '@/siteConfig';
@@ -115,7 +116,9 @@ const transaction = async (contract, method, params = [], options, showContractE
   throw new Error('La transacción no pudo ser enviada');
 };
 
-const event = async (contract, event, options, func) => {
+const event = async (contract, event, options, func, allEvents) => {
+  if (allEvents)
+    return connect.events(await getContract(contract, 'metamask'), event, { fromBlock: firstBlock, ...options }, func);
   return connect.latestEvents(await getContract(contract, 'metamask'), event, options, func);
 };
 

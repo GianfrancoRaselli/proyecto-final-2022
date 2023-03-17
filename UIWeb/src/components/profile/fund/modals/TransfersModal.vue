@@ -10,20 +10,15 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" :id="'profileTransfersModalLabel' + fundAddress">Administradores</h4>
+            <h4 class="modal-title" :id="'profileTransfersModalLabel' + fundAddress">Transferencias</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <div class="managers-list">
-              <div class="no-managers" v-if="managers && managers.length === 0">Sin administradores</div>
-              <ul class="list-group list-group-flush" v-else>
-                <li class="list-group-item" v-for="(manager, index) in managers" :key="index">
-                  <span><span v-text="index + 1 + '. '" /><AppShowAddress :address="manager" /></span>
-                  <span class="badge badge-pill badge-primary" v-if="compareAddresses(manager, address)">Mi dirección</span>
-                </li>
-              </ul>
+            <AppSpinner v-if="loading" />
+            <div v-else>
+              <div class="no-requests" v-if="transfers && transfers.length === 0">Sin transferencias</div>
             </div>
           </div>
         </div>
@@ -55,7 +50,15 @@ export default {
   methods: {
     compareAddresses,
 
-    async getTransfers() {},
+    async getTransfers() {
+      this.loading = true;
+
+      try {
+        console.log("T")
+      } finally {
+        this.loading = false;
+      }
+    },
   },
   async created() {
     this.getTransfers();

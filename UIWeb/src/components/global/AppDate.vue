@@ -1,5 +1,5 @@
 <template>
-  <span data-toggle="tooltip" data-placement="top" :title="humanFriendlyDate">
+  <span class="date" data-toggle="tooltip" data-placement="top" :title="humanFriendlyDate">
     {{ diffForHumans }}
   </span>
 </template>
@@ -38,8 +38,12 @@ export default {
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
-  }
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.date {
+  min-width: fit-content;
+}
+</style>

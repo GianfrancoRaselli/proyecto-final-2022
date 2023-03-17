@@ -20,6 +20,9 @@ const goerliNetwork = {
   explorer: 'https://goerli.etherscan.io',
 };
 
+const firstBlockLocalhost = 0;
+const firstBlockGoerli = 8505516;
+
 const infuraProviderLocalhost = 'http://localhost:7545';
 const infuraProviderProduction = 'https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a';
 
@@ -30,8 +33,9 @@ const isLocalhost = isLocalhostTemp;
 
 const serverUrl = isLocalhost ? serverUrlLocalhost : serverUrlProduction;
 const network = isLocalhost ? ganacheNetwork : goerliNetwork;
+const firstBlock = isLocalhost ? firstBlockLocalhost : firstBlockGoerli;
 const infuraProvider = isLocalhost ? infuraProviderLocalhost : infuraProviderProduction;
 const fundFactoryAddress = isLocalhost ? ganacheAddresses.fundFactoryAddress : goerliAddresses.fundFactoryAddress;
 const fundTokenAddress = isLocalhost ? ganacheAddresses.fundTokenAddress : goerliAddresses.fundTokenAddress;
 
-export { isLocalhost, serverUrl, network, infuraProvider, fundFactoryAddress, fundTokenAddress };
+export { isLocalhost, serverUrl, network, firstBlock, infuraProvider, fundFactoryAddress, fundTokenAddress };

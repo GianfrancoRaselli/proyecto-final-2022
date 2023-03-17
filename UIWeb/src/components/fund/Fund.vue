@@ -650,7 +650,7 @@ export default {
 
     .btn-managers {
       color: white;
-      background-color: rgba(57, 57, 221, 0.97);
+      background-color: rgba(57, 57, 221, 0.942);
     }
 
     .btn-contributions {
@@ -660,12 +660,12 @@ export default {
 
     .btn-transfers {
       color: white;
-      background-color: rgba(209, 41, 41, 0.96);
+      background-color: rgba(209, 41, 41, 0.958);
     }
 
     .btn-requests {
       color: black;
-      background-color: rgba(255, 166, 0, 0.954);
+      background-color: rgba(255, 166, 0, 0.935);
     }
   }
 }

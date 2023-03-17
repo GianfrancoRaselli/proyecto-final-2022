@@ -42,7 +42,7 @@
                       <span class="info__info">
                         <AppShowAddress class="hover" :address="request.recipient" @click="goToProfile(request.recipient)" />
                         <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">
-                          My address
+                          Mi dirección
                         </span>
                       </span>
                     </div>
