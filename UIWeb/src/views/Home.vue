@@ -8,8 +8,8 @@
           <div class="header">
             <p class="subtitle">Transformando la forma de financiación</p>
             <p class="description">
-              Brindamos seguridad y autocontrol a todos los que buscan una forma totalmente descentralizada de administrar fondos
-              de dinero compartidos utilizando los contratos inteligentes de la cadena de bloques de Ethereum.
+              Brindamos seguridad y autogestión a todos los que buscan una forma totalmente descentralizada de administrar fondos
+              de dinero utilizando la teconología Smart Contract de la Ethereum Blockchain.
             </p>
           </div>
           <router-link class="button" :to="{ name: 'Funds', params: { animation: 'slide' } }">
