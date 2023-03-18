@@ -96,6 +96,7 @@
         <FundsCreated :loading="loadingFunds" :funds="funds" v-if="extraInformation.fundsCreated" />
 
         <!-- Fondos en los que es administrador -->
+        <FundsAdmin :loading="loadingFunds" :funds="funds" v-if="extraInformation.fundsAdmin" />
 
         <!-- Contribuciones -->
 
@@ -125,6 +126,7 @@ import axios from 'axios';
 import EditEntityModal from '@/components/entity/EditEntityModal';
 import EditImageModal from '@/components/EditImageModal';
 import FundsCreated from '@/components/profile/FundsCreated';
+import FundsAdmin from '@/components/profile/FundsAdmin';
 
 export default {
   name: 'ProfileView',
@@ -132,6 +134,7 @@ export default {
     EditEntityModal,
     EditImageModal,
     FundsCreated,
+    FundsAdmin,
   },
   data() {
     return {

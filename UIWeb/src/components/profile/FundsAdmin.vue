@@ -13,7 +13,7 @@ import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import Fund from '@/components/profile/fund/Fund';
 
 export default {
-  name: 'FundsCreatedComponent',
+  name: 'FundsAdminComponent',
   components: {
     Fund,
   },
@@ -30,7 +30,8 @@ export default {
 
       // filter
       fundsToFilter = fundsToFilter.filter((fund) => {
-        return compareAddresses(fund.creator, this.$route.params.address);
+        if (fund.managers.findIndex((manager) => compareAddresses(manager, this.$route.params.address)) >= 0) return true;
+        return false;
       });
 
       // order
