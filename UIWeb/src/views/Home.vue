@@ -361,7 +361,7 @@ export default {
   }
 
   .funds::-webkit-scrollbar {
-    height: 12px;
+    height: 15px;
     border-radius: 10px;
     background-color: rgb(175, 175, 175);
 
@@ -372,7 +372,11 @@ export default {
 
   .funds::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: rgb(74, 74, 74);
+    background-color: rgb(80, 80, 80);
+  }
+
+  .funds::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(65, 65, 65);
   }
 }
 
@@ -460,7 +464,7 @@ export default {
   }
 
   .entities::-webkit-scrollbar {
-    height: 12px;
+    height: 15px;
     border-radius: 10px;
     background-color: rgb(175, 175, 175);
 
@@ -471,7 +475,11 @@ export default {
 
   .entities::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: rgb(74, 74, 74);
+    background-color: rgb(80, 80, 80);
+  }
+
+  .entities::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(65, 65, 65);
   }
 }
 

@@ -53,34 +53,42 @@
     </div>
 
     <div class="extra-informacion">
-      <div class="header">
-        <div class="item" @click="extraInformation.fundsCreated = true">
-          <span class="span" :class="{ 'span-active': extraInformation.fundsCreated }">Fondos creados</span>
-          <div class="bar" :class="{ 'bar-active': extraInformation.fundsCreated }"></div>
+      <div id="header" class="header" @mouseover="mouseOverHeader" @mouseleave="mouseLeaveHeader">
+        <div class="arrow arrow-left" @click="goBack" v-if="extraInformation.activeGoBack">
+          <fa-icon icon="arrow-left" class="icon" />
         </div>
-        <div class="item" @click="extraInformation.fundsAdmin = true">
-          <span class="span" :class="{ 'item-active': extraInformation.fundsAdmin }">Administrador</span>
-          <div class="bar" :class="{ 'bar-active': extraInformation.fundsAdmin }"></div>
+        <div class="arrow arrow-right" @click="goForward" v-if="extraInformation.activeGoForward">
+          <fa-icon icon="arrow-right" class="icon" />
         </div>
-        <div class="item" @click="extraInformation.contributions = true">
-          <span class="span" :class="{ 'item-active': extraInformation.contributions }">Contribuciones</span>
-          <div class="bar" :class="{ 'bar-active': extraInformation.contributions }"></div>
-        </div>
-        <div class="item" @click="extraInformation.transfersMade = true">
-          <span class="span" :class="{ 'item-active': extraInformation.transfersMade }">Transferencias realizadas</span>
-          <div class="bar" :class="{ 'bar-active': extraInformation.transfersMade }"></div>
-        </div>
-        <div class="item" @click="extraInformation.transferReceived = true">
-          <span class="span" :class="{ 'item-active': extraInformation.transferReceived }">Transferencias recibidas</span>
-          <div class="bar" :class="{ 'bar-active': extraInformation.transferReceived }"></div>
-        </div>
-        <div class="item" @click="extraInformation.requestsCreated = true">
-          <span class="span" :class="{ 'item-active': extraInformation.requestsCreated }">Solicitudes creadas</span>
-          <div class="bar" :class="{ 'bar-active': extraInformation.requestsCreated }"></div>
-        </div>
-        <div class="item" @click="extraInformation.requestsReceiver = true">
-          <span class="span" :class="{ 'item-active': extraInformation.requestsReceiver }">Destinatario</span>
-          <div class="bar" :class="{ 'bar-active': extraInformation.requestsReceiver }"></div>
+        <div id="header-container" class="header-container">
+          <div class="item" @click="extraInformation.fundsCreated = true">
+            <span class="span" :class="{ 'span-active': extraInformation.fundsCreated }">Fondos creados</span>
+            <div class="bar" :class="{ 'bar-active': extraInformation.fundsCreated }"></div>
+          </div>
+          <div class="item" @click="extraInformation.fundsAdmin = true">
+            <span class="span" :class="{ 'item-active': extraInformation.fundsAdmin }">Administrador</span>
+            <div class="bar" :class="{ 'bar-active': extraInformation.fundsAdmin }"></div>
+          </div>
+          <div class="item" @click="extraInformation.contributions = true">
+            <span class="span" :class="{ 'item-active': extraInformation.contributions }">Contribuciones</span>
+            <div class="bar" :class="{ 'bar-active': extraInformation.contributions }"></div>
+          </div>
+          <div class="item" @click="extraInformation.transfersMade = true">
+            <span class="span" :class="{ 'item-active': extraInformation.transfersMade }">Transferencias realizadas</span>
+            <div class="bar" :class="{ 'bar-active': extraInformation.transfersMade }"></div>
+          </div>
+          <div class="item" @click="extraInformation.transferReceived = true">
+            <span class="span" :class="{ 'item-active': extraInformation.transferReceived }">Transferencias recibidas</span>
+            <div class="bar" :class="{ 'bar-active': extraInformation.transferReceived }"></div>
+          </div>
+          <div class="item" @click="extraInformation.requestsCreated = true">
+            <span class="span" :class="{ 'item-active': extraInformation.requestsCreated }">Solicitudes creadas</span>
+            <div class="bar" :class="{ 'bar-active': extraInformation.requestsCreated }"></div>
+          </div>
+          <div class="item" @click="extraInformation.requestsReceiver = true">
+            <span class="span" :class="{ 'item-active': extraInformation.requestsReceiver }">Destinatario</span>
+            <div class="bar" :class="{ 'bar-active': extraInformation.requestsReceiver }"></div>
+          </div>
         </div>
       </div>
       <div class="body">
@@ -104,6 +112,7 @@
 </template>
 
 <script>
+import $ from 'jquery';
 import { serverUrl } from '@/siteConfig';
 import { mapState, mapGetters } from 'vuex';
 import { call } from '@/helpers/helpers';
@@ -132,6 +141,8 @@ export default {
       loadingFunds: true,
       funds: null,
       extraInformation: {
+        activeGoBack: false,
+        activeGoForward: false,
         fundsCreated: true,
         fundsAdmin: false,
         contributions: false,
@@ -288,6 +299,33 @@ export default {
       this.funds = funds;
       this.loadingFunds = false;
     },
+
+    mouseOverHeader() {
+      const scrollLeft = document.getElementById('header-container').scrollLeft;
+      const offsetWidth = document.getElementById('header-container').offsetWidth;
+      const scrollWidth = document.getElementById('header-container').scrollWidth;
+      if (scrollLeft > 5) this.extraInformation.activeGoBack = true;
+      else this.extraInformation.activeGoBack = false;
+      if (scrollWidth - (scrollLeft + offsetWidth) > 5) this.extraInformation.activeGoForward = true;
+      else this.extraInformation.activeGoForward = false;
+    },
+
+    mouseLeaveHeader() {
+      this.extraInformation.activeGoBack = false;
+      this.extraInformation.activeGoForward = false;
+    },
+
+    goBack() {
+      $('.header-container').animate({ scrollLeft: document.getElementById('header-container').scrollLeft - 300 }, 200, () =>
+        this.mouseOverHeader(),
+      );
+    },
+
+    goForward() {
+      $('.header-container').animate({ scrollLeft: document.getElementById('header-container').scrollLeft + 300 }, 200, () =>
+        this.mouseOverHeader(),
+      );
+    },
   },
   async created() {
     this.getEntityData();
@@ -428,66 +466,92 @@ export default {
   }
 
   .header {
-    margin-bottom: 0.7rem;
-    padding-bottom: 0.5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    overflow: auto;
+    position: relative;
+    margin-bottom: 0.6rem;
 
-    .item {
-      min-width: fit-content;
-      padding: 0 1.2rem;
+    .arrow {
+      position: absolute;
+      height: 2.5rem;
+      width: 2.5rem;
+      border-radius: 2.5rem;
+      color: white;
+      background-color: rgb(100, 100, 100);
       display: flex;
       flex-direction: column;
+      justify-content: center;
       align-items: center;
 
-      .span {
-        display: block;
-        font-size: 1.07rem;
-        color: rgb(70, 70, 70);
-        padding: 1rem 0;
-      }
-
-      .span-active {
-        font-weight: bold;
-        color: rgb(0, 0, 0);
-        padding-bottom: 0.6rem;
-      }
-
-      .bar {
-        display: none;
-        background-color: rgb(29, 155, 240);
-        height: 0.4rem;
-        width: 100%;
-        border-radius: 1rem;
-      }
-
-      .bar-active {
-        display: block;
+      @media only screen and (hover: none) and (pointer: coarse) {
+        display: none !important;
       }
     }
 
-    .item:hover {
+    .arrow:hover {
       cursor: pointer;
-      background-color: rgb(235, 235, 235);
+      background-color: rgb(125, 125, 125);
     }
-  }
 
-  .header::-webkit-scrollbar {
-    height: 10px;
-    border-radius: 10px;
-    background-color: rgb(175, 175, 175);
+    .arrow-left {
+      top: 50%;
+      left: 0.5rem;
+      transform: translateY(-50%);
+    }
 
-    @media only screen and (hover: none) and (pointer: coarse) {
+    .arrow-right {
+      top: 50%;
+      right: 0.5rem;
+      transform: translateY(-50%);
+    }
+
+    .header-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      overflow: auto;
+
+      .item {
+        min-width: fit-content;
+        padding: 0 1.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .span {
+          display: block;
+          font-size: 1.07rem;
+          color: rgb(70, 70, 70);
+          padding: 1rem 0;
+        }
+
+        .span-active {
+          font-weight: bold;
+          color: rgb(0, 0, 0);
+          padding-bottom: 0.6rem;
+        }
+
+        .bar {
+          display: none;
+          background-color: rgb(29, 155, 240);
+          height: 0.4rem;
+          width: 100%;
+          border-radius: 1rem;
+        }
+
+        .bar-active {
+          display: block;
+        }
+      }
+
+      .item:hover {
+        cursor: pointer;
+        background-color: rgb(235, 235, 235);
+      }
+    }
+
+    .header-container::-webkit-scrollbar {
       display: none;
     }
-  }
-
-  .header::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: rgb(74, 74, 74);
   }
 }
 </style>

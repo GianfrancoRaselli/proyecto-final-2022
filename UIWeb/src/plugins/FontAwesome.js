@@ -13,7 +13,6 @@ import {
   faCircleCheck,
   faCircleXmark,
   faXmark,
-  faArrowRight,
   faPerson,
   faCircleDollarToSlot,
   faMoneyBillTransfer,
@@ -24,6 +23,7 @@ import {
   faMoneyBill,
   faTrash,
   faArrowLeft,
+  faArrowRight,
   faSquareArrowUpRight,
   faThumbsUp,
   faFilter,
@@ -51,7 +51,6 @@ library.add(faCircle);
 library.add(faCircleCheck);
 library.add(faCircleXmark);
 library.add(faXmark);
-library.add(faArrowRight);
 library.add(faPerson);
 library.add(faCircleDollarToSlot);
 library.add(faMoneyBillTransfer);
@@ -62,6 +61,7 @@ library.add(faList);
 library.add(faMoneyBill);
 library.add(faTrash);
 library.add(faArrowLeft);
+library.add(faArrowRight);
 library.add(faSquareArrowUpRight);
 library.add(faThumbsUp);
 library.add(faFilter);
