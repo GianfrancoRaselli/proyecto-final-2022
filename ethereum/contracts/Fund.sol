@@ -66,7 +66,13 @@ contract Fund is ReentrancyGuard {
 
   event Transfer(address indexed sender, address indexed to, uint256 value);
 
-  event NewRequest(string description, address indexed petitioner, address indexed recipient, uint256 valueToTransfer);
+  event NewRequest(
+    uint256 indexed requestIndex,
+    string description,
+    address indexed petitioner,
+    address indexed recipient,
+    uint256 valueToTransfer
+  );
 
   event ApproveRequest(uint256 indexed requestIndex, address indexed approver);
 
@@ -206,7 +212,9 @@ contract Fund is ReentrancyGuard {
     newRequest.recipient = _recipient;
     newRequest.valueToTransfer = _valueToTransfer;
 
-    emit NewRequest(_description, msg.sender, _recipient, _valueToTransfer);
+    unchecked {
+      emit NewRequest(requests.length - 1, _description, msg.sender, _recipient, _valueToTransfer);
+    }
   }
 
   function requestsCount() public view returns (uint256) {

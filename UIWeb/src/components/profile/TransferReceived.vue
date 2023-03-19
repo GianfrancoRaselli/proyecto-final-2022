@@ -4,7 +4,7 @@
     <div class="items" v-else>
       <div class="no-items" v-if="transfersOrdered && transfersOrdered.length === 0">
         <fa-icon icon="xmark" class="icon" size="5x" />
-        <span>La entidad no ha realizado ninguna transferencia aún.</span>
+        <span>La entidad no ha recibido ninguna transferencia aún.</span>
       </div>
       <div v-else>
         <div class="item" v-for="(transfer, index) in transfersOrdered" :key="index">
