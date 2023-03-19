@@ -5,7 +5,7 @@
       <img class="img" src="@/assets/imgs/fund.png" v-else />
       <div class="content">
         <div class="top-line">
-          <AppDate class="createdAt" :date="createdAt" />
+          <AppDate class="created-at" :date="createdAt" />
           <span class="header">
             <span class="name" v-text="fund.name"></span>
             <fa-icon icon="circle" class="icon" />
@@ -228,7 +228,7 @@ export default {
       align-items: center;
       gap: 0.2rem;
 
-      .createdAt {
+      .created-at {
         font-size: 0.8rem;
         min-width: fit-content;
         margin-left: auto;

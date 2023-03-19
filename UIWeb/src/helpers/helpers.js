@@ -197,6 +197,14 @@ const goToProfile = (address) => {
   window.open(routeData.href, '_blank');
 };
 
+const goToFund = (address) => {
+  const routeData = router.resolve({
+    name: 'Fund',
+    params: { fundAddress: address },
+  });
+  window.open(routeData.href, '_blank');
+};
+
 export {
   call,
   transaction,
@@ -207,4 +215,5 @@ export {
   convertNumberToMaxDecimals,
   areTheSameDates,
   goToProfile,
+  goToFund,
 };

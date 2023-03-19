@@ -1,8 +1,14 @@
 <template>
   <div class="container">
     <AppSpinner class="spinner" size="medium" v-if="loading" />
-    <div class="funds" v-else>
-      <Fund v-for="(fund, i) in fundsToShow" :key="i" :fund="fund" />
+    <div class="items" v-else>
+      <div class="no-items" v-if="fundsToShow && fundsToShow.length === 0">
+        <fa-icon icon="xmark" class="icon" size="5x" />
+        <span>La entidad no es administradora de ningún fondo.</span>
+      </div>
+      <div v-else>
+        <Fund v-for="(fund, i) in fundsToShow" :key="i" :fund="fund" />
+      </div>
     </div>
   </div>
 </template>
@@ -13,7 +19,7 @@ import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import Fund from '@/components/profile/fund/Fund';
 
 export default {
-  name: 'FundsAdminComponent',
+  name: 'FundsAdminProfileComponent',
   components: {
     Fund,
   },
@@ -62,11 +68,22 @@ export default {
     margin-top: 2rem;
   }
 
-  .funds {
+  .items {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    .no-items {
+      font-size: 1.2rem;
+      text-align: center;
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+    }
   }
 }
 </style>

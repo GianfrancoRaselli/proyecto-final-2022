@@ -66,47 +66,52 @@
             <div class="bar" :class="{ 'bar-active': extraInformation.fundsCreated }"></div>
           </div>
           <div class="item" @click="extraInformation.fundsAdmin = true">
-            <span class="span" :class="{ 'item-active': extraInformation.fundsAdmin }">Administrador</span>
+            <span class="span" :class="{ 'span-active': extraInformation.fundsAdmin }">Administrador</span>
             <div class="bar" :class="{ 'bar-active': extraInformation.fundsAdmin }"></div>
           </div>
           <div class="item" @click="extraInformation.contributions = true">
-            <span class="span" :class="{ 'item-active': extraInformation.contributions }">Contribuciones</span>
+            <span class="span" :class="{ 'span-active': extraInformation.contributions }">Contribuciones</span>
             <div class="bar" :class="{ 'bar-active': extraInformation.contributions }"></div>
           </div>
           <div class="item" @click="extraInformation.transfersMade = true">
-            <span class="span" :class="{ 'item-active': extraInformation.transfersMade }">Transferencias realizadas</span>
+            <span class="span" :class="{ 'span-active': extraInformation.transfersMade }">Transferencias realizadas</span>
             <div class="bar" :class="{ 'bar-active': extraInformation.transfersMade }"></div>
           </div>
           <div class="item" @click="extraInformation.transferReceived = true">
-            <span class="span" :class="{ 'item-active': extraInformation.transferReceived }">Transferencias recibidas</span>
+            <span class="span" :class="{ 'span-active': extraInformation.transferReceived }">Transferencias recibidas</span>
             <div class="bar" :class="{ 'bar-active': extraInformation.transferReceived }"></div>
           </div>
           <div class="item" @click="extraInformation.requestsCreated = true">
-            <span class="span" :class="{ 'item-active': extraInformation.requestsCreated }">Solicitudes creadas</span>
+            <span class="span" :class="{ 'span-active': extraInformation.requestsCreated }">Solicitudes creadas</span>
             <div class="bar" :class="{ 'bar-active': extraInformation.requestsCreated }"></div>
           </div>
           <div class="item" @click="extraInformation.requestsReceiver = true">
-            <span class="span" :class="{ 'item-active': extraInformation.requestsReceiver }">Destinatario</span>
+            <span class="span" :class="{ 'span-active': extraInformation.requestsReceiver }">Destinatario</span>
             <div class="bar" :class="{ 'bar-active': extraInformation.requestsReceiver }"></div>
           </div>
         </div>
       </div>
       <div class="body">
         <!-- Fondos creados -->
-        <FundsCreated :loading="loadingFunds" :funds="funds" v-if="extraInformation.fundsCreated" />
+        <FundsCreated :loading="loadingFunds" :funds="funds" v-show="extraInformation.fundsCreated" />
 
         <!-- Fondos en los que es administrador -->
-        <FundsAdmin :loading="loadingFunds" :funds="funds" v-if="extraInformation.fundsAdmin" />
+        <FundsAdmin :loading="loadingFunds" :funds="funds" v-show="extraInformation.fundsAdmin" />
 
         <!-- Contribuciones -->
+        <Contributions :funds="funds" v-show="extraInformation.contributions" />
 
         <!-- Transferencias realizadas -->
+        <TransfersMade :funds="funds" v-show="extraInformation.transfersMade" />
 
         <!-- Transferencias recibidas -->
+        <TransferReceived :funds="funds" v-show="extraInformation.transferReceived" />
 
         <!-- Solicitudes creadas -->
+        <RequestsCreated :funds="funds" v-show="extraInformation.requestsCreated" />
 
         <!-- Solicitudes en la que es destinatario -->
+        <RequestsReceiver :funds="funds" v-show="extraInformation.requestsReceiver" />
       </div>
     </div>
   </div>
@@ -127,6 +132,11 @@ import EditEntityModal from '@/components/entity/EditEntityModal';
 import EditImageModal from '@/components/EditImageModal';
 import FundsCreated from '@/components/profile/FundsCreated';
 import FundsAdmin from '@/components/profile/FundsAdmin';
+import Contributions from '@/components/profile/Contributions';
+import TransfersMade from '@/components/profile/TransfersMade';
+import TransferReceived from '@/components/profile/TransferReceived';
+import RequestsCreated from '@/components/profile/RequestsCreated';
+import RequestsReceiver from '@/components/profile/RequestsReceiver';
 
 export default {
   name: 'ProfileView',
@@ -135,6 +145,11 @@ export default {
     EditImageModal,
     FundsCreated,
     FundsAdmin,
+    Contributions,
+    TransfersMade,
+    TransferReceived,
+    RequestsCreated,
+    RequestsReceiver,
   },
   data() {
     return {
