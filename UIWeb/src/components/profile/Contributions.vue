@@ -74,7 +74,7 @@ export default {
                   { name: 'Fund', address: this.funds[index].address },
                   'Contribute',
                   { filter: { contributor: this.$route.params.address } },
-                  async (err, events) => {
+                  async (events) => {
                     events.forEach(async (event) => {
                       const block = await this.$store.state.connection.infuraWeb3.eth.getBlock(event.blockNumber);
                       this.contributions.push({

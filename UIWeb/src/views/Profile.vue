@@ -108,10 +108,20 @@
         <TransferReceived :funds="funds" v-show="extraInformation.transferReceived" />
 
         <!-- Solicitudes creadas -->
-        <RequestsCreated :funds="funds" v-show="extraInformation.requestsCreated" />
+        <RequestsCreated
+          :funds="funds"
+          :loading="loadingRequests"
+          :requests="requests"
+          v-show="extraInformation.requestsCreated"
+        />
 
         <!-- Solicitudes en la que es destinatario -->
-        <RequestsReceiver :funds="funds" v-show="extraInformation.requestsReceiver" />
+        <RequestsReceiver
+          :funds="funds"
+          :loading="loadingRequests"
+          :requests="requests"
+          v-show="extraInformation.requestsReceiver"
+        />
       </div>
     </div>
   </div>
@@ -121,7 +131,7 @@
 import $ from 'jquery';
 import { serverUrl } from '@/siteConfig';
 import { mapState, mapGetters } from 'vuex';
-import { call } from '@/helpers/helpers';
+import { call, event } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 import { signMessage } from '@/helpers/connection';
@@ -158,6 +168,8 @@ export default {
       entity: null,
       loadingFunds: true,
       funds: null,
+      loadingRequests: true,
+      requests: [],
       extraInformation: {
         activeGoBack: false,
         activeGoForward: false,
@@ -316,6 +328,71 @@ export default {
       );
       this.funds = funds;
       this.loadingFunds = false;
+      this.getAllRequests();
+    },
+
+    async getAllRequests() {
+      this.loadingRequests = true;
+      try {
+        if (this.funds.length > 0) {
+          await Promise.all(
+            Array(this.funds.length)
+              .fill()
+              .map((element, fundIndex) => {
+                return new Promise((resolve) => {
+                  const searchRequests = async () => {
+                    const totalFundRequests = parseInt(
+                      await call({ name: 'Fund', address: this.funds[fundIndex].address }, 'requestsCount'),
+                    );
+                    if (totalFundRequests > 0) {
+                      let fundRequests = Array(totalFundRequests);
+                      await Promise.all(
+                        Array(totalFundRequests)
+                          .fill()
+                          .map((element, requestIndex) => {
+                            return call(
+                              { name: 'Fund', address: this.funds[fundIndex].address },
+                              'requests',
+                              [requestIndex],
+                              {},
+                              async (res) => {
+                                let block;
+                                await event(
+                                  { name: 'Fund', address: this.funds[fundIndex].address },
+                                  'NewRequest',
+                                  { filter: { requestIndex } },
+                                  async (events) => {
+                                    block = await this.$store.state.connection.infuraWeb3.eth.getBlock(events[0].blockNumber);
+                                  },
+                                  true,
+                                );
+                                fundRequests[requestIndex] = {
+                                  fundIndex,
+                                  description: res.description,
+                                  petitioner: res.petitioner,
+                                  recipient: res.recipient,
+                                  valueToTransfer: res.valueToTransfer,
+                                  transferredValue: res.transferredValue,
+                                  complete: res.complete,
+                                  approvalsCount: res.approvalsCount,
+                                  timestamp: block.timestamp,
+                                };
+                              },
+                            );
+                          }),
+                      );
+                      this.requests = this.requests.concat(fundRequests);
+                    }
+                    resolve();
+                  };
+                  searchRequests();
+                });
+              }),
+          );
+        }
+      } finally {
+        this.loadingRequests = false;
+      }
     },
 
     mouseOverHeader() {

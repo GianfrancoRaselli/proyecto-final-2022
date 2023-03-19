@@ -43,7 +43,7 @@
                 v-text="
                   (request.approvalsCount | '0') +
                   ' de ' +
-                  Math.ceil(maxNumOfApprovers(request) * (fund.minimumApprovalsPercentageRequired / 100)) +
+                  Math.ceil(maxNumOfApprovers(request) * (funds[request.fundIndex].minimumApprovalsPercentageRequired / 100)) +
                   ' necesarias'
                 "
               >
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { call, event, goToProfile, goToFund } from '@/helpers/helpers';
+import { goToProfile, goToFund } from '@/helpers/helpers';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -65,12 +65,11 @@ export default {
   components: {},
   props: {
     funds: { type: Array, required: true },
+    loading: { type: Boolean, required: true },
+    requests: { type: Array, required: true },
   },
   data() {
-    return {
-      loading: true,
-      request: [],
-    };
+    return {};
   },
   computed: {
     requestsToShow() {
@@ -91,11 +90,7 @@ export default {
       return requestsToShow;
     },
   },
-  watch: {
-    funds() {
-      this.getRequests();
-    },
-  },
+  watch: {},
   methods: {
     goToProfile,
     goToFund,
@@ -136,66 +131,6 @@ export default {
           if (fund.managers) num = fund.managers.length;
         }
         return num;
-      }
-    },
-
-    async getRequests() {
-      try {
-        if (this.funds.length > 0) {
-          await Promise.all(
-            Array(this.funds.length)
-              .fill()
-              .map((element, index) => {
-                return new Promise((resolve) => {
-                  const searchRequests = async () => {
-                    const totalRequests = parseInt(
-                      await call({ name: 'Fund', address: this.funds[index].address }, 'requestsCount'),
-                    );
-                    let requests = [];
-
-                    if (totalRequests > 0) {
-                      requests = Array(totalRequests);
-
-                      await Promise.all(
-                        Array(totalRequests)
-                          .fill()
-                          .map((element, index) => {
-                            return call(
-                              { name: 'Fund', address: this.funds[index].address },
-                              'requests',
-                              [index],
-                              {},
-                              async (request) => {
-                                request.fundIndex = index;
-                                await event(
-                                  { name: 'Fund', address: this.funds[index].address },
-                                  'NewRequest',
-                                  { filter: { requestIndex: index } },
-                                  async (err, events) => {
-                                    const block = await this.$store.state.connection.infuraWeb3.eth.getBlock(
-                                      events[0].blockNumber,
-                                    );
-                                    request.timestamp = block.timestamp;
-                                  },
-                                  true,
-                                );
-                                requests[index] = request;
-                              },
-                            );
-                          }),
-                      );
-                    }
-
-                    this.requests = requests;
-                    resolve();
-                  };
-                  searchRequests();
-                });
-              }),
-          );
-        }
-      } finally {
-        this.loading = false;
       }
     },
   },
@@ -262,9 +197,6 @@ export default {
       }
 
       .content {
-        width: 100%;
-        padding-left: 0.6rem;
-        border-left: 1px solid rgb(163, 163, 163);
         display: flex;
         flex-direction: column;
 

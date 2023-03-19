@@ -89,7 +89,7 @@ export default {
           { name: 'Fund', address: this.fundAddress },
           'Contribute',
           undefined,
-          async (err, events) => {
+          async (events) => {
             events.forEach(async (event) => {
               const block = await this.$store.state.connection.infuraWeb3.eth.getBlock(event.blockNumber);
               this.contributions.push({
