@@ -137,6 +137,7 @@ export default {
 }
 
 .list-group-item {
+  padding: 0.6rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

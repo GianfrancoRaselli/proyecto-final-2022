@@ -9,14 +9,14 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="contributors-list mt-2">
+          <div class="contributors-list mt-2" v-if="!loading">
             <div class="no-contributors" v-if="fund.contributors && fund.contributors.length === 0">Sin contribuyentes</div>
             <ul class="list-group list-group-flush" v-else>
               <li class="list-group-item" v-for="(c, index) in contributorsOrdered" :key="index">
                 <div class="item-address">
                   <span v-text="index + 1 + '. '" /><AppShowAddress
                     class="hover"
-                    :address="c.contributor.toString()"
+                    :address="c.contributor"
                     @click="goToProfile(c.contributor)"
                   />
                   <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(c.contributor, address)"
@@ -43,6 +43,7 @@ import { compareAddresses } from 'web3-simple-helpers/methods/general';
 export default {
   name: 'ContributorsModalComponent',
   props: {
+    loading: { type: Boolean, required: true },
     fund: { type: Object, required: true },
   },
   data() {
@@ -67,6 +68,7 @@ export default {
 
 <style scoped>
 .list-group-item {
+  padding: 0.6rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

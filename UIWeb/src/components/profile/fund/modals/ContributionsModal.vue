@@ -52,7 +52,7 @@ import { event, goToProfile } from '@/helpers/helpers';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
-  name: 'ProfileManagersModalComponent',
+  name: 'ProfileContributionsModalComponent',
   components: {},
   props: {
     fundAddress: { type: String, required: true },
@@ -116,7 +116,7 @@ export default {
 
 <style lang="scss" scoped>
 .list-group-item {
-  padding: 0.6rem 0;
+  padding: 0.6rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

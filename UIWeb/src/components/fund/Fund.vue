@@ -136,7 +136,7 @@
     <EditImageModal :fundAddress="fund.address" @update="updateImage" v-if="isMyFund" />
     <ManagersModal :fund="fund" :isManager="isManager" />
     <ContributeModal :fund="fund" />
-    <ContributorsModal :fund="fund" />
+    <ContributorsModal :loading="loading" :fund="fund" />
     <TransferModal :fund="fund" v-if="fund.managersCanTransferMoneyWithoutARequest && isManager" />
     <RequestsModal :fund="fund" :isManager="isManager" />
   </div>

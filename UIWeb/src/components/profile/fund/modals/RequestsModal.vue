@@ -86,7 +86,7 @@ import { call, goToProfile } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
-  name: 'ProfileManagersModalComponent',
+  name: 'ProfileRequestsModalComponent',
   components: {},
   props: {
     fundAddress: { type: String, required: true },
@@ -216,7 +216,7 @@ export default {
   border-radius: 10px;
   margin-top: 4px;
   margin-bottom: 4px;
-  padding: 0.5rem;
+  padding: 0.6rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
