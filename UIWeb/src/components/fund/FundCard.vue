@@ -1,11 +1,9 @@
 <template>
   <div class="card text-center" @click="redirect">
     <div class="card-header">
-      <span v-text="fund.name" />
+      <span class="name" v-text="fund.name" />
       <div class="fund-info">
-        <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="compareAddresses(address, fund.creator)"
-          >Mi fondo</span
-        >
+        <span class="badge badge-pill badge-primary mb-1" v-if="compareAddresses(address, fund.creator)">Mi fondo</span>
         <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
       </div>
     </div>
@@ -130,6 +128,10 @@ export default {
 .card-header {
   padding-left: 65px;
   padding-right: 65px;
+
+  .name {
+    word-break: keep-all;
+  }
 }
 
 .fund-info {
@@ -140,10 +142,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: end;
-}
-
-.my-fund-info {
-  width: fit-content;
 }
 
 .card-body {

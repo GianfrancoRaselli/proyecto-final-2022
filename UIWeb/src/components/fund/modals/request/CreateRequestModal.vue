@@ -231,7 +231,6 @@ export default {
 }
 
 .wrapper .badge {
-  font-size: 0.8rem;
   position: absolute;
   top: 10px;
   right: 4px;

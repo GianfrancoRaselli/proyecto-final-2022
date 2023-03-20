@@ -22,7 +22,7 @@
               </button>
             </div>
 
-            <RequestsList :fund="fund" :isManager="isManager" />
+            <RequestsList :loading="loading" :fund="fund" :isManager="isManager" />
           </div>
         </div>
       </div>
@@ -46,6 +46,7 @@ export default {
     RequestsList,
   },
   props: {
+    loading: { type: Boolean, required: true },
     fund: { type: Object, required: true },
     isManager: { type: Boolean, default: false },
   },

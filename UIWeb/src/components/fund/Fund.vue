@@ -5,7 +5,7 @@
     </div>
     <div class="card" v-else>
       <div class="card-header text-center">
-        <span v-text="fund.name" />
+        <span class="name" v-text="fund.name" />
         <div class="fund-info">
           <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="isMyFund">Mi fondo</span>
           <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
@@ -107,17 +107,17 @@
           <button type="button" class="btn btn-managers" data-toggle="modal" data-target="#managersModal">
             <fa-icon icon="person" class="icon mr-2" />Administradores
           </button>
-          <button type="button" class="btn btn-contributions" data-toggle="modal" data-target="#contributeModal">
-            <fa-icon icon="circle-dollar-to-slot" class="icon mr-2" />Contribuir
+          <button type="button" class="btn btn-contributions" data-toggle="modal" data-target="#contributionsModal">
+            <fa-icon icon="circle-dollar-to-slot" class="icon mr-2" />Contribuciones
           </button>
           <button
             type="button"
             class="btn btn-transfers"
             data-toggle="modal"
-            data-target="#transferModal"
+            data-target="#transfersModal"
             v-if="fund.managersCanTransferMoneyWithoutARequest && isManager"
           >
-            <fa-icon icon="money-bill-transfer" class="icon mr-2" />Transferir
+            <fa-icon icon="money-bill-transfer" class="icon mr-2" />Transferencias
           </button>
           <button type="button" class="btn btn-requests" data-toggle="modal" data-target="#requestsModal">
             <fa-icon icon="list-check" class="icon mr-2" />Solicitudes
@@ -134,11 +134,11 @@
     <!-- modals -->
     <CreateFundModal :fund="fund" />
     <EditImageModal :fundAddress="fund.address" @update="updateImage" v-if="isMyFund" />
-    <ManagersModal :fund="fund" :isManager="isManager" />
-    <ContributeModal :fund="fund" />
     <ContributorsModal :loading="loading" :fund="fund" />
-    <TransferModal :fund="fund" v-if="fund.managersCanTransferMoneyWithoutARequest && isManager" />
-    <RequestsModal :fund="fund" :isManager="isManager" />
+    <ManagersModal :fund="fund" :isManager="isManager" />
+    <ContributionsModal :fund="fund" />
+    <TransfersModal :fund="fund" :isManager="isManager" />
+    <RequestsModal :loading="loading" :fund="fund" :isManager="isManager" />
   </div>
 </template>
 
@@ -160,10 +160,10 @@ import axios from 'axios';
 import CreateFundModal from '@/components/fund/CreateFundModal';
 import EditImageModal from '@/components/EditImageModal';
 import EntityModal from '@/components/fund/modals/EntityModal';
-import ManagersModal from '@/components/fund/modals/manager/ManagersModal.vue';
-import ContributeModal from '@/components/fund/modals/ContributeModal.vue';
 import ContributorsModal from '@/components/fund/modals/ContributorsModal.vue';
-import TransferModal from '@/components/fund/modals/TransferModal.vue';
+import ManagersModal from '@/components/fund/modals/manager/ManagersModal.vue';
+import ContributionsModal from '@/components/fund/modals/contribution/ContributionsModal.vue';
+import TransfersModal from '@/components/fund/modals/transfer/TransfersModal.vue';
 import RequestsModal from '@/components/fund/modals/request/RequestsModal.vue';
 
 export default {
@@ -175,10 +175,10 @@ export default {
     CreateFundModal,
     EditImageModal,
     EntityModal,
-    ManagersModal,
-    ContributeModal,
     ContributorsModal,
-    TransferModal,
+    ManagersModal,
+    ContributionsModal,
+    TransfersModal,
     RequestsModal,
   },
   data() {
@@ -404,21 +404,37 @@ export default {
         const searchRequests = async () => {
           const totalRequests = parseInt(await call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requestsCount'));
           let requests = [];
-
           if (totalRequests > 0) {
             requests = Array(totalRequests);
-
             await Promise.all(
               Array(totalRequests)
                 .fill()
                 .map((element, index) => {
-                  return call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requests', [index], {}, (res) => {
-                    requests[index] = res;
+                  return call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requests', [index], {}, async (res) => {
+                    let block;
+                    await event(
+                      { name: 'Fund', address: this.$route.params.fundAddress },
+                      'NewRequest',
+                      { filter: { requestIndex: index } },
+                      async (events) => {
+                        block = await this.$store.state.connection.infuraWeb3.eth.getBlock(events[0].blockNumber);
+                      },
+                      true,
+                    );
+                    requests[index] = {
+                      description: res.description,
+                      petitioner: res.petitioner,
+                      recipient: res.recipient,
+                      valueToTransfer: res.valueToTransfer,
+                      transferredValue: res.transferredValue,
+                      complete: res.complete,
+                      approvalsCount: res.approvalsCount,
+                      timestamp: block.timestamp,
+                    };
                   });
                 }),
             );
           }
-
           this.fund.requests = requests;
           resolve();
         };
@@ -537,6 +553,10 @@ export default {
   .card-header {
     padding-left: 80px;
     padding-right: 80px;
+
+    .name {
+      word-break: keep-all;
+    }
 
     .fund-info {
       position: absolute;

@@ -80,8 +80,4 @@ export default {
   flex-direction: row;
   align-items: center;
 }
-
-.badge {
-  font-size: 0.7rem;
-}
 </style>

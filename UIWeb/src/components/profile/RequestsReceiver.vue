@@ -191,7 +191,6 @@ export default {
         }
 
         .badge {
-          font-size: 0.75rem;
           margin-left: auto;
         }
       }

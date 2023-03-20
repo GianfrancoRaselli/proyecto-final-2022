@@ -27,6 +27,7 @@
                   </div>
 
                   <div class="item-content">
+                    <AppDate class="date" :date="fromUnixTimestampToDate(request.timestamp)" />
                     <div class="info" v-text="request.description" v-if="request.description" />
                     <div class="info" v-if="request.petitioner">
                       <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
@@ -82,8 +83,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { call, goToProfile } from '@/helpers/helpers';
-import { compareAddresses } from 'web3-simple-helpers/methods/general';
+import { call, event, goToProfile } from '@/helpers/helpers';
+import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
   name: 'ProfileRequestsModalComponent',
@@ -106,6 +107,7 @@ export default {
   },
   methods: {
     compareAddresses,
+    fromUnixTimestampToDate,
     goToProfile,
 
     getRequestClass(request) {
@@ -160,8 +162,27 @@ export default {
             Array(totalRequests)
               .fill()
               .map((element, index) => {
-                return call({ name: 'Fund', address: this.fundAddress }, 'requests', [index], {}, (res) => {
-                  requests[index] = res;
+                return call({ name: 'Fund', address: this.fundAddress }, 'requests', [index], {}, async (res) => {
+                  let block;
+                  await event(
+                    { name: 'Fund', address: this.fundAddress },
+                    'NewRequest',
+                    { filter: { requestIndex: index } },
+                    async (events) => {
+                      block = await this.$store.state.connection.infuraWeb3.eth.getBlock(events[0].blockNumber);
+                    },
+                    true,
+                  );
+                  requests[index] = {
+                    description: res.description,
+                    petitioner: res.petitioner,
+                    recipient: res.recipient,
+                    valueToTransfer: res.valueToTransfer,
+                    transferredValue: res.transferredValue,
+                    complete: res.complete,
+                    approvalsCount: res.approvalsCount,
+                    timestamp: block.timestamp,
+                  };
                 });
               }),
           );
@@ -235,10 +256,6 @@ export default {
   background-color: rgba(255, 0, 0, 0.15);
 }
 
-.badge {
-  font-size: 0.7rem;
-}
-
 .item-number {
   padding-right: 0.5rem;
   display: flex;
@@ -252,6 +269,10 @@ export default {
   border-left: 1px solid rgb(163, 163, 163);
   display: flex;
   flex-direction: column;
+}
+
+.date {
+  font-size: 0.8rem;
 }
 
 .info {

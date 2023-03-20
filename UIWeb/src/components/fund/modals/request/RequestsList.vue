@@ -1,5 +1,5 @@
 <template>
-  <div class="requests-list mt-2">
+  <div class="requests-list mt-2" v-if="!loading">
     <div class="no-requests" v-if="fund.requests && fund.requests.length === 0">Sin solicitudes</div>
 
     <ul class="list-group list-group-flush" v-else>
@@ -10,6 +10,7 @@
 
         <div class="item-content px-3">
           <div class="content-info">
+            <AppDate class="date" :date="fromUnixTimestampToDate(request.timestamp)" />
             <div class="info" v-text="request.description" v-if="request.description" />
             <div class="info" v-if="request.petitioner">
               <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
@@ -83,7 +84,7 @@
 import Web3 from 'web3';
 import { mapGetters } from 'vuex';
 import { transaction, call, event, convertNumberToMaxDecimals, goToProfile } from '@/helpers/helpers';
-import { compareAddresses } from 'web3-simple-helpers/methods/general';
+import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 import Swal from 'sweetalert2';
 import BigNumber from 'bignumber.js';
@@ -91,6 +92,7 @@ import BigNumber from 'bignumber.js';
 export default {
   name: 'RequestsListComponent',
   props: {
+    loading: { type: Boolean, required: true },
     fund: { type: Object, required: true },
     isManager: { type: Boolean, default: false },
   },
@@ -107,6 +109,7 @@ export default {
   },
   methods: {
     compareAddresses,
+    fromUnixTimestampToDate,
     goToProfile,
 
     maxNumOfApprovers() {
@@ -354,10 +357,6 @@ export default {
   background-color: rgba(255, 0, 0, 0.15);
 }
 
-.badge {
-  font-size: 0.7rem;
-}
-
 .item-number {
   display: flex;
   flex-direction: column;
@@ -376,6 +375,10 @@ export default {
   padding-right: 1rem;
   display: flex;
   flex-direction: column;
+}
+
+.date {
+  font-size: 0.8rem;
 }
 
 .info {

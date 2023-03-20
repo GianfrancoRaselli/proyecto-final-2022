@@ -65,8 +65,4 @@ export default {
   align-items: center;
   gap: 0.4rem;
 }
-
-.badge {
-  font-size: 0.7rem;
-}
 </style>

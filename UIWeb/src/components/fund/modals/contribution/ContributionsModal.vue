@@ -1,24 +1,25 @@
 <template>
   <div>
-    <div
-      class="modal fade"
-      :id="'profileContributionsModal' + fundAddress"
-      tabindex="-1"
-      :aria-labelledby="'profileContributionsModalLabel' + fundAddress"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="contributionsModal" tabindex="-1" aria-labelledby="contributionsModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" :id="'profileContributionsModalLabel' + fundAddress">Contribuciones</h4>
+            <h4 class="modal-title" id="contributionsModalLabel">Contribuciones</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <AppSpinner v-if="loading" />
-            <div v-else>
-              <div class="no-requests" v-if="contributionsOrdered && contributionsOrdered.length === 0">Sin contribuciones</div>
+            <div class="contribute">
+              <button type="button" class="btn btn-success btn-sm" @click="contribute">
+                <fa-icon icon="plus" class="icon mr-2" />Contribuir
+              </button>
+            </div>
+
+            <div class="contributions-list mt-2" v-if="!loading">
+              <div class="no-contributions" v-if="contributionsOrdered && contributionsOrdered.length === 0">
+                Sin contribuciones
+              </div>
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(contribution, index) in contributionsOrdered" :key="index">
                   <div class="header">
@@ -43,25 +44,32 @@
         </div>
       </div>
     </div>
+    <ContributeModal :fund="fund" />
   </div>
 </template>
 
 <script>
+import $ from 'jquery';
 import { mapGetters } from 'vuex';
 import { event, goToProfile } from '@/helpers/helpers';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
+// modals
+import ContributeModal from '@/components/fund/modals/contribution/ContributeModal.vue';
+
 export default {
-  name: 'ProfileContributionsModalComponent',
-  components: {},
-  props: {
-    fundAddress: { type: String, required: true },
+  name: 'ContributionsModalComponent',
+  components: {
+    ContributeModal,
   },
-  emits: ['contributions'],
+  props: {
+    fund: { type: Object, required: true },
+  },
   data() {
     return {
       loading: true,
       contributions: [],
+      contributeSubscription: null,
     };
   },
   computed: {
@@ -80,16 +88,20 @@ export default {
     fromUnixTimestampToDate,
     goToProfile,
 
+    contribute() {
+      $('#contributionsModal').modal('hide');
+      $('#contributeModal').modal('show');
+    },
+
     async getContributions() {
       this.loading = true;
-      this.$emit('contributions', 0);
-
       try {
         await event(
-          { name: 'Fund', address: this.fundAddress },
+          { name: 'Fund', address: this.$route.params.fundAddress },
           'Contribute',
           undefined,
           async (events) => {
+            this.contributions = [];
             events.forEach(async (event) => {
               const block = await this.$store.state.connection.infuraWeb3.eth.getBlock(event.blockNumber);
               this.contributions.push({
@@ -98,8 +110,6 @@ export default {
                 timestamp: block.timestamp,
               });
             });
-
-            this.$emit('contributions', events.length);
           },
           true,
         );
@@ -110,11 +120,36 @@ export default {
   },
   async created() {
     this.getContributions();
+
+    this.contributeSubscription = await event(
+      { name: 'Fund', address: this.$route.params.fundAddress },
+      'Contribute',
+      undefined,
+      () => {
+        this.getContributions();
+      },
+    );
+  },
+  unmounted() {
+    if (this.contributeSubscription) this.contributeSubscription.unsubscribe();
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.contribute {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(156, 156, 156);
+}
+
+.no-contributions {
+  margin-top: 12px;
+}
+
 .list-group-item {
   padding: 0.6rem;
   display: flex;

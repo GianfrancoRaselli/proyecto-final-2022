@@ -202,6 +202,7 @@ body {
 }
 
 .badge {
+  font-size: 0.68rem;
   height: fit-content;
   min-width: fit-content;
   display: flex;

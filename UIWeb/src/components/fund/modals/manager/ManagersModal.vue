@@ -160,8 +160,4 @@ export default {
 .item-buttons .btn {
   width: 100%;
 }
-
-.badge {
-  font-size: 0.7rem;
-}
 </style>

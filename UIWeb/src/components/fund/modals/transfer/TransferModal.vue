@@ -4,9 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="transferModalLabel">Transferir</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <fa-icon icon="arrow-left" class="icon" @click="goBack" />
         </div>
         <div class="modal-body">
           <p class="card-text current-balance">
@@ -74,6 +72,7 @@
 </template>
 
 <script>
+import $ from 'jquery';
 import Web3 from 'web3';
 import { mapGetters } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
@@ -160,6 +159,7 @@ export default {
             message: 'Transferidos ' + this.value.trim() + ' ' + this.unit,
             type: 'success',
           });
+          this.goBack();
           this.receiver = this.address;
           this.value = 0;
           this.unit = 'Wei';
@@ -172,6 +172,13 @@ export default {
     setCurrentBalance() {
       this.value = this.fund.balance;
       this.unit = 'Wei';
+    },
+
+    goBack() {
+      $('#transferModal').on('hidden.bs.modal', function () {
+        $('#transfersModal').modal('show');
+      });
+      $('#transferModal').modal('hide');
     },
   },
   created() {
@@ -192,7 +199,6 @@ export default {
 }
 
 .wrapper .badge {
-  font-size: 0.8rem;
   position: absolute;
   top: 10px;
   right: 4px;
