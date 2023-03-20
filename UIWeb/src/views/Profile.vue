@@ -167,7 +167,7 @@ export default {
       loadingEntity: true,
       entity: null,
       loadingFunds: true,
-      funds: null,
+      funds: [],
       loadingRequests: true,
       requests: [],
       extraInformation: {
@@ -308,27 +308,57 @@ export default {
 
     async getAllFunds() {
       this.loadingFunds = true;
-      const fundsAddress = await call('FundFactory', 'getDeployedFunds');
-      const totalFunds = fundsAddress.length;
-      const funds = Array(totalFunds);
-      await Promise.all(
-        Array(totalFunds)
-          .fill()
-          .map((element, index) => {
-            return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, async (fund) => {
-              const { data: fundExtraInformation } = await axios.get('fund/' + fund.address);
-              if (fundExtraInformation) {
-                const { description, image } = fundExtraInformation;
-                fund.description = description;
-                fund.image = image;
-              }
-              funds[index] = fund;
-            });
-          }),
-      );
-      this.funds = funds;
-      this.loadingFunds = false;
-      this.getAllRequests();
+      try {
+        const fundsAddress = await call('FundFactory', 'getDeployedFunds');
+        const totalFunds = fundsAddress.length;
+        if (totalFunds > 0) {
+          const funds = Array(totalFunds);
+          await Promise.all(
+            Array(totalFunds)
+              .fill()
+              .map((element, fundIndex) => {
+                return call({ name: 'Fund', address: fundsAddress[fundIndex] }, 'getSummary', [], {}, async (fund) => {
+                  const { data: fundExtraInformation } = await axios.get('fund/' + fund.address);
+                  if (fundExtraInformation) {
+                    const { description, image } = fundExtraInformation;
+                    fund.description = description;
+                    fund.image = image;
+                  }
+                  funds[fundIndex] = fund;
+
+                  // contributors
+                  let contributors = [];
+                  if (funds[fundIndex].contributors.length > 0) {
+                    contributors = Array(funds[fundIndex].contributors.length);
+                    await Promise.all(
+                      Array(funds[fundIndex].contributors.length)
+                        .fill()
+                        .map((element, contributorIndex) => {
+                          return call(
+                            { name: 'Fund', address: funds[fundIndex].address },
+                            'contributions',
+                            [funds[fundIndex].contributors[contributorIndex]],
+                            {},
+                            (res) => {
+                              contributors[contributorIndex] = {
+                                contributor: funds[fundIndex].contributors[contributorIndex],
+                                contribution: res,
+                              };
+                            },
+                          );
+                        }),
+                    );
+                  }
+                  funds[fundIndex].contributors = contributors;
+                });
+              }),
+          );
+          this.funds = funds;
+        }
+      } finally {
+        this.loadingFunds = false;
+        this.getAllRequests();
+      }
     },
 
     async getAllRequests() {

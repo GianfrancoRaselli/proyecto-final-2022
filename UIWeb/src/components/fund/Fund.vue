@@ -134,7 +134,7 @@
     <!-- modals -->
     <CreateFundModal :fund="fund" />
     <EditImageModal :fundAddress="fund.address" @update="updateImage" v-if="isMyFund" />
-    <ContributorsModal :loading="loading" :fund="fund" />
+    <ContributorsModal :loading="loading" :contributors="fund.contributors" />
     <ManagersModal :fund="fund" :isManager="isManager" />
     <ContributionsModal :fund="fund" />
     <TransfersModal :fund="fund" :isManager="isManager" />
@@ -160,7 +160,7 @@ import axios from 'axios';
 import CreateFundModal from '@/components/fund/CreateFundModal';
 import EditImageModal from '@/components/EditImageModal';
 import EntityModal from '@/components/fund/modals/EntityModal';
-import ContributorsModal from '@/components/fund/modals/ContributorsModal.vue';
+import ContributorsModal from '@/components/modals/ContributorsModal.vue';
 import ManagersModal from '@/components/fund/modals/manager/ManagersModal.vue';
 import ContributionsModal from '@/components/fund/modals/contribution/ContributionsModal.vue';
 import TransfersModal from '@/components/fund/modals/transfer/TransfersModal.vue';

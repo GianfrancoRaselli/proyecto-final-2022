@@ -31,6 +31,21 @@
           </div>
           <div
             class="icon-container"
+            :class="{ 'icon-container-contributors-hover': mouseOverContributors }"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Contribuyentes"
+            @click="contributorsClick"
+            @mouseover="mouseOverContributors = true"
+            @mouseleave="mouseOverContributors = false"
+          >
+            <fa-icon icon="receipt" class="icon" :class="{ 'icon-contributors-hover': mouseOverContributors }" /><span
+              class="amount"
+              v-text="fund.contributors.length"
+            ></span>
+          </div>
+          <div
+            class="icon-container"
             :class="{ 'icon-container-contributions-hover': mouseOverContributions }"
             data-toggle="tooltip"
             data-placement="bottom"
@@ -85,6 +100,7 @@
       </div>
     </div>
     <ManagersModal :fundAddress="fund.address" :managers="fund.managers" />
+    <ContributorsModal :fundAddress="fund.address" :contributors="fund.contributors" />
     <ContributionsModal :fundAddress="fund.address" @contributions="(amount) => (amountOfContributions = amount)" />
     <TransfersModal :fundAddress="fund.address" @transfers="(amount) => (amountOfTransfers = amount)" />
     <RequestsModal :fundAddress="fund.address" :fund="fund" @requests="(amount) => (amountOfRequests = amount)" />
@@ -98,6 +114,7 @@ import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 // modals
 import ManagersModal from '@/components/profile/fund/modals/ManagersModal';
+import ContributorsModal from '@/components/modals/ContributorsModal.vue';
 import ContributionsModal from '@/components/profile/fund/modals/ContributionsModal';
 import TransfersModal from '@/components/profile/fund/modals/TransfersModal';
 import RequestsModal from '@/components/profile/fund/modals/RequestsModal';
@@ -106,6 +123,7 @@ export default {
   name: 'ProfileFundComponent',
   components: {
     ManagersModal,
+    ContributorsModal,
     ContributionsModal,
     TransfersModal,
     RequestsModal,
@@ -118,6 +136,7 @@ export default {
       serverUrl,
       canRedirect: true,
       mouseOverManagers: false,
+      mouseOverContributors: false,
       mouseOverContributions: false,
       mouseOverTransfers: false,
       mouseOverRequests: false,
@@ -168,6 +187,11 @@ export default {
     managersClick() {
       this.canRedirect = false;
       $('#profileManagersModal' + this.fund.address).modal('show');
+    },
+
+    contributorsClick() {
+      this.canRedirect = false;
+      $('#contributorsModal' + this.fund.address).modal('show');
     },
 
     contributionsClick() {
@@ -309,6 +333,14 @@ export default {
 
         .icon-managers-hover {
           background-color: rgba(0, 0, 255, 0.1);
+        }
+      }
+
+      .icon-container-contributors-hover {
+        color: rgb(219, 13, 219);
+
+        .icon-contributors-hover {
+          background-color: rgba(212, 18, 212, 0.1);
         }
       }
 

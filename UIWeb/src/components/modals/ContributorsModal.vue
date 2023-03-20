@@ -1,30 +1,37 @@
 <template>
-  <div class="modal fade" id="contributorsModal" tabindex="-1" aria-labelledby="contributorsModalLabel" aria-hidden="true">
+  <div
+    class="modal fade"
+    :id="'contributorsModal' + fundAddress"
+    tabindex="-1"
+    :aria-labelledby="'contributorsModalLabel' + fundAddress"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="contributorsModalLabel">Contribuyentes</h4>
+          <h4 class="modal-title" :id="'contributorsModalLabel' + fundAddress">Contribuyentes</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="contributors-list mt-2" v-if="!loading">
-            <div class="no-contributors" v-if="fund.contributors && fund.contributors.length === 0">Sin contribuyentes</div>
+          <div class="contributors-list" v-if="!loading">
+            <div class="no-contributors" v-if="contributorsOrdered && contributorsOrdered.length === 0">Sin contribuyentes</div>
             <ul class="list-group list-group-flush" v-else>
-              <li class="list-group-item" v-for="(c, index) in contributorsOrdered" :key="index">
+              <li class="list-group-item" v-for="(contributor, index) in contributorsOrdered" :key="index">
                 <div class="item-address">
-                  <span v-text="index + 1 + '. '" /><AppShowAddress
+                  <span v-text="index + 1 + '. '" />
+                  <AppShowAddress
                     class="hover"
-                    :address="c.contributor"
-                    @click="goToProfile(c.contributor)"
+                    :address="contributor.contributor"
+                    @click="goToProfile(contributor.contributor)"
                   />
-                  <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(c.contributor, address)"
-                    >Mi dirección</span
-                  >
+                  <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(contributor.contributor, address)"
+                    >Mi dirección
+                  </span>
                 </div>
                 <div class="item-amount">
-                  <AppShowEth :weis="c.contribution ? c.contribution : 0" />
+                  <AppShowEth :weis="contributor.contribution" />
                 </div>
               </li>
             </ul>
@@ -43,8 +50,9 @@ import { compareAddresses } from 'web3-simple-helpers/methods/general';
 export default {
   name: 'ContributorsModalComponent',
   props: {
-    loading: { type: Boolean, required: true },
-    fund: { type: Object, required: true },
+    fundAddress: { type: String, default: '' },
+    loading: { type: Boolean, default: false },
+    contributors: { type: Array, required: true },
   },
   data() {
     return {};
@@ -53,7 +61,7 @@ export default {
     ...mapGetters(['address']),
 
     contributorsOrdered() {
-      return this.fund.contributors.slice().sort((a, b) => {
+      return this.contributors.slice().sort((a, b) => {
         return b.contribution - a.contribution;
       });
     },
