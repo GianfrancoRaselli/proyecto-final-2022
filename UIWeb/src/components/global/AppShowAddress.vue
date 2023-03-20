@@ -1,5 +1,11 @@
 <template>
-  <span v-text="addressToShow" data-toggle="tooltip" :data-placement="placement" :title="show && !complete ? address : ''"></span>
+  <span
+    v-text="addressToShow"
+    data-toggle="tooltip"
+    :data-placement="placement"
+    title=""
+    :data-original-title="show && !complete ? address : ''"
+  ></span>
 </template>
 
 <script>

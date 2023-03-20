@@ -58,8 +58,8 @@
               <span class="h6 text-bold text-underline">Transacciones recientes</span>
             </div>
             <span v-if="recentTransactionsToShow.length === 0">Sin transacciones</span>
-            <div class="text-center-with-space mt-2" v-for="(transaction, index) in recentTransactionsToShow" :key="index">
-              <span class="text-center">
+            <div class="transaction mt-2" v-for="(transaction, index) in recentTransactionsToShow" :key="index">
+              <div class="transaction-body">
                 <span class="float-left mr-2">
                   <div class="spinner-border text-primary" role="status" v-if="transaction.loading">
                     <span class="sr-only"></span>
@@ -67,8 +67,11 @@
                   <fa-icon icon="circle-check" class="circle-check-icon" size="2x" v-else-if="transaction.success"></fa-icon>
                   <fa-icon icon="circle-xmark" class="circle-xmark-icon" size="2x" v-else></fa-icon>
                 </span>
-                <span class="text-start" v-text="transaction.message"></span>
-              </span>
+                <div class="transaction-info">
+                  <AppDate class="date" :date="transaction.date" />
+                  <span v-text="transaction.message"></span>
+                </div>
+              </div>
               <a :href="validChainExplorer + '/tx/' + transaction.hash" target="_blank" v-if="transaction.hash">
                 <fa-icon icon="arrow-up-right-from-square" class="icon"></fa-icon>
               </a>
@@ -201,33 +204,39 @@ export default {
   }
 }
 
-.text-center {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-}
-
-.text-center-with-space {
+.transaction {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-}
 
-.text-start {
-  text-align: start;
-}
+  .transaction-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.2rem;
 
-.float-left {
-  float: left;
-}
+    .float-left {
+      float: left;
+    }
 
-.circle-check-icon {
-  color: green;
-}
+    .circle-check-icon {
+      color: green;
+    }
 
-.circle-xmark-icon {
-  color: rgb(187, 0, 0);
+    .circle-xmark-icon {
+      color: rgb(187, 0, 0);
+    }
+
+    .transaction-info {
+      display: flex;
+      flex-direction: column;
+
+      .date {
+        font-size: 0.8rem;
+      }
+    }
+  }
 }
 </style>

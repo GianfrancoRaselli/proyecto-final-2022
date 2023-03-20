@@ -1,5 +1,5 @@
 <template>
-  <span class="date" data-toggle="tooltip" data-placement="top" :title="humanFriendlyDate">
+  <span class="date" data-toggle="tooltip" data-placement="top" title="" :data-original-title="humanFriendlyDate">
     {{ diffForHumans }}
   </span>
 </template>

@@ -618,7 +618,7 @@ export default {
             ],
             undefined,
             true,
-            'Create new fund: ' + this.data.name,
+            `Nuevo fondo creado: ${this.data.name}`,
           );
           await axios.post('fund', {
             address: tx.events.NewFund.returnValues.fundAddress,

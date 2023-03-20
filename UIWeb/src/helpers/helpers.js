@@ -91,7 +91,7 @@ const transaction = async (contract, method, params = [], options, showContractE
           return tx;
         } else {
           addNotification({
-            message: 'No tienes suficientes ' + store.getters.validChainCoin + ' para costear la transacción',
+            message: 'No posee suficientes ' + store.getters.validChainCoin + ' para costear la transacción',
             type: 'error',
           });
         }
