@@ -337,7 +337,7 @@ export default {
       }
 
       .icon-container-contributors-hover {
-        color: rgb(219, 13, 219);
+        color: rgb(196, 16, 196);
 
         .icon-contributors-hover {
           background-color: rgba(212, 18, 212, 0.1);
