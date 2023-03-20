@@ -191,7 +191,7 @@
       </div>
 
       <button class="btn btn-outline-link btn-block btn-show my-2" @click="updateFunds" v-if="newFunds > 0">
-        Show&nbsp;<AppShowAmount :amount="newFunds" singular="fund" plural="funds" />
+        Mostrar&nbsp;<AppShowAmount :amount="newFunds" singular="nuevo fondo" plural="nuevos fundos" />
       </button>
 
       <AppAlert msg="No hay fondos creados aún" v-if="funds.length === 0" />

@@ -75,7 +75,7 @@
           <span class="info__label"><span class="text-bold">Total contributions</span>:&nbsp;</span>
           <AppShowEth :weis="fund.totalContributions" class="mr-3" />
           <button type="button" class="btn btn-link btn-show-contributors" data-toggle="modal" data-target="#contributorsModal">
-            Show contributors
+            Ver contribuyentes
           </button>
         </p>
         <p class="info">
