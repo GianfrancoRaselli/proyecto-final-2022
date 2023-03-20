@@ -1,9 +1,9 @@
 <template>
   <div class="requests-list mt-2" v-if="!loading">
-    <div class="no-requests" v-if="fund.requests && fund.requests.length === 0">Sin solicitudes</div>
+    <div class="no-requests" v-if="requestsOrdered && requestsOrdered.length === 0">Sin solicitudes</div>
 
     <ul class="list-group list-group-flush" v-else>
-      <li class="list-group-item" :class="getRequestClass(request)" v-for="(request, index) in fund.requests" :key="index">
+      <li class="list-group-item" :class="getRequestClass(request)" v-for="(request, index) in requestsOrdered" :key="index">
         <div class="item-number pr-3">
           <span v-text="index + 1 + '.'" />
         </div>
@@ -46,7 +46,10 @@
                     (request.approvalsCount | '0') +
                     ' de ' +
                     Math.ceil(maxNumOfApprovers() * (fund.minimumApprovalsPercentageRequired / 100)) +
-                    ' necesarias'
+                    ' ' +
+                    (Math.ceil(maxNumOfApprovers() * (fund.minimumApprovalsPercentageRequired / 100)) === 1
+                      ? 'necesaria'
+                      : 'necesarias')
                   "
                 >
                 </span>
@@ -106,6 +109,14 @@ export default {
   },
   computed: {
     ...mapGetters(['address']),
+
+    requestsOrdered() {
+      return this.fund.requests.slice().sort((a, b) => {
+        if (a.timestamp < b.timestamp) return 1;
+        if (a.timestamp > b.timestamp) return -1;
+        return 0;
+      });
+    },
   },
   methods: {
     compareAddresses,

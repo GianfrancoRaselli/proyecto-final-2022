@@ -44,7 +44,11 @@
                   (request.approvalsCount | '0') +
                   ' de ' +
                   Math.ceil(maxNumOfApprovers(request) * (funds[request.fundIndex].minimumApprovalsPercentageRequired / 100)) +
-                  ' necesarias'
+                  ' ' +
+                  (Math.ceil(maxNumOfApprovers(request) * (funds[request.fundIndex].minimumApprovalsPercentageRequired / 100)) ===
+                  1
+                    ? 'necesaria'
+                    : 'necesarias')
                 "
               >
               </span>
