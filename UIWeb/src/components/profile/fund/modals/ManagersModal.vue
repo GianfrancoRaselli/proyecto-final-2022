@@ -1,34 +1,29 @@
 <template>
-  <div>
-    <div
-      class="modal fade"
-      :id="'profileManagersModal' + fundAddress"
-      tabindex="-1"
-      :aria-labelledby="'profileManagersModalLabel' + fundAddress"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" :id="'profileManagersModalLabel' + fundAddress">Administradores</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="no-managers" v-if="managers && managers.length === 0">Sin administradores</div>
-            <ul class="list-group list-group-flush" v-else>
-              <li class="list-group-item" v-for="(manager, index) in managers" :key="index">
-                <span
-                  ><span v-text="index + 1 + '. '" /><AppShowAddress
-                    class="hover"
-                    :address="manager"
-                    @click="goToProfile(manager)"
-                /></span>
-                <span class="badge badge-pill badge-primary" v-if="compareAddresses(manager, address)">Mi dirección</span>
-              </li>
-            </ul>
-          </div>
+  <div
+    class="modal fade"
+    :id="'profileManagersModal' + fundAddress"
+    tabindex="-1"
+    :aria-labelledby="'profileManagersModalLabel' + fundAddress"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" :id="'profileManagersModalLabel' + fundAddress">Administradores</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="no-managers" v-if="managers && managers.length === 0">Sin administradores</div>
+          <ul class="list-group list-group-flush" v-else>
+            <li class="list-group-item" v-for="(manager, index) in managers" :key="index">
+              <span
+                ><span v-text="index + 1 + '. '" /><AppShowAddress class="hover" :address="manager" @click="goToProfile(manager)"
+              /></span>
+              <span class="badge badge-pill badge-primary" v-if="compareAddresses(manager, address)">Mi dirección</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

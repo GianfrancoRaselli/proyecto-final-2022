@@ -21,7 +21,11 @@
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(manager, index) in fund.managers" :key="index">
                   <div class="item-manager">
-                    <span v-text="index + 1 + '. '" /><AppShowAddress class="hover" :address="manager" @click="goToProfile(manager)" />
+                    <span v-text="index + 1 + '. '" /><AppShowAddress
+                      class="hover"
+                      :address="manager"
+                      @click="goToProfile(manager)"
+                    />
                     <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(manager, address)"
                       >Mi dirección</span
                     >
