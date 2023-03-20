@@ -695,7 +695,7 @@ export default {
 
     .btn-transfers {
       color: white;
-      background-color: rgba(209, 41, 41, 0.958);
+      background-color: rgba(201, 38, 38, 0.958);
     }
 
     .btn-requests {

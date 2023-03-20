@@ -31,11 +31,11 @@
                     </div>
                   </div>
                   <span>
-                    <AppShowAddress class="address hover" :address="transfer.sender" @click="goToProfile(transfer.sender)" />
+                    <AppShowAddress class="address" :address="transfer.sender" :goToProfile="true" />
                     <span>&nbsp;transfirió&nbsp;</span>
                     <AppShowEth :weis="transfer.value" />
                     <span>&nbsp;a&nbsp;</span>
-                    <AppShowAddress class="address hover" :address="transfer.to" @click="goToProfile(transfer.to)" />
+                    <AppShowAddress class="address" :address="transfer.to" :goToProfile="true" />
                   </span>
                 </li>
               </ul>
@@ -49,7 +49,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { event, goToProfile } from '@/helpers/helpers';
+import { event } from '@/helpers/helpers';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -79,7 +79,6 @@ export default {
   methods: {
     compareAddresses,
     fromUnixTimestampToDate,
-    goToProfile,
 
     async getTransfers() {
       this.loading = true;

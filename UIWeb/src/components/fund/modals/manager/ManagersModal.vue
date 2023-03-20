@@ -21,11 +21,8 @@
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(manager, index) in fund.managers" :key="index">
                   <div class="item-manager">
-                    <span v-text="index + 1 + '. '" /><AppShowAddress
-                      class="hover"
-                      :address="manager"
-                      @click="goToProfile(manager)"
-                    />
+                    <span v-text="index + 1 + '. '" />
+                    <AppShowAddress :address="manager" :goToProfile="true" />
                     <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(manager, address)"
                       >Mi dirección</span
                     >
@@ -58,7 +55,7 @@
 <script>
 import $ from 'jquery';
 import { mapGetters } from 'vuex';
-import { transaction, goToProfile } from '@/helpers/helpers';
+import { transaction } from '@/helpers/helpers';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 
@@ -84,7 +81,6 @@ export default {
   },
   methods: {
     compareAddresses,
-    goToProfile,
 
     addNewManagers() {
       $('#managersModal').modal('hide');

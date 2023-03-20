@@ -29,9 +29,9 @@
                   </div>
                   <span>
                     <AppShowAddress
-                      class="address hover"
+                      class="address"
                       :address="contribution.contributor"
-                      @click="goToProfile(contribution.contributor)"
+                      :goToProfile="true"
                     />
                     <span>&nbsp;contribuyó&nbsp;</span>
                     <AppShowEth :weis="contribution.value" />
@@ -48,7 +48,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { event, goToProfile } from '@/helpers/helpers';
+import { event } from '@/helpers/helpers';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -78,7 +78,6 @@ export default {
   methods: {
     compareAddresses,
     fromUnixTimestampToDate,
-    goToProfile,
 
     async getContributions() {
       this.loading = true;

@@ -15,7 +15,7 @@
             <div class="info" v-if="request.petitioner">
               <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
               <span class="info__info">
-                <AppShowAddress class="hover" :address="request.petitioner" @click="goToProfile(request.petitioner)" />
+                <AppShowAddress :address="request.petitioner" :goToProfile="true" />
                 <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)">
                   Mi dirección
                 </span>
@@ -24,7 +24,7 @@
             <div class="info" v-if="request.recipient">
               <span class="info__label"><span class="text-bold">Destinatario</span>:&nbsp;</span>
               <span class="info__info">
-                <AppShowAddress class="hover" :address="request.recipient" @click="goToProfile(request.recipient)" />
+                <AppShowAddress :address="request.recipient" :goToProfile="true" />
                 <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">
                   Mi dirección
                 </span>
@@ -88,7 +88,7 @@
 <script>
 import Web3 from 'web3';
 import { mapGetters } from 'vuex';
-import { transaction, call, event, convertNumberToMaxDecimals, goToProfile } from '@/helpers/helpers';
+import { transaction, call, event, convertNumberToMaxDecimals } from '@/helpers/helpers';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 import Swal from 'sweetalert2';
@@ -123,7 +123,6 @@ export default {
   methods: {
     compareAddresses,
     fromUnixTimestampToDate,
-    goToProfile,
 
     maxNumOfApprovers() {
       if (this.fund.onlyContributorsCanApproveARequest) {

@@ -33,7 +33,7 @@
             <span class="url" v-if="entity.url"
               ><fa-icon icon="link" class="icon" />&nbsp;<a :href="entity.url" target="_blank">Sitio Web</a>
             </span>
-            <AppButton classes="btn-secondary" text="Ver perfil completo" @click="goToProfile" />
+            <AppButton classes="btn-secondary" text="Ver perfil completo" @click="goToProfile(address)" />
           </div>
         </div>
       </div>
@@ -43,6 +43,7 @@
 
 <script>
 import { serverUrl } from '@/siteConfig';
+import { goToProfile } from '@/helpers/helpers';
 import axios from 'axios';
 
 export default {
@@ -60,13 +61,7 @@ export default {
   computed: {},
   watch: {},
   methods: {
-    goToProfile() {
-      const routeData = this.$router.resolve({
-        name: 'Profile',
-        params: { address: this.address },
-      });
-      window.open(routeData.href, '_blank');
-    },
+    goToProfile,
   },
   created() {
     axios.get('entity/' + this.address).then((res) => {

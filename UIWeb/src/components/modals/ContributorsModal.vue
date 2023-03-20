@@ -22,9 +22,8 @@
                 <div class="item-address">
                   <span v-text="index + 1 + '. '" />
                   <AppShowAddress
-                    class="hover"
                     :address="contributor.contributor"
-                    @click="goToProfile(contributor.contributor)"
+                    :goToProfile="true"
                   />
                   <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(contributor.contributor, address)"
                     >Mi dirección
@@ -44,7 +43,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { goToProfile } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -68,7 +66,6 @@ export default {
   },
   methods: {
     compareAddresses,
-    goToProfile,
   },
   async created() {},
 };

@@ -12,13 +12,13 @@
             <AppDate class="date" :date="fromUnixTimestampToDate(transfer.timestamp)" />
           </div>
           <span>
-            <AppShowAddress class="address hover" :address="transfer.sender" @click="goToProfile(transfer.sender)" />
+            <AppShowAddress class="address" :address="transfer.sender" :goToProfile="true" />
             <span>&nbsp;transfirió&nbsp;</span>
             <AppShowEth :weis="transfer.value" />
             <span>&nbsp;a&nbsp;</span>
-            <AppShowAddress class="address hover" :address="transfer.to" @click="goToProfile(transfer.to)" />
+            <AppShowAddress class="address" :address="transfer.to" :goToProfile="true" />
             <span>&nbsp;del fondo:&nbsp;</span>
-            <span class="hover" v-text="transfer.fundName" @click="goToFund(transfer.fundAddress)"></span>
+            <span class="hover" v-text="transfer.fundName" :goToFund="true"></span>
           </span>
         </div>
       </div>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { event, goToProfile, goToFund } from '@/helpers/helpers';
+import { event } from '@/helpers/helpers';
 import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -57,8 +57,6 @@ export default {
     },
   },
   methods: {
-    goToProfile,
-    goToFund,
     fromUnixTimestampToDate,
 
     async getTransfers() {

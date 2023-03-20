@@ -14,20 +14,16 @@
           <div class="content">
             <div class="info">
               <span class="info__label"><span class="text-bold">Fondo</span>:&nbsp;</span>
-              <span
-                class="hover"
-                v-text="funds[request.fundIndex].name"
-                @click="goToFund(funds[request.fundIndex].address)"
-              ></span>
+              <span class="hover" v-text="funds[request.fundIndex].name" :goToFund="true"></span>
             </div>
             <div class="info" v-text="request.description" v-if="request.description" />
             <div class="info" v-if="request.petitioner">
               <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
-              <AppShowAddress class="hover" :address="request.petitioner" @click="goToProfile(request.petitioner)" />
+              <AppShowAddress :address="request.petitioner" :goToProfile="true" />
             </div>
             <div class="info" v-if="request.recipient">
               <span class="info__label"><span class="text-bold">Destinatario</span>:&nbsp;</span>
-              <AppShowAddress class="hover" :address="request.recipient" @click="goToProfile(request.recipient)" />
+              <AppShowAddress :address="request.recipient" :goToProfile="true" />
             </div>
             <div class="info">
               <span class="info__label"><span class="text-bold">Valor a transferir</span>:&nbsp;</span>
@@ -63,7 +59,6 @@
 </template>
 
 <script>
-import { goToProfile, goToFund } from '@/helpers/helpers';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -98,8 +93,6 @@ export default {
   },
   watch: {},
   methods: {
-    goToProfile,
-    goToFund,
     fromUnixTimestampToDate,
 
     getRequestClass(request) {

@@ -13,14 +13,14 @@
           </div>
           <span>
             <AppShowAddress
-              class="address hover"
+              class="address"
               :address="contribution.contributor"
-              @click="goToProfile(contribution.contributor)"
+              :goToProfile="true"
             />
             <span>&nbsp;contribuyó&nbsp;</span>
             <AppShowEth :weis="contribution.value" />
             <span>&nbsp;al fondo:&nbsp;</span>
-            <span class="hover" v-text="contribution.fundName" @click="goToFund(contribution.fundAddress)"></span>
+            <span class="hover" v-text="contribution.fundName" :goToFund="true"></span>
           </span>
         </div>
       </div>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { event, goToProfile, goToFund } from '@/helpers/helpers';
+import { event } from '@/helpers/helpers';
 import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -59,8 +59,6 @@ export default {
     },
   },
   methods: {
-    goToProfile,
-    goToFund,
     fromUnixTimestampToDate,
 
     async getContributions() {
