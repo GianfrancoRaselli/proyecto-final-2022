@@ -411,16 +411,30 @@ export default {
                 .fill()
                 .map((element, index) => {
                   return call({ name: 'Fund', address: this.$route.params.fundAddress }, 'requests', [index], {}, async (res) => {
-                    let block;
+                    let newRequestBlock;
                     await event(
                       { name: 'Fund', address: this.$route.params.fundAddress },
                       'NewRequest',
                       { filter: { requestIndex: index } },
                       async (events) => {
-                        block = await this.$store.state.connection.infuraWeb3.eth.getBlock(events[0].blockNumber);
+                        newRequestBlock = await this.$store.state.connection.infuraWeb3.eth.getBlock(events[0].blockNumber);
                       },
                       true,
                     );
+                    let finalizeRequestBlock;
+                    if (res.complete) {
+                      await event(
+                        { name: 'Fund', address: this.$route.params.fundAddress },
+                        'FinalizeRequest',
+                        { filter: { requestIndex: index } },
+                        async (events) => {
+                          finalizeRequestBlock = await this.$store.state.connection.infuraWeb3.eth.getBlock(
+                            events[0].blockNumber,
+                          );
+                        },
+                        true,
+                      );
+                    }
                     requests[index] = {
                       description: res.description,
                       petitioner: res.petitioner,
@@ -428,8 +442,9 @@ export default {
                       valueToTransfer: res.valueToTransfer,
                       transferredValue: res.transferredValue,
                       complete: res.complete,
+                      completeTimestamp: res.complete ? finalizeRequestBlock.timestamp : '',
                       approvalsCount: res.approvalsCount,
-                      timestamp: block.timestamp,
+                      timestamp: newRequestBlock.timestamp,
                     };
                   });
                 }),

@@ -37,6 +37,8 @@
             <div class="info" v-if="request.complete">
               <span class="info__label"><span class="text-bold">Valor transferido</span>:&nbsp;</span>
               <AppShowEth :weis="request.transferredValue" />
+              &nbsp;
+              <AppDate class="date" :date="fromUnixTimestampToDate(request.completeTimestamp)" />
             </div>
             <div class="info" v-if="!request.complete">
               <span class="info__label"><span class="text-bold">Aprobaciones</span>:&nbsp;</span>

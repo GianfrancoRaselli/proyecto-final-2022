@@ -386,16 +386,32 @@ export default {
                               [requestIndex],
                               {},
                               async (res) => {
-                                let block;
+                                let newRequestBlock;
                                 await event(
                                   { name: 'Fund', address: this.funds[fundIndex].address },
                                   'NewRequest',
                                   { filter: { requestIndex } },
                                   async (events) => {
-                                    block = await this.$store.state.connection.infuraWeb3.eth.getBlock(events[0].blockNumber);
+                                    newRequestBlock = await this.$store.state.connection.infuraWeb3.eth.getBlock(
+                                      events[0].blockNumber,
+                                    );
                                   },
                                   true,
                                 );
+                                let finalizeRequestBlock;
+                                if (res.complete) {
+                                  await event(
+                                    { name: 'Fund', address: this.funds[fundIndex].address },
+                                    'FinalizeRequest',
+                                    { filter: { requestIndex } },
+                                    async (events) => {
+                                      finalizeRequestBlock = await this.$store.state.connection.infuraWeb3.eth.getBlock(
+                                        events[0].blockNumber,
+                                      );
+                                    },
+                                    true,
+                                  );
+                                }
                                 fundRequests[requestIndex] = {
                                   fundIndex,
                                   description: res.description,
@@ -404,8 +420,9 @@ export default {
                                   valueToTransfer: res.valueToTransfer,
                                   transferredValue: res.transferredValue,
                                   complete: res.complete,
+                                  completeTimestamp: res.complete ? finalizeRequestBlock.timestamp : '',
                                   approvalsCount: res.approvalsCount,
-                                  timestamp: block.timestamp,
+                                  timestamp: newRequestBlock.timestamp,
                                 };
                               },
                             );

@@ -36,6 +36,8 @@
             <div class="info" v-if="request.complete">
               <span class="info__label"><span class="text-bold">Valor transferido</span>:&nbsp;</span>
               <AppShowEth :weis="request.transferredValue" />
+              &nbsp;
+              <AppDate class="date" :date="fromUnixTimestampToDate(request.completeTimestamp)" />
             </div>
             <div class="info" v-if="!request.complete">
               <span class="info__label"><span class="text-bold">Aprobaciones</span>:&nbsp;</span>
@@ -145,6 +147,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.date {
+  font-size: 0.8rem;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -189,10 +195,6 @@ export default {
         justify-content: space-between;
         align-items: center;
         gap: 0.4rem;
-
-        .date {
-          font-size: 0.8rem;
-        }
 
         .badge {
           margin-left: auto;
