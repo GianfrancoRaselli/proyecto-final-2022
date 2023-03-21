@@ -14,62 +14,13 @@
         </div>
 
         <div class="item-content px-3">
-          <div class="content-info">
-            <AppDate class="date" :date="fromUnixTimestampToDate(request.timestamp)" />
-            <div class="info" v-text="request.description" v-if="request.description" />
-            <div class="info" v-if="request.petitioner">
-              <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
-              <span class="info__info">
-                <AppShowAddress :address="request.petitioner" :goToProfile="true" />
-                <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)">
-                  Mi dirección
-                </span>
-              </span>
-            </div>
-            <div class="info" v-if="request.recipient">
-              <span class="info__label"><span class="text-bold">Destinatario</span>:&nbsp;</span>
-              <span class="info__info">
-                <AppShowAddress :address="request.recipient" :goToProfile="true" />
-                <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">
-                  Mi dirección
-                </span>
-              </span>
-            </div>
-            <div class="info">
-              <span class="info__label"><span class="text-bold">Valor a transferir</span>:&nbsp;</span>
-              <AppShowEth :weis="request.valueToTransfer" />
-            </div>
-            <div class="info" v-if="request.complete">
-              <span class="info__label"><span class="text-bold">Valor transferido</span>:&nbsp;</span>
-              <AppShowEth :weis="request.transferredValue" />
-              &nbsp;
-              <AppDate class="date" :date="fromUnixTimestampToDate(request.completeTimestamp)" />
-            </div>
-            <div class="info" v-if="!request.complete">
-              <span class="info__label"><span class="text-bold">Aprobaciones</span>:&nbsp;</span>
-              <span class="info__info">
-                <span
-                  v-text="
-                    (request.approvalsCount | '0') +
-                    ' de ' +
-                    Math.ceil(maxNumOfApprovers() * (fund.minimumApprovalsPercentageRequired / 100)) +
-                    ' ' +
-                    (Math.ceil(maxNumOfApprovers() * (fund.minimumApprovalsPercentageRequired / 100)) === 1
-                      ? 'necesaria'
-                      : 'necesarias')
-                  "
-                >
-                </span>
-                <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(request.index)">Aprobada</span>
-              </span>
-            </div>
-            <div class="info">
-              <button type="button" class="btn btn-link btn-show-approvals" @click="goToApprovals(request.index)">
-                Ver aprobaciones
-              </button>
-            </div>
-          </div>
-
+          <RequestsContent
+            class="request-content"
+            :fund="fund"
+            :requestsApproved="requestsApproved"
+            :request="request"
+            hideModalId="requestsModal"
+          />
           <div class="content-buttons" v-if="!request.complete && (!requestApproved(request.index) || canFinalize(request))">
             <div class="button" v-if="!requestApproved(request.index)">
               <button
@@ -106,18 +57,21 @@
 </template>
 
 <script>
-import $ from 'jquery';
 import Web3 from 'web3';
 import { mapGetters } from 'vuex';
 import { transaction, call, event, convertNumberToMaxDecimals } from '@/helpers/helpers';
-import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
+import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 import Swal from 'sweetalert2';
 import BigNumber from 'bignumber.js';
 
+import RequestsContent from '@/components/contents/RequestsContent.vue';
+
 export default {
   name: 'RequestsListComponent',
-  components: {},
+  components: {
+    RequestsContent,
+  },
   props: {
     loading: { type: Boolean, required: true },
     fund: { type: Object, required: true },
@@ -143,12 +97,11 @@ export default {
     },
   },
   methods: {
-    compareAddresses,
-    fromUnixTimestampToDate,
-
-    goToApprovals(requestIndex) {
-      $('#requestsModal').modal('hide');
-      $('#approvalsModal' + this.fund.address + requestIndex).modal('show');
+    getRequestClass(request) {
+      if (request.complete) return 'request-completed';
+      if (request.approvalsCount >= Math.ceil(this.maxNumOfApprovers() * (this.fund.minimumApprovalsPercentageRequired / 100)))
+        return 'request-approved';
+      return 'request-created';
     },
 
     maxNumOfApprovers() {
@@ -178,15 +131,8 @@ export default {
       }
     },
 
-    getRequestClass(request) {
-      if (request.complete) return 'request-completed';
-      if (request.approvalsCount >= Math.ceil(this.maxNumOfApprovers() * (this.fund.minimumApprovalsPercentageRequired / 100)))
-        return 'request-approved';
-      return 'request-created';
-    },
-
-    requestApproved(index) {
-      return this.requestsApproved[index];
+    requestApproved(requestIndex) {
+      return this.requestsApproved[requestIndex];
     },
 
     async approveRequest(index) {
@@ -406,30 +352,8 @@ export default {
   flex-basis: 100%;
 }
 
-.content-info {
+.request-content {
   padding-right: 1rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.info__info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.btn-show-approvals {
-  font-size: 0.92rem;
-}
-
-.btn-show-approvals:focus {
-  box-shadow: none;
 }
 
 .content-buttons {
@@ -444,12 +368,6 @@ export default {
 }
 
 @media (max-width: 767px) {
-  .info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
   .content-buttons {
     min-width: 100px;
   }
@@ -460,7 +378,7 @@ export default {
     flex-direction: column;
   }
 
-  .content-info {
+  .request-content {
     padding: 0;
   }
 

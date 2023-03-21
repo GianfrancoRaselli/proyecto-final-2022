@@ -118,7 +118,8 @@ const transaction = async (contract, method, params = [], options, showContractE
 
 const event = async (contract, event, options, func, pastEvents) => {
   if (pastEvents) return connect.pastEvents(await getContract(contract), event, { fromBlock: firstBlock, ...options }, func);
-  return connect.latestEvents(await getContract(contract, 'metamask'), event, options, func);
+  if (store.getters.isConnected) return connect.latestEvents(await getContract(contract, 'metamask'), event, options, func);
+  return null;
 };
 
 const addTokenToMetaMask = (

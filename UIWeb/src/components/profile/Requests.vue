@@ -9,74 +9,7 @@
       </div>
       <div v-else>
         <div class="item" :class="getRequestClass(request)" v-for="request in requestsToShow" :key="request.index">
-          <div class="header">
-            <AppDate class="date" :date="fromUnixTimestampToDate(request.timestamp)" />
-          </div>
-          <div class="content">
-            <div class="info">
-              <span class="info__label"><span class="text-bold">Fondo</span>:&nbsp;</span>
-              <span
-                class="hover"
-                v-text="funds[request.fundIndex].name"
-                @click="goToFund(funds[request.fundIndex].address)"
-              ></span>
-            </div>
-            <div class="info" v-text="request.description" v-if="request.description" />
-            <div class="info" v-if="request.petitioner">
-              <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
-              <span class="info__info">
-                <AppShowAddress :address="request.petitioner" :goToProfile="true" />
-                <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)">
-                  Mi dirección
-                </span>
-              </span>
-            </div>
-            <div class="info" v-if="request.recipient">
-              <span class="info__label"><span class="text-bold">Destinatario</span>:&nbsp;</span>
-              <span class="info__info">
-                <AppShowAddress :address="request.recipient" :goToProfile="true" />
-                <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">
-                  Mi dirección
-                </span>
-              </span>
-            </div>
-            <div class="info">
-              <span class="info__label"><span class="text-bold">Valor a transferir</span>:&nbsp;</span>
-              <AppShowEth :weis="request.valueToTransfer" />
-            </div>
-            <div class="info" v-if="request.complete">
-              <span class="info__label"><span class="text-bold">Valor transferido</span>:&nbsp;</span>
-              <AppShowEth :weis="request.transferredValue" />
-              &nbsp;
-              <AppDate class="date" :date="fromUnixTimestampToDate(request.completeTimestamp)" />
-            </div>
-            <div class="info" v-if="!request.complete">
-              <span class="info__label"><span class="text-bold">Aprobaciones</span>:&nbsp;</span>
-              <span
-                v-text="
-                  (request.approvalsCount | '0') +
-                  ' de ' +
-                  Math.ceil(maxNumOfApprovers(request) * (funds[request.fundIndex].minimumApprovalsPercentageRequired / 100)) +
-                  ' ' +
-                  (Math.ceil(maxNumOfApprovers(request) * (funds[request.fundIndex].minimumApprovalsPercentageRequired / 100)) ===
-                  1
-                    ? 'necesaria'
-                    : 'necesarias')
-                "
-              >
-              </span>
-            </div>
-            <div class="info">
-              <button
-                type="button"
-                class="btn btn-link btn-show-approvals"
-                data-toggle="modal"
-                :data-target="'#approvalsModal' + funds[request.fundIndex].address + request.index + 'profileRequests' + filter"
-              >
-                Ver aprobaciones
-              </button>
-            </div>
-          </div>
+          <RequestsContent :fund="funds[request.fundIndex]" :request="request" :showFundName="true" />
           <ApprovalsModal
             :fundAddress="funds[request.fundIndex].address"
             :requestIndex="request.index"
@@ -90,15 +23,16 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { goToFund } from '@/helpers/helpers';
-import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
+import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 import ApprovalsModal from '@/components/modals/fund/ApprovalsModal.vue';
+import RequestsContent from '@/components/contents/RequestsContent.vue';
 
 export default {
   name: 'ProfileRequestsComponent',
   components: {
     ApprovalsModal,
+    RequestsContent,
   },
   props: {
     funds: { type: Array, required: true },
@@ -132,15 +66,11 @@ export default {
   },
   watch: {},
   methods: {
-    compareAddresses,
-    fromUnixTimestampToDate,
-    goToFund,
-
     getRequestClass(request) {
       if (request.complete) return 'request-completed';
       if (
         request.approvalsCount >=
-        Math.ceil(this.maxNumOfApproversrequest * (this.funds[request.fundIndex].minimumApprovalsPercentageRequired / 100))
+        Math.ceil(this.maxNumOfApprovers(request) * (this.funds[request.fundIndex].minimumApprovalsPercentageRequired / 100))
       )
         return 'request-approved';
       return 'request-created';
@@ -207,7 +137,7 @@ export default {
       align-items: center;
       gap: 0.8rem;
     }
-
+    
     .item {
       padding: 0.65rem 0.55rem;
       border: 1px solid rgb(238, 238, 238);
@@ -216,51 +146,6 @@ export default {
       justify-content: space-between;
       align-items: start;
       gap: 0.3rem;
-
-      .header {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.4rem;
-
-        .badge {
-          margin-left: auto;
-        }
-      }
-
-      .content {
-        display: flex;
-        flex-direction: column;
-
-        .info {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-
-          @media (max-width: 430px) {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-          }
-
-          .info__info {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-          }
-
-          .btn-show-approvals {
-            font-size: 0.92rem;
-          }
-
-          .btn-show-approvals:focus {
-            box-shadow: none;
-          }
-        }
-      }
     }
 
     .request-completed {

@@ -18,7 +18,7 @@
           <div class="modal-body">
             <AppSpinner v-if="loadingRequests || loadingRequestsApproved" />
             <div v-else>
-              <div class="no-requests" v-if="requestsOrdered && requestsOrdered.length === 0">Sin solicitudes</div>
+              <div class="no-requests" v-if="requestsOrdered.length === 0">Sin solicitudes</div>
 
               <ul class="list-group list-group-flush" v-else>
                 <li
@@ -30,61 +30,13 @@
                   <div class="item-number">
                     <span v-text="index + 1 + '.'" />
                   </div>
-
                   <div class="item-content">
-                    <AppDate class="date" :date="fromUnixTimestampToDate(request.timestamp)" />
-                    <div class="info" v-text="request.description" v-if="request.description" />
-                    <div class="info" v-if="request.petitioner">
-                      <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
-                      <span class="info__info">
-                        <AppShowAddress :address="request.petitioner" :goToProfile="true" />
-                        <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)">
-                          Mi dirección
-                        </span>
-                      </span>
-                    </div>
-                    <div class="info" v-if="request.recipient">
-                      <span class="info__label"><span class="text-bold">Destinatario</span>:&nbsp;</span>
-                      <span class="info__info">
-                        <AppShowAddress :address="request.recipient" :goToProfile="true" />
-                        <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">
-                          Mi dirección
-                        </span>
-                      </span>
-                    </div>
-                    <div class="info">
-                      <span class="info__label"><span class="text-bold">Valor a transferir</span>:&nbsp;</span>
-                      <AppShowEth :weis="request.valueToTransfer" />
-                    </div>
-                    <div class="info" v-if="request.complete">
-                      <span class="info__label"><span class="text-bold">Valor transferido</span>:&nbsp;</span>
-                      <AppShowEth :weis="request.transferredValue" />
-                      &nbsp;
-                      <AppDate class="date" :date="fromUnixTimestampToDate(request.completeTimestamp)" />
-                    </div>
-                    <div class="info" v-if="!request.complete">
-                      <span class="info__label"><span class="text-bold">Aprobaciones</span>:&nbsp;</span>
-                      <span class="info__info">
-                        <span
-                          v-text="
-                            (request.approvalsCount | '0') +
-                            ' de ' +
-                            Math.ceil(maxNumOfApprovers() * (fund.minimumApprovalsPercentageRequired / 100)) +
-                            ' ' +
-                            (Math.ceil(maxNumOfApprovers() * (fund.minimumApprovalsPercentageRequired / 100)) === 1
-                              ? 'necesaria'
-                              : 'necesarias')
-                          "
-                        >
-                        </span>
-                        <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(request.index)">Aprobada</span>
-                      </span>
-                    </div>
-                    <div class="info">
-                      <button type="button" class="btn btn-link btn-show-approvals" @click="goToApprovals(request.index)">
-                        Ver aprobaciones
-                      </button>
-                    </div>
+                    <RequestsContent
+                      :fund="fund"
+                      :requestsApproved="requestsApproved"
+                      :request="request"
+                      :hideModalId="'profileRequestsModal' + fund.address"
+                    />
                   </div>
                 </li>
               </ul>
@@ -106,17 +58,17 @@
 </template>
 
 <script>
-import $ from 'jquery';
 import { mapGetters } from 'vuex';
 import { call, event } from '@/helpers/helpers';
-import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 import ApprovalsModal from '@/components/modals/fund/ApprovalsModal.vue';
+import RequestsContent from '@/components/contents/RequestsContent.vue';
 
 export default {
   name: 'ProfileRequestsModalComponent',
   components: {
     ApprovalsModal,
+    RequestsContent,
   },
   props: {
     fundAddress: { type: String, required: true },
@@ -143,14 +95,6 @@ export default {
     },
   },
   methods: {
-    compareAddresses,
-    fromUnixTimestampToDate,
-
-    goToApprovals(requestIndex) {
-      $('#profileRequestsModal' + this.fund.address).modal('hide');
-      $('#approvalsModal' + this.fund.address + requestIndex).modal('show');
-    },
-
     getRequestClass(request) {
       if (request.complete) return 'request-completed';
       if (request.approvalsCount >= Math.ceil(this.maxNumOfApprovers() * (this.fund.minimumApprovalsPercentageRequired / 100)))
@@ -183,10 +127,6 @@ export default {
         }
         return num;
       }
-    },
-
-    requestApproved(index) {
-      return this.requestsApproved[index];
     },
 
     async getRequests() {
@@ -323,33 +263,5 @@ export default {
   border-left: 1px solid rgb(163, 163, 163);
   display: flex;
   flex-direction: column;
-}
-
-.info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.info__info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.btn-show-approvals {
-  font-size: 0.92rem;
-}
-
-.btn-show-approvals:focus {
-  box-shadow: none;
-}
-
-@media (max-width: 430px) {
-  .info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 </style>

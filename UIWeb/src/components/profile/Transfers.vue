@@ -116,10 +116,6 @@ export default {
         justify-content: space-between;
         align-items: center;
         gap: 0.4rem;
-
-        .badge {
-          margin-left: auto;
-        }
       }
 
       .address {
