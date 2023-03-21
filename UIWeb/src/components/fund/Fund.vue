@@ -640,7 +640,7 @@ export default {
 
     .description {
       word-wrap: break-word;
-      word-break: break-all;
+      word-break: break-word;
       width: 100%;
       padding: 2rem;
 

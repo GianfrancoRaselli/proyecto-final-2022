@@ -114,7 +114,7 @@ export default {
 <style lang="scss" scoped>
 .card {
   word-wrap: break-word;
-  word-break: break-all;
+  word-break: break-word;
   height: 98%;
   position: relative;
 }

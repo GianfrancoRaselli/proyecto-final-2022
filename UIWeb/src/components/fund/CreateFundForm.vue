@@ -790,7 +790,7 @@ export default {
 
     .my-tooltip {
       word-wrap: break-word;
-      word-break: break-all;
+      word-break: break-word;
       position: absolute;
       top: 50%;
       right: 120%;

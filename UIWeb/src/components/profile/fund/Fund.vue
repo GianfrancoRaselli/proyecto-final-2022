@@ -298,7 +298,7 @@ export default {
 
     .description {
       word-wrap: break-word;
-      word-break: break-all;
+      word-break: break-word;
       padding: 0.4rem 0;
     }
 
