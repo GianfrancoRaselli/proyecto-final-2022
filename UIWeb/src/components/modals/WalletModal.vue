@@ -232,10 +232,6 @@ export default {
     .transaction-info {
       display: flex;
       flex-direction: column;
-
-      .date {
-        font-size: 0.8rem;
-      }
     }
   }
 }

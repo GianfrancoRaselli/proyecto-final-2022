@@ -146,10 +146,6 @@ export default {
         align-items: center;
         gap: 0.4rem;
 
-        .date {
-          font-size: 0.8rem;
-        }
-
         .badge {
           margin-left: auto;
         }

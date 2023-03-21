@@ -201,6 +201,10 @@ body {
   }
 }
 
+.date {
+  font-size: 0.8rem;
+}
+
 .badge {
   font-size: 0.68rem;
   height: fit-content;
@@ -218,5 +222,17 @@ body {
 .hover:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .icon {
+    cursor: pointer;
+    color: grey;
+  }
 }
 </style>

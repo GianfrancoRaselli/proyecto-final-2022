@@ -28,6 +28,16 @@
       </div>
     </div>
     <CreateRequestModal :fund="fund" />
+    <div v-if="!loading">
+      <ApprovalsModal
+        :fundAddress="fund.address"
+        :requestIndex="request.index"
+        backTo="requestsModal"
+        :listenNewApprovals="true"
+        v-for="request in fund.requests"
+        :key="request.index"
+      />
+    </div>
   </div>
 </template>
 
@@ -38,12 +48,14 @@ import RequestsList from '@/components/fund/modals/request/RequestsList.vue';
 
 // modals
 import CreateRequestModal from '@/components/fund/modals/request/CreateRequestModal.vue';
+import ApprovalsModal from '@/components/modals/ApprovalsModal.vue';
 
 export default {
   name: 'RequestsModalComponent',
   components: {
     CreateRequestModal,
     RequestsList,
+    ApprovalsModal,
   },
   props: {
     loading: { type: Boolean, required: true },

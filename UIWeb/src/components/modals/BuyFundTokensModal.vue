@@ -186,14 +186,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.modal-header {
+.header-info {
   display: flex;
-
-  .header-info {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-  }
+  flex-wrap: wrap;
+  align-items: baseline;
 }
 
 .add-token {

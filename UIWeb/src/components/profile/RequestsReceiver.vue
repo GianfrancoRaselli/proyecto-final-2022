@@ -160,10 +160,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.date {
-  font-size: 0.8rem;
-}
-
 .container {
   display: flex;
   flex-direction: column;

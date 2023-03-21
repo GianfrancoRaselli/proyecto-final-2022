@@ -215,17 +215,6 @@ export default {
 </script>
 
 <style scoped>
-.modal-header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.modal-header .icon {
-  cursor: pointer;
-  color: grey;
-}
-
 .wrapper {
   position: relative;
 }

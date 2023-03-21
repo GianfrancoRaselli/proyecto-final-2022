@@ -705,4 +705,10 @@ export default {
     }
   }
 }
+
+.card-footer {
+  .date {
+    font-size: 0.92rem;
+  }
+}
 </style>

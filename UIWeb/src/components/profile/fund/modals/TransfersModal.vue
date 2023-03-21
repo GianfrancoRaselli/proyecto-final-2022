@@ -132,11 +132,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     gap: 0.4rem;
-
-    .date {
-      font-size: 0.8rem;
-    }
-
+    
     .badges {
       margin-left: auto;
       display: flex;

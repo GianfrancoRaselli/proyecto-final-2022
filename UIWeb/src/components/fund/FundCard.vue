@@ -157,4 +157,10 @@ export default {
     border-radius: 1.2rem;
   }
 }
+
+.card-footer {
+  .date {
+    font-size: 0.9rem;
+  }
+}
 </style>

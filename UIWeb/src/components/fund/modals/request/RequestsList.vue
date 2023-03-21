@@ -63,6 +63,11 @@
                 <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(request.index)">Aprobada</span>
               </span>
             </div>
+            <div class="info">
+              <button type="button" class="btn btn-link btn-show-contributors" @click="goToApprovals(request.index)">
+                Ver aprobaciones
+              </button>
+            </div>
           </div>
 
           <div class="content-buttons" v-if="!request.complete && (!requestApproved(request.index) || canFinalize(request))">
@@ -101,6 +106,7 @@
 </template>
 
 <script>
+import $ from 'jquery';
 import Web3 from 'web3';
 import { mapGetters } from 'vuex';
 import { transaction, call, event, convertNumberToMaxDecimals } from '@/helpers/helpers';
@@ -111,6 +117,7 @@ import BigNumber from 'bignumber.js';
 
 export default {
   name: 'RequestsListComponent',
+  components: {},
   props: {
     loading: { type: Boolean, required: true },
     fund: { type: Object, required: true },
@@ -138,6 +145,11 @@ export default {
   methods: {
     compareAddresses,
     fromUnixTimestampToDate,
+
+    goToApprovals(requestIndex) {
+      $('#requestsModal').modal('hide');
+      $('#approvalsModal' + this.fund.address + requestIndex).modal('show');
+    },
 
     maxNumOfApprovers() {
       if (this.fund.onlyContributorsCanApproveARequest) {
@@ -404,10 +416,6 @@ export default {
   flex-direction: column;
 }
 
-.date {
-  font-size: 0.8rem;
-}
-
 .info {
   display: flex;
   flex-direction: row;
@@ -418,6 +426,14 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.btn-show-approvals {
+  font-size: 0.9rem;
+}
+
+.btn-show-approvals:focus {
+  box-shadow: none;
 }
 
 .content-buttons {

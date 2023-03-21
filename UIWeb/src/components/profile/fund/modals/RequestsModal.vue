@@ -301,10 +301,6 @@ export default {
   flex-direction: column;
 }
 
-.date {
-  font-size: 0.8rem;
-}
-
 .info {
   display: flex;
   flex-direction: row;
