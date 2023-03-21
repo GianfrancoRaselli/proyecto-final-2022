@@ -368,9 +368,9 @@
                 @click="info.minimumApprovalsPercentageRequired = !info.minimumApprovalsPercentageRequired"
               />
               <div class="my-tooltip" v-if="info.minimumApprovalsPercentageRequired">
-                Porcentaje mínimo de aprobaciones necesarias para que la entidad que creó la solicitud pueda finalmente retirar el
-                dinero. El mismo se calcula en base a la cantidad de contibuyentes del fondo, sumado al número de administradores,
-                en el caso que también estén habilitados para aprobar solicitudes.
+                Porcentaje mínimo de aprobaciones necesarias para que la entidad que creó una solicitud pueda finalmente retirar
+                el dinero. El mismo se calcula en base a la cantidad de contibuyentes del fondo, sumado al número de
+                administradores, en el caso que también estén habilitados para aprobar solicitudes.
               </div>
             </div>
           </div>

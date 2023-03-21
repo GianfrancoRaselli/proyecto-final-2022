@@ -58,14 +58,20 @@
             <span class="label"><span class="text-bold">Dirección</span>:&nbsp;</span>
             <AppShowAddress :address="fund.address" />
           </span>
-          <span class="info_explanation">Dirección del Smart Contract desplegado en la&nbsp;{{ validChainName }}.</span>
+          <span class="info_explanation"
+            ><fa-icon icon="circle-info" class="icon" />Dirección del Smart Contract desplegado en la&nbsp;{{
+              validChainName
+            }}.</span
+          >
         </p>
         <p class="info">
           <span class="info_info">
             <span class="label"><span class="text-bold">Balance actual</span>:&nbsp;</span>
             <AppShowEth :weis="fund.balance" />
           </span>
-          <span class="info_explanation"></span>
+          <span class="info_explanation"
+            ><fa-icon icon="circle-info" class="icon" />Dinero disponible en el fondo actualmente.</span
+          >
         </p>
         <p class="info">
           <span class="info_info">
@@ -74,14 +80,19 @@
               <AppShowAddress :address="fund.creator" />
             </button>
           </span>
-          <span class="info_explanation"></span>
+          <span class="info_explanation"
+            ><fa-icon icon="circle-info" class="icon" />Dirección de la entidad creadora del fondo.</span
+          >
         </p>
         <p class="info">
           <span class="info_info">
             <span class="label"><span class="text-bold">Los administradores pueden ser agregados o removidos</span>:&nbsp;</span>
             <AppBadge :check="fund.managersCanBeAddedOrRemoved" />
           </span>
-          <span class="info_explanation"></span>
+          <span class="info_explanation"
+            ><fa-icon icon="circle-info" class="icon" />Si esta opción está activada los administradores actuales podrán agregar o
+            remover a nuevos administradores.</span
+          >
         </p>
         <p class="info">
           <span class="info_info">
@@ -96,7 +107,9 @@
               Ver contribuyentes
             </button>
           </span>
-          <span class="info_explanation"></span>
+          <span class="info_explanation"
+            ><fa-icon icon="circle-info" class="icon" />La suma de todas las contribuciones hechas al fondo.</span
+          >
         </p>
         <p class="info">
           <span class="info_info">
@@ -105,27 +118,42 @@
             >
             <AppBadge :check="fund.managersCanTransferMoneyWithoutARequest" />
           </span>
+          <span class="info_explanation"
+            ><fa-icon icon="circle-info" class="icon" />Si esta opción esta activada los administradores podrán transferir el
+            dinero del fondo sin crear una solicitud previa.</span
+          >
         </p>
         <p class="info">
           <span class="info_info">
             <span class="label"><span class="text-bold">Las solicitudes pueden ser creadas</span>:&nbsp;</span>
             <AppBadge :check="fund.requestsCanBeCreated" />
           </span>
-          <span class="info_explanation"></span>
+          <span class="info_explanation"
+            ><fa-icon icon="circle-info" class="icon" />Si esta opción esta activada se encuentra habilitada la función de crear
+            solicitudes para retirar dinero del fondo. En caso contrario, solo podrán retirar dinero los administradores.</span
+          >
         </p>
         <p class="info">
           <span class="info_info">
             <span class="label"><span class="text-bold">Solo los administradores pueden crear una solicitud</span>:&nbsp;</span>
             <AppBadge :check="fund.onlyManagersCanCreateARequest" />
           </span>
-          <span class="info_explanation"></span>
+          <span class="info_explanation"
+            ><fa-icon icon="circle-info" class="icon" />Si esta opción esta activada solo los administradores podrán crear
+            solicitudes para retirar dinero del fondo. En caso contrario, cualquier entidad puede crear una solicitud que luego
+            deberá ser aprobada para retirar el dinero.</span
+          >
         </p>
         <p class="info">
           <span class="info_info">
             <span class="label"><span class="text-bold">Solo los contribuyentes pueden aprobar una solicitud</span>:&nbsp;</span>
             <AppBadge :check="fund.onlyContributorsCanApproveARequest" />
           </span>
-          <span class="info_explanation"></span>
+          <span class="info_explanation"
+            ><fa-icon icon="circle-info" class="icon" />Si esta opción esta activada solo los contribuyentes del fondo podrán
+            aprobar una solicitud de retiro de dinero. En caso contrario, los administradores también podrán hacerlo sin haber
+            aportado al fondo previamente.</span
+          >
         </p>
         <p class="info">
           <span class="info_info">
@@ -134,7 +162,10 @@
             >
             <span v-text="fund.minimumContributionPercentageRequired + '%'" />
           </span>
-          <span class="info_explanation"></span>
+          <span class="info_explanation"
+            ><fa-icon icon="circle-info" class="icon" />Porcentaje mínimo de dinero que una entidad debe aportar al total
+            historico de contribuciones del fondo para poder aprobar una solicitud de retiro de dinero.</span
+          >
         </p>
         <p class="info">
           <span class="info_info">
@@ -144,7 +175,11 @@
             >
             <span v-text="fund.minimumApprovalsPercentageRequired + '%'" />
           </span>
-          <span class="info_explanation"></span>
+          <span class="info_explanation"
+            ><fa-icon icon="circle-info" class="icon" />Porcentaje mínimo de aprobaciones necesarias para que la entidad que creó
+            una solicitud pueda finalmente retirar el dinero. El mismo se calcula en base a la cantidad de contibuyentes del
+            fondo, sumado al número de administradores, en el caso que también estén habilitados para aprobar solicitudes.</span
+          >
         </p>
         <hr />
         <div class="buttons">
@@ -730,6 +765,15 @@ export default {
     .info_explanation {
       font-size: 0.9rem;
       color: grey;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .icon {
+        font-size: 1rem;
+        color: rgba(128, 128, 128, 0.8);
+        margin-right: 0.4rem;
+      }
     }
   }
 
