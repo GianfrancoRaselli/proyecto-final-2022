@@ -590,7 +590,7 @@ export default {
   justify-content: flex-start;
   align-items: stretch;
   column-gap: 1%;
-  row-gap: 1rem;
+  row-gap: 0.5rem;
 
   .fund-card {
     width: 49.5%;
