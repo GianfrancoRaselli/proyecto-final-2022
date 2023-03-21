@@ -54,70 +54,97 @@
         </div>
         <p class="h5 text-center my-3 information-text">Información</p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Dirección</span>:&nbsp;</span>
-          <AppShowAddress :address="fund.address" />
+          <span class="info_info">
+            <span class="label"><span class="text-bold">Dirección</span>:&nbsp;</span>
+            <AppShowAddress :address="fund.address" />
+          </span>
+          <span class="info_explanation">Dirección del Smart Contract desplegado en la&nbsp;{{ validChainName }}.</span>
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Balance actual</span>:&nbsp;</span>
-          <AppShowEth :weis="fund.balance" />
+          <span class="info_info">
+            <span class="label"><span class="text-bold">Balance actual</span>:&nbsp;</span>
+            <AppShowEth :weis="fund.balance" />
+          </span>
+          <span class="info_explanation"></span>
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Creador</span>:&nbsp;</span>
-          <button type="button" class="btn btn-link" data-toggle="modal" :data-target="'#entityModal' + fund.creator">
-            <AppShowAddress :address="fund.creator" />
-          </button>
+          <span class="info_info">
+            <span class="label"><span class="text-bold">Creador</span>:&nbsp;</span>
+            <button type="button" class="btn btn-link" data-toggle="modal" :data-target="'#entityModal' + fund.creator">
+              <AppShowAddress :address="fund.creator" />
+            </button>
+          </span>
+          <span class="info_explanation"></span>
         </p>
         <p class="info">
-          <span class="info__label"
-            ><span class="text-bold">Los administradores pueden ser agregados o removidos</span>:&nbsp;</span
-          >
-          <AppBadge :check="fund.managersCanBeAddedOrRemoved" />
+          <span class="info_info">
+            <span class="label"><span class="text-bold">Los administradores pueden ser agregados o removidos</span>:&nbsp;</span>
+            <AppBadge :check="fund.managersCanBeAddedOrRemoved" />
+          </span>
+          <span class="info_explanation"></span>
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Contribuciones totales</span>:&nbsp;</span>
-          <AppShowEth :weis="fund.totalContributions" class="mr-3" />
-          <button
-            type="button"
-            class="btn btn-link btn-show-contributors"
-            data-toggle="modal"
-            :data-target="'#contributorsModal' + fund.address"
-          >
-            Ver contribuyentes
-          </button>
+          <span class="info_info">
+            <span class="label"><span class="text-bold">Contribuciones totales</span>:&nbsp;</span>
+            <AppShowEth :weis="fund.totalContributions" class="mr-3" />
+            <button
+              type="button"
+              class="btn btn-link btn-show-contributors"
+              data-toggle="modal"
+              :data-target="'#contributorsModal' + fund.address"
+            >
+              Ver contribuyentes
+            </button>
+          </span>
+          <span class="info_explanation"></span>
         </p>
         <p class="info">
-          <span class="info__label"
-            ><span class="text-bold">Los administradores pueden transferir dinero sin una solicitud</span>:&nbsp;</span
-          >
-          <AppBadge :check="fund.managersCanTransferMoneyWithoutARequest" />
+          <span class="info_info">
+            <span class="label"
+              ><span class="text-bold">Los administradores pueden transferir dinero sin una solicitud</span>:&nbsp;</span
+            >
+            <AppBadge :check="fund.managersCanTransferMoneyWithoutARequest" />
+          </span>
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Las solicitudes pueden ser creadas</span>:&nbsp;</span>
-          <AppBadge :check="fund.requestsCanBeCreated" />
+          <span class="info_info">
+            <span class="label"><span class="text-bold">Las solicitudes pueden ser creadas</span>:&nbsp;</span>
+            <AppBadge :check="fund.requestsCanBeCreated" />
+          </span>
+          <span class="info_explanation"></span>
         </p>
         <p class="info">
-          <span class="info__label"
-            ><span class="text-bold">Solo los administradores pueden crear una solicitud</span>:&nbsp;</span
-          >
-          <AppBadge :check="fund.onlyManagersCanCreateARequest" />
+          <span class="info_info">
+            <span class="label"><span class="text-bold">Solo los administradores pueden crear una solicitud</span>:&nbsp;</span>
+            <AppBadge :check="fund.onlyManagersCanCreateARequest" />
+          </span>
+          <span class="info_explanation"></span>
         </p>
         <p class="info">
-          <span class="info__label"
-            ><span class="text-bold">Solo los contribuyentes pueden aprobar una solicitud</span>:&nbsp;</span
-          >
-          <AppBadge :check="fund.onlyContributorsCanApproveARequest" />
+          <span class="info_info">
+            <span class="label"><span class="text-bold">Solo los contribuyentes pueden aprobar una solicitud</span>:&nbsp;</span>
+            <AppBadge :check="fund.onlyContributorsCanApproveARequest" />
+          </span>
+          <span class="info_explanation"></span>
         </p>
         <p class="info">
-          <span class="info__label"
-            ><span class="text-bold">Mínimo porcentaje de contribución requerido para aprobar una solicitud</span>:&nbsp;</span
-          >
-          <span v-text="fund.minimumContributionPercentageRequired + '%'" />
+          <span class="info_info">
+            <span class="label"
+              ><span class="text-bold">Mínimo porcentaje de contribución requerido para aprobar una solicitud</span>:&nbsp;</span
+            >
+            <span v-text="fund.minimumContributionPercentageRequired + '%'" />
+          </span>
+          <span class="info_explanation"></span>
         </p>
         <p class="info">
-          <span class="info__label"
-            ><span class="text-bold">Mínimo porcentaje de aprobaciones requerido para finalizar una solicitud</span>:&nbsp;</span
-          >
-          <span v-text="fund.minimumApprovalsPercentageRequired + '%'" />
+          <span class="info_info">
+            <span class="label"
+              ><span class="text-bold">Mínimo porcentaje de aprobaciones requerido para finalizar una solicitud</span
+              >:&nbsp;</span
+            >
+            <span v-text="fund.minimumApprovalsPercentageRequired + '%'" />
+          </span>
+          <span class="info_explanation"></span>
         </p>
         <hr />
         <div class="buttons">
@@ -239,7 +266,7 @@ export default {
     ...mapState({
       signature: (state) => state.connection.signature,
     }),
-    ...mapGetters(['address']),
+    ...mapGetters(['address', 'validChainName']),
 
     isMyFund() {
       return compareAddresses(this.address, this.fund.creator);
@@ -677,21 +704,32 @@ export default {
 
   .info {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
 
-    @media (max-width: 600px) {
+    .info_info {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+      flex-direction: row;
+      align-items: center;
+
+      @media (max-width: 670px) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .btn-show-contributors {
+        font-size: 0.9rem;
+      }
+
+      .btn-show-contributors:focus {
+        box-shadow: none;
+      }
     }
 
-    .btn-show-contributors {
+    .info_explanation {
       font-size: 0.9rem;
-    }
-
-    .btn-show-contributors:focus {
-      box-shadow: none;
+      color: grey;
     }
   }
 
