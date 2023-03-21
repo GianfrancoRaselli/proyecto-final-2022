@@ -708,7 +708,7 @@ export default {
 
 .card-footer {
   .date {
-    font-size: 0.92rem;
+    font-size: 0.922rem;
   }
 }
 </style>
