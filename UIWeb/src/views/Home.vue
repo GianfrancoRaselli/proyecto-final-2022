@@ -27,9 +27,7 @@
       <div v-else>
         <p class="no-funds" v-if="fundsToShow.length === 0">Aún no se ha creado ningún fondo.</p>
         <div class="funds" v-else>
-          <div class="fund" v-for="(fund, index) in fundsToShow" :key="index">
-            <FundCard :fund="fund" />
-          </div>
+          <FundCard class="fund" :fund="fund" v-for="(fund, index) in fundsToShow" :key="index" />
         </div>
       </div>
     </div>
@@ -57,9 +55,7 @@
           </form>
           <p class="no-entities" v-if="entitiesToShow.length === 0">No existen entidades coincidentes con la búsqueda.</p>
           <div class="entities" v-else>
-            <div class="entity" v-for="(entity, index) in entitiesToShow" :key="index">
-              <EntityCard :entity="entity" />
-            </div>
+            <EntityCard class="entity" :entity="entity" v-for="(entity, index) in entitiesToShow" :key="index" />
           </div>
         </div>
       </div>
@@ -342,6 +338,7 @@ export default {
   }
 
   .funds {
+    padding: 0.4rem;
     padding-bottom: 1.1rem;
     overflow: auto;
     display: flex;
@@ -351,13 +348,9 @@ export default {
     gap: 1rem;
 
     .fund {
-      width: 25rem;
+      width: 28rem;
       max-width: 85%;
       flex-shrink: 0;
-      padding: 0.4rem 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
     }
   }
 
@@ -445,6 +438,7 @@ export default {
   }
 
   .entities {
+    padding: 0.4rem;
     padding-bottom: 1.1rem;
     overflow: auto;
     display: flex;
@@ -457,10 +451,6 @@ export default {
       width: 20rem;
       max-width: 85%;
       flex-shrink: 0;
-      padding: 0.4rem 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
     }
   }
 

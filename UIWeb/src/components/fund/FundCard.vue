@@ -1,33 +1,35 @@
 <template>
-  <div class="card text-center" @click="redirect">
-    <div class="card-header">
-      <span class="name" v-text="fund.name" />
-      <div class="fund-info">
-        <span class="badge badge-pill badge-primary mb-1" v-if="compareAddresses(address, fund.creator)">Mi fondo</span>
-        <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
+  <div class="card-container">
+    <div class="card text-center" @click="redirect">
+      <div class="card-header">
+        <span class="name" v-text="fund.name" />
+        <div class="fund-info">
+          <span class="badge badge-pill badge-primary mb-1" v-if="compareAddresses(address, fund.creator)">Mi fondo</span>
+          <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
+        </div>
       </div>
-    </div>
-    <div class="card-body">
-      <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
-      <img class="img" src="@/assets/imgs/fund.png" v-else />
-      <div class="info">
-        <p v-text="fund.description" v-if="fund.description" />
-        <p>
-          <span class="text-bold">Creador</span>:&nbsp;<button
-            type="button"
-            class="btn btn-link"
-            @click="openEntityModalClick"
-            data-toggle="modal"
-            :data-target="'#entityModal' + fund.creator"
-          >
-            <AppShowAddress id="creatorAddress" :address="fund.creator" :show="false" />
-          </button>
-        </p>
+      <div class="card-body">
+        <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
+        <img class="img" src="@/assets/imgs/fund.png" v-else />
+        <div class="info">
+          <p v-text="fund.description" v-if="fund.description" />
+          <p>
+            <span class="text-bold">Creador</span>:&nbsp;<button
+              type="button"
+              class="btn btn-link"
+              @click="openEntityModalClick"
+              data-toggle="modal"
+              :data-target="'#entityModal' + fund.creator"
+            >
+              <AppShowAddress id="creatorAddress" :address="fund.creator" :show="false" />
+            </button>
+          </p>
+        </div>
       </div>
+      <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
     </div>
-    <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
+    <EntityModal :address="fund.creator" />
   </div>
-  <EntityModal :address="fund.creator" />
 </template>
 
 <script>
@@ -112,10 +114,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.card-container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .card {
   word-wrap: break-word;
   word-break: break-word;
   height: 98%;
+  width: 100%;
   position: relative;
 }
 
