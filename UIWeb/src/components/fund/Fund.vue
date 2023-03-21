@@ -68,11 +68,13 @@
           </button>
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Managers can be added or removed</span>:&nbsp;</span>
+          <span class="info__label"
+            ><span class="text-bold">Los administradores pueden ser agregados o removidos</span>:&nbsp;</span
+          >
           <AppBadge :check="fund.managersCanBeAddedOrRemoved" />
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Total contributions</span>:&nbsp;</span>
+          <span class="info__label"><span class="text-bold">Contribuciones totales</span>:&nbsp;</span>
           <AppShowEth :weis="fund.totalContributions" class="mr-3" />
           <button
             type="button"
@@ -84,27 +86,37 @@
           </button>
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Managers can transfer money without a request</span>:&nbsp;</span>
+          <span class="info__label"
+            ><span class="text-bold">Los administradores pueden transferir dinero sin una solicitud</span>:&nbsp;</span
+          >
           <AppBadge :check="fund.managersCanTransferMoneyWithoutARequest" />
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Requests can be created</span>:&nbsp;</span>
+          <span class="info__label"><span class="text-bold">Las solicitudes pueden ser creadas</span>:&nbsp;</span>
           <AppBadge :check="fund.requestsCanBeCreated" />
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Only managers can create a request</span>:&nbsp;</span>
+          <span class="info__label"
+            ><span class="text-bold">Solo los administradores pueden crear una solicitud</span>:&nbsp;</span
+          >
           <AppBadge :check="fund.onlyManagersCanCreateARequest" />
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Only contributors can approve a request</span>:&nbsp;</span>
+          <span class="info__label"
+            ><span class="text-bold">Solo los contribuyentes pueden aprobar una solicitud</span>:&nbsp;</span
+          >
           <AppBadge :check="fund.onlyContributorsCanApproveARequest" />
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Minimum contribution percentage required</span>:&nbsp;</span>
+          <span class="info__label"
+            ><span class="text-bold">Mínimo porcentaje de contribución requerido para aprobar una solicitud</span>:&nbsp;</span
+          >
           <span v-text="fund.minimumContributionPercentageRequired + '%'" />
         </p>
         <p class="info">
-          <span class="info__label"><span class="text-bold">Minimum approvals percentage required</span>:&nbsp;</span>
+          <span class="info__label"
+            ><span class="text-bold">Mínimo porcentaje de aprobaciones requerido para finalizar una solicitud</span>:&nbsp;</span
+          >
           <span v-text="fund.minimumApprovalsPercentageRequired + '%'" />
         </p>
         <hr />
