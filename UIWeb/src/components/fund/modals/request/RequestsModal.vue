@@ -22,7 +22,7 @@
               </button>
             </div>
 
-            <RequestsList :loading="loading" :fund="fund" :isManager="isManager" />
+            <RequestsList class="mt-2" :loading="loading" :fund="fund" :isManager="isManager" />
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="requests-list mt-2" v-if="!loading">
+  <div class="requests-list" v-if="!loading">
     <div class="no-requests" v-if="requestsOrdered && requestsOrdered.length === 0">Sin solicitudes</div>
 
     <ul class="list-group list-group-flush" v-else>
@@ -369,10 +369,6 @@ export default {
 </script>
 
 <style scoped>
-.no-requests {
-  margin-top: 12px;
-}
-
 .list-group-item {
   border-radius: 10px;
   margin-top: 4px;

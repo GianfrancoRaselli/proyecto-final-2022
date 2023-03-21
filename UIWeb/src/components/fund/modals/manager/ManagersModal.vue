@@ -128,10 +128,6 @@ export default {
   border-bottom: 1px solid rgb(156, 156, 156);
 }
 
-.no-managers {
-  margin-top: 12px;
-}
-
 .list-group-item {
   padding: 0.6rem;
   display: flex;

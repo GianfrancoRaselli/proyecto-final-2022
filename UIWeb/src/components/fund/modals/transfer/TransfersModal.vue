@@ -124,40 +124,4 @@ export default {
   padding-bottom: 10px;
   border-bottom: 1px solid rgb(156, 156, 156);
 }
-
-.no-transfers {
-  margin-top: 12px;
-}
-
-.list-group-item {
-  padding: 0.6rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: start;
-  gap: 0.3rem;
-
-  .header {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.4rem;
-
-    .badges {
-      margin-left: auto;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      gap: 0.25rem;
-    }
-  }
-
-  .address {
-    font-weight: bold;
-  }
-}
 </style>
