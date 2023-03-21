@@ -15,30 +15,7 @@
                 <fa-icon icon="plus" class="icon mr-2" />Transferir
               </button>
             </div>
-
-            <div class="transfers-list mt-2" v-if="!loading">
-              <div class="no-transfers" v-if="transfersOrdered && transfersOrdered.length === 0">Sin transferencias</div>
-              <ul class="list-group list-group-flush" v-else>
-                <li class="list-group-item" v-for="(transfer, index) in transfersOrdered" :key="index">
-                  <div class="header">
-                    <AppDate class="date" :date="fromUnixTimestampToDate(transfer.timestamp)" />
-                    <div class="badges">
-                      <span class="badge badge-pill badge-primary" v-if="compareAddresses(transfer.sender, address)"
-                        >Mi transferencia</span
-                      >
-                      <span class="badge badge-pill badge-secondary" v-if="compareAddresses(transfer.to, address)">Receptor</span>
-                    </div>
-                  </div>
-                  <span>
-                    <AppShowAddress class="address" :address="transfer.sender" :goToProfile="true" />
-                    <span>&nbsp;transfirió&nbsp;</span>
-                    <AppShowEth :weis="transfer.value" />
-                    <span>&nbsp;a&nbsp;</span>
-                    <AppShowAddress class="address" :address="transfer.to" :goToProfile="true" />
-                  </span>
-                </li>
-              </ul>
-            </div>
+            <TransfersList class="mt-2" :loading="loading" :transfers="transfersOrdered" />
           </div>
         </div>
       </div>
@@ -55,11 +32,13 @@ import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/m
 
 // modals
 import TransferModal from '@/components/fund/modals/transfer/TransferModal.vue';
+import TransfersList from '@/components/lists/TransfersList.vue';
 
 export default {
   name: 'TransfersModalComponent',
   components: {
     TransferModal,
+    TransfersList,
   },
   props: {
     fund: { type: Object, required: true },

@@ -111,7 +111,7 @@ import { mapGetters } from 'vuex';
 import { call, event } from '@/helpers/helpers';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
-import ApprovalsModal from '@/components/modals/ApprovalsModal.vue';
+import ApprovalsModal from '@/components/modals/fund/ApprovalsModal.vue';
 
 export default {
   name: 'ProfileRequestsModalComponent',

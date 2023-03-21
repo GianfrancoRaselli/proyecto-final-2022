@@ -48,7 +48,7 @@ import RequestsList from '@/components/fund/modals/request/RequestsList.vue';
 
 // modals
 import CreateRequestModal from '@/components/fund/modals/request/CreateRequestModal.vue';
-import ApprovalsModal from '@/components/modals/ApprovalsModal.vue';
+import ApprovalsModal from '@/components/modals/fund/ApprovalsModal.vue';
 
 export default {
   name: 'RequestsModalComponent',

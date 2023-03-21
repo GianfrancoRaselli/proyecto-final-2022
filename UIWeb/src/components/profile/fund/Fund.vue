@@ -114,7 +114,7 @@ import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 // modals
 import ManagersModal from '@/components/profile/fund/modals/ManagersModal';
-import ContributorsModal from '@/components/modals/ContributorsModal.vue';
+import ContributorsModal from '@/components/modals/fund/ContributorsModal.vue';
 import ContributionsModal from '@/components/profile/fund/modals/ContributionsModal';
 import TransfersModal from '@/components/profile/fund/modals/TransfersModal';
 import RequestsModal from '@/components/profile/fund/modals/RequestsModal';
