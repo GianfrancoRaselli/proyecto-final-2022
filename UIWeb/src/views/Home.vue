@@ -263,8 +263,9 @@ export default {
 }
 
 .main-content {
-  min-height: calc(100vh - var(--navbar-height));
+  min-height: 100vh;
   padding: 2rem 0.4rem;
+  padding-top: calc(2rem + var(--navbar-height));
   background: #38849550;
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to bottom left, #38849520, #38849550);

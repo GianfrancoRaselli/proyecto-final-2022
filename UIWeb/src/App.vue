@@ -123,13 +123,13 @@ body {
 .main__page {
   width: 100%;
   max-width: 1200px;
-  margin-top: var(--navbar-height);
-  padding: 15px 25px 20px 25px;
+  padding: calc(var(--navbar-height) + 15px) 25px 20px 25px;
 }
 
 @media (max-width: 600px) {
   .main__page {
-    padding: 15px 15px 20px 15px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }
 
