@@ -763,14 +763,11 @@ export default {
     }
 
     .info_explanation {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: grey;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
 
       .icon {
-        font-size: 1rem;
+        font-size: 0.95rem;
         color: rgba(128, 128, 128, 0.8);
         margin-right: 0.4rem;
       }
