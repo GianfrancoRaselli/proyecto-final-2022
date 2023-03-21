@@ -765,7 +765,7 @@ export default {
     .info_explanation {
       font-size: 0.85rem;
       color: grey;
-
+      
       .icon {
         font-size: 0.95rem;
         color: rgba(128, 128, 128, 0.8);
