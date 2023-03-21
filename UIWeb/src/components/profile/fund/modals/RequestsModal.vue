@@ -283,7 +283,7 @@ export default {
 }
 
 .request-created {
-  background-color: rgba(255, 0, 0, 0.15);
+  background-color: rgba(255, 0, 0, 0.185);
 }
 
 .item-number {
