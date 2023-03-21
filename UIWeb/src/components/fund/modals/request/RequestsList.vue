@@ -316,10 +316,10 @@ export default {
 
 <style scoped>
 .list-group-item {
+  padding: 0.8rem;
   border-radius: 10px;
   margin-top: 4px;
   margin-bottom: 4px;
-  padding: 0.6rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

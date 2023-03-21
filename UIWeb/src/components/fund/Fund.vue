@@ -74,7 +74,12 @@
         <p class="info">
           <span class="info__label"><span class="text-bold">Total contributions</span>:&nbsp;</span>
           <AppShowEth :weis="fund.totalContributions" class="mr-3" />
-          <button type="button" class="btn btn-link btn-show-contributors" data-toggle="modal" data-target="#contributorsModal">
+          <button
+            type="button"
+            class="btn btn-link btn-show-contributors"
+            data-toggle="modal"
+            :data-target="'#contributorsModal' + fund.address"
+          >
             Ver contribuyentes
           </button>
         </p>
@@ -134,7 +139,7 @@
     <!-- modals -->
     <CreateFundModal :fund="fund" />
     <EditImageModal :fundAddress="fund.address" @update="updateImage" v-if="isMyFund" />
-    <ContributorsModal :loading="loading" :contributors="fund.contributors" />
+    <ContributorsModal :fund="fund" :loading="loading" />
     <ManagersModal :fund="fund" :isManager="isManager" />
     <ContributionsModal :fund="fund" />
     <TransfersModal :fund="fund" :isManager="isManager" />

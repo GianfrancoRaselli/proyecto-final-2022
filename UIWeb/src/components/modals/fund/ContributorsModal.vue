@@ -1,36 +1,43 @@
 <template>
   <div
     class="modal fade"
-    :id="'contributorsModal' + fundAddress"
+    :id="'contributorsModal' + fund.address"
     tabindex="-1"
-    :aria-labelledby="'contributorsModalLabel' + fundAddress"
+    :aria-labelledby="'contributorsModalLabel' + fund.address"
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" :id="'contributorsModalLabel' + fundAddress">Contribuyentes</h4>
+          <h4 class="modal-title" :id="'contributorsModalLabel' + fund.address">Contribuyentes</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="contributors-list" v-if="!loading">
-            <div class="no-contributors" v-if="contributorsOrdered && contributorsOrdered.length === 0">Sin contribuyentes</div>
+            <div class="no-contributors" v-if="contributorsOrdered.length === 0">Sin contribuyentes</div>
             <ul class="list-group list-group-flush" v-else>
               <li class="list-group-item" v-for="(contributor, index) in contributorsOrdered" :key="index">
                 <div class="item-address">
                   <span v-text="index + 1 + '. '" />
-                  <AppShowAddress
-                    :address="contributor.contributor"
-                    :goToProfile="true"
-                  />
+                  <AppShowAddress :address="contributor.contributor" :goToProfile="true" />
                   <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(contributor.contributor, address)"
                     >Mi dirección
                   </span>
                 </div>
                 <div class="item-amount">
                   <AppShowEth :weis="contributor.contribution" />
+                  <span
+                    class="percentage"
+                    data-toggle="tooltip"
+                    data-placement="left"
+                    title=""
+                    :data-original-title="
+                      convertNumberToMaxDecimals((contributor.contribution / fund.totalContributions) * 100, 3) + '%'
+                    "
+                    ><span v-text="Math.round((contributor.contribution / fund.totalContributions) * 100)"></span>%</span
+                  >
                 </div>
               </li>
             </ul>
@@ -42,15 +49,16 @@
 </template>
 
 <script>
+import $ from 'jquery';
 import { mapGetters } from 'vuex';
+import { convertNumberToMaxDecimals } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
   name: 'ContributorsModalComponent',
   props: {
-    fundAddress: { type: String, default: '' },
+    fund: { type: Object, required: true },
     loading: { type: Boolean, default: false },
-    contributors: { type: Array, required: true },
   },
   data() {
     return {};
@@ -59,21 +67,26 @@ export default {
     ...mapGetters(['address']),
 
     contributorsOrdered() {
-      return this.contributors.slice().sort((a, b) => {
+      return this.fund.contributors.slice().sort((a, b) => {
         return b.contribution - a.contribution;
       });
     },
   },
   methods: {
     compareAddresses,
+    convertNumberToMaxDecimals,
   },
-  async created() {},
+  async created() {
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .list-group-item {
-  padding: 0.6rem;
+  padding: 0.2rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -84,5 +97,17 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.item-amount {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  .percentage {
+    font-size: 0.8rem;
+    color: grey;
+  }
 }
 </style>

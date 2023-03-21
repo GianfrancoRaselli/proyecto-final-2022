@@ -100,7 +100,7 @@
       </div>
     </div>
     <ManagersModal :fundAddress="fund.address" :managers="fund.managers" />
-    <ContributorsModal :fundAddress="fund.address" :contributors="fund.contributors" />
+    <ContributorsModal :fund="fund" />
     <ContributionsModal :fundAddress="fund.address" @contributions="(amount) => (amountOfContributions = amount)" />
     <TransfersModal :fundAddress="fund.address" @transfers="(amount) => (amountOfTransfers = amount)" />
     <RequestsModal :fundAddress="fund.address" :fund="fund" @requests="(amount) => (amountOfRequests = amount)" />
