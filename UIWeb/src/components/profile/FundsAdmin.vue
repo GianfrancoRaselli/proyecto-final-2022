@@ -7,22 +7,25 @@
         <span>La entidad no es administradora de ningún fondo.</span>
       </div>
       <div v-else>
-        <Fund v-for="(fund, i) in fundsToShow" :key="i" :fund="fund" />
+        <div class="item" v-for="(fund, index) in fundsToShow" :key="index">
+          <span>
+            <span v-text="index + 1"></span>
+            <span>.&nbsp;</span>
+            <span class="hover" v-text="fund.name" @click="goToFund(fund.address)"></span>
+          </span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { goToFund } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
-
-import Fund from '@/components/profile/fund/Fund';
 
 export default {
   name: 'FundsAdminProfileComponent',
-  components: {
-    Fund,
-  },
+  components: {},
   props: {
     loading: { type: Boolean, required: true },
     funds: { type: Array, required: true },
@@ -40,17 +43,12 @@ export default {
         return false;
       });
 
-      // order
-      fundsToFilter = fundsToFilter.sort((a, b) => {
-        if (a.createdAt < b.createdAt) return 1;
-        if (a.createdAt > b.createdAt) return -1;
-        return 0;
-      });
-
       return fundsToFilter;
     },
   },
-  methods: {},
+  methods: {
+    goToFund,
+  },
   created() {},
   mounted() {},
   unmounted() {},
@@ -83,6 +81,20 @@ export default {
       justify-content: space-between;
       align-items: center;
       gap: 0.8rem;
+    }
+
+    .item {
+      padding: 0.65rem 0.55rem;
+      border: 1px solid rgb(238, 238, 238);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: start;
+      gap: 0.3rem;
+
+      .address {
+        font-weight: bold;
+      }
     }
   }
 }

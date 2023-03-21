@@ -25,7 +25,7 @@
                   class="list-group-item"
                   :class="getRequestClass(request)"
                   v-for="(request, index) in requestsOrdered"
-                  :key="index"
+                  :key="request.index"
                 >
                   <div class="item-number">
                     <span v-text="index + 1 + '.'" />
@@ -77,7 +77,7 @@
                           "
                         >
                         </span>
-                        <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(index)">Aprobado</span>
+                        <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(request.index)">Aprobada</span>
                       </span>
                     </div>
                   </div>
@@ -203,6 +203,7 @@ export default {
                     );
                   }
                   requests[index] = {
+                    index,
                     description: res.description,
                     petitioner: res.petitioner,
                     recipient: res.recipient,
@@ -225,7 +226,6 @@ export default {
 
     async getRequestsApproved() {
       this.loadingRequestsApproved = true;
-
       try {
         let requestsApproved = [];
         if (this.address) {

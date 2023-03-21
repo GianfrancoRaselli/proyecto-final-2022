@@ -3,7 +3,12 @@
     <div class="no-requests" v-if="requestsOrdered && requestsOrdered.length === 0">Sin solicitudes</div>
 
     <ul class="list-group list-group-flush" v-else>
-      <li class="list-group-item" :class="getRequestClass(request)" v-for="(request, index) in requestsOrdered" :key="index">
+      <li
+        class="list-group-item"
+        :class="getRequestClass(request)"
+        v-for="(request, index) in requestsOrdered"
+        :key="request.index"
+      >
         <div class="item-number pr-3">
           <span v-text="index + 1 + '.'" />
         </div>
@@ -55,26 +60,36 @@
                   "
                 >
                 </span>
-                <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(index)">Aprobado</span>
+                <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(request.index)">Aprobada</span>
               </span>
             </div>
           </div>
 
-          <div class="content-buttons" v-if="!request.complete && (!requestApproved(index) || canFinalize(request))">
-            <div class="button" v-if="!requestApproved(index)">
-              <button type="button" class="btn btn-primary btn-sm" v-if="!approving(index)" @click="approveRequest(index)">
+          <div class="content-buttons" v-if="!request.complete && (!requestApproved(request.index) || canFinalize(request))">
+            <div class="button" v-if="!requestApproved(request.index)">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                v-if="!approving(request.index)"
+                @click="approveRequest(request.index)"
+              >
                 <fa-icon icon="thumbs-up" class="icon mr-2" />Aprobar
               </button>
-              <button class="btn btn-primary btn-sm" type="button" disabled v-if="approving(index)">
+              <button class="btn btn-primary btn-sm" type="button" disabled v-if="approving(request.index)">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
               </button>
             </div>
 
             <div class="button" v-if="canFinalize(request)">
-              <button type="button" class="btn btn-dark btn-sm" v-if="!finalizing(index)" @click="finalizeRequest(index)">
+              <button
+                type="button"
+                class="btn btn-dark btn-sm"
+                v-if="!finalizing(request.index)"
+                @click="finalizeRequest(request.index)"
+              >
                 <fa-icon icon="square-arrow-up-right" class="icon mr-2" />Finalizar
               </button>
-              <button class="btn btn-dark btn-sm" type="button" disabled v-if="finalizing(index)">
+              <button class="btn btn-dark btn-sm" type="button" disabled v-if="finalizing(request.index)">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
               </button>
             </div>
@@ -406,7 +421,7 @@ export default {
 }
 
 .content-buttons {
-  min-width: 120px;
+  min-width: 8rem;
   padding-left: 1rem;
   border-left: 1px solid rgb(163, 163, 163);
   display: flex;

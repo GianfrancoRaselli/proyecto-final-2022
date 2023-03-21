@@ -414,6 +414,7 @@ export default {
                                 }
                                 fundRequests[requestIndex] = {
                                   fundIndex,
+                                  index: requestIndex,
                                   description: res.description,
                                   petitioner: res.petitioner,
                                   recipient: res.recipient,

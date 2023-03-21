@@ -7,23 +7,37 @@
         <span>La entidad no ha creado ninguna solicitud aún.</span>
       </div>
       <div v-else>
-        <div class="item" :class="getRequestClass(request)" v-for="(request, index) in requestsToShow" :key="index">
+        <div class="item" :class="getRequestClass(request)" v-for="request in requestsToShow" :key="request.index">
           <div class="header">
             <AppDate class="date" :date="fromUnixTimestampToDate(request.timestamp)" />
           </div>
           <div class="content">
             <div class="info">
               <span class="info__label"><span class="text-bold">Fondo</span>:&nbsp;</span>
-              <span class="hover" v-text="funds[request.fundIndex].name" :goToFund="true"></span>
+              <span
+                class="hover"
+                v-text="funds[request.fundIndex].name"
+                @click="goToFund(funds[request.fundIndex].address)"
+              ></span>
             </div>
             <div class="info" v-text="request.description" v-if="request.description" />
             <div class="info" v-if="request.petitioner">
               <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
-              <AppShowAddress :address="request.petitioner" :goToProfile="true" />
+              <span class="info__info">
+                <AppShowAddress :address="request.petitioner" :goToProfile="true" />
+                <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)">
+                  Mi dirección
+                </span>
+              </span>
             </div>
             <div class="info" v-if="request.recipient">
               <span class="info__label"><span class="text-bold">Destinatario</span>:&nbsp;</span>
-              <AppShowAddress :address="request.recipient" :goToProfile="true" />
+              <span class="info__info">
+                <AppShowAddress :address="request.recipient" :goToProfile="true" />
+                <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">
+                  Mi dirección
+                </span>
+              </span>
             </div>
             <div class="info">
               <span class="info__label"><span class="text-bold">Valor a transferir</span>:&nbsp;</span>
@@ -59,6 +73,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { goToFund } from '@/helpers/helpers';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
@@ -73,6 +89,8 @@ export default {
     return {};
   },
   computed: {
+    ...mapGetters(['address']),
+
     requestsToShow() {
       let requestsToShow = this.requests.slice();
 
@@ -93,7 +111,9 @@ export default {
   },
   watch: {},
   methods: {
+    compareAddresses,
     fromUnixTimestampToDate,
+    goToFund,
 
     getRequestClass(request) {
       if (request.complete) return 'request-completed';
@@ -208,10 +228,12 @@ export default {
             flex-direction: column;
             align-items: flex-start;
           }
-        }
 
-        .address {
-          font-weight: bold;
+          .info__info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+          }
         }
       }
     }

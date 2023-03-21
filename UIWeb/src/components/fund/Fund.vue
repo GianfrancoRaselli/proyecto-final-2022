@@ -436,6 +436,7 @@ export default {
                       );
                     }
                     requests[index] = {
+                      index,
                       description: res.description,
                       petitioner: res.petitioner,
                       recipient: res.recipient,
