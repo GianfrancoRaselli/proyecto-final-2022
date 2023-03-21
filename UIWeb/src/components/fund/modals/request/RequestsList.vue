@@ -64,7 +64,7 @@
               </span>
             </div>
             <div class="info">
-              <button type="button" class="btn btn-link btn-show-contributors" @click="goToApprovals(request.index)">
+              <button type="button" class="btn btn-link btn-show-approvals" @click="goToApprovals(request.index)">
                 Ver aprobaciones
               </button>
             </div>
@@ -429,7 +429,7 @@ export default {
 }
 
 .btn-show-approvals {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
 }
 
 .btn-show-approvals:focus {

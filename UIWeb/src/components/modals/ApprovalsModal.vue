@@ -1,15 +1,15 @@
 <template>
   <div
     class="modal fade"
-    :id="'approvalsModal' + fundAddress + requestIndex"
+    :id="'approvalsModal' + fundAddress + requestIndex + from"
     tabindex="-1"
-    :aria-labelledby="'approvalsModalLabel' + fundAddress + requestIndex"
+    :aria-labelledby="'approvalsModalLabel' + fundAddress + requestIndex + from"
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" :id="'approvalsModalLabel' + fundAddress + requestIndex">Aprobaciones</h4>
+          <h4 class="modal-title" :id="'approvalsModalLabel' + fundAddress + requestIndex + from">Aprobaciones</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" v-if="!backTo">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -48,6 +48,7 @@ export default {
   props: {
     fundAddress: { type: String, required: true },
     requestIndex: { type: Number, required: true },
+    from: { type: String, default: '' },
     backTo: { type: String, default: '' },
     listenNewApprovals: { type: Boolean, default: false },
   },

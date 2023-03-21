@@ -80,6 +80,11 @@
                         <span class="badge badge-pill badge-success ml-1" v-if="requestApproved(request.index)">Aprobada</span>
                       </span>
                     </div>
+                    <div class="info">
+                      <button type="button" class="btn btn-link btn-show-approvals" @click="goToApprovals(request.index)">
+                        Ver aprobaciones
+                      </button>
+                    </div>
                   </div>
                 </li>
               </ul>
@@ -88,17 +93,31 @@
         </div>
       </div>
     </div>
+    <div v-if="!loadingRequests">
+      <ApprovalsModal
+        :fundAddress="fundAddress"
+        :requestIndex="request.index"
+        :backTo="'profileRequestsModal' + fundAddress"
+        v-for="request in requests"
+        :key="request.index"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import $ from 'jquery';
 import { mapGetters } from 'vuex';
 import { call, event } from '@/helpers/helpers';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
+import ApprovalsModal from '@/components/modals/ApprovalsModal.vue';
+
 export default {
   name: 'ProfileRequestsModalComponent',
-  components: {},
+  components: {
+    ApprovalsModal,
+  },
   props: {
     fundAddress: { type: String, required: true },
     fund: { type: Object, required: true },
@@ -126,6 +145,11 @@ export default {
   methods: {
     compareAddresses,
     fromUnixTimestampToDate,
+
+    goToApprovals(requestIndex) {
+      $('#profileRequestsModal' + this.fund.address).modal('hide');
+      $('#approvalsModal' + this.fund.address + requestIndex).modal('show');
+    },
 
     getRequestClass(request) {
       if (request.complete) return 'request-completed';
@@ -311,6 +335,14 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.btn-show-approvals {
+  font-size: 0.92rem;
+}
+
+.btn-show-approvals:focus {
+  box-shadow: none;
 }
 
 @media (max-width: 430px) {

@@ -24,7 +24,7 @@ import { goToFund } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
-  name: 'FundsAdminProfileComponent',
+  name: 'ProfileFundsAdminComponent',
   components: {},
   props: {
     loading: { type: Boolean, required: true },

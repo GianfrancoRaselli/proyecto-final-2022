@@ -33,7 +33,7 @@ import { event, goToFund } from '@/helpers/helpers';
 import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
-  name: 'ContributionsProfileComponent',
+  name: 'ProfileContributionsComponent',
   components: {},
   props: {
     funds: { type: Array, required: true },

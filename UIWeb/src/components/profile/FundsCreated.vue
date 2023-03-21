@@ -19,7 +19,7 @@ import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import Fund from '@/components/profile/fund/Fund';
 
 export default {
-  name: 'FundsCreatedProfileComponent',
+  name: 'ProfileFundsCreatedComponent',
   components: {
     Fund,
   },
