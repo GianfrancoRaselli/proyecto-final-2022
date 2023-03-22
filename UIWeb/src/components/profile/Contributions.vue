@@ -12,11 +12,7 @@
             <AppDate class="date" :date="fromUnixTimestampToDate(contribution.timestamp)" />
           </div>
           <span>
-            <AppShowAddress
-              class="address"
-              :address="contribution.contributor"
-              :goToProfile="true"
-            />
+            <AppShowAddress class="address" :address="contribution.contributor" :goToProfile="true" />
             <span>&nbsp;contribuyó&nbsp;</span>
             <AppShowEth :weis="contribution.value" />
             <span>&nbsp;al fondo:&nbsp;</span>
@@ -74,16 +70,18 @@ export default {
                   'Contribute',
                   { filter: { contributor: this.$route.params.address } },
                   async (events) => {
-                    events.forEach(async (event) => {
+                    let contributions = [];
+                    for (const event of events) {
                       const block = await this.$store.state.connection.infuraWeb3.eth.getBlock(event.blockNumber);
-                      this.contributions.push({
+                      contributions.push({
                         fundAddress: this.funds[index].address,
                         fundName: this.funds[index].name,
                         contributor: event.returnValues.contributor,
                         value: event.returnValues.value,
                         timestamp: block.timestamp,
                       });
-                    });
+                    }
+                    this.contributions = contributions;
                   },
                   true,
                 );

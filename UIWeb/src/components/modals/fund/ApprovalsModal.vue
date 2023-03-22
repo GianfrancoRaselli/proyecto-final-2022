@@ -90,14 +90,15 @@ export default {
           'ApproveRequest',
           { filter: { requestIndex: this.requestIndex.toString() } },
           async (events) => {
-            this.approvals = [];
-            events.forEach(async (event) => {
+            let approvals = [];
+            for (const event of events) {
               const block = await this.$store.state.connection.infuraWeb3.eth.getBlock(event.blockNumber);
-              this.approvals.push({
+              approvals.push({
                 approver: event.returnValues.approver,
                 timestamp: block.timestamp,
               });
-            });
+            }
+            this.approvals = approvals;
           },
           true,
         );

@@ -2,7 +2,7 @@ import ganacheAddresses from '@/assets/addresses/ganache.json';
 import goerliAddresses from '@/assets/addresses/goerli.json';
 
 // configurable
-const forceProduction = true;
+const forceProduction = false;
 
 const serverUrlLocalhost = 'http://localhost:4000/';
 const serverUrlProduction = 'https://proyecto-final-2022-server.onrender.com/';

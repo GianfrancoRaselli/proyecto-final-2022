@@ -40,9 +40,10 @@ export default {
                   'Transfer',
                   { filter: { sender: this.$route.params.address } },
                   async (events) => {
-                    events.forEach(async (event) => {
+                    let transfers = [];
+                    for (const event of events) {
                       const block = await this.$store.state.connection.infuraWeb3.eth.getBlock(event.blockNumber);
-                      this.transfers.push({
+                      transfers.push({
                         fundAddress: this.funds[index].address,
                         fundName: this.funds[index].name,
                         sender: event.returnValues.sender,
@@ -50,7 +51,8 @@ export default {
                         value: event.returnValues.value,
                         timestamp: block.timestamp,
                       });
-                    });
+                    }
+                    this.transfers = transfers;
                   },
                   true,
                 );
