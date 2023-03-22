@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p class="page-title">Crear nuevo fondo</p>
     <CreateFundForm />
   </div>
 </template>

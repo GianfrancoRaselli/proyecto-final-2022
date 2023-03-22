@@ -1,390 +1,378 @@
 <template>
-  <div class="container">
-    <form class="form" @submit.prevent="handleSubmit">
-      <div class="form-title mb-3">
-        <span class="h2">Crear fondo</span>
-      </div>
-
-      <div class="information mb-3">
-        <div class="information-title">Información importante</div>
-        <div class="information-info">
-          <div>
-            <fa-icon icon="angle-right" class="icon mr-2"></fa-icon
-            ><span class="info"
-              >Crear un nuevo fondo cuesta 1 FundToken. Por lo tanto, necesitas contar con dicho token en MetaMask, el cual será
-              debitado automáticamente al crear el fondo.</span
-            >
-          </div>
-          <div class="separator"></div>
-          <div>
-            <fa-icon icon="angle-right" class="icon mr-2"></fa-icon>
-            <span class="info"
-              >Todos los datos que ingreses a continuación serán almacenados en la cadena de bloques. Por lo tanto, no podrán ser
-              modificados una vez creado el fondo.</span
-            >
-          </div>
-        </div>
-      </div>
-
-      <!-- Fund Information -->
-      <div class="fund-information">
-        <div class="form-section">
-          <span class="title">Información del fondo</span>
-          <span class="step">Paso 1 de 3</span>
-        </div>
-
-        <div class="form-group">
-          <label for="typeInput">Tipo</label>
-          <div class="info-input">
-            <select id="typeInput" class="form-control" v-model="data.type" :disabled="loading">
-              <option
-                v-for="(type, i) in types"
-                :key="i"
-                v-text="type.type"
-                :value="type.value"
-                :selected="type.selected"
-              ></option>
-            </select>
-            <div class="info">
-              <fa-icon icon="question" class="icon" :class="{ 'icon-active': info.type }" @click="info.type = !info.type" />
-              <div class="my-tooltip" v-if="info.type">
-                Le ofrecemos la facilidad de seleccionar 3 tipos de fondos diferentes que vienen con diferentes parámetros ya
-                configurados para su uso. En caso de querer una configuración al 100% puede optar por elegir un "fondo
-                personalizado".
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="nameInput">Nombre</label>
-          <div class="info-input">
-            <input
-              type="text"
-              class="form-control"
-              :class="{ 'is-invalid': v$.data.name.$errors.length }"
-              id="nameInput"
-              aria-describedby="nameHelp"
-              autofocus
-              v-model="data.name"
-              :disabled="loading"
-            />
-            <div class="info">
-              <fa-icon icon="question" class="icon" :class="{ 'icon-active': info.name }" @click="info.name = !info.name" />
-              <div class="my-tooltip" v-if="info.name">Nombre identificatorio del fondo.</div>
-            </div>
-          </div>
-          <small id="nameHelp" class="form-text text-muted"></small>
-          <AppInputErrors :errors="v$.data.name.$errors" />
-        </div>
-
-        <!-- Managers Information -->
-        <div class="managers-information">
-          <div class="form-section">
-            <span class="title">Información de los administradores</span>
-            <span class="step">Paso 2 de 3</span>
-          </div>
-
-          <div class="form-group">
-            <div class="info-input">
-              <div class="custom-control custom-switch">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="addMeAsAManagerInput"
-                  v-model="data.addMeAsAManager"
-                  :disabled="data.type === 'campaign' || data.type === 'donation' || loading"
-                />
-                <label class="custom-control-label" for="addMeAsAManagerInput">Agregarme como administrador</label>
-              </div>
-              <div class="info">
-                <fa-icon
-                  icon="question"
-                  class="icon"
-                  :class="{ 'icon-active': info.addMeAsAManager }"
-                  @click="info.addMeAsAManager = !info.addMeAsAManager"
-                />
-                <div class="my-tooltip" v-if="info.addMeAsAManager">
-                  Un administrador podrá tener la facultad de: agregar y remover nuevos administradores, transferir dinero del
-                  fondo sin una solicitud previa, crear solicitudes de retiro de dinero, aprobar solicitudes sin haber aportado al
-                  fondo previamente.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="managersInput">Administradores<span class="extra-info">Opcional</span></label>
-            <div class="info-input">
-              <textarea
-                class="form-control"
-                :class="{ 'is-invalid': v$.data.managers.$errors.length }"
-                id="managersInput"
-                rows="3"
-                aria-describedby="managersHelp"
-                v-model="data.managers"
-                :disabled="loading"
-              ></textarea>
-              <div class="info">
-                <fa-icon
-                  icon="question"
-                  class="icon"
-                  :class="{ 'icon-active': info.managers }"
-                  @click="info.managers = !info.managers"
-                />
-                <div class="my-tooltip" v-if="info.managers">
-                  Aquí puede agregar todos los administradores que desee, por ejemplo: 0x83bCaE28bdc13DA35617A1d648729CD373111dA9,
-                  0x3Df8Aea0789c1007E5e6F6876773A1dce65b41Be.
-                </div>
-              </div>
-            </div>
-            <small id="managersHelp" class="form-text text-muted"
-              >Ingrese la dirección de otros administradores separados por coma (,)</small
-            >
-            <AppInputErrors :errors="v$.data.managers.$errors" />
-          </div>
-
-          <div class="form-group">
-            <div class="info-input">
-              <div class="custom-control custom-switch">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="managersCanBeAddedOrRemovedInput"
-                  v-model="data.managersCanBeAddedOrRemoved"
-                  :disabled="data.type !== '' || loading"
-                />
-                <label class="custom-control-label" for="managersCanBeAddedOrRemovedInput"
-                  >Los administradores pueden ser agregados o removidos</label
-                >
-              </div>
-              <div class="info">
-                <fa-icon
-                  icon="question"
-                  class="icon"
-                  :class="{ 'icon-active': info.managersCanBeAddedOrRemoved }"
-                  @click="info.managersCanBeAddedOrRemoved = !info.managersCanBeAddedOrRemoved"
-                />
-                <div class="my-tooltip" v-if="info.managersCanBeAddedOrRemoved">
-                  Si esta opción está activada los administradores agregados anteriormente podrán agregar o remover a nuevos
-                  administradores.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Requests Information -->
-      <div class="requests-information">
-        <div class="form-section">
-          <span class="title">Información de las solicitudes</span>
-          <span class="step">Paso 3 de 3</span>
-        </div>
-
-        <div class="form-group">
-          <div class="info-input">
-            <div class="custom-control custom-switch">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="managersCanTransferMoneyWithoutARequestInput"
-                v-model="data.managersCanTransferMoneyWithoutARequest"
-                :disabled="data.type !== '' || loading"
-              />
-              <label class="custom-control-label" for="managersCanTransferMoneyWithoutARequestInput"
-                >Los administradores pueden transferir dinero sin una solicitud</label
-              >
-            </div>
-            <div class="info">
-              <fa-icon
-                icon="question"
-                class="icon"
-                :class="{ 'icon-active': info.managersCanTransferMoneyWithoutARequest }"
-                @click="info.managersCanTransferMoneyWithoutARequest = !info.managersCanTransferMoneyWithoutARequest"
-              />
-              <div class="my-tooltip" v-if="info.managersCanTransferMoneyWithoutARequest">
-                Si esta opción esta activada los administradores podrán transferir el dinero del fondo sin crear una solicitud
-                previa.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="info-input">
-            <div class="custom-control custom-switch">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="requestsCanBeCreatedInput"
-                v-model="data.requestsCanBeCreated"
-                :disabled="data.type !== '' || loading"
-              />
-              <label class="custom-control-label" for="requestsCanBeCreatedInput">Las solicitudes pueden ser creadas</label>
-            </div>
-            <div class="info">
-              <fa-icon
-                icon="question"
-                class="icon"
-                :class="{ 'icon-active': info.requestsCanBeCreated }"
-                @click="info.requestsCanBeCreated = !info.requestsCanBeCreated"
-              />
-              <div class="my-tooltip" v-if="info.requestsCanBeCreated">
-                Si esta opción esta activada estará habilitada la función de crear solicitudes para retirar dinero del fondo. En
-                caso contrario, solo podrán retirar dinero los administradores.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="info-input">
-            <div class="custom-control custom-switch">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="onlyManagersCanCreateARequestInput"
-                v-model="data.onlyManagersCanCreateARequest"
-                :disabled="data.type !== '' || !data.requestsCanBeCreated || loading"
-              />
-              <label class="custom-control-label" for="onlyManagersCanCreateARequestInput"
-                >Solo los administradores pueden crear una solicitud</label
-              >
-            </div>
-            <div class="info">
-              <fa-icon
-                icon="question"
-                class="icon"
-                :class="{ 'icon-active': info.onlyManagersCanCreateARequest }"
-                @click="info.onlyManagersCanCreateARequest = !info.onlyManagersCanCreateARequest"
-              />
-              <div class="my-tooltip" v-if="info.onlyManagersCanCreateARequest">
-                Si esta opción esta activada solo los administradores podrán crear solicitudes para retirar dinero del fondo. En
-                caso contrario, cualquier entidad puede crear una solicitud que luego deberá ser aprobada para retirar el dinero.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="info-input">
-            <div class="custom-control custom-switch">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="onlyContributorsCanApproveARequestInput"
-                v-model="data.onlyContributorsCanApproveARequest"
-                :disabled="data.type !== '' || !data.requestsCanBeCreated || loading"
-              />
-              <label class="custom-control-label" for="onlyContributorsCanApproveARequestInput"
-                >Solo los contribuyentes pueden aprobar una solicitud</label
-              >
-            </div>
-            <div class="info">
-              <fa-icon
-                icon="question"
-                class="icon"
-                :class="{ 'icon-active': info.onlyContributorsCanApproveARequest }"
-                @click="info.onlyContributorsCanApproveARequest = !info.onlyContributorsCanApproveARequest"
-              />
-              <div class="my-tooltip" v-if="info.onlyContributorsCanApproveARequest">
-                Si esta opción esta activada solo los contribuyentes del fondo podrán aprobar una solicitud de retiro de dinero.
-                En caso contrario, los administradores también podrán hacerlo sin haber aportado al fondo previamente.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="minimumContributionPercentageRequiredInput"
-            >Mínimo porcentaje de contribución requerido para aprobar una solicitud</label
+  <form class="form" @submit.prevent="handleSubmit">
+    <div class="information mb-3">
+      <div class="information-title">Información importante</div>
+      <div class="information-info">
+        <div>
+          <fa-icon icon="angle-right" class="icon mr-2"></fa-icon
+          ><span class="info"
+            >Crear un nuevo fondo cuesta 1 FundToken. Por lo tanto, necesitas contar con dicho token en MetaMask, el cual será
+            debitado automáticamente al crear el fondo.</span
           >
+        </div>
+        <div class="separator"></div>
+        <div>
+          <fa-icon icon="angle-right" class="icon mr-2"></fa-icon>
+          <span class="info"
+            >Todos los datos que ingreses a continuación serán almacenados en la cadena de bloques. Por lo tanto, no podrán ser
+            modificados una vez creado el fondo.</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Fund Information -->
+    <div class="fund-information">
+      <div class="form-section">
+        <span class="title">Información del fondo</span>
+        <span class="step">Paso 1 de 3</span>
+      </div>
+
+      <div class="form-group">
+        <label for="typeInput">Tipo</label>
+        <div class="info-input">
+          <select id="typeInput" class="form-control" v-model="data.type" :disabled="loading">
+            <option v-for="(type, i) in types" :key="i" v-text="type.type" :value="type.value" :selected="type.selected"></option>
+          </select>
+          <div class="info">
+            <fa-icon icon="question" class="icon" :class="{ 'icon-active': info.type }" @click="info.type = !info.type" />
+            <div class="my-tooltip" v-if="info.type">
+              Le ofrecemos la facilidad de seleccionar 3 tipos de fondos diferentes que vienen con diferentes parámetros ya
+              configurados para su uso. En caso de querer una configuración al 100% puede optar por elegir un "fondo
+              personalizado".
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="nameInput">Nombre</label>
+        <div class="info-input">
           <input
-            type="range"
-            class="form-control-range"
+            type="text"
+            class="form-control"
+            :class="{ 'is-invalid': v$.data.name.$errors.length }"
+            id="nameInput"
+            aria-describedby="nameHelp"
+            autofocus
+            v-model="data.name"
+            :disabled="loading"
+          />
+          <div class="info">
+            <fa-icon icon="question" class="icon" :class="{ 'icon-active': info.name }" @click="info.name = !info.name" />
+            <div class="my-tooltip" v-if="info.name">Nombre identificatorio del fondo.</div>
+          </div>
+        </div>
+        <small id="nameHelp" class="form-text text-muted"></small>
+        <AppInputErrors :errors="v$.data.name.$errors" />
+      </div>
+
+      <!-- Managers Information -->
+      <div class="managers-information">
+        <div class="form-section">
+          <span class="title">Información de los administradores</span>
+          <span class="step">Paso 2 de 3</span>
+        </div>
+
+        <div class="form-group">
+          <div class="info-input">
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="addMeAsAManagerInput"
+                v-model="data.addMeAsAManager"
+                :disabled="data.type === 'campaign' || data.type === 'donation' || loading"
+              />
+              <label class="custom-control-label" for="addMeAsAManagerInput">Agregarme como administrador</label>
+            </div>
+            <div class="info">
+              <fa-icon
+                icon="question"
+                class="icon"
+                :class="{ 'icon-active': info.addMeAsAManager }"
+                @click="info.addMeAsAManager = !info.addMeAsAManager"
+              />
+              <div class="my-tooltip" v-if="info.addMeAsAManager">
+                Un administrador podrá tener la facultad de: agregar y remover nuevos administradores, transferir dinero del fondo
+                sin una solicitud previa, crear solicitudes de retiro de dinero, aprobar solicitudes sin haber aportado al fondo
+                previamente.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="managersInput">Administradores<span class="extra-info">Opcional</span></label>
+          <div class="info-input">
+            <textarea
+              class="form-control"
+              :class="{ 'is-invalid': v$.data.managers.$errors.length }"
+              id="managersInput"
+              rows="3"
+              aria-describedby="managersHelp"
+              v-model="data.managers"
+              :disabled="loading"
+            ></textarea>
+            <div class="info">
+              <fa-icon
+                icon="question"
+                class="icon"
+                :class="{ 'icon-active': info.managers }"
+                @click="info.managers = !info.managers"
+              />
+              <div class="my-tooltip" v-if="info.managers">
+                Aquí puede agregar todos los administradores que desee, por ejemplo: 0x83bCaE28bdc13DA35617A1d648729CD373111dA9,
+                0x3Df8Aea0789c1007E5e6F6876773A1dce65b41Be.
+              </div>
+            </div>
+          </div>
+          <small id="managersHelp" class="form-text text-muted"
+            >Ingrese la dirección de otros administradores separados por coma (,)</small
+          >
+          <AppInputErrors :errors="v$.data.managers.$errors" />
+        </div>
+
+        <div class="form-group">
+          <div class="info-input">
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="managersCanBeAddedOrRemovedInput"
+                v-model="data.managersCanBeAddedOrRemoved"
+                :disabled="data.type !== '' || loading"
+              />
+              <label class="custom-control-label" for="managersCanBeAddedOrRemovedInput"
+                >Los administradores pueden ser agregados o removidos</label
+              >
+            </div>
+            <div class="info">
+              <fa-icon
+                icon="question"
+                class="icon"
+                :class="{ 'icon-active': info.managersCanBeAddedOrRemoved }"
+                @click="info.managersCanBeAddedOrRemoved = !info.managersCanBeAddedOrRemoved"
+              />
+              <div class="my-tooltip" v-if="info.managersCanBeAddedOrRemoved">
+                Si esta opción está activada los administradores agregados anteriormente podrán agregar o remover a nuevos
+                administradores.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Requests Information -->
+    <div class="requests-information">
+      <div class="form-section">
+        <span class="title">Información de las solicitudes</span>
+        <span class="step">Paso 3 de 3</span>
+      </div>
+
+      <div class="form-group">
+        <div class="info-input">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="managersCanTransferMoneyWithoutARequestInput"
+              v-model="data.managersCanTransferMoneyWithoutARequest"
+              :disabled="data.type !== '' || loading"
+            />
+            <label class="custom-control-label" for="managersCanTransferMoneyWithoutARequestInput"
+              >Los administradores pueden transferir dinero sin una solicitud</label
+            >
+          </div>
+          <div class="info">
+            <fa-icon
+              icon="question"
+              class="icon"
+              :class="{ 'icon-active': info.managersCanTransferMoneyWithoutARequest }"
+              @click="info.managersCanTransferMoneyWithoutARequest = !info.managersCanTransferMoneyWithoutARequest"
+            />
+            <div class="my-tooltip" v-if="info.managersCanTransferMoneyWithoutARequest">
+              Si esta opción esta activada los administradores podrán transferir el dinero del fondo sin crear una solicitud
+              previa.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="info-input">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="requestsCanBeCreatedInput"
+              v-model="data.requestsCanBeCreated"
+              :disabled="data.type !== '' || loading"
+            />
+            <label class="custom-control-label" for="requestsCanBeCreatedInput">Las solicitudes pueden ser creadas</label>
+          </div>
+          <div class="info">
+            <fa-icon
+              icon="question"
+              class="icon"
+              :class="{ 'icon-active': info.requestsCanBeCreated }"
+              @click="info.requestsCanBeCreated = !info.requestsCanBeCreated"
+            />
+            <div class="my-tooltip" v-if="info.requestsCanBeCreated">
+              Si esta opción esta activada estará habilitada la función de crear solicitudes para retirar dinero del fondo. En
+              caso contrario, solo podrán retirar dinero los administradores.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="info-input">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="onlyManagersCanCreateARequestInput"
+              v-model="data.onlyManagersCanCreateARequest"
+              :disabled="data.type !== '' || !data.requestsCanBeCreated || loading"
+            />
+            <label class="custom-control-label" for="onlyManagersCanCreateARequestInput"
+              >Solo los administradores pueden crear una solicitud</label
+            >
+          </div>
+          <div class="info">
+            <fa-icon
+              icon="question"
+              class="icon"
+              :class="{ 'icon-active': info.onlyManagersCanCreateARequest }"
+              @click="info.onlyManagersCanCreateARequest = !info.onlyManagersCanCreateARequest"
+            />
+            <div class="my-tooltip" v-if="info.onlyManagersCanCreateARequest">
+              Si esta opción esta activada solo los administradores podrán crear solicitudes para retirar dinero del fondo. En
+              caso contrario, cualquier entidad puede crear una solicitud que luego deberá ser aprobada para retirar el dinero.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="info-input">
+          <div class="custom-control custom-switch">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="onlyContributorsCanApproveARequestInput"
+              v-model="data.onlyContributorsCanApproveARequest"
+              :disabled="data.type !== '' || !data.requestsCanBeCreated || loading"
+            />
+            <label class="custom-control-label" for="onlyContributorsCanApproveARequestInput"
+              >Solo los contribuyentes pueden aprobar una solicitud</label
+            >
+          </div>
+          <div class="info">
+            <fa-icon
+              icon="question"
+              class="icon"
+              :class="{ 'icon-active': info.onlyContributorsCanApproveARequest }"
+              @click="info.onlyContributorsCanApproveARequest = !info.onlyContributorsCanApproveARequest"
+            />
+            <div class="my-tooltip" v-if="info.onlyContributorsCanApproveARequest">
+              Si esta opción esta activada solo los contribuyentes del fondo podrán aprobar una solicitud de retiro de dinero. En
+              caso contrario, los administradores también podrán hacerlo sin haber aportado al fondo previamente.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="minimumContributionPercentageRequiredInput"
+          >Mínimo porcentaje de contribución requerido para aprobar una solicitud</label
+        >
+        <input
+          type="range"
+          class="form-control-range"
+          id="minimumContributionPercentageRequiredInput"
+          v-model="data.minimumContributionPercentageRequired"
+          :disabled="!data.requestsCanBeCreated || loading"
+        />
+      </div>
+
+      <div class="form-group">
+        <div class="info-input">
+          <input
+            type="number"
+            class="form-control"
+            :class="{ 'is-invalid': v$.data.minimumContributionPercentageRequired.$errors.length }"
             id="minimumContributionPercentageRequiredInput"
+            aria-describedby="minimumContributionPercentageRequiredHelp"
             v-model="data.minimumContributionPercentageRequired"
             :disabled="!data.requestsCanBeCreated || loading"
           />
-        </div>
-
-        <div class="form-group">
-          <div class="info-input">
-            <input
-              type="number"
-              class="form-control"
-              :class="{ 'is-invalid': v$.data.minimumContributionPercentageRequired.$errors.length }"
-              id="minimumContributionPercentageRequiredInput"
-              aria-describedby="minimumContributionPercentageRequiredHelp"
-              v-model="data.minimumContributionPercentageRequired"
-              :disabled="!data.requestsCanBeCreated || loading"
+          <div class="info">
+            <fa-icon
+              icon="question"
+              class="icon"
+              :class="{ 'icon-active': info.minimumContributionPercentageRequired }"
+              @click="info.minimumContributionPercentageRequired = !info.minimumContributionPercentageRequired"
             />
-            <div class="info">
-              <fa-icon
-                icon="question"
-                class="icon"
-                :class="{ 'icon-active': info.minimumContributionPercentageRequired }"
-                @click="info.minimumContributionPercentageRequired = !info.minimumContributionPercentageRequired"
-              />
-              <div class="my-tooltip" v-if="info.minimumContributionPercentageRequired">
-                Porcentaje mínimo de dinero que una entidad debe aportar al total historico de contribuciones del fondo para poder
-                aprobar una solicitud de retiro de dinero.
-              </div>
+            <div class="my-tooltip" v-if="info.minimumContributionPercentageRequired">
+              Porcentaje mínimo de dinero que una entidad debe aportar al total historico de contribuciones del fondo para poder
+              aprobar una solicitud de retiro de dinero.
             </div>
           </div>
-          <AppInputErrors :errors="v$.data.minimumContributionPercentageRequired.$errors" />
         </div>
+        <AppInputErrors :errors="v$.data.minimumContributionPercentageRequired.$errors" />
+      </div>
 
-        <div class="form-group">
-          <label for="minimumApprovalsPercentageRequiredInput"
-            >Mínimo porcentaje de aprobaciones requerido para finalizar una solicitud</label
-          >
+      <div class="form-group">
+        <label for="minimumApprovalsPercentageRequiredInput"
+          >Mínimo porcentaje de aprobaciones requerido para finalizar una solicitud</label
+        >
+        <input
+          type="range"
+          class="form-control-range"
+          id="minimumApprovalsPercentageRequiredInput"
+          v-model="data.minimumApprovalsPercentageRequired"
+          :disabled="!data.requestsCanBeCreated || loading"
+        />
+      </div>
+
+      <div class="form-group">
+        <div class="info-input">
           <input
-            type="range"
-            class="form-control-range"
+            type="number"
+            class="form-control"
+            :class="{ 'is-invalid': v$.data.minimumApprovalsPercentageRequired.$errors.length }"
             id="minimumApprovalsPercentageRequiredInput"
+            aria-describedby="minimumApprovalsPercentageRequiredHelp"
             v-model="data.minimumApprovalsPercentageRequired"
             :disabled="!data.requestsCanBeCreated || loading"
           />
-        </div>
-
-        <div class="form-group">
-          <div class="info-input">
-            <input
-              type="number"
-              class="form-control"
-              :class="{ 'is-invalid': v$.data.minimumApprovalsPercentageRequired.$errors.length }"
-              id="minimumApprovalsPercentageRequiredInput"
-              aria-describedby="minimumApprovalsPercentageRequiredHelp"
-              v-model="data.minimumApprovalsPercentageRequired"
-              :disabled="!data.requestsCanBeCreated || loading"
+          <div class="info">
+            <fa-icon
+              icon="question"
+              class="icon"
+              :class="{ 'icon-active': info.minimumApprovalsPercentageRequired }"
+              @click="info.minimumApprovalsPercentageRequired = !info.minimumApprovalsPercentageRequired"
             />
-            <div class="info">
-              <fa-icon
-                icon="question"
-                class="icon"
-                :class="{ 'icon-active': info.minimumApprovalsPercentageRequired }"
-                @click="info.minimumApprovalsPercentageRequired = !info.minimumApprovalsPercentageRequired"
-              />
-              <div class="my-tooltip" v-if="info.minimumApprovalsPercentageRequired">
-                Porcentaje mínimo de aprobaciones necesarias para que la entidad que creó una solicitud pueda finalmente retirar
-                el dinero. El mismo se calcula en base a la cantidad de contibuyentes del fondo, sumado al número de
-                administradores, en el caso que también estén habilitados para aprobar solicitudes.
-              </div>
+            <div class="my-tooltip" v-if="info.minimumApprovalsPercentageRequired">
+              Porcentaje mínimo de aprobaciones necesarias para que la entidad que creó una solicitud pueda finalmente retirar el
+              dinero. El mismo se calcula en base a la cantidad de contibuyentes del fondo, sumado al número de administradores,
+              en el caso que también estén habilitados para aprobar solicitudes.
             </div>
           </div>
-          <AppInputErrors :errors="v$.data.minimumApprovalsPercentageRequired.$errors" />
         </div>
+        <AppInputErrors :errors="v$.data.minimumApprovalsPercentageRequired.$errors" />
       </div>
+    </div>
 
-      <button type="submit" class="btn btn-primary" v-if="!loading">Crear fondo</button>
-      <button class="btn btn-primary" type="button" disabled v-if="loading">
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Creando...
-      </button>
-    </form>
-  </div>
+    <button type="submit" class="btn btn-primary" v-if="!loading">Crear fondo</button>
+    <button class="btn btn-primary" type="button" disabled v-if="loading">
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Creando...
+    </button>
+  </form>
 </template>
 
 <script>
@@ -666,28 +654,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  padding: 0;
-}
-
-@media (min-width: 500px) {
-  .container {
-    padding: 0 15px;
-  }
-}
-
-@media (min-width: 700px) {
-  .container {
-    padding: 0 50px;
-  }
-}
-
-@media (min-width: 900px) {
-  .container {
-    padding: 0 100px;
-  }
-}
-
 .form {
   background-color: rgb(252, 252, 252);
   padding: 18px 18px;
@@ -711,8 +677,6 @@ export default {
     border-right: 0.1px solid rgb(135, 135, 135);
     border-radius: 0 0 6px 0;
     display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
   }
 
   .information-info {

@@ -182,6 +182,17 @@ body {
   color: rgb(79, 79, 79);
 }
 
+.page-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: 'Dancing Script', cursive;
+  padding-right: 0.35rem;
+  border-bottom: 0.1px solid rgb(171, 171, 171);
+  border-right: 0.1px solid rgb(171, 171, 171);
+  border-radius: 0 0 6px 0;
+  display: inline-flex;
+}
+
 .form-group {
   label {
     color: rgba(22, 22, 22, 0.922);

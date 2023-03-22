@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p class="page-title">Explora todos los fondos creados</p>
     <FundsList />
   </div>
 </template>
