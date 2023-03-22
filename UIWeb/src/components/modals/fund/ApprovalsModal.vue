@@ -126,7 +126,7 @@ export default {
 
 <style lang="scss" scoped>
 .list-group-item {
-  padding: 0.2rem;
+  padding: 0.8rem 0.2rem;
   display: flex;
   flex-direction: row;
   align-items: center;

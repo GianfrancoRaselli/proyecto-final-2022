@@ -1,11 +1,11 @@
 <template>
   <div class="content-info">
     <AppDate class="date" :date="fromUnixTimestampToDate(request.timestamp)" />
+    <div class="info" v-text="request.description" v-if="request.description" />
     <div class="info" v-if="showFundName">
       <span class="info__label"><span class="text-bold">Fondo</span>:&nbsp;</span>
       <span class="hover" v-text="fund.name" @click="goToFund(fund.address)"></span>
     </div>
-    <div class="info" v-text="request.description" v-if="request.description" />
     <div class="info" v-if="request.petitioner">
       <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
       <span class="info__info">
