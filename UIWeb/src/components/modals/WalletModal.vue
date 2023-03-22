@@ -60,7 +60,7 @@
             <span v-if="recentTransactionsToShow.length === 0">Sin transacciones</span>
             <div class="transaction mt-2" v-for="(transaction, index) in recentTransactionsToShow" :key="index">
               <div class="transaction-body">
-                <span class="float-left mr-2">
+                <span>
                   <div class="spinner-border text-primary" role="status" v-if="transaction.loading">
                     <span class="sr-only"></span>
                   </div>
@@ -215,11 +215,7 @@ export default {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    gap: 0.2rem;
-
-    .float-left {
-      float: left;
-    }
+    gap: 0.5rem;
 
     .circle-check-icon {
       color: green;
