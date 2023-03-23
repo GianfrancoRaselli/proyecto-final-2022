@@ -1,11 +1,11 @@
 <template>
   <span
     :class="{ hover: goToProfile || goToFund }"
-    v-text="addressToShow"
+    v-text="showAddress || name === '' ? addressToShow : name"
     data-toggle="tooltip"
     :data-placement="placement"
     title=""
-    :data-original-title="show && !complete ? address : ''"
+    :data-original-title="showTooltip && !showAddressComplete ? address : ''"
     @click="goTo"
   ></span>
 </template>
@@ -14,23 +14,29 @@
 import $ from 'jquery';
 import { goToProfile, goToFund } from '@/helpers/helpers';
 import { getSplitAddress } from 'web3-simple-helpers/methods/general';
+import { call } from '@/helpers/helpers';
+import axios from 'axios';
 
 export default {
   name: 'AppShowAddressComponent',
   props: {
     address: { type: String, required: true },
-    complete: { type: Boolean, default: false },
-    show: { type: Boolean, default: true },
+    showAddress: { type: Boolean, default: false },
+    showAddressComplete: { type: Boolean, default: false },
+    showTooltip: { type: Boolean, default: true },
     placement: { type: String, default: 'right' },
     goToProfile: { type: Boolean, default: false },
     goToFund: { type: Boolean, default: false },
+    type: { type: String, default: 'entity' },
   },
   data() {
-    return {};
+    return {
+      name: '',
+    };
   },
   computed: {
     addressToShow() {
-      if (this.complete) return this.address;
+      if (this.showAddressComplete) return this.address;
       return getSplitAddress(this.address);
     },
   },
@@ -39,11 +45,25 @@ export default {
       if (this.goToProfile) goToProfile(this.address);
       if (this.goToFund) goToFund(this.addres);
     },
+
+    async getName() {
+      if (this.type === 'entity') {
+        axios.get('entity/' + this.address).then((res) => {
+          if (res.data) this.name = res.data.fullname;
+        });
+      } else if (this.type === 'fund') {
+        call({ name: 'Fund', address: this.address }, 'getSummary', [], {}, (fund) => {
+          if (fund) this.name = fund.name;
+        });
+      }
+    },
   },
   created() {
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
+
+    if (!this.showAddress) this.getName();
   },
 };
 </script>
