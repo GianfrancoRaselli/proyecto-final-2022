@@ -36,7 +36,7 @@
             <div class="form-group">
               <label for="tokensInput">Cantidad de tokens a comprar</label>
               <input
-                type="number"
+                type="string"
                 class="form-control"
                 :class="{ 'is-invalid': v$.fundTokens.$errors.length }"
                 id="tokensInput"
@@ -87,6 +87,7 @@ import {
   validateForm,
   addTokenToMetaMask,
   ethPriceInUSD,
+  removeInitialZeros,
   convertNumberToMaxDecimals,
 } from '@/helpers/helpers';
 
@@ -123,6 +124,14 @@ export default {
     },
     fundTokensPriceInUSD() {
       return convertNumberToMaxDecimals(this.fundTokens * this.fundTokenPriceInETH * this.ethPriceInUSD, 2);
+    },
+  },
+  watch: {
+    fundTokens(newValue) {
+      if (newValue) {
+        this.fundTokens = newValue.replace(',', '.');
+        this.fundTokens = removeInitialZeros(this.fundTokens);
+      }
     },
   },
   validations() {

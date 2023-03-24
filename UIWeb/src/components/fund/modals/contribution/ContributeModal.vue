@@ -69,7 +69,7 @@ import $ from 'jquery';
 import Web3 from 'web3';
 import { mapGetters } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
-import { transaction, validateForm } from '@/helpers/helpers';
+import { transaction, validateForm, removeInitialZeros } from '@/helpers/helpers';
 import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, numeric } from '@vuelidate/validators';
@@ -97,7 +97,10 @@ export default {
   },
   watch: {
     contribution(newValue) {
-      if (newValue) this.contribution = newValue.replace(',', '.');
+      if (newValue) {
+        this.contribution = newValue.replace(',', '.');
+        this.contribution = removeInitialZeros(this.contribution);
+      }
     },
   },
   validations() {

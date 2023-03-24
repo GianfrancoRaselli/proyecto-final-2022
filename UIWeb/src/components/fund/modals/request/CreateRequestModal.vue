@@ -82,7 +82,7 @@
 import $ from 'jquery';
 import Web3 from 'web3';
 import { mapGetters } from 'vuex';
-import { transaction, validateForm } from '@/helpers/helpers';
+import { transaction, validateForm, removeInitialZeros } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
@@ -114,7 +114,10 @@ export default {
   },
   watch: {
     'data.valueToTransfer'(newValue) {
-      if (newValue) this.data.valueToTransfer = newValue.replace(',', '.');
+      if (newValue) {
+        this.data.valueToTransfer = newValue.replace(',', '.');
+        this.data.valueToTransfer = removeInitialZeros(this.data.valueToTransfer);
+      }
     },
   },
   validations() {

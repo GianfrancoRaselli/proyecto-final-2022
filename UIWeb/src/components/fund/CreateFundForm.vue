@@ -301,7 +301,7 @@
       <div class="form-group">
         <div class="info-input">
           <input
-            type="number"
+            type="string"
             class="form-control"
             :class="{ 'is-invalid': v$.data.minimumContributionPercentageRequired.$errors.length }"
             id="minimumContributionPercentageRequiredInput"
@@ -341,7 +341,7 @@
       <div class="form-group">
         <div class="info-input">
           <input
-            type="number"
+            type="string"
             class="form-control"
             :class="{ 'is-invalid': v$.data.minimumApprovalsPercentageRequired.$errors.length }"
             id="minimumApprovalsPercentageRequiredInput"
@@ -383,7 +383,7 @@ import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
-import { transaction, validateForm } from '@/helpers/helpers';
+import { transaction, validateForm, removeInitialZeros } from '@/helpers/helpers';
 import axios from 'axios';
 
 export default {
@@ -494,6 +494,20 @@ export default {
       } else {
         this.data.minimumContributionPercentageRequired = 0;
         this.data.minimumApprovalsPercentageRequired = 0;
+      }
+    },
+
+    'data.minimumContributionPercentageRequired'(newValue) {
+      if (newValue) {
+        this.data.minimumContributionPercentageRequired = newValue.replace(',', '.');
+        this.data.minimumContributionPercentageRequired = removeInitialZeros(this.data.minimumContributionPercentageRequired);
+      }
+    },
+
+    'data.minimumApprovalsPercentageRequired'(newValue) {
+      if (newValue) {
+        this.data.minimumApprovalsPercentageRequired = newValue.replace(',', '.');
+        this.data.minimumApprovalsPercentageRequired = removeInitialZeros(this.data.minimumApprovalsPercentageRequired);
       }
     },
   },

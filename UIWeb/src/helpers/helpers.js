@@ -144,6 +144,22 @@ const ethPriceInUSD = async () => {
   return convertEthPrice('USD');
 };
 
+const removeInitialZeros = (number) => {
+  let zerosToRemove = 0;
+  for (let i = 0; i < number.length - 1; i++) {
+    if (number.charAt(i) === '0') {
+      if (number.charAt(i + 1) !== '.') {
+        zerosToRemove++;
+      } else {
+        break;
+      }
+    } else {
+      break;
+    }
+  }
+  return number.substring(zerosToRemove);
+};
+
 const convertNumberToMaxDecimals = (number, maxNumOfDecimals) => {
   if (maxNumOfDecimals === 0) return number.toFixed(0);
   let finalNumOfDecimals = 0;
@@ -213,6 +229,7 @@ export {
   validateForm,
   addTokenToMetaMask,
   ethPriceInUSD,
+  removeInitialZeros,
   convertNumberToMaxDecimals,
   areTheSameDates,
   goToProfile,
