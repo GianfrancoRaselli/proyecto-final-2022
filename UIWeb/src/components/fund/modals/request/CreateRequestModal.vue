@@ -86,7 +86,7 @@ import { transaction, validateForm } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
-import { helpers, required, numeric, minValue, minLength } from '@vuelidate/validators';
+import { helpers, required, numeric, minLength } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
 
 export default {
@@ -133,7 +133,10 @@ export default {
         valueToTransfer: {
           required: helpers.withMessage('Debe ingresar un valor', required),
           numeric: helpers.withMessage('Debe ingresar un valor numérico', numeric),
-          minValue: helpers.withMessage('El valor debe ser mayor a 0', minValue(1)),
+          minValue: helpers.withMessage('El valor debe ser mayor a 0', (value) => {
+            if (value > 0) return true;
+            return false;
+          }),
           maxValue: helpers.withMessage('El valor debe ser menor o igual a 1000 ETH', (value) => {
             if (this.valueToTransferUnit === 'Wei' && BigNumber(value).isLessThanOrEqualTo(1000000000000000000000)) return true;
             if (
