@@ -72,7 +72,7 @@ import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/g
 import { transaction, validateForm } from '@/helpers/helpers';
 import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
-import { helpers, required, numeric, minValue } from '@vuelidate/validators';
+import { helpers, required, numeric } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
 
 export default {
@@ -111,7 +111,10 @@ export default {
       contribution: {
         required: helpers.withMessage('Debe ingresar un valor', required),
         numeric: helpers.withMessage('Debe ingresar un valor numérico', numeric),
-        minValue: helpers.withMessage('El valor debe ser mayor a 0', minValue(1)),
+        minValue: helpers.withMessage('El valor debe ser mayor a 0', (value) => {
+          if (value > 0) return true;
+          return false;
+        }),
         weiValue: helpers.withMessage('El valor en Wei debe ser un número entero', (value) => {
           if (this.contributionUnit === 'Wei' && !BigNumber(value).isInteger()) return false;
           return true;
