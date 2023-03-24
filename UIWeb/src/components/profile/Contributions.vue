@@ -12,7 +12,7 @@
             <AppDate class="date" :date="fromUnixTimestampToDate(contribution.timestamp)" />
           </div>
           <span>
-            <AppShowAddress class="address" :address="contribution.contributor" :goToProfile="true" />
+            <AppShowAddress type="entity" class="address" :address="contribution.contributor" :goToProfile="true" />
             <span>&nbsp;contribuyó&nbsp;</span>
             <AppShowEth :weis="contribution.value" />
             <span>&nbsp;al fondo:&nbsp;</span>

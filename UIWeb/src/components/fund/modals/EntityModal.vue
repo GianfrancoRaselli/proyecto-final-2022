@@ -21,7 +21,7 @@
             <img class="profile-img" src="@/assets/imgs/user-not-found.png" v-else />
             <span class="fullname" v-text="entity.fullname" />
             <span class="type" v-text="entity.type" />
-            <span class="address"><AppShowAddress :address="address" /></span>
+            <span class="address"><AppShowAddress type="entity" :address="address" :forceShowAddress="true" /></span>
             <span class="email" v-if="entity.email">
               <fa-icon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">
                 {{ entity.email }}

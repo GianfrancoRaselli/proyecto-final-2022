@@ -12,7 +12,7 @@
             >
           </div>
           <span>
-            <AppShowAddress class="address" :address="contribution.contributor" :goToProfile="true" />
+            <AppShowAddress type="entity" class="address" :address="contribution.contributor" :goToProfile="true" />
             <span>&nbsp;contribuyó&nbsp;</span>
             <AppShowEth :weis="contribution.value" />
           </span>

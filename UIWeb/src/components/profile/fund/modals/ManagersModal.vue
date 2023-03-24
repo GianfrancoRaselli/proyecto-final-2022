@@ -19,7 +19,7 @@
           <ul class="list-group list-group-flush" v-else>
             <li class="list-group-item" v-for="(manager, index) in managers" :key="index">
               <span
-                ><span v-text="index + 1 + '. '" /><AppShowAddress :address="manager"
+                ><span v-text="index + 1 + '. '" /><AppShowAddress type="entity" :address="manager"
               /></span>
               <span class="badge badge-pill badge-primary" v-if="compareAddresses(manager, address)">Mi dirección</span>
             </li>

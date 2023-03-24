@@ -56,7 +56,7 @@
         <p class="info">
           <span class="info_info">
             <span class="label"><span class="text-bold">Dirección</span>:&nbsp;</span>
-            <AppShowAddress :address="fund.address" />
+            <AppShowAddress type="fund" :address="fund.address" :forceShowAddress="true" />
           </span>
           <span class="info_explanation"
             ><fa-icon icon="circle-info" class="icon" />Dirección del Smart Contract desplegado en la&nbsp;{{
@@ -77,7 +77,7 @@
           <span class="info_info">
             <span class="label"><span class="text-bold">Creador</span>:&nbsp;</span>
             <button type="button" class="btn btn-link" data-toggle="modal" :data-target="'#entityModal' + fund.creator">
-              <AppShowAddress :address="fund.creator" />
+              <AppShowAddress type="entity" :address="fund.creator" />
             </button>
           </span>
           <span class="info_explanation"

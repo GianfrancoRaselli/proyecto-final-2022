@@ -13,20 +13,20 @@
             <AppDate class="date" :date="fromUnixTimestampToDate(transfer.timestamp)" />
           </div>
           <span v-if="filter === 'made'">
-            <AppShowAddress class="address" :address="transfer.sender" :goToProfile="true" />
+            <AppShowAddress type="entity" class="address" :address="transfer.sender" :goToProfile="true" />
             <span>&nbsp;transfirió&nbsp;</span>
             <AppShowEth :weis="transfer.value" />
             <span>&nbsp;a&nbsp;</span>
-            <AppShowAddress class="address" :address="transfer.to" :goToProfile="true" />
+            <AppShowAddress type="entity" class="address" :address="transfer.to" :goToProfile="true" />
             <span>&nbsp;del fondo:&nbsp;</span>
             <span class="hover" v-text="transfer.fundName" @click="goToFund(transfer.fundAddress)"></span>
           </span>
           <span v-if="filter === 'received'">
-            <AppShowAddress class="address" :address="transfer.sender" />
+            <AppShowAddress type="entity" class="address" :address="transfer.sender" />
             <span>&nbsp;recibió&nbsp;</span>
             <AppShowEth :weis="transfer.value" />
             <span>&nbsp;de&nbsp;</span>
-            <AppShowAddress class="address" :address="transfer.to" />
+            <AppShowAddress type="entity" class="address" :address="transfer.to" />
             <span>&nbsp;del fondo:&nbsp;</span>
             <span class="hover" v-text="transfer.fundName" @click="goToFund(transfer.fundAddress)"></span>
           </span>

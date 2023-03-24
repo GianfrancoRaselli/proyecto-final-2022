@@ -44,7 +44,7 @@
           <button class="btn btn-light btn-wallet" data-toggle="modal" data-target="#walletModal" v-if="isConnected">
             <fa-icon icon="wallet" class="icon mr-2 wallet-icon" size="2x" v-if="isConnectedToTheValidChain"></fa-icon
             ><fa-icon icon="triangle-exclamation" class="icon mr-2 wallet-icon wallet-warning-icon" size="2x" v-else></fa-icon>
-            <AppShowAddress :address="address" :show="false" />
+            <AppShowAddress type="entity" :address="address" :showTooltip="false" />
           </button>
 
           <AppButton classes="btn-sm btn-success" :text="connectMetaMaskMsg" v-if="!isConnected" @click="connectToMetamask" />
@@ -177,20 +177,22 @@ nav {
 }
 
 .btn-wallet {
+  white-space: nowrap;
   font-weight: bold;
   position: relative;
-  padding: 3px 5px 3px 40px;
-  border-radius: 10px;
+  padding: 0.3rem 0.5rem 0.3rem 2.5rem;
+  border-radius: 6px;
 }
 
 .wallet-icon {
   position: absolute;
-  top: -8.5px;
-  left: -15px;
+  top: 50%;
+  left: -1rem;
+  transform: translateY(-50%);
   background-color: rgba(255, 255, 255, 0.981);
   border: 1px solid black;
-  padding: 7px;
-  border-radius: 50px;
+  padding: 0.5rem;
+  border-radius: 100%;
 }
 
 .wallet-warning-icon {

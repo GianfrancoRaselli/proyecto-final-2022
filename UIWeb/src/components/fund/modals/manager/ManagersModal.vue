@@ -22,7 +22,7 @@
                 <li class="list-group-item" v-for="(manager, index) in fund.managers" :key="index">
                   <div class="item-manager">
                     <span v-text="index + 1 + '. '" />
-                    <AppShowAddress :address="manager" :goToProfile="true" />
+                    <AppShowAddress type="entity" :address="manager" :goToProfile="true" />
                     <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(manager, address)"
                       >Mi dirección</span
                     >

@@ -22,7 +22,7 @@
               <li class="list-group-item" v-for="(approval, index) in approvalsOrdered" :key="index">
                 <span v-text="index + 1"></span>
                 <span>.&nbsp;</span>
-                <AppShowAddress :address="approval.approver" :goToProfile="true" />
+                <AppShowAddress type="entity" :address="approval.approver" :goToProfile="true" />
                 <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(approval.approver, address)">
                   Mi dirección
                 </span>

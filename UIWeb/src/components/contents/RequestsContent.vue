@@ -9,7 +9,7 @@
     <div class="info" v-if="request.petitioner">
       <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
       <span class="info__info">
-        <AppShowAddress :address="request.petitioner" :goToProfile="true" />
+        <AppShowAddress type="entity" :address="request.petitioner" :goToProfile="true" />
         <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)">
           Mi dirección
         </span>
@@ -18,7 +18,7 @@
     <div class="info" v-if="request.recipient">
       <span class="info__label"><span class="text-bold">Destinatario</span>:&nbsp;</span>
       <span class="info__info">
-        <AppShowAddress :address="request.recipient" :goToProfile="true" />
+        <AppShowAddress type="entity" :address="request.recipient" :goToProfile="true" />
         <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">
           Mi dirección
         </span>

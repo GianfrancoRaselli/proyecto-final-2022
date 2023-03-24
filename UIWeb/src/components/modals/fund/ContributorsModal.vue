@@ -21,7 +21,7 @@
               <li class="list-group-item" v-for="(contributor, index) in contributorsOrdered" :key="index">
                 <div class="item-address">
                   <span v-text="index + 1 + '. '" />
-                  <AppShowAddress :address="contributor.contributor" :goToProfile="true" />
+                  <AppShowAddress type="entity" :address="contributor.contributor" :goToProfile="true" />
                   <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(contributor.contributor, address)"
                     >Mi dirección
                   </span>

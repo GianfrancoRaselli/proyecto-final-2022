@@ -32,7 +32,7 @@
           </div>
 
           <div class="center-line" v-if="isConnected">
-            <AppShowAddress :address="address" />
+            <AppShowAddress type="entity" :address="address" :forceShowAddress="true" />
           </div>
 
           <div class="below-line" v-if="isConnected">

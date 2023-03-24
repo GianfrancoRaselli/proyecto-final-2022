@@ -15,11 +15,11 @@
             </div>
           </div>
           <span>
-            <AppShowAddress class="address" :address="transfer.sender" :goToProfile="true" />
+            <AppShowAddress type="entity" class="address" :address="transfer.sender" :goToProfile="true" />
             <span>&nbsp;transfirió&nbsp;</span>
             <AppShowEth :weis="transfer.value" />
             <span>&nbsp;a&nbsp;</span>
-            <AppShowAddress class="address" :address="transfer.to" :goToProfile="true" />
+            <AppShowAddress type="entity" class="address" :address="transfer.to" :goToProfile="true" />
           </span>
         </li>
       </ul>

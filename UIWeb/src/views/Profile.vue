@@ -17,7 +17,7 @@
           <div class="header">
             <span class="fullname" v-if="entity" v-text="entity.fullname" />
             <span class="type" v-if="entity" v-text="entity.type" />
-            <span class="address"><AppShowAddress :address="$route.params.address" /></span>
+            <span class="address"><AppShowAddress type="entity" :address="$route.params.address" /></span>
           </div>
           <div class="body" v-if="entity">
             <span class="email" v-if="entity.email"

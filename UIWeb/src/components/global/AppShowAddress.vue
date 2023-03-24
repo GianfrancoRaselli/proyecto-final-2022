@@ -1,7 +1,7 @@
 <template>
   <span
     :class="{ hover: goToProfile || goToFund }"
-    v-text="showAddress || name === '' ? addressToShow : name"
+    v-text="forceShowAddress || name === '' ? addressToShow : name"
     data-toggle="tooltip"
     :data-placement="placement"
     title=""
@@ -21,7 +21,7 @@ export default {
   name: 'AppShowAddressComponent',
   props: {
     address: { type: String, required: true },
-    showAddress: { type: Boolean, default: false },
+    forceShowAddress: { type: Boolean, default: false },
     showAddressComplete: { type: Boolean, default: false },
     showTooltip: { type: Boolean, default: true },
     placement: { type: String, default: 'right' },
@@ -53,7 +53,7 @@ export default {
         });
       } else if (this.type === 'fund') {
         call({ name: 'Fund', address: this.address }, 'getSummary', [], {}, (fund) => {
-          if (fund) this.name = fund.name;
+          this.name = fund.name;
         });
       }
     },
@@ -63,7 +63,7 @@ export default {
       $('[data-toggle="tooltip"]').tooltip();
     });
 
-    if (!this.showAddress) this.getName();
+    if (!this.forceShowAddress) this.getName();
   },
 };
 </script>

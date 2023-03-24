@@ -7,7 +7,7 @@
       <img class="img" :src="serverUrl + 'images/' + entity.image" v-if="entity.image" />
       <img class="img" src="@/assets/imgs/user-not-found.png" v-else />
       <span class="type" v-text="entity.type" />
-      <span class="address"><AppShowAddress :address="entity.address" /></span>
+      <span class="address"><AppShowAddress type="entity" :address="entity.address" :forceShowAddress="true" /></span>
     </div>
   </div>
 </template>
