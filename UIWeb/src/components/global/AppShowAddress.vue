@@ -35,9 +35,13 @@ export default {
     };
   },
   computed: {
-    addressToShow() {
-      if (this.showAddressComplete) return this.address;
-      return getSplitAddress(this.address);
+    address() {
+      this.getName();
+    },
+  },
+  watch: {
+    contribution(newValue) {
+      if (newValue) this.contribution = newValue.replace(',', '.');
     },
   },
   methods: {
@@ -47,14 +51,17 @@ export default {
     },
 
     async getName() {
-      if (this.type === 'entity') {
-        axios.get('entity/' + this.address).then((res) => {
-          if (res.data) this.name = res.data.fullname;
-        });
-      } else if (this.type === 'fund') {
-        call({ name: 'Fund', address: this.address }, 'getSummary', [], {}, (fund) => {
-          this.name = fund.name;
-        });
+      this.name = '';
+      if (!this.forceShowAddress) {
+        if (this.type === 'entity') {
+          axios.get('entity/' + this.address).then((res) => {
+            if (res.data) this.name = res.data.fullname;
+          });
+        } else if (this.type === 'fund') {
+          call({ name: 'Fund', address: this.address }, 'getSummary', [], {}, (fund) => {
+            this.name = fund.name;
+          });
+        }
       }
     },
   },
@@ -63,7 +70,7 @@ export default {
       $('[data-toggle="tooltip"]').tooltip();
     });
 
-    if (!this.forceShowAddress) this.getName();
+    this.getName();
   },
 };
 </script>
