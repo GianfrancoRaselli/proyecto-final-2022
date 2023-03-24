@@ -35,13 +35,14 @@ export default {
     };
   },
   computed: {
-    address() {
-      this.getName();
+    addressToShow() {
+      if (this.showAddressComplete) return this.address;
+      return getSplitAddress(this.address);
     },
   },
   watch: {
-    contribution(newValue) {
-      if (newValue) this.contribution = newValue.replace(',', '.');
+    address() {
+      this.getName();
     },
   },
   methods: {
