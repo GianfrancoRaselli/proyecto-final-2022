@@ -15,7 +15,7 @@
                 <fa-icon icon="plus" class="icon mr-2" />Contribuir
               </button>
             </div>
-            <ContributionsList class="mt-2" :loading="loading" :contributions="contributionsOrdered" />
+            <ContributionsList class="list" :loading="loading" :contributions="contributionsOrdered" />
           </div>
         </div>
       </div>
@@ -116,7 +116,11 @@ export default {
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  padding-bottom: 10px;
+  padding-bottom: 1rem;
   border-bottom: 1px solid rgb(156, 156, 156);
+}
+
+.list {
+  margin-top: 0.5rem;
 }
 </style>

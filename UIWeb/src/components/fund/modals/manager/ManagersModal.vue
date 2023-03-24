@@ -16,7 +16,7 @@
               </button>
             </div>
 
-            <div class="managers-list mt-2">
+            <div class="managers-list" :class="{ list: fund.managersCanBeAddedOrRemoved && isManager }">
               <div class="no-managers" v-if="fund.managers && fund.managers.length === 0">Sin administradores</div>
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(manager, index) in fund.managers" :key="index">
@@ -124,8 +124,12 @@ export default {
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  padding-bottom: 10px;
+  padding-bottom: 1rem;
   border-bottom: 1px solid rgb(156, 156, 156);
+}
+
+.list {
+  margin-top: 0.5rem;
 }
 
 .list-group-item {

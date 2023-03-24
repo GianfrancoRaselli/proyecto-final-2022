@@ -22,7 +22,16 @@
               </button>
             </div>
 
-            <RequestsList class="mt-2" :loading="loading" :fund="fund" :isManager="isManager" />
+            <RequestsList
+              :class="{
+                list:
+                  fund.requestsCanBeCreated &&
+                  (!fund.onlyManagersCanCreateARequest || (fund.onlyManagersCanCreateARequest && isManager)),
+              }"
+              :loading="loading"
+              :fund="fund"
+              :isManager="isManager"
+            />
           </div>
         </div>
       </div>
@@ -90,7 +99,11 @@ export default {
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  padding-bottom: 10px;
+  padding-bottom: 1rem;
   border-bottom: 1px solid rgb(156, 156, 156);
+}
+
+.list {
+  margin-top: 0.5rem;
 }
 </style>
