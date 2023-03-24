@@ -36,7 +36,7 @@
                 />
                 <span class="badge badge-pill badge-primary" v-if="compareAddresses(data.recipient, address)">Yo</span>
               </div>
-              <small id="recipientHelp" class="form-text text-muted">Ingrese una dirección</small>
+              <small id="recipientHelp" class="form-text text-muted" v-text="recipientName" v-if="recipientName"></small>
               <AppInputErrors :errors="v$.data.recipient.$errors" />
             </div>
 
@@ -81,6 +81,7 @@
 <script>
 import $ from 'jquery';
 import Web3 from 'web3';
+import axios from 'axios';
 import { mapGetters } from 'vuex';
 import { transaction, validateForm, removeInitialZeros } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
@@ -105,6 +106,7 @@ export default {
         recipient: '',
         valueToTransfer: '0',
       },
+      recipientName: '',
       valueToTransferUnit: 'Wei',
       units: ['Wei', 'Ether'],
     };
@@ -113,6 +115,13 @@ export default {
     ...mapGetters(['address']),
   },
   watch: {
+    'data.recipient'(newValue) {
+      this.recipientName = '';
+      axios.get('entity/' + newValue).then((res) => {
+        if (res.data) this.recipientName = res.data.fullname;
+      });
+    },
+
     'data.valueToTransfer'(newValue) {
       if (newValue) {
         this.data.valueToTransfer = newValue.replace(',', '.');
