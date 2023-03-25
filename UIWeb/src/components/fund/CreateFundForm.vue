@@ -1,6 +1,6 @@
 <template>
   <form class="form" @submit.prevent="handleSubmit">
-    <div class="information mb-3">
+    <div class="information">
       <div class="information-title">Información importante</div>
       <div class="information-info">
         <div>
@@ -670,6 +670,7 @@ export default {
 <style lang="scss" scoped>
 .information {
   padding: 1rem;
+  margin-bottom: 0.8rem;
   border: 0.05px solid rgba(167, 167, 167, 0.296);
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 4px, rgba(0, 0, 0, 0.3) 0px 0px 2px;
@@ -703,21 +704,23 @@ export default {
   }
 }
 
+.fund-information {
+  padding: 0.4rem;
+}
+
 .form-section {
   color: rgb(62, 62, 62);
-  margin-top: 26px;
-  padding-bottom: 12px;
+  margin-top: 1rem;
+  padding-bottom: 0.8rem;
   border-bottom: 1.5px solid rgba(110, 110, 110, 0.434);
-  margin-bottom: 18px;
+  margin-bottom: 0.8rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
-}
+  gap: 0.6rem;
 
-.form-section {
   .title {
     font-size: 1.2rem;
   }
