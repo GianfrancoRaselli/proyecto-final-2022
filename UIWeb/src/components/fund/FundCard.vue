@@ -98,6 +98,7 @@ export default {
 
 <style lang="scss" scoped>
 .card-container {
+  height: 100%;
   min-height: 100%;
   display: flex;
   flex-direction: column;

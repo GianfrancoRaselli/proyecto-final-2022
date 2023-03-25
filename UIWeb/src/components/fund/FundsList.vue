@@ -197,8 +197,10 @@
       <AppAlert msg="No hay fondos creados aún" v-if="funds.length === 0" />
       <div v-else>
         <AppAlert msg="No se encontraron fondos con esos parámetros" v-if="fundsToShow.length === 0" />
-        <div class="fund-card-container" v-else>
-          <FundCard class="fund-card" :fund="fund" v-for="(fund, index) in fundsToShow" :key="index" />
+        <div class="fund-card-list" v-else>
+          <div class="fund-card-container" v-for="(fund, index) in fundsToShow" :key="index">
+            <FundCard class="fund-card" :fund="fund" />
+          </div>
         </div>
       </div>
     </div>
@@ -558,25 +560,21 @@ export default {
   border: 1px solid rgb(206, 206, 225);
 }
 
-.fund-card-container {
-  padding: 0.6rem 0;
+.fund-card-list {
+  padding: 0.4rem 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: start;
-  align-items: stretch;
-  column-gap: 1%;
-  row-gap: 0.5rem;
+  align-items: center;
 
-  .fund-card {
-    width: 49.5%;
-    min-width: 49.5%;
-    max-width: 49.5%;
+  .fund-card-container {
+    width: 50%;
+    padding: 0.5rem;
+    align-self: stretch;
 
     @media (max-width: 680px) {
       width: 100%;
-      min-width: 100%;
-      max-width: 100%;
     }
   }
 }
