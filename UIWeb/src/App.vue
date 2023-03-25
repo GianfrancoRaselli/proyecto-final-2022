@@ -101,7 +101,7 @@ body {
 
 @media (min-width: 768px) {
   html {
-    font-size: 100%;
+    font-size: 95%;
   }
 
   .header__mobile-navbar {
