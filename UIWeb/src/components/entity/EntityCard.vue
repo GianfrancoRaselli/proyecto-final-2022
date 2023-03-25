@@ -1,13 +1,15 @@
 <template>
-  <div class="card text-center" @click="redirect">
-    <div class="card-header">
-      <span v-text="entity.fullname" />
-    </div>
-    <div class="card-body">
-      <img class="img" :src="serverUrl + 'images/' + entity.image" v-if="entity.image" />
-      <img class="img" src="@/assets/imgs/user-not-found.png" v-else />
-      <span class="type" v-text="entity.type" />
-      <span class="address"><AppShowAddress type="entity" :address="entity.address" :forceShowAddress="true" /></span>
+  <div class="card-container">
+    <div class="card text-center" @click="redirect">
+      <div class="card-header">
+        <span v-text="entity.fullname" />
+      </div>
+      <div class="card-body">
+        <img class="img" :src="serverUrl + 'images/' + entity.image" v-if="entity.image" />
+        <img class="img" src="@/assets/imgs/user-not-found.png" v-else />
+        <span class="type" v-text="entity.type" />
+        <span class="address"><AppShowAddress type="entity" :address="entity.address" :forceShowAddress="true" /></span>
+      </div>
     </div>
   </div>
 </template>
@@ -35,17 +37,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  height: 98%;
-  position: relative;
-}
-
-.card:hover {
-  height: 100%;
-  cursor: pointer;
-  box-shadow: 0 0 4px rgb(65, 64, 64);
-}
-
 .card-body {
   display: flex;
   flex-direction: column;

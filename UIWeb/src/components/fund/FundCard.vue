@@ -97,29 +97,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-container {
-  height: 100%;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.card {
-  word-wrap: break-word;
-  word-break: break-word;
-  height: 98%;
-  width: 100%;
-  position: relative;
-}
-
-.card:hover {
-  height: 100%;
-  cursor: pointer;
-  box-shadow: 0 0 4px rgb(65, 64, 64);
-}
-
 .card-header {
   padding-left: 65px;
   padding-right: 65px;

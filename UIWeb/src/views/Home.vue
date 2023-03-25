@@ -338,14 +338,12 @@ export default {
   }
 
   .funds {
-    padding: 0.4rem;
     padding-bottom: 1.1rem;
     overflow: auto;
     display: flex;
     flex-direction: row;
     justify-content: start;
     align-items: stretch;
-    gap: 1rem;
 
     .fund {
       width: 28rem;
@@ -438,14 +436,12 @@ export default {
   }
 
   .entities {
-    padding: 0.4rem;
     padding-bottom: 1.1rem;
     overflow: auto;
     display: flex;
     flex-direction: row;
     justify-content: start;
     align-items: stretch;
-    gap: 1rem;
 
     .entity {
       width: 20rem;

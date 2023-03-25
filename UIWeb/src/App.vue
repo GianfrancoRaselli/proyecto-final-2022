@@ -271,4 +271,28 @@ body {
 .no-items {
   padding: 0.8rem 0.2rem 0 0.2rem;
 }
+
+.card-container {
+  min-height: 100%;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .card {
+    word-wrap: break-word;
+    word-break: break-word;
+    height: 99%;
+    width: 99%;
+    position: relative;
+  }
+
+  .card:hover {
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    box-shadow: 0 0 2px rgb(65, 65, 65);
+  }
+}
 </style>
