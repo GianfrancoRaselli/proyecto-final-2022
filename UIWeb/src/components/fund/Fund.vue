@@ -77,12 +77,10 @@
           <span class="info_info">
             <span class="label"><span class="text-bold">Creador</span>:&nbsp;</span>
             <button type="button" class="btn btn-link" data-toggle="modal" :data-target="'#entityModal' + fund.creator">
-              <AppShowAddress type="entity" :address="fund.creator" />
+              <AppShowAddress type="entity" :address="fund.creator" :allowCopyAddress="false" />
             </button>
           </span>
-          <span class="info_explanation"
-            ><fa-icon icon="circle-info" class="icon" />Dirección de la entidad creadora del fondo.</span
-          >
+          <span class="info_explanation"><fa-icon icon="circle-info" class="icon" />Entidad creadora del fondo.</span>
         </p>
         <p class="info">
           <span class="info_info">

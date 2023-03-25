@@ -21,7 +21,13 @@
               data-toggle="modal"
               :data-target="'#entityModal' + fund.creator"
             >
-              <AppShowAddress type="entity" id="creatorAddress" :address="fund.creator" :showTooltip="false" />
+              <AppShowAddress
+                type="entity"
+                id="creatorAddress"
+                :address="fund.creator"
+                :showTooltip="false"
+                :allowCopyAddress="false"
+              />
             </button>
           </p>
           <p class="contributions-container">

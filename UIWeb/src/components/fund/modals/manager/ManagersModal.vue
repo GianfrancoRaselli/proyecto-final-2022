@@ -6,21 +6,25 @@
           <div class="modal-header">
             <h4 class="modal-title" id="managersModalLabel">
               <span>Administradores</span>
-              <span class="amount" v-text="fund.managers.length" v-if="fund.managers.length > 0"></span>
+              <span class="modal-amount" v-text="fund.managers.length" v-if="fund.managers.length > 0"></span>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <div class="add-manager" v-if="fund.managersCanBeAddedOrRemoved && isAManager">
-              <button type="button" class="btn btn-success btn-sm" @click="addNewManagers">
-                <fa-icon icon="plus" class="icon mr-2" />Agregar administrador
-              </button>
-            </div>
+            <button
+              type="button"
+              class="btn btn-success btn-sm"
+              :class="{ 'margin-bottom': fund.managers.length === 0 }"
+              @click="addNewManagers"
+              v-if="fund.managersCanBeAddedOrRemoved && isAManager"
+            >
+              <fa-icon icon="plus" class="icon mr-2" />Agregar administrador
+            </button>
 
             <div class="managers-list" :class="{ list: fund.managersCanBeAddedOrRemoved && isAManager }">
-              <div class="no-items" v-if="fund.managers && fund.managers.length === 0">Sin administradores</div>
+              <div class="no-items-modal" v-if="fund.managers && fund.managers.length === 0">Sin administradores</div>
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(manager, index) in fund.managers" :key="index">
                   <div class="item-manager">
@@ -122,21 +126,12 @@ export default {
 </script>
 
 <style scoped>
-.add-manager {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgb(156, 156, 156);
-}
-
 .list {
   margin-top: 0.4rem;
 }
 
 .list-group-item {
-  padding: 0.8rem 0.2rem;
+  padding: 0.8rem 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

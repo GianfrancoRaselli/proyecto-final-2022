@@ -32,12 +32,17 @@
           </div>
 
           <div class="center-line" v-if="isConnected">
-            <AppShowAddress type="entity" :address="address" :forceShowAddress="true" />
+            <AppShowAddress type="entity" :address="address" :forceShowAddress="true" :allowCopyAddress="false" />
           </div>
 
           <div class="below-line" v-if="isConnected">
             <div class="address">
-              <AppButton classes="btn-sm btn-link btn-radius btn-copy" :text="copyAddressMsg" icon="copy" @click="copyAddress" />
+              <AppButton
+                classes="btn-sm btn-link btn-radius btn-copy"
+                :text="copyAddressMsg"
+                icon="copy"
+                @click="copyAddress(address)"
+              />
 
               <a :href="validChainExplorer + '/address/' + address" target="_blank">
                 <AppButton classes="btn-sm btn-link btn-radius" :text="viewExplorerMsg" icon="arrow-up-right-from-square" />
@@ -94,9 +99,9 @@
 <script>
 import $ from 'jquery';
 import { getMessages } from '@/dictionary';
-import { addNotification } from '@/composables/useNotifications';
 import { mapState, mapGetters } from 'vuex';
 import { connectToMetamask, checkValidChain } from '@/helpers/connection';
+import { copyAddress } from '@/helpers/helpers';
 
 const MINUTE = 60000;
 
@@ -140,6 +145,8 @@ export default {
     },
   },
   methods: {
+    copyAddress,
+
     async connectToMetamask() {
       this.$store.commit('setDisconnected', false);
       await connectToMetamask();
@@ -152,14 +159,6 @@ export default {
     disconnect() {
       this.$store.commit('setDisconnected', true);
       this.$store.commit('setSignature', null);
-    },
-
-    copyAddress() {
-      navigator.clipboard.writeText(this.address);
-      addNotification({
-        message: this.addressCopiedMsg,
-        type: 'success',
-      });
     },
 
     redirectToMyProfile() {

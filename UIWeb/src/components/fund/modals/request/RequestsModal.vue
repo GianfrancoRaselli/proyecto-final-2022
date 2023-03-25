@@ -6,24 +6,25 @@
           <div class="modal-header">
             <h4 class="modal-title" id="requestsModalLabel">
               <span>Solicitudes</span>
-              <span class="amount" v-text="fund.requests.length" v-if="fund.requests.length > 0"></span>
+              <span class="modal-amount" v-text="fund.requests.length" v-if="fund.requests.length > 0"></span>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <div
-              class="create-request"
+            <button
+              type="button"
+              class="btn btn-success btn-sm"
+              :class="{ 'margin-bottom': fund.requests.length === 0 }"
+              @click="createNewRequest"
               v-if="
                 fund.requestsCanBeCreated &&
                 (!fund.onlyManagersCanCreateARequest || (fund.onlyManagersCanCreateARequest && isAManager))
               "
             >
-              <button type="button" class="btn btn-success btn-sm" @click="createNewRequest">
-                <fa-icon icon="plus" class="icon mr-2" />Crear solicitud
-              </button>
-            </div>
+              <fa-icon icon="plus" class="icon mr-2" />Crear solicitud
+            </button>
 
             <RequestsList
               :class="{
@@ -95,15 +96,6 @@ export default {
   .modal-lg {
     max-width: 800px;
   }
-}
-
-.create-request {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgb(156, 156, 156);
 }
 
 .list {

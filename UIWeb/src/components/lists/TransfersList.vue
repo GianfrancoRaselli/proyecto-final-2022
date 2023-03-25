@@ -2,7 +2,7 @@
   <div>
     <AppSpinner v-if="loading" />
     <div v-else>
-      <div class="no-items" v-if="transfers.length === 0">Sin transferencias</div>
+      <div class="no-items-modal" v-if="transfers.length === 0">Sin transferencias</div>
       <ul class="list-group list-group-flush" v-else>
         <li class="list-group-item" v-for="(transfer, index) in transfers" :key="index">
           <div class="header">
@@ -54,7 +54,7 @@ export default {
 
 <style lang="scss" scoped>
 .list-group-item {
-  padding: 0.8rem 0.2rem;
+  padding: 0.8rem 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

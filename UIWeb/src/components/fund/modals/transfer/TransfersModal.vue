@@ -6,18 +6,22 @@
           <div class="modal-header">
             <h4 class="modal-title" id="transfersModalLabel">
               <span>Transferencias</span>
-              <span class="amount" v-text="transfers.length" v-if="transfers.length > 0"></span>
+              <span class="modal-amount" v-text="transfers.length" v-if="transfers.length > 0"></span>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <div class="transfer" v-if="fund.managersCanTransferMoneyWithoutARequest && isAManager">
-              <button type="button" class="btn btn-success btn-sm" @click="transfer">
-                <fa-icon icon="plus" class="icon mr-2" />Transferir
-              </button>
-            </div>
+            <button
+              type="button"
+              class="btn btn-success btn-sm"
+              :class="{ 'margin-bottom': transfersOrdered.length === 0 }"
+              @click="transfer"
+              v-if="fund.managersCanTransferMoneyWithoutARequest && isAManager"
+            >
+              <fa-icon icon="plus" class="icon mr-2" />Transferir
+            </button>
             <TransfersList
               :class="{ list: fund.managersCanTransferMoneyWithoutARequest && isAManager }"
               :loading="loading"
@@ -124,15 +128,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.transfer {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgb(156, 156, 156);
-}
-
 .list {
   margin-top: 0.4rem;
 }

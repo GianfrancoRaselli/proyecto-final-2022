@@ -235,41 +235,43 @@ body {
   text-decoration: underline;
 }
 
+.modal-body {
+  .margin-bottom {
+    margin-bottom: 0.8rem;
+  }
+}
+
 .modal-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 
+  .modal-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: start;
+    gap: 0.4rem;
+
+    .modal-amount {
+      font-size: 1rem;
+      height: 1.3rem;
+      width: 1.3rem;
+      color: white;
+      background-color: orange;
+      border-radius: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
   .icon {
     cursor: pointer;
     color: grey;
   }
-}
-
-.modal-title {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: start;
-  gap: 0.4rem;
-
-  .amount {
-    font-size: 1rem;
-    height: 1.3rem;
-    width: 1.3rem;
-    color: white;
-    background-color: orange;
-    border-radius: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-.no-items {
-  padding: 0.8rem 0.2rem 0 0.2rem;
 }
 
 .card-container {
@@ -297,7 +299,7 @@ body {
 }
 
 .profile-extra-information {
-  .container {
+  .profile-extra-information-container {
     display: flex;
     flex-direction: column;
     justify-content: center;

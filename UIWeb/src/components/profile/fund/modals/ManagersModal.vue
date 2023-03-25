@@ -11,14 +11,14 @@
         <div class="modal-header">
           <h4 class="modal-title" :id="'profileManagersModalLabel' + fundAddress">
               <span>Administradores</span>
-              <span class="amount" v-text="managers.length" v-if="managers.length > 0"></span>
+              <span class="modal-amount" v-text="managers.length" v-if="managers.length > 0"></span>
             </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="no-items" v-if="managers && managers.length === 0">Sin administradores</div>
+          <div class="no-items-modal" v-if="managers && managers.length === 0">Sin administradores</div>
           <ul class="list-group list-group-flush" v-else>
             <li class="list-group-item" v-for="(manager, index) in managers" :key="index">
               <span
@@ -59,7 +59,7 @@ export default {
 
 <style scoped>
 .list-group-item {
-  padding: 0.8rem 0.2rem;
+  padding: 0.8rem 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

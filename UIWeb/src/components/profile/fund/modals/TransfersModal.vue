@@ -12,7 +12,7 @@
           <div class="modal-header">
             <h4 class="modal-title" :id="'profileTransfersModalLabel' + fundAddress">
               <span>Transferencias</span>
-              <span class="amount" v-text="transfers.length" v-if="transfers.length > 0"></span>
+              <span class="modal-amount" v-text="transfers.length" v-if="transfers.length > 0"></span>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>

@@ -265,6 +265,14 @@ const getFundType = (fund) => {
   };
 };
 
+const copyAddress = (address) => {
+  navigator.clipboard.writeText(address);
+  addNotification({
+    message: 'Dirección copiada al portapapeles',
+    type: 'success',
+  });
+};
+
 export {
   call,
   transaction,
@@ -278,4 +286,5 @@ export {
   goToProfile,
   goToFund,
   getFundType,
+  copyAddress,
 };

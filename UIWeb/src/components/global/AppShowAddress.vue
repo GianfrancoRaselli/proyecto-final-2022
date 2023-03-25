@@ -1,20 +1,32 @@
 <template>
-  <span
-    :class="{ hover: goToProfile || goToFund }"
-    v-text="forceShowAddress || name === '' ? addressToShow : name"
-    data-toggle="tooltip"
-    :data-placement="placement"
-    title=""
-    :data-original-title="showTooltip && !showAddressComplete ? address : ''"
-    @click="goTo"
-  ></span>
+  <span class="address-container">
+    <span
+      :class="{ hover: goToProfile || goToFund }"
+      v-text="forceShowAddress || name === '' ? addressToShow : name"
+      data-toggle="tooltip"
+      :data-placement="placement"
+      title=""
+      :data-original-title="showTooltip && !showAddressComplete ? address : ''"
+      @click="goTo"
+    ></span>
+    <fa-icon
+      icon="copy"
+      class="icon"
+      data-toggle="tooltip"
+      data-placement="right"
+      title=""
+      data-original-title="Copiar dirección"
+      @click="copyAddress(address)"
+      v-if="allowCopyAddress"
+    />
+  </span>
 </template>
 
 <script>
 import $ from 'jquery';
 import { goToProfile, goToFund } from '@/helpers/helpers';
 import { getSplitAddress } from 'web3-simple-helpers/methods/general';
-import { call } from '@/helpers/helpers';
+import { call, copyAddress } from '@/helpers/helpers';
 import axios from 'axios';
 
 export default {
@@ -28,6 +40,7 @@ export default {
     goToProfile: { type: Boolean, default: false },
     goToFund: { type: Boolean, default: false },
     type: { type: String, default: 'entity' },
+    allowCopyAddress: { type: Boolean, default: true },
   },
   data() {
     return {
@@ -46,6 +59,8 @@ export default {
     },
   },
   methods: {
+    copyAddress,
+
     goTo() {
       if (this.goToProfile) goToProfile(this.address);
       if (this.goToFund) goToFund(this.addres);
@@ -76,4 +91,18 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.address-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+
+  .icon {
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-right: 0.4rem;
+  }
+}
+</style>

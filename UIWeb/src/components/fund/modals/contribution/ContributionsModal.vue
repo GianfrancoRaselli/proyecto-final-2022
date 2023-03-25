@@ -6,18 +6,21 @@
           <div class="modal-header">
             <h4 class="modal-title" id="contributionsModalLabel">
               <span>Contribuciones</span>
-              <span class="amount" v-text="contributions.length" v-if="contributions.length > 0"></span>
+              <span class="modal-amount" v-text="contributions.length" v-if="contributions.length > 0"></span>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <div class="contribute">
-              <button type="button" class="btn btn-success btn-sm" @click="contribute">
-                <fa-icon icon="plus" class="icon mr-2" />Contribuir
-              </button>
-            </div>
+            <button
+              type="button"
+              class="btn btn-success btn-sm"
+              :class="{ 'margin-bottom': contributionsOrdered.length === 0 }"
+              @click="contribute"
+            >
+              <fa-icon icon="plus" class="icon mr-2" />Contribuir
+            </button>
             <ContributionsList class="list" :loading="loading" :contributions="contributionsOrdered" />
           </div>
         </div>
@@ -114,15 +117,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.contribute {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgb(156, 156, 156);
-}
-
 .list {
   margin-top: 0.4rem;
 }

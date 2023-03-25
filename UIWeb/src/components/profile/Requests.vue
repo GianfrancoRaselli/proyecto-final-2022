@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="profile-extra-information-container">
     <AppSpinner class="spinner" size="medium" v-if="loading" />
     <div class="items" v-else>
       <div class="no-items" v-if="requestsToShow.length === 0">

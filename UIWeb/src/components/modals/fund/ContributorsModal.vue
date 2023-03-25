@@ -11,7 +11,7 @@
         <div class="modal-header">
           <h4 class="modal-title" :id="'contributorsModalLabel' + fund.address">
               <span>Contribuyentes</span>
-              <span class="amount" v-text="fund.contributors.length" v-if="fund.contributors.length > 0"></span>
+              <span class="modal-amount" v-text="fund.contributors.length" v-if="fund.contributors.length > 0"></span>
             </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -19,7 +19,7 @@
         </div>
         <div class="modal-body">
           <div class="contributors-list" v-if="!loading">
-            <div class="no-items" v-if="contributorsOrdered.length === 0">Sin contribuyentes</div>
+            <div class="no-items-modal" v-if="contributorsOrdered.length === 0">Sin contribuyentes</div>
             <ul class="list-group list-group-flush" v-else>
               <li class="list-group-item" v-for="(contributor, index) in contributorsOrdered" :key="index">
                 <div class="item-address">
@@ -89,7 +89,7 @@ export default {
 
 <style lang="scss" scoped>
 .list-group-item {
-  padding: 0.8rem 0.2rem;
+  padding: 0.8rem 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
