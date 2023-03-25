@@ -160,7 +160,7 @@ export default {
       font-size: 0.85rem;
       color: white;
       width: fit-content;
-      padding: 0.1rem 1rem;
+      padding: 0.16rem 1rem;
     }
   }
 }
