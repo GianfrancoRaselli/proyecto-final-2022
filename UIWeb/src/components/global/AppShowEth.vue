@@ -8,8 +8,7 @@
 <script>
 import $ from 'jquery';
 import Web3 from 'web3';
-import { convertNumberToMaxDecimals } from '@/helpers/helpers';
-import { ethPriceInUSD } from '@/helpers/helpers';
+import { convertNumberToMaxDecimals, ethPriceInUSD } from '@/helpers/helpers';
 
 export default {
   name: 'AppShowEthComponent',

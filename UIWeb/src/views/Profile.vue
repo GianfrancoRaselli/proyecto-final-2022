@@ -55,6 +55,24 @@
       <EditImageModal @update="updateImage" />
     </div>
 
+    <div class="investment-statistics">
+      <div class="item item-red">
+        <div
+          class="amount"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title=""
+          :data-original-title="'≈ ' + usdContributed + ' USD'"
+          v-text="ethContributed"
+        ></div>
+        <span class="description"><span class="unit">ETH</span> contribuidos</span>
+      </div>
+      <div class="item item-purple">
+        <div class="amount" v-text="contributedFundsAmount"></div>
+        <span class="description"><span class="unit">Fondos</span> contribuidos</span>
+      </div>
+    </div>
+
     <div class="extra-information profile-extra-information">
       <div id="header" class="header" @mouseover="mouseOverHeader" @mouseleave="mouseLeaveHeader">
         <div class="arrow arrow-left" @click="goBack" v-if="extraInformation.activeGoBack">
@@ -132,9 +150,10 @@
 
 <script>
 import $ from 'jquery';
+import Web3 from 'web3';
 import { serverUrl } from '@/siteConfig';
 import { mapState, mapGetters } from 'vuex';
-import { call, event } from '@/helpers/helpers';
+import { call, event, convertNumberToMaxDecimals, ethPriceInUSD } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 import { signMessage } from '@/helpers/connection';
@@ -167,6 +186,7 @@ export default {
   data() {
     return {
       serverUrl,
+      ethPriceInUSD: 0,
       loadingEntity: true,
       entity: null,
       loadingFunds: true,
@@ -193,7 +213,40 @@ export default {
     ...mapGetters(['address']),
 
     isMyProfile() {
-      return compareAddresses(this.address, this.$route.params.address);
+      return compareAddresses(this.$route.params.address, this.address);
+    },
+
+    fundsContributions() {
+      let fundsContributions = [];
+      for (let fund of this.funds) {
+        const contributorIndex = fund.contributors.findIndex((contributor) =>
+          compareAddresses(contributor.contributor, this.$route.params.address),
+        );
+        if (contributorIndex >= 0) {
+          fundsContributions.push(fund.contributors[contributorIndex]);
+        }
+      }
+      return fundsContributions;
+    },
+
+    weisContributed() {
+      let weisContributed = 0;
+      for (let fundsContribution of this.fundsContributions) {
+        weisContributed += fundsContribution.contribution;
+      }
+      return weisContributed.toLocaleString('fullwide', { useGrouping: false });
+    },
+
+    ethContributed() {
+      return convertNumberToMaxDecimals(Number(Web3.utils.fromWei(this.weisContributed, 'ether')), 4);
+    },
+
+    usdContributed() {
+      return convertNumberToMaxDecimals(this.ethContributed * this.ethPriceInUSD, 2);
+    },
+
+    contributedFundsAmount() {
+      return this.fundsContributions.length;
     },
   },
   watch: {
@@ -474,6 +527,12 @@ export default {
     },
   },
   async created() {
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    this.ethPriceInUSD = await ethPriceInUSD();
+
     this.getEntityData();
     this.getAllFunds();
   },
@@ -603,11 +662,83 @@ export default {
   }
 }
 
-.extra-information {
-  padding: 2rem 6rem;
+.investment-statistics {
+  padding: 2rem;
 
   @media (max-width: 920px) {
     padding: 2rem 0;
+  }
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5rem;
+  row-gap: 1.5rem;
+
+  @media (max-width: 620px) {
+    flex-direction: column;
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.6rem;
+
+    .amount {
+      font-size: 4rem;
+      height: 15rem;
+      width: 15rem;
+      background-color: rgba(240, 240, 240, 0.2);
+      border: 0.6rem solid;
+      border-radius: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .description {
+      font-size: 1.5rem;
+    }
+  }
+
+  .item-red {
+    .amount {
+      color: #e74a9b;
+      border-color: #e74a9b;
+      box-shadow: 0 0 10px #e74a9b;
+    }
+
+    .description {
+      .unit {
+        color: #e74a9b;
+      }
+    }
+  }
+
+  .item-purple {
+    .amount {
+      color: #7645d9;
+      border-color: #7645d9;
+      box-shadow: 0 0 10px #7645d9;
+    }
+
+    .description {
+      .unit {
+        color: #7645d9;
+      }
+    }
+  }
+}
+
+.extra-information {
+  padding: 0 2rem;
+
+  @media (max-width: 920px) {
+    padding: 0;
   }
 
   .header {

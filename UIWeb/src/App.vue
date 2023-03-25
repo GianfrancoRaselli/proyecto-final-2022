@@ -329,7 +329,7 @@ body {
       .amount {
         font-size: 1rem;
         color: grey;
-        padding: 0 0.3rem;
+        padding: 0 0.4rem;
         margin-top: 0.5rem;
 
         .number {
