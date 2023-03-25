@@ -117,7 +117,7 @@ export default {
   align-items: stretch;
 
   .question-container {
-    padding: 1rem;
+    padding: 0.6rem;
 
     .question {
       font-size: 1.1rem;
