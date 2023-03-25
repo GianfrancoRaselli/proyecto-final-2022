@@ -2,11 +2,15 @@
   <div class="container">
     <AppSpinner class="spinner" size="medium" v-if="loading" />
     <div class="items" v-else>
-      <div class="no-items" v-if="fundsToShow && fundsToShow.length === 0">
+      <div class="no-items" v-if="fundsToShow.length === 0">
         <fa-icon icon="xmark" class="icon" size="5x" />
         <span>La entidad no ha creado ningún fondo aún.</span>
       </div>
       <div v-else>
+        <p class="amount">
+          <span class="number" v-text="fundsToShow.length"></span>
+          <span v-text="fundsToShow.length === 1 ? ' fondo encontrado.' : ' fondos encontrados.'"></span>
+        </p>
         <Fund v-for="(fund, i) in fundsToShow" :key="i" :fund="fund" />
       </div>
     </div>
@@ -56,33 +60,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  .spinner {
-    margin-top: 2rem;
-  }
-
-  .items {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    .no-items {
-      font-size: 1.2rem;
-      text-align: center;
-      margin-top: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.8rem;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -295,4 +295,47 @@ body {
     box-shadow: 0 0 2px rgb(65, 65, 65);
   }
 }
+
+.profile-extra-information {
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .spinner {
+      margin-top: 2rem;
+    }
+
+    .items {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .no-items {
+        font-size: 1.2rem;
+        text-align: center;
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .amount {
+        font-size: 1rem;
+        color: grey;
+        padding: 0 0.3rem;
+        margin-top: 0.5rem;
+
+        .number {
+          font-size: 1.1em;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
 </style>

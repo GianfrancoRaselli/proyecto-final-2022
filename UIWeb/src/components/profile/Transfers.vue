@@ -2,12 +2,16 @@
   <div class="container">
     <AppSpinner class="spinner" size="medium" v-if="loading" />
     <div class="items" v-else>
-      <div class="no-items" v-if="transfersOrdered && transfersOrdered.length === 0">
+      <div class="no-items" v-if="transfersOrdered.length === 0">
         <fa-icon icon="xmark" class="icon" size="5x" />
         <span v-if="filter === 'made'">La entidad no ha realizado ninguna transferencia aún.</span>
         <span v-if="filter === 'received'">La entidad no ha recibido ninguna transferencia aún.</span>
       </div>
       <div v-else>
+        <p class="amount">
+          <span class="number" v-text="transfersOrdered.length"></span>
+          <span v-text="transfersOrdered.length === 1 ? ' transferencia encontrada.' : ' transferencia encontradas.'"></span>
+        </p>
         <div class="item" v-for="(transfer, index) in transfersOrdered" :key="index">
           <div class="header">
             <AppDate class="date" :date="fromUnixTimestampToDate(transfer.timestamp)" />
@@ -72,56 +76,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.item {
+  padding: 0.65rem 0.55rem;
+  border: 1px solid rgb(238, 238, 238);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  align-items: start;
+  gap: 0.3rem;
 
-  .spinner {
-    margin-top: 2rem;
-  }
-
-  .items {
+  .header {
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
+    gap: 0.4rem;
+  }
 
-    .no-items {
-      font-size: 1.2rem;
-      text-align: center;
-      margin-top: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .item {
-      padding: 0.65rem 0.55rem;
-      border: 1px solid rgb(238, 238, 238);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: start;
-      gap: 0.3rem;
-
-      .header {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.4rem;
-      }
-
-      .address {
-        font-weight: bold;
-      }
-    }
+  .address {
+    font-weight: bold;
   }
 }
 </style>

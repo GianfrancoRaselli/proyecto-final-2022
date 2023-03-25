@@ -52,7 +52,7 @@
       <EditImageModal @update="updateImage" />
     </div>
 
-    <div class="extra-informacion">
+    <div class="extra-information profile-extra-information">
       <div id="header" class="header" @mouseover="mouseOverHeader" @mouseleave="mouseLeaveHeader">
         <div class="arrow arrow-left" @click="goBack" v-if="extraInformation.activeGoBack">
           <fa-icon icon="arrow-left" class="icon" />
@@ -601,7 +601,7 @@ export default {
   }
 }
 
-.extra-informacion {
+.extra-information {
   padding: 2rem 6rem;
 
   @media (max-width: 920px) {

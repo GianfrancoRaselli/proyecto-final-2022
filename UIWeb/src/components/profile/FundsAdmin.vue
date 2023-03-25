@@ -2,11 +2,15 @@
   <div class="container">
     <AppSpinner class="spinner" size="medium" v-if="loading" />
     <div class="items" v-else>
-      <div class="no-items" v-if="fundsToShow && fundsToShow.length === 0">
+      <div class="no-items" v-if="fundsToShow.length === 0">
         <fa-icon icon="xmark" class="icon" size="5x" />
         <span>La entidad no es administradora de ningún fondo.</span>
       </div>
       <div v-else>
+        <p class="amount">
+          <span class="number" v-text="fundsToShow.length"></span>
+          <span v-text="fundsToShow.length === 1 ? ' fondo encontrado.' : ' fondos encontrados.'"></span>
+        </p>
         <div class="item" v-for="(fund, index) in fundsToShow" :key="index">
           <span>
             <span v-text="index + 1"></span>
@@ -56,46 +60,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.item {
+  padding: 0.65rem 0.55rem;
+  border: 1px solid rgb(238, 238, 238);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  align-items: start;
+  gap: 0.3rem;
 
-  .spinner {
-    margin-top: 2rem;
-  }
-
-  .items {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    .no-items {
-      font-size: 1.2rem;
-      text-align: center;
-      margin-top: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .item {
-      padding: 0.65rem 0.55rem;
-      border: 1px solid rgb(238, 238, 238);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: start;
-      gap: 0.3rem;
-
-      .address {
-        font-weight: bold;
-      }
-    }
+  .address {
+    font-weight: bold;
   }
 }
 </style>

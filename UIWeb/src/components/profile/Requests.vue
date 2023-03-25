@@ -2,12 +2,16 @@
   <div class="container">
     <AppSpinner class="spinner" size="medium" v-if="loading" />
     <div class="items" v-else>
-      <div class="no-items" v-if="requestsToShow && requestsToShow.length === 0">
+      <div class="no-items" v-if="requestsToShow.length === 0">
         <fa-icon icon="xmark" class="icon" size="5x" />
         <span v-if="filter === 'petitioner'">La entidad no ha creado ninguna solicitud aún.</span>
         <span v-if="filter === 'recipient'">La entidad no ha sido receptora de ninguna solicitud aún.</span>
       </div>
       <div v-else>
+        <p class="amount">
+          <span class="number" v-text="requestsToShow.length"></span>
+          <span v-text="requestsToShow.length === 1 ? ' solicitud encontrada.' : ' solicitud encontradas.'"></span>
+        </p>
         <div class="item" :class="getRequestClass(request)" v-for="request in requestsToShow" :key="request.index">
           <RequestsContent :fund="funds[request.fundIndex]" :request="request" :showFundName="true" />
           <ApprovalsModal
@@ -111,54 +115,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.item {
+  padding: 0.65rem 0.55rem;
+  border: 1px solid rgb(238, 238, 238);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  align-items: start;
+  gap: 0.3rem;
+}
 
-  .spinner {
-    margin-top: 2rem;
-  }
+.request-completed {
+  background-color: rgba(0, 0, 255, 0.19);
+}
 
-  .items {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.request-approved {
+  background-color: rgba(0, 128, 0, 0.262);
+}
 
-    .no-items {
-      font-size: 1.2rem;
-      text-align: center;
-      margin-top: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.8rem;
-    }
-    
-    .item {
-      padding: 0.65rem 0.55rem;
-      border: 1px solid rgb(238, 238, 238);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: start;
-      gap: 0.3rem;
-    }
-
-    .request-completed {
-      background-color: rgba(0, 0, 255, 0.19);
-    }
-
-    .request-approved {
-      background-color: rgba(0, 128, 0, 0.262);
-    }
-
-    .request-created {
-      background-color: rgba(255, 0, 0, 0.185);
-    }
-  }
+.request-created {
+  background-color: rgba(255, 0, 0, 0.185);
 }
 </style>
