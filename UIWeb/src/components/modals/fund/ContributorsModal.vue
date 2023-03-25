@@ -10,9 +10,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" :id="'contributorsModalLabel' + fund.address">
-              <span>Contribuyentes</span>
-              <span class="modal-amount" v-text="fund.contributors.length" v-if="fund.contributors.length > 0"></span>
-            </h4>
+            <span>Contribuyentes</span>
+            <span class="modal-amount" v-text="fund.contributors.length" v-if="fund.contributors.length > 0"></span>
+          </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -106,7 +106,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: end;
 
   .percentage {
     font-size: 0.8rem;

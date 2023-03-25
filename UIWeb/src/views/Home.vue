@@ -116,6 +116,7 @@
 </template>
 
 <script>
+import BigNumber from 'bignumber.js';
 import { hasMetamask } from '@/helpers/connection';
 import { call, addTokenToMetaMask, convertNumberToMaxDecimals } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
@@ -204,7 +205,7 @@ export default {
               }
               funds[index] = fund;
 
-              weis += fund.totalContributions;
+              weis = BigNumber.sum(weis, fund.totalContributions);
 
               callsResolved++;
               this.progressFunds = Math.round((callsResolved / this.community.funds) * 100);

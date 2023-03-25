@@ -72,13 +72,13 @@
 </template>
 
 <script>
+import BigNumber from 'bignumber.js';
 import $ from 'jquery';
 import Web3 from 'web3';
 import axios from 'axios';
 import { mapGetters } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { transaction, validateForm, removeInitialZeros } from '@/helpers/helpers';
-import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, numeric } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
@@ -169,7 +169,10 @@ export default {
             this.value.trim() + ' ' + this.unit + ' transferidos a ' + getSplitAddress(this.receiver.trim()),
           );
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund.totalContributions += this.unit === 'Wei' ? this.value.trim() : Web3.utils.toWei(this.value.trim(), 'ether');
+          this.fund.totalContributions = BigNumber.sum(
+            this.fund.totalContributions,
+            this.unit === 'Wei' ? this.value.trim() : Web3.utils.toWei(this.value.trim(), 'ether'),
+          );
           addNotification({
             message: 'Transferidos ' + this.value.trim() + ' ' + this.unit,
             type: 'success',

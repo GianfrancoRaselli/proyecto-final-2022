@@ -64,13 +64,16 @@
           title=""
           :data-original-title="'≈ ' + usdContributed + ' USD'"
           v-text="ethContributed"
+          @click="openFundsContributedModal"
         ></div>
         <span class="description"><span class="unit">ETH</span> contribuidos</span>
       </div>
       <div class="item item-purple">
-        <div class="amount" v-text="contributedFundsAmount"></div>
+        <div class="amount" v-text="contributedFundsAmount" @click="openFundsContributedModal"></div>
         <span class="description"><span class="unit">Fondos</span> contribuidos</span>
       </div>
+
+      <FundsContributedModal :loading="loading" :contributions="fundsContributions" v-if="contributedFundsAmount > 0" />
     </div>
 
     <div class="extra-information profile-extra-information">
@@ -149,6 +152,7 @@
 </template>
 
 <script>
+import BigNumber from 'bignumber.js';
 import $ from 'jquery';
 import Web3 from 'web3';
 import { serverUrl } from '@/siteConfig';
@@ -162,6 +166,7 @@ import axios from 'axios';
 
 import EditEntityModal from '@/components/entity/EditEntityModal';
 import EditImageModal from '@/components/EditImageModal';
+import FundsContributedModal from '@/components/profile/modals/FundsContributedModal';
 import FundsCreated from '@/components/profile/FundsCreated';
 import FundsAdmin from '@/components/profile/FundsAdmin';
 import Contributions from '@/components/profile/Contributions';
@@ -175,6 +180,7 @@ export default {
   components: {
     EditEntityModal,
     EditImageModal,
+    FundsContributedModal,
     FundsCreated,
     FundsAdmin,
     Contributions,
@@ -232,7 +238,7 @@ export default {
     weisContributed() {
       let weisContributed = 0;
       for (let fundsContribution of this.fundsContributions) {
-        weisContributed += fundsContribution.contribution;
+        weisContributed = BigNumber.sum(weisContributed, fundsContribution.contribution);
       }
       return weisContributed.toLocaleString('fullwide', { useGrouping: false });
     },
@@ -397,6 +403,7 @@ export default {
                             {},
                             (res) => {
                               contributors[contributorIndex] = {
+                                fundName: funds[fundIndex].name,
                                 contributor: funds[fundIndex].contributors[contributorIndex],
                                 contribution: res,
                               };
@@ -497,6 +504,10 @@ export default {
       } finally {
         this.loadingRequests = false;
       }
+    },
+
+    openFundsContributedModal() {
+      $('#fundsContributedModal').modal('show');
     },
 
     mouseOverHeader() {
@@ -688,9 +699,11 @@ export default {
     gap: 0.6rem;
 
     .amount {
-      font-size: 4rem;
-      height: 15rem;
-      width: 15rem;
+      cursor: pointer;
+      font-size: 3rem;
+      word-break: break-word;
+      height: 12rem;
+      width: 12rem;
       background-color: rgba(240, 240, 240, 0.2);
       border: 0.6rem solid;
       border-radius: 100%;
@@ -701,7 +714,7 @@ export default {
     }
 
     .description {
-      font-size: 1.5rem;
+      font-size: 1.35rem;
     }
   }
 

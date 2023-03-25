@@ -65,13 +65,13 @@
 </template>
 
 <script>
+import BigNumber from 'bignumber.js';
 import $ from 'jquery';
 import Web3 from 'web3';
 import axios from 'axios';
 import { mapGetters } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { transaction, validateForm, removeInitialZeros } from '@/helpers/helpers';
-import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, numeric } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
@@ -168,11 +168,15 @@ export default {
               : '',
           );
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund.totalContributions +=
-            this.contributionUnit === 'Wei' ? this.contribution.trim() : Web3.utils.toWei(this.contribution.trim(), 'ether');
+          this.fund.totalContributions = BigNumber.sum(
+            this.fund.totalContributions,
+            this.contributionUnit === 'Wei' ? this.contribution.trim() : Web3.utils.toWei(this.contribution.trim(), 'ether'),
+          );
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund.balance +=
-            this.contributionUnit === 'Wei' ? this.contribution.trim() : Web3.utils.toWei(this.contribution.trim(), 'ether');
+          this.fund.balance = BigNumber.sum(
+            this.fund.balance,
+            this.contributionUnit === 'Wei' ? this.contribution.trim() : Web3.utils.toWei(this.contribution.trim(), 'ether'),
+          );
           addNotification({
             message: 'Contribuidos ' + this.contribution.trim() + ' ' + this.contributionUnit,
             type: 'success',

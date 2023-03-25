@@ -18,7 +18,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="no-items-modal" v-if="managers && managers.length === 0">Sin administradores</div>
+          <div class="no-items-modal" v-if="managers.length === 0">Sin administradores</div>
           <ul class="list-group list-group-flush" v-else>
             <li class="list-group-item" v-for="(manager, index) in managers" :key="index">
               <span
