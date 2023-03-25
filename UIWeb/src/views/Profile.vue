@@ -403,6 +403,7 @@ export default {
                             {},
                             (res) => {
                               contributors[contributorIndex] = {
+                                fundAddress: funds[fundIndex].address,
                                 fundName: funds[fundIndex].name,
                                 contributor: funds[fundIndex].contributors[contributorIndex],
                                 contribution: res,

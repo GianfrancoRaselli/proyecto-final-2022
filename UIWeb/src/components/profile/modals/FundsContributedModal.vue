@@ -25,7 +25,7 @@
                 <li class="list-group-item" v-for="(contribution, index) in contributionsOrdered" :key="index">
                   <div class="item-fund">
                     <span v-text="index + 1 + '. '" />
-                    <span v-text="contribution.fundName"></span>
+                    <span class="hover" v-text="contribution.fundName" @click="goToFund(contribution.fundAddress)"></span>
                   </div>
                   <div class="item-amount">
                     <AppShowEth :weis="contribution.contribution" />
@@ -53,7 +53,7 @@
 <script>
 import BigNumber from 'bignumber.js';
 import { mapGetters } from 'vuex';
-import { convertNumberToMaxDecimals } from '@/helpers/helpers';
+import { convertNumberToMaxDecimals, goToFund } from '@/helpers/helpers';
 
 export default {
   name: 'FundsContributedModalComponent',
@@ -84,6 +84,7 @@ export default {
   },
   methods: {
     convertNumberToMaxDecimals,
+    goToFund,
   },
   async created() {},
 };
