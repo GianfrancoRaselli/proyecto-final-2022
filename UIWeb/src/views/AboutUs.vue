@@ -49,7 +49,7 @@
         <div class="question">
           <p class="ask light">¿Qué ventajas nos proporciona la cadena de bloques?</p>
           <div class="answer">
-            <div class="item bottom-bar">
+            <div class="item bottom-bar not-padding-top">
               <p class="title">Descentralización</p>
               <p>
                 Una cadena de bloques descentralizada añade una red de igual a igual a las características de seguridad existentes
@@ -80,7 +80,7 @@
                 e bloques es necesario disponer del par de claves pública y privada.
               </p>
             </div>
-            <div class="item">
+            <div class="item not-padding-bottom">
               <p class="title">Trazabilidad</p>
               <p>
                 La cadena de bloques permite realizar un recorrido de todas las operaciones que se han realizado sobre una
@@ -144,6 +144,14 @@ export default {
             font-size: 1.2em;
             font-weight: bold;
           }
+        }
+
+        .not-padding-top {
+          padding-top: 0;
+        }
+
+        .not-padding-bottom {
+          padding-bottom: 0;
         }
 
         .bottom-bar {
