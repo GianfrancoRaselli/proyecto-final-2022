@@ -649,7 +649,7 @@ export default {
     .header-container {
       display: flex;
       flex-direction: row;
-      justify-content: flex-start;
+      justify-content: start;
       align-items: center;
       overflow: auto;
 

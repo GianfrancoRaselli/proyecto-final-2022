@@ -247,6 +247,27 @@ body {
   }
 }
 
+.modal-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  gap: 0.6rem;
+
+  .amount {
+    font-size: 1rem;
+    height: 1.3rem;
+    width: 1.3rem;
+    color: white;
+    background-color: orange;
+    border-radius: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 .no-items {
   padding: 0.8rem 0.2rem 0 0.2rem;
 }

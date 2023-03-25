@@ -9,7 +9,10 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" :id="'contributorsModalLabel' + fund.address">Contribuyentes</h4>
+          <h4 class="modal-title" :id="'contributorsModalLabel' + fund.address">
+              <span>Contribuyentes</span>
+              <span class="amount" v-text="fund.contributors.length" v-if="fund.contributors.length > 0"></span>
+            </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

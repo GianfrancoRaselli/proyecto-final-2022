@@ -343,7 +343,7 @@ export default {
     overflow: auto;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: start;
     align-items: stretch;
     gap: 1rem;
 
@@ -443,7 +443,7 @@ export default {
     overflow: auto;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: start;
     align-items: stretch;
     gap: 1rem;
 

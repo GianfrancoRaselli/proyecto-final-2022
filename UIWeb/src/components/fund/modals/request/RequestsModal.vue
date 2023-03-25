@@ -4,7 +4,10 @@
       <div class="modal-dialog modal-dialog-centered" :class="{ 'modal-lg': fund.requests && fund.requests.length > 0 }">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="requestsModalLabel">Solicitudes</h4>
+            <h4 class="modal-title" id="requestsModalLabel">
+              <span>Solicitudes</span>
+              <span class="amount" v-text="fund.requests.length" v-if="fund.requests.length > 0"></span>
+            </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

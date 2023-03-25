@@ -587,7 +587,7 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: start;
   align-items: stretch;
   column-gap: 1%;
   row-gap: 0.5rem;

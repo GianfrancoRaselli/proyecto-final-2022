@@ -10,7 +10,10 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" :id="'profileRequestsModalLabel' + fundAddress">Solicitudes</h4>
+            <h4 class="modal-title" :id="'profileRequestsModalLabel' + fundAddress">
+              <span>Solicitudes</span>
+              <span class="amount" v-text="requests.length" v-if="requests.length > 0"></span>
+            </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

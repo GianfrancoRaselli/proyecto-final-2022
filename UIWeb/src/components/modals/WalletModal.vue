@@ -186,7 +186,7 @@ export default {
 .below-line {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: start;
   align-items: start;
   gap: 0.3rem;
 
@@ -198,7 +198,7 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: start;
     align-items: center;
     gap: 0.3rem;
   }
@@ -213,7 +213,7 @@ export default {
   .transaction-body {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: start;
     align-items: center;
     gap: 0.5rem;
 
