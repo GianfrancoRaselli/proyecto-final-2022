@@ -487,7 +487,6 @@ export default {
   padding: 1rem;
   border: 1px solid rgb(209, 209, 209);
   border-radius: 10px;
-  margin-top: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
