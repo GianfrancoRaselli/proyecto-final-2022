@@ -252,7 +252,7 @@ body {
   flex-direction: row;
   justify-content: start;
   align-items: start;
-  gap: 0.6rem;
+  gap: 0.4rem;
 
   .amount {
     font-size: 1rem;
