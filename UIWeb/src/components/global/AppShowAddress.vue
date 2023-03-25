@@ -16,7 +16,7 @@
       data-placement="right"
       title=""
       data-original-title="Copiar dirección"
-      @click="copyAddress(address)"
+      @click="copyAddress"
       v-if="allowCopyAddress"
     />
   </span>
@@ -42,6 +42,7 @@ export default {
     type: { type: String, default: 'entity' },
     allowCopyAddress: { type: Boolean, default: true },
   },
+  emits: ['copyAddressClick'],
   data() {
     return {
       name: '',
@@ -59,7 +60,10 @@ export default {
     },
   },
   methods: {
-    copyAddress,
+    copyAddress() {
+      this.$emit('copyAddressClick');
+      copyAddress(this.address);
+    },
 
     goTo() {
       if (this.goToProfile) goToProfile(this.address);

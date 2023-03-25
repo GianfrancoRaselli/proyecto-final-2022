@@ -17,7 +17,7 @@ export default {
 .pill {
   font-size: 0.82rem;
   background-color: rgba(200, 200, 200, 0.547);
-  padding: 4px 12px;
+  padding: 0.26rem 0.8rem;
   border-radius: 20px;
   user-select: none;
 
@@ -25,7 +25,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 0.52rem;
 }
 
 .pill-primary {

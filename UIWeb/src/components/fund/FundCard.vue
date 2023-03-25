@@ -92,13 +92,13 @@ export default {
   methods: {
     compareAddresses,
 
+    openEntityModalClick() {
+      this.canRedirect = false;
+    },
+
     redirect() {
       if (this.canRedirect) this.$router.push({ name: 'Fund', params: { fundAddress: this.fund.address } });
       this.canRedirect = true;
-    },
-
-    openEntityModalClick() {
-      this.canRedirect = false;
     },
   },
 };

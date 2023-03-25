@@ -8,7 +8,9 @@
         <img class="img" :src="serverUrl + 'images/' + entity.image" v-if="entity.image" />
         <img class="img" src="@/assets/imgs/user-not-found.png" v-else />
         <span class="type" v-text="entity.type" />
-        <span class="address"><AppShowAddress type="entity" :address="entity.address" :forceShowAddress="true" /></span>
+        <span class="address"
+          ><AppShowAddress type="entity" :address="entity.address" :forceShowAddress="true" @copyAddressClick="copyAddressClick"
+        /></span>
       </div>
     </div>
   </div>
@@ -24,13 +26,21 @@ export default {
     entity: { type: Object, required: true },
   },
   data() {
-    return { serverUrl };
+    return {
+      serverUrl,
+      canRedirect: true,
+    };
   },
   computed: {},
   watch: {},
   methods: {
+    copyAddressClick() {
+      this.canRedirect = false;
+    },
+
     redirect() {
-      this.$router.push({ name: 'Profile', params: { address: this.entity.address } });
+      if (this.canRedirect) this.$router.push({ name: 'Profile', params: { address: this.entity.address } });
+      this.canRedirect = true;
     },
   },
 };
