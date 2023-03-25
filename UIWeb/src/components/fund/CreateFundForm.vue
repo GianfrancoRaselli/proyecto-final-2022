@@ -668,21 +668,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form {
-  background-color: rgb(252, 252, 252);
-  padding: 18px 18px;
-  border: 0.05px solid rgba(167, 167, 167, 0.296);
-  border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 4px, rgba(0, 0, 0, 0.24) 0px 0px 2px;
-}
-
-@media (max-width: 400px) {
-  .form {
-    padding: 16px 12px;
-  }
-}
-
 .information {
+  padding: 1rem;
+  border: 0.05px solid rgba(167, 167, 167, 0.296);
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 4px, rgba(0, 0, 0, 0.3) 0px 0px 2px;
+
   .information-title {
     font-size: 1.46rem;
     color: rgb(18, 18, 18);
