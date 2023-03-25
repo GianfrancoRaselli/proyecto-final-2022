@@ -53,6 +53,11 @@ export default {
   background-color: #ffc107;
 }
 
+.pill-info {
+  color: black;
+  background-color: #0dcaf0;
+}
+
 .icon {
   font-size: 1.38em;
 }

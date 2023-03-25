@@ -24,16 +24,18 @@
               <AppShowAddress type="entity" id="creatorAddress" :address="fund.creator" :showTooltip="false" />
             </button>
           </p>
-          <p>
-            <span class="text-bold" v-if="fundType.type !== 'Campaña'">Contribuciones totales</span>
-            <span class="text-bold" v-else>Dinero invertido</span>
-            <span>:&nbsp;</span>
-            <AppShowEth :weis="fund.totalContributions" />
-            <span
-              >&nbsp;(<AppShowAmount :amount="fund.contributors.length" singular="contribuyente" plural="contribuyentes" />)</span
-            >
+          <p class="contributions-container">
+            <span>
+              <span class="text-bold" v-if="fundType.type !== 'Campaña'">Contribuciones totales</span>
+              <span class="text-bold" v-else>Dinero invertido</span>
+              <span>:&nbsp;</span>
+              <AppShowEth :weis="fund.totalContributions" />
+            </span>
+            <span class="amount" v-if="fund.contributors.length > 0">
+              (<AppShowAmount :amount="fund.contributors.length" singular="contribuyente" plural="contribuyentes" />)
+            </span>
           </p>
-          <span class="badge rounded-pill bg-success" v-if="isAContributor">Contribución realizada</span>
+          <span class="badge rounded-pill" v-if="isAContributor">Contribución realizada</span>
         </div>
       </div>
       <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
@@ -134,9 +136,24 @@ export default {
     flex-direction: column;
     align-items: center;
 
+    .contributions-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      column-gap: 0.7rem;
+      row-gap: 0.18rem;
+
+      .amount {
+        font-size: 0.9rem;
+      }
+    }
+
     .badge {
       font-size: 0.85rem;
-      color: white;
+      color: black;
+      background-color: #0dcaf0;
       width: fit-content;
       padding: 0.16rem 1rem;
     }

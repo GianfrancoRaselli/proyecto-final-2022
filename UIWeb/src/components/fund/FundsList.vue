@@ -146,9 +146,18 @@
                   <hr />
                   <div class="more-filters">
                     <div class="filter-title">Más filtros</div>
-                    <div class="form-group form-check">
-                      <input type="checkbox" class="form-check-input" id="checkboxMyFunds" v-model="filters.onlyShowMyFunds" />
-                      <label class="form-check-label" for="checkboxMyFunds">Solo mostrar mis fondos</label>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="checkboxMyFunds" v-model="filters.myFunds" />
+                      <label class="form-check-label" for="checkboxMyFunds">Mis fondos</label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="checkboxContributedFunds"
+                        v-model="filters.contributedFunds"
+                      />
+                      <label class="form-check-label" for="checkboxContributedFunds">Fondos contribuidos</label>
                     </div>
                   </div>
                 </div>
@@ -186,7 +195,13 @@
             @close="filters.fundsTypes.types.donation = false"
             v-if="filters.fundsTypes.types.donation"
           />
-          <AppPill msg="Mis fondos" type="primary" @close="filters.onlyShowMyFunds = false" v-if="filters.onlyShowMyFunds" />
+          <AppPill msg="Mis fondos" type="primary" @close="filters.myFunds = false" v-if="filters.myFunds" />
+          <AppPill
+            msg="Fondos contribuidos"
+            type="info"
+            @close="filters.contributedFunds = false"
+            v-if="filters.contributedFunds"
+          />
         </div>
       </div>
 
@@ -236,7 +251,8 @@ export default {
             donation: true,
           },
         },
-        onlyShowMyFunds: false,
+        myFunds: false,
+        contributedFunds: false,
       },
       funds: [],
       fundsToAdd: [],
@@ -395,9 +411,14 @@ export default {
         });
       }
 
-      // only my funds
-      if (this.filters.onlyShowMyFunds)
-        fundsToFilter = fundsToFilter.filter((fund) => compareAddresses(fund.creator, this.address));
+      // my funds
+      if (this.filters.myFunds) fundsToFilter = fundsToFilter.filter((fund) => compareAddresses(fund.creator, this.address));
+
+      // contributed funds
+      if (this.filters.contributedFunds)
+        fundsToFilter = fundsToFilter.filter(
+          (fund) => fund.contributors.findIndex((contributor) => compareAddresses(contributor, this.address)) >= 0,
+        );
 
       // order
       if (this.filters.orderBy === 'relevancia')

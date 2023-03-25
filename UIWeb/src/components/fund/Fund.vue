@@ -197,7 +197,7 @@
             class="btn btn-transfers"
             data-toggle="modal"
             data-target="#transfersModal"
-            v-if="fund.managersCanTransferMoneyWithoutARequest && isManager"
+            v-if="fund.managersCanTransferMoneyWithoutARequest && isAManager"
           >
             <fa-icon icon="money-bill-transfer" class="icon mr-2" />Transferencias
           </button>
@@ -217,10 +217,10 @@
     <CreateFundModal :fund="fund" />
     <EditImageModal :fundAddress="fund.address" @update="updateImage" v-if="isMyFund" />
     <ContributorsModal :fund="fund" :loading="loading" />
-    <ManagersModal :fund="fund" :isManager="isManager" />
+    <ManagersModal :fund="fund" :isAManager="isAManager" />
     <ContributionsModal :fund="fund" />
-    <TransfersModal :fund="fund" :isManager="isManager" />
-    <RequestsModal :loading="loading" :fund="fund" :isManager="isManager" />
+    <TransfersModal :fund="fund" :isAManager="isAManager" />
+    <RequestsModal :loading="loading" :fund="fund" :isAManager="isAManager" />
   </div>
 </template>
 
@@ -310,7 +310,7 @@ export default {
       return compareAddresses(this.address, this.fund.creator);
     },
 
-    isManager() {
+    isAManager() {
       if (this.fund.managers.findIndex((manager) => compareAddresses(manager, this.address)) >= 0) return true;
       return false;
     },

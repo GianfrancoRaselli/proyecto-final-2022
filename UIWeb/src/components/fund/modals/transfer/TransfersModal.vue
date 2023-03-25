@@ -13,13 +13,13 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="transfer" v-if="fund.managersCanTransferMoneyWithoutARequest && isManager">
+            <div class="transfer" v-if="fund.managersCanTransferMoneyWithoutARequest && isAManager">
               <button type="button" class="btn btn-success btn-sm" @click="transfer">
                 <fa-icon icon="plus" class="icon mr-2" />Transferir
               </button>
             </div>
             <TransfersList
-              :class="{ list: fund.managersCanTransferMoneyWithoutARequest && isManager }"
+              :class="{ list: fund.managersCanTransferMoneyWithoutARequest && isAManager }"
               :loading="loading"
               :transfers="transfersOrdered"
             />
@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <TransferModal :fund="fund" v-if="fund.managersCanTransferMoneyWithoutARequest && isManager" />
+    <TransferModal :fund="fund" v-if="fund.managersCanTransferMoneyWithoutARequest && isAManager" />
   </div>
 </template>
 
@@ -49,7 +49,7 @@ export default {
   },
   props: {
     fund: { type: Object, required: true },
-    isManager: { type: Boolean, default: false },
+    isAManager: { type: Boolean, default: false },
   },
   data() {
     return {

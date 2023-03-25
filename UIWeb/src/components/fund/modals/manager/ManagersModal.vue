@@ -13,13 +13,13 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="add-manager" v-if="fund.managersCanBeAddedOrRemoved && isManager">
+            <div class="add-manager" v-if="fund.managersCanBeAddedOrRemoved && isAManager">
               <button type="button" class="btn btn-success btn-sm" @click="addNewManagers">
                 <fa-icon icon="plus" class="icon mr-2" />Agregar administrador
               </button>
             </div>
 
-            <div class="managers-list" :class="{ list: fund.managersCanBeAddedOrRemoved && isManager }">
+            <div class="managers-list" :class="{ list: fund.managersCanBeAddedOrRemoved && isAManager }">
               <div class="no-items" v-if="fund.managers && fund.managers.length === 0">Sin administradores</div>
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(manager, index) in fund.managers" :key="index">
@@ -34,7 +34,7 @@
                     <button
                       type="button"
                       class="btn btn-danger btn-sm"
-                      v-if="fund.managersCanBeAddedOrRemoved && isManager && !removing(manager)"
+                      v-if="fund.managersCanBeAddedOrRemoved && isAManager && !removing(manager)"
                       @click="removeManager(manager)"
                     >
                       <fa-icon icon="trash" class="icon mr-2" />Eliminar
@@ -72,7 +72,7 @@ export default {
   },
   props: {
     fund: { type: Object, required: true },
-    isManager: { type: Boolean, default: false },
+    isAManager: { type: Boolean, default: false },
   },
   data() {
     return {

@@ -75,7 +75,7 @@ export default {
   props: {
     loading: { type: Boolean, required: true },
     fund: { type: Object, required: true },
-    isManager: { type: Boolean, default: false },
+    isAManager: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -138,7 +138,7 @@ export default {
     async approveRequest(index) {
       if (this.address) {
         if (
-          (!this.fund.onlyContributorsCanApproveARequest && this.isManager) ||
+          (!this.fund.onlyContributorsCanApproveARequest && this.isAManager) ||
           this.fund.minimumContributionPercentageRequired == 0 ||
           (this.fund.totalContributions > 0 &&
             ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address))?.contribution || 0) /

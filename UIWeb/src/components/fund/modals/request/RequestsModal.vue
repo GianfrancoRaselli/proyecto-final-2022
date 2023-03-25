@@ -17,7 +17,7 @@
               class="create-request"
               v-if="
                 fund.requestsCanBeCreated &&
-                (!fund.onlyManagersCanCreateARequest || (fund.onlyManagersCanCreateARequest && isManager))
+                (!fund.onlyManagersCanCreateARequest || (fund.onlyManagersCanCreateARequest && isAManager))
               "
             >
               <button type="button" class="btn btn-success btn-sm" @click="createNewRequest">
@@ -29,11 +29,11 @@
               :class="{
                 list:
                   fund.requestsCanBeCreated &&
-                  (!fund.onlyManagersCanCreateARequest || (fund.onlyManagersCanCreateARequest && isManager)),
+                  (!fund.onlyManagersCanCreateARequest || (fund.onlyManagersCanCreateARequest && isAManager)),
               }"
               :loading="loading"
               :fund="fund"
-              :isManager="isManager"
+              :isAManager="isAManager"
             />
           </div>
         </div>
@@ -72,7 +72,7 @@ export default {
   props: {
     loading: { type: Boolean, required: true },
     fund: { type: Object, required: true },
-    isManager: { type: Boolean, default: false },
+    isAManager: { type: Boolean, default: false },
   },
   data() {
     return {};
