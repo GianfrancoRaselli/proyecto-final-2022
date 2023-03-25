@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="loading mb-2" v-if="loading">
+    <div class="loading" v-if="loading">
       <AppSpinner class="spinner" size="big" />
     </div>
     <div class="card" v-else>
@@ -610,10 +610,6 @@ export default {
 
 .card {
   position: relative;
-
-  @media (min-width: 768px) {
-    margin: 0 30px;
-  }
 
   .card-header {
     padding-left: 80px;

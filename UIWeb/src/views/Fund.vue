@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p class="page-title">Información del fondo</p>
     <Fund />
   </div>
 </template>

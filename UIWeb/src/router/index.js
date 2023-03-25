@@ -38,6 +38,14 @@ const routes = [
     component: () => import('@/views/Profile'),
   },
   {
+    name: 'FundFactory',
+    path: '/fundFactory',
+    component: () => import('@/views/FundFactory'),
+    meta: {
+      isTheDeployer: true,
+    },
+  },
+  {
     name: 'NotFound',
     path: '/:pathMatch(.*)*',
     component: () => import('@/views/NotFound'),
@@ -61,7 +69,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  if (to.meta.connected && !store.getters.isConnected) {
+  if (to.meta.isTheDeployer && !store.state.connection.isTheDeployer) {
     return { name: 'Home' };
   }
 });

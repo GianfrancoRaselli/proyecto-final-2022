@@ -1,5 +1,6 @@
 <template>
-  <div class="content">
+  <div>
+    <p class="page-title">Perfil de la entidad</p>
     <div class="entity-card">
       <AppSpinner class="spinner" size="big" v-if="loadingEntity" />
       <div class="entity-card-content" v-else>
@@ -17,7 +18,9 @@
           <div class="header">
             <span class="fullname" v-if="entity" v-text="entity.fullname" />
             <span class="type" v-if="entity" v-text="entity.type" />
-            <span class="address"><AppShowAddress type="entity" :address="$route.params.address" /></span>
+            <span class="address"
+              ><AppShowAddress type="entity" :address="$route.params.address" :forceShowAddress="true"
+            /></span>
           </div>
           <div class="body" v-if="entity">
             <span class="email" v-if="entity.email"

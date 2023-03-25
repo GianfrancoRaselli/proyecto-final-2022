@@ -2,6 +2,7 @@ import store from '@/store';
 import Web3 from 'web3';
 import Swal from 'sweetalert2';
 import { call, event } from '@/helpers/helpers';
+import { compareAddresses } from 'web3-simple-helpers/methods/general';
 //import detectEthereumProvider from '@metamask/detect-provider';
 
 import fundFactoryABI from '@/assets/abis/FundFactory';
@@ -53,6 +54,8 @@ const connectToMetamask = async () => {
       store.state.connection.provider.removeListener('accountsChanged', handleAccountsChanged);
       store.state.connection.provider.on('accountsChanged', handleAccountsChanged);
 
+      searchIsTheDeployer();
+
       store.commit('unsubscribeFromTransfersSubscription');
       searchFundTokensBalance();
 
@@ -90,6 +93,12 @@ const setWeb3AndContracts = (provider) => {
   }
 };
 
+const searchIsTheDeployer = () => {
+  call('FundFactory', 'owner', [], {}, async (res) => {
+    store.commit('setIsTheDeployer', compareAddresses(res, store.getters.address));
+  });
+};
+
 const searchFundTokensBalance = () => {
   call('FundToken', 'balanceOf', [store.getters.address], {}, async (res) => {
     store.commit('setFundTokensBalance', res);
@@ -117,13 +126,15 @@ const handleAccountsChanged = (accounts) => {
     store.state.connection.provider.removeListener('accountsChanged', handleAccountsChanged);
     store.state.connection.provider.removeListener('chainChanged', handleChainChanged);
   }
-
+  
   store.commit('unsubscribeFromTransfersSubscription');
   store.commit('clearRecentTransactions');
   store.commit('setAddress', accounts[0]);
   store.commit('setSignature', undefined);
+  store.commit('setIsTheDeployer', false);
 
   if (store.getters.address) {
+    searchIsTheDeployer();
     searchFundTokensBalance();
     if (!store.state.connection.disconnected) signMessage();
   }

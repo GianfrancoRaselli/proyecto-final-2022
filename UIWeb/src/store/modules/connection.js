@@ -8,6 +8,7 @@ export default {
       address: '',
       disconnected: false,
       signature: null,
+      isTheDeployer: false,
       provider: null,
       infuraProvider,
       web3: null,
@@ -66,6 +67,10 @@ export default {
 
     setSignature(state, signature) {
       state.signature = signature;
+    },
+
+    setIsTheDeployer(state, isTheDeployer) {
+      state.isTheDeployer = isTheDeployer;
     },
 
     setProvider(state, provider) {

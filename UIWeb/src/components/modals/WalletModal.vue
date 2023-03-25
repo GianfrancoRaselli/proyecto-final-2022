@@ -51,6 +51,14 @@
                 @click="redirectToMyProfile"
               />
             </div>
+            <div class="fund-factory" v-if="isTheDeployer">
+              <AppButton
+                classes="btn-sm btn-link btn-radius btn-fund-factory"
+                text="Administrar FundFactory"
+                icon="file-contract"
+                @click="redirectToFundFactory"
+              />
+            </div>
           </div>
 
           <div class="recent-transactions mt-2" v-if="isConnected">
@@ -112,6 +120,7 @@ export default {
     ]),
 
     ...mapState({
+      isTheDeployer: (state) => state.connection.isTheDeployer,
       recentTransactions: (state) => state.connection.recentTransactions,
     }),
     ...mapGetters(['isConnected', 'isConnectedToTheValidChain', 'validChainName', 'validChainExplorer', 'address']),
@@ -158,6 +167,13 @@ export default {
       this.$router.push({
         name: 'Profile',
         params: { address: this.address },
+      });
+    },
+
+    redirectToFundFactory() {
+      $('#walletModal').modal('hide');
+      this.$router.push({
+        name: 'FundFactory',
       });
     },
   },

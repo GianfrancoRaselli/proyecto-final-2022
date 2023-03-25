@@ -39,6 +39,7 @@ import {
   faAngleRight,
   faRectangleXmark,
   faReceipt,
+  faFileContract,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faGlobe);
@@ -79,6 +80,7 @@ library.add(faCirclePlus);
 library.add(faAngleRight);
 library.add(faRectangleXmark);
 library.add(faReceipt);
+library.add(faFileContract);
 
 export default (app) => {
   app.component('fa-icon', FontAwesomeIcon);
