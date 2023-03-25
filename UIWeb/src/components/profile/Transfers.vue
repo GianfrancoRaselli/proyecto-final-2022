@@ -18,20 +18,20 @@
           </div>
           <span v-if="filter === 'made'">
             <AppShowAddress type="entity" class="address" :address="transfer.sender" :goToProfile="true" />
-            <span>&nbsp;transfirió&nbsp;</span>
+            <span>transfirió&nbsp;</span>
             <AppShowEth :weis="transfer.value" />
             <span>&nbsp;a&nbsp;</span>
             <AppShowAddress type="entity" class="address" :address="transfer.to" :goToProfile="true" />
-            <span>&nbsp;del fondo:&nbsp;</span>
+            <span>del fondo:&nbsp;</span>
             <span class="hover" v-text="transfer.fundName" @click="goToFund(transfer.fundAddress)"></span>
           </span>
           <span v-if="filter === 'received'">
             <AppShowAddress type="entity" class="address" :address="transfer.sender" />
-            <span>&nbsp;recibió&nbsp;</span>
+            <span>recibió&nbsp;</span>
             <AppShowEth :weis="transfer.value" />
             <span>&nbsp;de&nbsp;</span>
             <AppShowAddress type="entity" class="address" :address="transfer.to" />
-            <span>&nbsp;del fondo:&nbsp;</span>
+            <span>del fondo:&nbsp;</span>
             <span class="hover" v-text="transfer.fundName" @click="goToFund(transfer.fundAddress)"></span>
           </span>
         </div>

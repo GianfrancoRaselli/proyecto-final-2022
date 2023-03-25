@@ -93,7 +93,7 @@ export default {
 
 <style lang="scss" scoped>
 .address-container {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   justify-content: start;
   align-items: center;
@@ -102,7 +102,7 @@ export default {
   .icon {
     cursor: pointer;
     font-size: 0.8rem;
-    margin-right: 0.4rem;
+    margin-right: 0.52rem;
   }
 }
 </style>

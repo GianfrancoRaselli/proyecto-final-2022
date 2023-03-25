@@ -16,7 +16,7 @@
           </div>
           <span>
             <AppShowAddress type="entity" class="address" :address="transfer.sender" :goToProfile="true" />
-            <span>&nbsp;transfirió&nbsp;</span>
+            <span>transfirió&nbsp;</span>
             <AppShowEth :weis="transfer.value" />
             <span>&nbsp;a&nbsp;</span>
             <AppShowAddress type="entity" class="address" :address="transfer.to" :goToProfile="true" />

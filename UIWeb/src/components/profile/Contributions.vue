@@ -17,7 +17,7 @@
           </div>
           <span>
             <AppShowAddress type="entity" class="address" :address="contribution.contributor" :goToProfile="true" />
-            <span>&nbsp;contribuyó&nbsp;</span>
+            <span>contribuyó&nbsp;</span>
             <AppShowEth :weis="contribution.value" />
             <span>&nbsp;al fondo:&nbsp;</span>
             <span class="hover" v-text="contribution.fundName" @click="goToFund(contribution.fundAddress)"></span>
