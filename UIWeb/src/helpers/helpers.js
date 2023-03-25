@@ -222,6 +222,49 @@ const goToFund = (address) => {
   window.open(routeData.href, '_blank');
 };
 
+const getFundType = (fund) => {
+  if (
+    fund.managersCanBeAddedOrRemoved &&
+    fund.managersCanTransferMoneyWithoutARequest &&
+    fund.requestsCanBeCreated &&
+    !fund.onlyManagersCanCreateARequest &&
+    !fund.onlyContributorsCanApproveARequest
+  )
+    return {
+      id: 'friends',
+      type: 'Amigos',
+      class: 'success',
+    };
+  if (
+    !fund.managersCanBeAddedOrRemoved &&
+    !fund.managersCanTransferMoneyWithoutARequest &&
+    fund.requestsCanBeCreated &&
+    fund.onlyManagersCanCreateARequest &&
+    fund.onlyContributorsCanApproveARequest
+  )
+    return {
+      id: 'campaign',
+      type: 'Campaña',
+      class: 'warning',
+    };
+  if (
+    fund.managersCanBeAddedOrRemoved &&
+    fund.managersCanTransferMoneyWithoutARequest &&
+    fund.requestsCanBeCreated &&
+    fund.onlyManagersCanCreateARequest &&
+    fund.onlyContributorsCanApproveARequest
+  )
+    return {
+      id: 'donation',
+      type: 'Donación',
+      class: 'secondary',
+    };
+  return {
+    id: 'personalized',
+    type: 'Personalizado',
+  };
+};
+
 export {
   call,
   transaction,
@@ -234,4 +277,5 @@ export {
   areTheSameDates,
   goToProfile,
   goToFund,
+  getFundType,
 };

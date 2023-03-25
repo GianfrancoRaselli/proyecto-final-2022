@@ -209,7 +209,7 @@
 import BigNumber from 'bignumber.js';
 import { mapGetters } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
-import { call, event, areTheSameDates } from '@/helpers/helpers';
+import { call, event, areTheSameDates, getFundType } from '@/helpers/helpers';
 import axios from 'axios';
 import FundCard from '@/components/fund/FundCard';
 
@@ -423,31 +423,7 @@ export default {
     },
 
     fundType(fund) {
-      if (
-        fund.managersCanBeAddedOrRemoved &&
-        fund.managersCanTransferMoneyWithoutARequest &&
-        fund.requestsCanBeCreated &&
-        !fund.onlyManagersCanCreateARequest &&
-        !fund.onlyContributorsCanApproveARequest
-      )
-        return 'friends';
-      if (
-        !fund.managersCanBeAddedOrRemoved &&
-        !fund.managersCanTransferMoneyWithoutARequest &&
-        fund.requestsCanBeCreated &&
-        fund.onlyManagersCanCreateARequest &&
-        fund.onlyContributorsCanApproveARequest
-      )
-        return 'campaign';
-      if (
-        fund.managersCanBeAddedOrRemoved &&
-        fund.managersCanTransferMoneyWithoutARequest &&
-        fund.requestsCanBeCreated &&
-        fund.onlyManagersCanCreateARequest &&
-        fund.onlyContributorsCanApproveARequest
-      )
-        return 'donation';
-      return 'personalized';
+      return getFundType(fund).id;
     },
   },
   async created() {

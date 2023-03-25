@@ -24,6 +24,16 @@
               <AppShowAddress type="entity" id="creatorAddress" :address="fund.creator" :showTooltip="false" />
             </button>
           </p>
+          <p>
+            <span class="text-bold" v-if="fundType.type !== 'Campaña'">Contribuciones totales</span>
+            <span class="text-bold" v-else>Dinero invertido</span>
+            <span>:&nbsp;</span>
+            <AppShowEth :weis="fund.totalContributions" />
+            <span
+              >&nbsp;(<AppShowAmount :amount="fund.contributors.length" singular="contribuyente" plural="contribuyentes" />)</span
+            >
+          </p>
+          <span class="badge rounded-pill bg-success" v-if="isAContributor">Contribución realizada</span>
         </div>
       </div>
       <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
@@ -35,6 +45,7 @@
 <script>
 import { serverUrl } from '@/siteConfig';
 import { mapGetters } from 'vuex';
+import { getFundType } from '@/helpers/helpers';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 import EntityModal from '@/components/fund/modals/EntityModal';
@@ -56,41 +67,13 @@ export default {
   computed: {
     ...mapGetters(['address']),
 
+    isAContributor() {
+      if (this.fund.contributors.findIndex((contributor) => compareAddresses(contributor, this.address)) >= 0) return true;
+      return false;
+    },
+
     fundType() {
-      if (
-        this.fund.managersCanBeAddedOrRemoved &&
-        this.fund.managersCanTransferMoneyWithoutARequest &&
-        this.fund.requestsCanBeCreated &&
-        !this.fund.onlyManagersCanCreateARequest &&
-        !this.fund.onlyContributorsCanApproveARequest
-      )
-        return {
-          type: 'Amigos',
-          class: 'success',
-        };
-      if (
-        !this.fund.managersCanBeAddedOrRemoved &&
-        !this.fund.managersCanTransferMoneyWithoutARequest &&
-        this.fund.requestsCanBeCreated &&
-        this.fund.onlyManagersCanCreateARequest &&
-        this.fund.onlyContributorsCanApproveARequest
-      )
-        return {
-          type: 'Campaña',
-          class: 'warning',
-        };
-      if (
-        this.fund.managersCanBeAddedOrRemoved &&
-        this.fund.managersCanTransferMoneyWithoutARequest &&
-        this.fund.requestsCanBeCreated &&
-        this.fund.onlyManagersCanCreateARequest &&
-        this.fund.onlyContributorsCanApproveARequest
-      )
-        return {
-          type: 'Donación',
-          class: 'secondary',
-        };
-      return undefined;
+      return getFundType(this.fund);
     },
 
     createdAt() {
@@ -166,6 +149,19 @@ export default {
     height: 8rem;
     width: 8rem;
     border-radius: 1.2rem;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .badge {
+      font-size: 0.85rem;
+      color: white;
+      width: fit-content;
+      padding: 0.1rem 1rem;
+    }
   }
 }
 

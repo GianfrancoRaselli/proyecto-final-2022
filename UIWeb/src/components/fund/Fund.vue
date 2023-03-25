@@ -229,7 +229,7 @@ import $ from 'jquery';
 import { serverUrl } from '@/siteConfig';
 import { mapState, mapGetters } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
-import { call, event } from '@/helpers/helpers';
+import { call, event, getFundType } from '@/helpers/helpers';
 import { signMessage } from '@/helpers/connection';
 import { addNotification } from '@/composables/useNotifications';
 import { useVuelidate } from '@vuelidate/core';
@@ -316,40 +316,7 @@ export default {
     },
 
     fundType() {
-      if (
-        this.fund.managersCanBeAddedOrRemoved &&
-        this.fund.managersCanTransferMoneyWithoutARequest &&
-        this.fund.requestsCanBeCreated &&
-        !this.fund.onlyManagersCanCreateARequest &&
-        !this.fund.onlyContributorsCanApproveARequest
-      )
-        return {
-          type: 'Amigos',
-          class: 'success',
-        };
-      if (
-        !this.fund.managersCanBeAddedOrRemoved &&
-        !this.fund.managersCanTransferMoneyWithoutARequest &&
-        this.fund.requestsCanBeCreated &&
-        this.fund.onlyManagersCanCreateARequest &&
-        this.fund.onlyContributorsCanApproveARequest
-      )
-        return {
-          type: 'Campaña',
-          class: 'warning',
-        };
-      if (
-        this.fund.managersCanBeAddedOrRemoved &&
-        this.fund.managersCanTransferMoneyWithoutARequest &&
-        this.fund.requestsCanBeCreated &&
-        this.fund.onlyManagersCanCreateARequest &&
-        this.fund.onlyContributorsCanApproveARequest
-      )
-        return {
-          type: 'Donación',
-          class: 'secondary',
-        };
-      return undefined;
+      return getFundType(this.fund);
     },
 
     createdAt() {
