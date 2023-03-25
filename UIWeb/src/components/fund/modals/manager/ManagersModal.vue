@@ -17,7 +17,7 @@
             </div>
 
             <div class="managers-list" :class="{ list: fund.managersCanBeAddedOrRemoved && isManager }">
-              <div class="no-managers" v-if="fund.managers && fund.managers.length === 0">Sin administradores</div>
+              <div class="no-items" v-if="fund.managers && fund.managers.length === 0">Sin administradores</div>
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(manager, index) in fund.managers" :key="index">
                   <div class="item-manager">
@@ -129,7 +129,7 @@ export default {
 }
 
 .list {
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
 }
 
 .list-group-item {

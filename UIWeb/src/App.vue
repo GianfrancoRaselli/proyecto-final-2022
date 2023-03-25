@@ -246,4 +246,8 @@ body {
     color: grey;
   }
 }
+
+.no-items {
+  padding: 0.8rem 0.2rem 0 0.2rem;
+}
 </style>

@@ -16,7 +16,7 @@
         </div>
         <div class="modal-body">
           <div class="contributors-list" v-if="!loading">
-            <div class="no-contributors" v-if="contributorsOrdered.length === 0">Sin contribuyentes</div>
+            <div class="no-items" v-if="contributorsOrdered.length === 0">Sin contribuyentes</div>
             <ul class="list-group list-group-flush" v-else>
               <li class="list-group-item" v-for="(contributor, index) in contributorsOrdered" :key="index">
                 <div class="item-address">

@@ -18,7 +18,7 @@
           <div class="modal-body">
             <AppSpinner v-if="loadingRequests || loadingRequestsApproved" />
             <div v-else>
-              <div class="no-requests" v-if="requestsOrdered.length === 0">Sin solicitudes</div>
+              <div class="no-items" v-if="requestsOrdered.length === 0">Sin solicitudes</div>
 
               <ul class="list-group list-group-flush" v-else>
                 <li

@@ -104,6 +104,6 @@ export default {
 }
 
 .list {
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
 }
 </style>

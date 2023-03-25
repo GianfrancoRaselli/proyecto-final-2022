@@ -1,6 +1,6 @@
 <template>
   <div class="requests-list" v-if="!loading">
-    <div class="no-requests" v-if="requestsOrdered && requestsOrdered.length === 0">Sin solicitudes</div>
+    <div class="no-items" v-if="requestsOrdered && requestsOrdered.length === 0">Sin solicitudes</div>
 
     <ul class="list-group list-group-flush" v-else>
       <li
