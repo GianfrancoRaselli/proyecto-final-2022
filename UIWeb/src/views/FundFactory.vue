@@ -2,7 +2,7 @@
   <div>
     <p class="page-title">FundFactory</p>
     <div class="fund-factory-container">
-      <div class="item-container">
+      <div class="item-container owner-item-container">
         <div class="item">
           <span class="value">
             <span class="amount"><AppShowAddress type="entity" :address="deployer" :goToProfile="true" /></span>
@@ -23,6 +23,33 @@
         </div>
       </div>
       <div class="item-container">
+        <div class="item">
+          <span class="value">
+            <span class="amount"><AppShowEth :weis="earnedMoney" /></span>
+            <span class="unit">Dinero recaudado</span>
+          </span>
+          <span class="description">Total del dinero recaudado con la venta de FundTokens.</span>
+        </div>
+      </div>
+      <div class="item-container">
+        <div class="item">
+          <span class="value">
+            <span class="amount"><AppShowEth :weis="withdrawnMoney" /></span>
+            <span class="unit">Dinero retirado</span>
+          </span>
+          <span class="description">Dinero ganado y ya retirado del FundFactory.</span>
+        </div>
+      </div>
+      <div class="item-container">
+        <div class="item">
+          <span class="value">
+            <span class="amount"><AppShowEth :weis="actualBalance" /></span>
+            <span class="unit">Dinero disponible</span>
+          </span>
+          <span class="description">Dinero actual disponible en el FundFactory aún sin retirar.</span>
+        </div>
+      </div>
+      <div class="item-container fund-token-price-item-container">
         <div class="item">
           <span class="value">
             <span class="amount-container" v-if="!editingFundTokenPrice">
@@ -52,44 +79,17 @@
               >
                 <option v-for="(unit, i) in units" :key="i" v-text="unit" :value="unit"></option>
               </select>
-              <AppSpinner class="command" size="small" v-if="newFundTokenPriceLoading" />
               <fa-icon
                 icon="check"
                 class="icon command"
                 @click="handleNewFundTokenPrice"
                 v-if="v$.newFundTokenPrice.$errors.length === 0 && !newFundTokenPriceLoading"
               />
+              <AppSpinner class="command" size="small" v-if="newFundTokenPriceLoading" />
             </div>
             <span class="unit">Precio FundToken</span>
           </span>
           <span class="description">Precio de venta de un FundToken.</span>
-        </div>
-      </div>
-      <div class="item-container">
-        <div class="item">
-          <span class="value">
-            <span class="amount"><AppShowEth :weis="earnedMoney" /></span>
-            <span class="unit">Dinero recaudado</span>
-          </span>
-          <span class="description">Total del dinero recaudado con la venta de FundTokens.</span>
-        </div>
-      </div>
-      <div class="item-container">
-        <div class="item">
-          <span class="value">
-            <span class="amount"><AppShowEth :weis="withdrawnMoney" /></span>
-            <span class="unit">Dinero retirado</span>
-          </span>
-          <span class="description">Dinero ganado y ya retirado del FundFactory.</span>
-        </div>
-      </div>
-      <div class="item-container">
-        <div class="item">
-          <span class="value">
-            <span class="amount"><AppShowEth :weis="actualBalance" /></span>
-            <span class="unit">Dinero disponible</span>
-          </span>
-          <span class="description">Dinero actual disponible en el FundFactory aún sin retirar.</span>
         </div>
       </div>
     </div>
@@ -145,8 +145,8 @@ export default {
       newFundTokenPrice: {
         required: helpers.withMessage('Debe ingresar un valor', required),
         numeric: helpers.withMessage('Debe ingresar un valor numérico', numeric),
-        minValue: helpers.withMessage('El valor debe ser mayor a 0', (value) => {
-          if (value > 0) return true;
+        minValue: helpers.withMessage('El valor debe ser mayor o igual a 0', (value) => {
+          if (value >= 0) return true;
           return false;
         }),
         maxValue: helpers.withMessage('El valor debe ser menor o igual a 1000 ETH', (value) => {
@@ -182,12 +182,12 @@ export default {
     },
 
     async handleNewFundTokenPrice() {
-      const newFundTokenPriceInWeis =
-        this.newFundTokenPriceUnit === 'Wei'
-          ? this.newFundTokenPrice.trim()
-          : Web3.utils.toWei(this.newFundTokenPrice.trim(), 'ether');
-      if (newFundTokenPriceInWeis !== this.fundTokenPriceInWeis.toString()) {
-        if (await validateForm(this.v$)) {
+      if (await validateForm(this.v$)) {
+        const newFundTokenPriceInWeis =
+          this.newFundTokenPriceUnit === 'Wei'
+            ? this.newFundTokenPrice.trim()
+            : Web3.utils.toWei(this.newFundTokenPrice.trim(), 'ether');
+        if (newFundTokenPriceInWeis !== this.fundTokenPriceInWeis.toString()) {
           try {
             this.newFundTokenPriceLoading = true;
             await transaction('FundFactory', 'changeFundTokenPrice', [newFundTokenPriceInWeis], {}, true, 'FundToken modificado');
@@ -200,9 +200,9 @@ export default {
           } finally {
             this.newFundTokenPriceLoading = false;
           }
+        } else {
+          this.editingFundTokenPrice = false;
         }
-      } else {
-        this.editingFundTokenPrice = false;
       }
     },
   },
@@ -241,12 +241,13 @@ export default {
     width: 33%;
     padding: 0.5rem;
 
-    @media (max-width: 1050px) {
+    @media (max-width: 980px) {
       width: 50%;
     }
 
-    @media (max-width: 610px) {
+    @media (max-width: 560px) {
       width: 100%;
+      padding: 0.5rem 0;
     }
 
     .item {
@@ -275,7 +276,7 @@ export default {
           display: flex;
           flex-direction: row;
           align-items: center;
-          gap: 0.8rem;
+          gap: 1.6rem;
         }
 
         .amount {
@@ -291,7 +292,7 @@ export default {
         .new-fund-token-price-form-row {
           display: flex;
           flex-direction: row;
-          justify-content: center;
+          justify-content: start;
           align-items: stretch;
           gap: 0.6rem;
 
@@ -301,10 +302,19 @@ export default {
             justify-content: space-between;
             align-items: start;
             gap: 0.2rem;
+
+            input {
+              min-width: 18rem;
+
+              @media (max-width: 440px) {
+                min-width: 0;
+              }
+            }
           }
 
           #newFundTokenPriceUnitInput {
-            width: 5.8rem;
+            width: 6rem;
+            margin-right: 0.6rem;
           }
 
           .command {
@@ -312,6 +322,22 @@ export default {
           }
         }
       }
+    }
+  }
+
+  .owner-item-container {
+    width: 66%;
+
+    @media (max-width: 980px) {
+      width: 100%;
+    }
+  }
+
+  .fund-token-price-item-container {
+    width: 99%;
+
+    @media (max-width: 980px) {
+      width: 100%;
     }
   }
 }
