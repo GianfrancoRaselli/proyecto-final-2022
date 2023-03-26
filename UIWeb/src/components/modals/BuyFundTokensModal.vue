@@ -161,10 +161,10 @@ export default {
               value: this.fundTokens * this.fundTokenPriceInWeis,
             },
             true,
-            this.fundTokens + (this.fundTokens === 1 ? ' FundToken comprado' : ' FundTokens comprados'),
+            this.fundTokens + (this.fundTokens === '1' ? ' FundToken comprado' : ' FundTokens comprados'),
           );
           addNotification({
-            message: 'Has comprado ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
+            message: 'Has comprado ' + this.fundTokens + (this.fundTokens === '1' ? ' FundToken' : ' FundTokens'),
             type: 'success',
           });
           this.fundTokens = '1';
