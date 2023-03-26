@@ -592,6 +592,7 @@ export default {
 
     @media (max-width: 680px) {
       width: 100%;
+      padding: 0.5rem 0;
     }
   }
 }
