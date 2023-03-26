@@ -47,6 +47,19 @@
             <span class="unit">Dinero disponible</span>
           </span>
           <span class="description">Dinero actual disponible en el FundFactory aún sin retirar.</span>
+          <button
+            type="button"
+            class="btn btn-success btn-block mt-1"
+            @click="withdrawMoney"
+            :disabled="!BigNumber(actualBalance).isGreaterThan(0)"
+            v-if="!withdrawMoneyLoading"
+          >
+            Retirar dinero a mi cuenta
+          </button>
+          <button class="btn btn-success btn-block mt-1" type="button" disabled v-else>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Retirando dinero...
+          </button>
         </div>
       </div>
       <div class="item-container fund-token-price-item-container">
@@ -113,16 +126,18 @@ export default {
   data() {
     return {
       deployer: '',
-      deployedFundsAmount: 0,
-      fundTokenPriceInWeis: 0,
-      earnedMoney: 0,
-      actualBalance: 0,
+      deployedFundsAmount: '0',
+      fundTokenPriceInWeis: '0',
+      earnedMoney: '0',
+      actualBalance: '0',
       //
       editingFundTokenPrice: false,
       newFundTokenPriceLoading: false,
       newFundTokenPrice: '0',
       newFundTokenPriceUnit: 'Wei',
       units: ['Wei', 'Ether'],
+      //
+      withdrawMoneyLoading: false,
     };
   },
   computed: {
@@ -173,6 +188,8 @@ export default {
     };
   },
   methods: {
+    BigNumber,
+
     getFundTokenPrice() {
       return call('FundFactory', 'fundTokenPrice', [], {}, async (res) => {
         this.fundTokenPriceInWeis = res;
@@ -187,7 +204,7 @@ export default {
           this.newFundTokenPriceUnit === 'Wei'
             ? this.newFundTokenPrice.trim()
             : Web3.utils.toWei(this.newFundTokenPrice.trim(), 'ether');
-        if (newFundTokenPriceInWeis !== this.fundTokenPriceInWeis.toString()) {
+        if (newFundTokenPriceInWeis !== this.fundTokenPriceInWeis) {
           try {
             this.newFundTokenPriceLoading = true;
             await transaction('FundFactory', 'changeFundTokenPrice', [newFundTokenPriceInWeis], {}, true, 'FundToken modificado');
@@ -203,6 +220,20 @@ export default {
         } else {
           this.editingFundTokenPrice = false;
         }
+      }
+    },
+
+    async withdrawMoney() {
+      try {
+        this.withdrawMoneyLoading = true;
+        await transaction('FundFactory', 'withdrawMoney', [], {}, true, 'Dinero retirado');
+        addNotification({
+          message: 'Dinero retirado',
+          type: 'success',
+        });
+        this.actualBalance = '0';
+      } finally {
+        this.withdrawMoneyLoading = false;
       }
     },
   },
@@ -260,7 +291,7 @@ export default {
       flex-direction: column;
       justify-content: start;
       align-items: start;
-      gap: 0.8rem;
+      gap: 0.6rem;
 
       .value {
         display: flex;
