@@ -5,19 +5,18 @@
       <div class="item-container">
         <div class="item">
           <span class="value">
-            <span class="amount">Gianfranco Raselli</span>
-            <span class="unit">Dueño del FundFactory</span>
+            <span class="amount"><AppShowAddress type="entity" :address="deployer" :goToProfile="true" /></span>
+            <span class="unit">Propietario del FundFactory</span>
           </span>
           <span class="description"
-            >La entidad propietaria del FundFactory puede retirar el dinero ganado y cambiar el precio de venta del
-            FundToken.</span
+            >La entidad dueña del FundFactory puede retirar el dinero ganado y modificar el precio de los FundTokens.</span
           >
         </div>
       </div>
       <div class="item-container">
         <div class="item">
           <span class="value">
-            <span class="amount">5</span>
+            <span class="amount" v-text="deployedFundsAmount"></span>
             <span class="unit">Fondos desplegados</span>
           </span>
           <span class="description">Cantidad de fondos desplegados y almacenados en el FundFactory.</span>
@@ -26,8 +25,8 @@
       <div class="item-container">
         <div class="item">
           <span class="value">
-            <span class="amount">5</span>
-            <span class="unit">Precio del FundToken</span>
+            <span class="amount"><AppShowEth :weis="fundTokenPriceInWeis" /></span>
+            <span class="unit">Precio FundToken</span>
           </span>
           <span class="description">Precio de venta de un FundToken.</span>
         </div>
@@ -35,7 +34,7 @@
       <div class="item-container">
         <div class="item">
           <span class="value">
-            <span class="amount">5</span>
+            <span class="amount"><AppShowEth :weis="earnedMoney" /></span>
             <span class="unit">Dinero recaudado</span>
           </span>
           <span class="description">Total del dinero recaudado con la venta de FundTokens.</span>
@@ -44,7 +43,16 @@
       <div class="item-container">
         <div class="item">
           <span class="value">
-            <span class="amount">5</span>
+            <span class="amount"><AppShowEth :weis="withdrawnMoney" /></span>
+            <span class="unit">Dinero retirado</span>
+          </span>
+          <span class="description">Dinero ganado y ya retirado del FundFactory.</span>
+        </div>
+      </div>
+      <div class="item-container">
+        <div class="item">
+          <span class="value">
+            <span class="amount"><AppShowEth :weis="actualBalance" /></span>
             <span class="unit">Dinero disponible</span>
           </span>
           <span class="description">Dinero actual disponible en el FundFactory aún sin retirar.</span>
@@ -55,15 +63,51 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { call } from '@/helpers/helpers';
+import BigNumber from 'bignumber.js';
+
 export default {
   name: 'FundFactoryView',
   components: {},
   data() {
-    return {};
+    return {
+      deployer: '',
+      deployedFundsAmount: 0,
+      fundTokenPriceInWeis: 0,
+      earnedMoney: 0,
+      actualBalance: 0,
+    };
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['address']),
+
+    withdrawnMoney() {
+      return BigNumber(this.earnedMoney).minus(BigNumber(this.actualBalance));
+    },
+  },
   methods: {},
-  async created() {},
+  async created() {
+    call('FundFactory', 'owner', [], {}, async (res) => {
+      this.deployer = res;
+    });
+
+    call('FundFactory', 'getDeployedFundsCount', [], {}, async (res) => {
+      this.deployedFundsAmount = res;
+    });
+
+    call('FundFactory', 'fundTokenPrice', [], {}, async (res) => {
+      this.fundTokenPriceInWeis = res;
+    });
+
+    call('FundFactory', 'earnedMoney', [], {}, async (res) => {
+      this.earnedMoney = res;
+    });
+
+    call('FundFactory', 'balance', [], {}, async (res) => {
+      this.actualBalance = res;
+    });
+  },
 };
 </script>
 
@@ -79,6 +123,14 @@ export default {
     min-height: 100%;
     width: 33%;
     padding: 0.5rem;
+
+    @media (max-width: 660px) {
+      width: 50%;
+    }
+
+    @media (max-width: 450px) {
+      width: 100%;
+    }
 
     .item {
       height: 100%;

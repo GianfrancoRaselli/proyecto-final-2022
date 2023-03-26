@@ -22,11 +22,17 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "fundTokensBuyed",
+        "name": "fundTokenPrice",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "fundTokensBought",
         "type": "uint256"
       }
     ],
-    "name": "FundTokensBuyed",
+    "name": "FundTokensBought",
     "type": "event"
   },
   {
@@ -91,6 +97,19 @@
     ],
     "name": "OwnershipTransferred",
     "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "balance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [
@@ -198,6 +217,19 @@
         "internalType": "contract Fund",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "earnedMoney",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",

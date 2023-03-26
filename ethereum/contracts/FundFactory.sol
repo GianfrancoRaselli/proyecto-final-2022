@@ -15,6 +15,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract FundFactory is Ownable {
   // FundToken data
 
+  uint256 public earnedMoney;
+
   FundToken public immutable fundToken;
   uint256 public fundTokenPrice; // price in weis
 
@@ -27,7 +29,7 @@ contract FundFactory is Ownable {
 
   event NewFundTokenPrice(uint256 fundTokenPrice);
 
-  event FundTokensBuyed(address indexed buyer, uint256 fundTokensBuyed);
+  event FundTokensBought(address indexed buyer, uint256 fundTokenPrice, uint256 fundTokensBought);
 
   event NewFund(address fundAddress, string name, address indexed creator, uint256 createdAt);
 
@@ -46,12 +48,17 @@ contract FundFactory is Ownable {
 
   function buyFundTokens(uint256 _fundTokens) public payable {
     require(_fundTokens > 0, "At least 1 FundToken must be purchased");
-    require(msg.value == _fundTokens * fundTokenPrice, "Underpayment");
+    uint256 _fundTokenPrice = fundTokenPrice;
+    require(msg.value == _fundTokens * _fundTokenPrice, "Underpayment");
 
-    FundToken _fundToken = fundToken;
-    _fundToken.mint(msg.sender, _fundTokens);
+    fundToken.mint(msg.sender, _fundTokens);
+    earnedMoney += msg.value;
 
-    emit FundTokensBuyed(msg.sender, _fundTokens);
+    emit FundTokensBought(msg.sender, _fundTokenPrice, _fundTokens);
+  }
+
+  function balance() public view returns (uint256) {
+    return address(this).balance;
   }
 
   function withdrawMoney() public onlyOwner {
