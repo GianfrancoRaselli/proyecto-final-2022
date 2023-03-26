@@ -25,7 +25,41 @@
       <div class="item-container">
         <div class="item">
           <span class="value">
-            <span class="amount"><AppShowEth :weis="fundTokenPriceInWeis" /></span>
+            <span class="amount-container" v-if="!editingFundTokenPrice">
+              <span class="amount">
+                <AppShowEth :weis="fundTokenPriceInWeis" />
+              </span>
+              <fa-icon icon="pencil" class="icon" @click="editingFundTokenPrice = true" />
+            </span>
+            <div class="new-fund-token-price-form-row" v-else>
+              <div class="new-fund-token-price-form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  :class="{ 'is-invalid': v$.newFundTokenPrice.$errors.length }"
+                  id="newFundTokenPriceInput"
+                  aria-describedby="newFundTokenPriceHelp"
+                  v-model="newFundTokenPrice"
+                  :disabled="newFundTokenPriceLoading"
+                />
+                <AppInputErrors :errors="v$.newFundTokenPrice.$errors" />
+              </div>
+              <select
+                id="newFundTokenPriceUnitInput"
+                class="form-control"
+                v-model="newFundTokenPriceUnit"
+                :disabled="newFundTokenPriceLoading"
+              >
+                <option v-for="(unit, i) in units" :key="i" v-text="unit" :value="unit"></option>
+              </select>
+              <AppSpinner class="command" size="small" v-if="newFundTokenPriceLoading" />
+              <fa-icon
+                icon="check"
+                class="icon command"
+                @click="handleNewFundTokenPrice"
+                v-if="v$.newFundTokenPrice.$errors.length === 0 && !newFundTokenPriceLoading"
+              />
+            </div>
             <span class="unit">Precio FundToken</span>
           </span>
           <span class="description">Precio de venta de un FundToken.</span>
@@ -63,13 +97,19 @@
 </template>
 
 <script>
+import Web3 from 'web3';
 import { mapGetters } from 'vuex';
-import { call } from '@/helpers/helpers';
+import { call, transaction, removeInitialZeros, validateForm } from '@/helpers/helpers';
+import { addNotification } from '@/composables/useNotifications';
 import BigNumber from 'bignumber.js';
+import { useVuelidate } from '@vuelidate/core';
+import { helpers, required, numeric } from '@vuelidate/validators';
 
 export default {
   name: 'FundFactoryView',
-  components: {},
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       deployer: '',
@@ -77,6 +117,12 @@ export default {
       fundTokenPriceInWeis: 0,
       earnedMoney: 0,
       actualBalance: 0,
+      //
+      editingFundTokenPrice: false,
+      newFundTokenPriceLoading: false,
+      newFundTokenPrice: '0',
+      newFundTokenPriceUnit: 'Wei',
+      units: ['Wei', 'Ether'],
     };
   },
   computed: {
@@ -86,7 +132,80 @@ export default {
       return BigNumber(this.earnedMoney).minus(BigNumber(this.actualBalance));
     },
   },
-  methods: {},
+  watch: {
+    newFundTokenPrice(newValue) {
+      if (newValue) {
+        newValue = newValue.replace(',', '.');
+        this.newFundTokenPrice = removeInitialZeros(newValue);
+      }
+    },
+  },
+  validations() {
+    return {
+      newFundTokenPrice: {
+        required: helpers.withMessage('Debe ingresar un valor', required),
+        numeric: helpers.withMessage('Debe ingresar un valor numérico', numeric),
+        minValue: helpers.withMessage('El valor debe ser mayor a 0', (value) => {
+          if (value > 0) return true;
+          return false;
+        }),
+        maxValue: helpers.withMessage('El valor debe ser menor o igual a 1000 ETH', (value) => {
+          if (this.newFundTokenPriceUnit === 'Wei' && BigNumber(value).isLessThanOrEqualTo(1000000000000000000000)) return true;
+          if (
+            this.newFundTokenPriceUnit === 'Ether' &&
+            BigNumber(Web3.utils.toWei(value, 'ether')).isLessThanOrEqualTo(1000000000000000000000)
+          )
+            return true;
+          return false;
+        }),
+        weiValue: helpers.withMessage('El valor en Wei debe ser un número entero', (value) => {
+          if (this.newFundTokenPriceUnit === 'Wei' && !BigNumber(value).isInteger()) return false;
+          return true;
+        }),
+        maxDecimals: helpers.withMessage('La cantidad máxima de decimales permitidos es 18', (value) => {
+          if (this.newFundTokenPriceUnit === 'Ether') {
+            const decimals = value.trim().split('.')[1];
+            if (decimals && decimals.length > 18) return false;
+          }
+          return true;
+        }),
+      },
+    };
+  },
+  methods: {
+    getFundTokenPrice() {
+      return call('FundFactory', 'fundTokenPrice', [], {}, async (res) => {
+        this.fundTokenPriceInWeis = res;
+        this.newFundTokenPrice = res.toString();
+        this.newFundTokenPriceUnit = 'Wei';
+      });
+    },
+
+    async handleNewFundTokenPrice() {
+      const newFundTokenPriceInWeis =
+        this.newFundTokenPriceUnit === 'Wei'
+          ? this.newFundTokenPrice.trim()
+          : Web3.utils.toWei(this.newFundTokenPrice.trim(), 'ether');
+      if (newFundTokenPriceInWeis !== this.fundTokenPriceInWeis.toString()) {
+        if (await validateForm(this.v$)) {
+          try {
+            this.newFundTokenPriceLoading = true;
+            await transaction('FundFactory', 'changeFundTokenPrice', [newFundTokenPriceInWeis], {}, true, 'FundToken modificado');
+            addNotification({
+              message: 'FundToken modificado',
+              type: 'success',
+            });
+            await this.getFundTokenPrice();
+            this.editingFundTokenPrice = false;
+          } finally {
+            this.newFundTokenPriceLoading = false;
+          }
+        }
+      } else {
+        this.editingFundTokenPrice = false;
+      }
+    },
+  },
   async created() {
     call('FundFactory', 'owner', [], {}, async (res) => {
       this.deployer = res;
@@ -96,9 +215,7 @@ export default {
       this.deployedFundsAmount = res;
     });
 
-    call('FundFactory', 'fundTokenPrice', [], {}, async (res) => {
-      this.fundTokenPriceInWeis = res;
-    });
+    this.getFundTokenPrice();
 
     call('FundFactory', 'earnedMoney', [], {}, async (res) => {
       this.earnedMoney = res;
@@ -124,11 +241,11 @@ export default {
     width: 33%;
     padding: 0.5rem;
 
-    @media (max-width: 660px) {
+    @media (max-width: 1050px) {
       width: 50%;
     }
 
-    @media (max-width: 450px) {
+    @media (max-width: 610px) {
       width: 100%;
     }
 
@@ -150,6 +267,17 @@ export default {
         justify-content: space-between;
         align-items: start;
 
+        .icon {
+          cursor: pointer;
+        }
+
+        .amount-container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 0.8rem;
+        }
+
         .amount {
           font-size: 1.6rem;
           font-weight: bold;
@@ -158,6 +286,30 @@ export default {
         .unit {
           font-size: 0.95rem;
           color: grey;
+        }
+
+        .new-fund-token-price-form-row {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: stretch;
+          gap: 0.6rem;
+
+          .new-fund-token-price-form-group {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: start;
+            gap: 0.2rem;
+          }
+
+          #newFundTokenPriceUnitInput {
+            width: 5.8rem;
+          }
+
+          .command {
+            align-self: center;
+          }
         }
       }
     }
