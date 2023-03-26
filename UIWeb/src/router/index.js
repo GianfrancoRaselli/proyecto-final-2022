@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import store from '@/store';
+import { call } from '@/helpers/helpers';
+import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 const routes = [
   {
@@ -68,8 +70,9 @@ const router = createRouter({
   },
 });
 
-router.beforeEach((to) => {
-  if (to.meta.isTheDeployer && !store.state.connection.isTheDeployer) {
+router.beforeEach(async (to) => {
+  const deployer = await call('FundFactory', 'owner', [], {});
+  if (to.meta.isTheDeployer && !compareAddresses(deployer, store.getters.address)) {
     return { name: 'Home' };
   }
 });
