@@ -114,8 +114,8 @@ export default {
 
     value(newValue) {
       if (newValue) {
-        this.value = newValue.replace(',', '.');
-        this.value = removeInitialZeros(this.value);
+        newValue = newValue.replace(',', '.');
+        this.value = removeInitialZeros(newValue);
       }
     },
   },

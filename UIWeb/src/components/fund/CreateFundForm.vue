@@ -426,8 +426,8 @@ export default {
         requestsCanBeCreated: true,
         onlyManagersCanCreateARequest: false,
         onlyContributorsCanApproveARequest: false,
-        minimumContributionPercentageRequired: 5,
-        minimumApprovalsPercentageRequired: 50,
+        minimumContributionPercentageRequired: '5',
+        minimumApprovalsPercentageRequired: '50',
       },
       info: {
         type: false,
@@ -499,15 +499,15 @@ export default {
 
     'data.minimumContributionPercentageRequired'(newValue) {
       if (newValue) {
-        this.data.minimumContributionPercentageRequired = newValue.replace(',', '.');
-        this.data.minimumContributionPercentageRequired = removeInitialZeros(this.data.minimumContributionPercentageRequired);
+        newValue = newValue.replace(',', '.');
+        this.data.minimumContributionPercentageRequired = removeInitialZeros(newValue);
       }
     },
 
     'data.minimumApprovalsPercentageRequired'(newValue) {
       if (newValue) {
-        this.data.minimumApprovalsPercentageRequired = newValue.replace(',', '.');
-        this.data.minimumApprovalsPercentageRequired = removeInitialZeros(this.data.minimumApprovalsPercentageRequired);
+        newValue = newValue.replace(',', '.');
+        this.data.minimumApprovalsPercentageRequired = removeInitialZeros(newValue);
       }
     },
   },
@@ -644,8 +644,8 @@ export default {
             requestsCanBeCreated: true,
             onlyManagersCanCreateARequest: false,
             onlyContributorsCanApproveARequest: false,
-            minimumContributionPercentageRequired: 5,
-            minimumApprovalsPercentageRequired: 50,
+            minimumContributionPercentageRequired: '5',
+            minimumApprovalsPercentageRequired: '50',
           };
         } finally {
           this.loading = false;

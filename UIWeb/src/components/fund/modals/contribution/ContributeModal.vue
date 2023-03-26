@@ -107,8 +107,8 @@ export default {
 
     contribution(newValue) {
       if (newValue) {
-        this.contribution = newValue.replace(',', '.');
-        this.contribution = removeInitialZeros(this.contribution);
+        newValue = newValue.replace(',', '.');
+        this.contribution = removeInitialZeros(newValue);
       }
     },
   },

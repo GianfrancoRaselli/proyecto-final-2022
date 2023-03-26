@@ -124,8 +124,8 @@ export default {
 
     'data.valueToTransfer'(newValue) {
       if (newValue) {
-        this.data.valueToTransfer = newValue.replace(',', '.');
-        this.data.valueToTransfer = removeInitialZeros(this.data.valueToTransfer);
+        newValue = newValue.replace(',', '.');
+        this.data.valueToTransfer = removeInitialZeros(newValue);
       }
     },
   },
@@ -211,7 +211,7 @@ export default {
           this.data = {
             description: '',
             recipient: '',
-            valueToTransfer: 0,
+            valueToTransfer: '0',
           };
         } finally {
           this.loading = false;

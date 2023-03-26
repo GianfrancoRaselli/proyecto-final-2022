@@ -101,7 +101,7 @@ export default {
       loading: false,
       fundTokenPriceInWeis: '0',
       ethPriceInUSD: 0,
-      fundTokens: 1,
+      fundTokens: '1',
       newFundTokenPriceSubscription: null,
       ethPriceInUSDSubscription: null,
     };
@@ -129,8 +129,8 @@ export default {
   watch: {
     fundTokens(newValue) {
       if (newValue) {
-        this.fundTokens = newValue.replace(',', '.');
-        this.fundTokens = removeInitialZeros(this.fundTokens);
+        newValue = newValue.replace(',', '.');
+        this.fundTokens = removeInitialZeros(newValue);
       }
     },
   },
@@ -167,7 +167,7 @@ export default {
             message: 'Has comprado ' + this.fundTokens + (this.fundTokens === 1 ? ' FundToken' : ' FundTokens'),
             type: 'success',
           });
-          this.fundTokens = 1;
+          this.fundTokens = '1';
           //$('#buyFundTokensModal').modal('hide');
         } finally {
           this.loading = false;
