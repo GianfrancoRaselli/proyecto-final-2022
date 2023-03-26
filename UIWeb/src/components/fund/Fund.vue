@@ -59,7 +59,7 @@
             <AppShowAddress type="fund" :address="fund.address" :forceShowAddress="true" />
           </span>
           <span class="info_explanation"
-            ><fa-icon icon="circle-info" class="icon" />Dirección del Smart Contract desplegado en la&nbsp;{{
+            >Dirección del Smart Contract desplegado en la&nbsp;{{
               validChainName
             }}.</span
           >
@@ -70,7 +70,7 @@
             <AppShowEth :weis="fund.balance" />
           </span>
           <span class="info_explanation"
-            ><fa-icon icon="circle-info" class="icon" />Dinero disponible en el fondo actualmente.</span
+            >Dinero disponible en el fondo actualmente.</span
           >
         </p>
         <p class="info">
@@ -80,7 +80,7 @@
               <AppShowAddress type="entity" :address="fund.creator" :allowCopyAddress="false" />
             </button>
           </span>
-          <span class="info_explanation"><fa-icon icon="circle-info" class="icon" />Entidad creadora del fondo.</span>
+          <span class="info_explanation">Entidad creadora del fondo.</span>
         </p>
         <p class="info">
           <span class="info_info">
@@ -88,7 +88,7 @@
             <AppBadge :check="fund.managersCanBeAddedOrRemoved" />
           </span>
           <span class="info_explanation"
-            ><fa-icon icon="circle-info" class="icon" />Si esta opción está activada los administradores actuales podrán agregar o
+            >Si esta opción está activada los administradores actuales podrán agregar o
             remover a nuevos administradores.</span
           >
         </p>
@@ -109,7 +109,7 @@
             </button>
           </span>
           <span class="info_explanation"
-            ><fa-icon icon="circle-info" class="icon" />La suma de todas las contribuciones hechas al fondo.</span
+            >La suma de todas las contribuciones hechas al fondo.</span
           >
         </p>
         <p class="info">
@@ -120,7 +120,7 @@
             <AppBadge :check="fund.managersCanTransferMoneyWithoutARequest" />
           </span>
           <span class="info_explanation"
-            ><fa-icon icon="circle-info" class="icon" />Si esta opción esta activada los administradores podrán transferir el
+            >Si esta opción esta activada los administradores podrán transferir el
             dinero del fondo sin crear una solicitud previa.</span
           >
         </p>
@@ -130,7 +130,7 @@
             <AppBadge :check="fund.requestsCanBeCreated" />
           </span>
           <span class="info_explanation"
-            ><fa-icon icon="circle-info" class="icon" />Si esta opción esta activada se encuentra habilitada la función de crear
+            >Si esta opción esta activada se encuentra habilitada la función de crear
             solicitudes para retirar dinero del fondo. En caso contrario, solo podrán retirar dinero los administradores.</span
           >
         </p>
@@ -140,7 +140,7 @@
             <AppBadge :check="fund.onlyManagersCanCreateARequest" />
           </span>
           <span class="info_explanation"
-            ><fa-icon icon="circle-info" class="icon" />Si esta opción esta activada solo los administradores podrán crear
+            >Si esta opción esta activada solo los administradores podrán crear
             solicitudes para retirar dinero del fondo. En caso contrario, cualquier entidad puede crear una solicitud que luego
             deberá ser aprobada para retirar el dinero.</span
           >
@@ -151,7 +151,7 @@
             <AppBadge :check="fund.onlyContributorsCanApproveARequest" />
           </span>
           <span class="info_explanation"
-            ><fa-icon icon="circle-info" class="icon" />Si esta opción esta activada solo los contribuyentes del fondo podrán
+            >Si esta opción esta activada solo los contribuyentes del fondo podrán
             aprobar una solicitud de retiro de dinero. En caso contrario, los administradores también podrán hacerlo sin haber
             aportado al fondo previamente.</span
           >
@@ -164,7 +164,7 @@
             <span v-text="fund.minimumContributionPercentageRequired + '%'" />
           </span>
           <span class="info_explanation"
-            ><fa-icon icon="circle-info" class="icon" />Porcentaje mínimo de dinero que una entidad debe aportar al total
+            >Porcentaje mínimo de dinero que una entidad debe aportar al total
             historico de contribuciones del fondo para poder aprobar una solicitud de retiro de dinero.</span
           >
         </p>
@@ -177,7 +177,7 @@
             <span v-text="fund.minimumApprovalsPercentageRequired + '%'" />
           </span>
           <span class="info_explanation"
-            ><fa-icon icon="circle-info" class="icon" />Porcentaje mínimo de aprobaciones necesarias para que la entidad que creó
+            >Porcentaje mínimo de aprobaciones necesarias para que la entidad que creó
             una solicitud pueda finalmente retirar el dinero. El mismo se calcula en base a la cantidad de contibuyentes del
             fondo, sumado al número de administradores, en el caso que también estén habilitados para aprobar solicitudes.</span
           >
@@ -615,6 +615,7 @@ export default {
 
     .name {
       word-break: keep-all;
+      font-size: 1.3rem;
     }
 
     .fund-info {

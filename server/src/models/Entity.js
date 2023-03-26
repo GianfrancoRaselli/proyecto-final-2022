@@ -33,6 +33,12 @@ const entitySchema = new Schema(
       required: true,
       maxLength: 50,
     },
+    location: {
+      type: String,
+      trim: true,
+      required: true,
+      maxLength: 100,
+    },
     url: {
       type: String,
       trim: true,

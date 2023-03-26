@@ -23,6 +23,9 @@
             /></span>
           </div>
           <div class="body" v-if="entity">
+            <span class="location" v-if="entity.location"
+              ><fa-icon icon="location-dot" class="icon" />&nbsp;{{ entity.location }}</span
+            >
             <span class="email" v-if="entity.email"
               ><fa-icon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">{{
                 entity.email

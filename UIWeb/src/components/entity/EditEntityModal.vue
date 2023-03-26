@@ -64,6 +64,21 @@
             </div>
 
             <div class="form-group">
+              <label for="locationInput">Ubicación</label>
+              <input
+                type="text"
+                class="form-control"
+                :class="{ 'is-invalid': v$.data.location.$errors.length }"
+                id="locationInput"
+                aria-describedby="locationHelp"
+                v-model="data.location"
+                :disabled="loading"
+              />
+              <small id="locationHelp" class="form-text text-muted"></small>
+              <AppInputErrors :errors="v$.data.location.$errors" />
+            </div>
+
+            <div class="form-group">
               <label for="urlInput">Sitio Web<span class="extra-info">Opcional</span></label>
               <input
                 type="text"
@@ -119,6 +134,7 @@ export default {
         type: 'Persona',
         email: '',
         phone: '',
+        location: '',
         url: '',
       },
     };
@@ -152,6 +168,10 @@ export default {
           required: helpers.withMessage('Debe ingresar un valor', required),
           maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 50', maxLength(50)),
         },
+        location: {
+          required: helpers.withMessage('Debe ingresar un valor', required),
+          maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 100', maxLength(100)),
+        },
         url: {
           maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 320', maxLength(320)),
           url: helpers.withMessage('Debe ingresar una URL válida', url),
@@ -172,6 +192,7 @@ export default {
             type: this.data.type,
             email: this.data.email,
             phone: this.data.phone,
+            location: this.data.location,
             url: this.data.url,
           });
 

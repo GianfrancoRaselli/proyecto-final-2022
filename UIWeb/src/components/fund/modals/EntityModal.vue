@@ -22,6 +22,9 @@
             <span class="fullname" v-text="entity.fullname" />
             <span class="type" v-text="entity.type" />
             <span class="address"><AppShowAddress type="entity" :address="address" :forceShowAddress="true" /></span>
+            <span class="location" v-if="entity.location"
+              ><fa-icon icon="location-dot" class="icon" />&nbsp;{{ entity.location }}</span
+            >
             <span class="email" v-if="entity.email">
               <fa-icon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">
                 {{ entity.email }}
