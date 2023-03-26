@@ -30,9 +30,7 @@
                   <div class="item-manager">
                     <span v-text="index + 1 + '. '" />
                     <AppShowAddress type="entity" :address="manager" :goToProfile="true" />
-                    <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(manager, address)"
-                      >Mi dirección</span
-                    >
+                    <AppMyAddress :addressToCompare="manager" />
                   </div>
                   <div class="item-buttons">
                     <button
@@ -87,8 +85,6 @@ export default {
     ...mapGetters(['address']),
   },
   methods: {
-    compareAddresses,
-
     addNewManagers() {
       $('#managersModal').modal('hide');
       $('#addManagersModal').modal('show');

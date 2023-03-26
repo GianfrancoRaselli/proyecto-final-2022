@@ -10,9 +10,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" :id="'profileManagersModalLabel' + fundAddress">
-              <span>Administradores</span>
-              <span class="modal-amount" v-text="managers.length" v-if="managers.length > 0"></span>
-            </h4>
+            <span>Administradores</span>
+            <span class="modal-amount" v-text="managers.length" v-if="managers.length > 0"></span>
+          </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -21,10 +21,8 @@
           <div class="no-items-modal" v-if="managers.length === 0">Sin administradores</div>
           <ul class="list-group list-group-flush" v-else>
             <li class="list-group-item" v-for="(manager, index) in managers" :key="index">
-              <span
-                ><span v-text="index + 1 + '. '" /><AppShowAddress type="entity" :address="manager"
-              /></span>
-              <span class="badge badge-pill badge-primary" v-if="compareAddresses(manager, address)">Mi dirección</span>
+              <span><span v-text="index + 1 + '. '" /><AppShowAddress type="entity" :address="manager" /></span>
+              <AppMyAddress :addressToCompare="manager" />
             </li>
           </ul>
         </div>
@@ -35,7 +33,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
   name: 'ProfileManagersModalComponent',
@@ -50,9 +47,7 @@ export default {
   computed: {
     ...mapGetters(['address']),
   },
-  methods: {
-    compareAddresses,
-  },
+  methods: {},
   async created() {},
 };
 </script>

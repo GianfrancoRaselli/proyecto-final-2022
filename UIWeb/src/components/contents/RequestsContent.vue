@@ -10,18 +10,14 @@
       <span class="info__label"><span class="text-bold">Solicitante</span>:&nbsp;</span>
       <span class="info__info">
         <AppShowAddress type="entity" :address="request.petitioner" :goToProfile="true" />
-        <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.petitioner, address)">
-          Mi dirección
-        </span>
+        <AppMyAddress :addressToCompare="request.petitioner" />
       </span>
     </div>
     <div class="info" v-if="request.recipient">
       <span class="info__label"><span class="text-bold">Destinatario</span>:&nbsp;</span>
       <span class="info__info">
         <AppShowAddress type="entity" :address="request.recipient" :goToProfile="true" />
-        <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(request.recipient, address)">
-          Mi dirección
-        </span>
+        <AppMyAddress :addressToCompare="request.recipient" />
       </span>
     </div>
     <div class="info">
@@ -62,7 +58,7 @@
 import $ from 'jquery';
 import { mapGetters } from 'vuex';
 import { goToFund } from '@/helpers/helpers';
-import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
+import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 
 export default {
   name: 'RequestsListComponent',
@@ -81,7 +77,6 @@ export default {
     ...mapGetters(['address']),
   },
   methods: {
-    compareAddresses,
     fromUnixTimestampToDate,
     goToFund,
 

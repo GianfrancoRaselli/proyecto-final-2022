@@ -25,9 +25,7 @@
                 <div class="item-address">
                   <span v-text="index + 1 + '. '" />
                   <AppShowAddress type="entity" :address="contributor.contributor" :goToProfile="true" />
-                  <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(contributor.contributor, address)"
-                    >Mi dirección
-                  </span>
+                  <AppMyAddress :addressToCompare="contributor.contributor" />
                 </div>
                 <div class="item-amount">
                   <AppShowEth :weis="contributor.contribution" />
@@ -55,7 +53,6 @@
 import $ from 'jquery';
 import { mapGetters } from 'vuex';
 import { convertNumberToMaxDecimals } from '@/helpers/helpers';
-import { compareAddresses } from 'web3-simple-helpers/methods/general';
 
 export default {
   name: 'ContributorsModalComponent',
@@ -76,7 +73,6 @@ export default {
     },
   },
   methods: {
-    compareAddresses,
     convertNumberToMaxDecimals,
   },
   async created() {

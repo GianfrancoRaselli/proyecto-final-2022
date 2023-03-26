@@ -18,6 +18,7 @@ import AppShowAddress from '@/components/global/AppShowAddress';
 import AppShowAmount from '@/components/global/AppShowAmount';
 import AppShowEth from '@/components/global/AppShowEth';
 import AppPill from '@/components/global/AppPill';
+import AppMyAddress from '@/components/global/AppMyAddress';
 
 import 'bootstrap/dist/js/bootstrap.min.js';
 
@@ -39,5 +40,6 @@ app.component('AppShowAddress', AppShowAddress);
 app.component('AppShowAmount', AppShowAmount);
 app.component('AppShowEth', AppShowEth);
 app.component('AppPill', AppPill);
+app.component('AppMyAddress', AppMyAddress);
 
 app.mount('#app');

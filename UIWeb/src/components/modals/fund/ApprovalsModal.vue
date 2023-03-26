@@ -23,9 +23,7 @@
                 <span v-text="index + 1"></span>
                 <span>.&nbsp;</span>
                 <AppShowAddress type="entity" :address="approval.approver" :goToProfile="true" />
-                <span class="badge badge-pill badge-primary ml-1" v-if="compareAddresses(approval.approver, address)">
-                  Mi dirección
-                </span>
+                <AppMyAddress :addressToCompare="approval.approver" />
                 <span>&nbsp;</span>
                 <AppDate class="date" :date="fromUnixTimestampToDate(approval.timestamp)" />
               </li>
@@ -40,7 +38,7 @@
 <script>
 import $ from 'jquery';
 import { mapGetters } from 'vuex';
-import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
+import { fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { event } from '@/helpers/helpers';
 
 export default {
@@ -71,7 +69,6 @@ export default {
     },
   },
   methods: {
-    compareAddresses,
     fromUnixTimestampToDate,
 
     goBack() {
