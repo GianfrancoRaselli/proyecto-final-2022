@@ -53,135 +53,164 @@
           </div>
         </div>
         <p class="h5 text-center my-3 information-text">Información</p>
-        <p class="info">
-          <span class="info_info">
-            <span class="label"><span class="text-bold">Dirección</span>:&nbsp;</span>
-            <AppShowAddress type="fund" :address="fund.address" :forceShowAddress="true" />
-          </span>
-          <span class="info_explanation"
-            >Dirección del Smart Contract desplegado en la&nbsp;{{
-              validChainName
-            }}.</span
-          >
-        </p>
-        <p class="info">
-          <span class="info_info">
-            <span class="label"><span class="text-bold">Balance actual</span>:&nbsp;</span>
-            <AppShowEth :weis="fund.balance" />
-          </span>
-          <span class="info_explanation"
-            >Dinero disponible en el fondo actualmente.</span
-          >
-        </p>
-        <p class="info">
-          <span class="info_info">
-            <span class="label"><span class="text-bold">Creador</span>:&nbsp;</span>
-            <button type="button" class="btn btn-link" data-toggle="modal" :data-target="'#entityModal' + fund.creator">
-              <AppShowAddress type="entity" :address="fund.creator" :allowCopyAddress="false" />
-            </button>
-          </span>
-          <span class="info_explanation">Entidad creadora del fondo.</span>
-        </p>
-        <p class="info">
-          <span class="info_info">
-            <span class="label"><span class="text-bold">Los administradores pueden ser agregados o removidos</span>:&nbsp;</span>
-            <AppBadge :check="fund.managersCanBeAddedOrRemoved" />
-          </span>
-          <span class="info_explanation"
-            >Si esta opción está activada los administradores actuales podrán agregar o
-            remover a nuevos administradores.</span
-          >
-        </p>
-        <p class="info">
-          <span class="info_info">
-            <span class="label" v-if="fundType.type !== 'Campaña'"
-              ><span class="text-bold">Contribuciones totales</span>:&nbsp;</span
-            >
-            <span class="label" v-else><span class="text-bold">Dinero invertido</span>:&nbsp;</span>
-            <AppShowEth :weis="fund.totalContributions" class="mr-3" />
-            <button
-              type="button"
-              class="btn btn-link btn-show-contributors"
-              data-toggle="modal"
-              :data-target="'#contributorsModal' + fund.address"
-            >
-              Ver contribuyentes
-            </button>
-          </span>
-          <span class="info_explanation"
-            >La suma de todas las contribuciones hechas al fondo.</span
-          >
-        </p>
-        <p class="info">
-          <span class="info_info">
-            <span class="label"
-              ><span class="text-bold">Los administradores pueden transferir dinero sin una solicitud</span>:&nbsp;</span
-            >
-            <AppBadge :check="fund.managersCanTransferMoneyWithoutARequest" />
-          </span>
-          <span class="info_explanation"
-            >Si esta opción esta activada los administradores podrán transferir el
-            dinero del fondo sin crear una solicitud previa.</span
-          >
-        </p>
-        <p class="info">
-          <span class="info_info">
-            <span class="label"><span class="text-bold">Las solicitudes pueden ser creadas</span>:&nbsp;</span>
-            <AppBadge :check="fund.requestsCanBeCreated" />
-          </span>
-          <span class="info_explanation"
-            >Si esta opción esta activada se encuentra habilitada la función de crear
-            solicitudes para retirar dinero del fondo. En caso contrario, solo podrán retirar dinero los administradores.</span
-          >
-        </p>
-        <p class="info">
-          <span class="info_info">
-            <span class="label"><span class="text-bold">Solo los administradores pueden crear una solicitud</span>:&nbsp;</span>
-            <AppBadge :check="fund.onlyManagersCanCreateARequest" />
-          </span>
-          <span class="info_explanation"
-            >Si esta opción esta activada solo los administradores podrán crear
-            solicitudes para retirar dinero del fondo. En caso contrario, cualquier entidad puede crear una solicitud que luego
-            deberá ser aprobada para retirar el dinero.</span
-          >
-        </p>
-        <p class="info">
-          <span class="info_info">
-            <span class="label"><span class="text-bold">Solo los contribuyentes pueden aprobar una solicitud</span>:&nbsp;</span>
-            <AppBadge :check="fund.onlyContributorsCanApproveARequest" />
-          </span>
-          <span class="info_explanation"
-            >Si esta opción esta activada solo los contribuyentes del fondo podrán
-            aprobar una solicitud de retiro de dinero. En caso contrario, los administradores también podrán hacerlo sin haber
-            aportado al fondo previamente.</span
-          >
-        </p>
-        <p class="info">
-          <span class="info_info">
-            <span class="label"
-              ><span class="text-bold">Mínimo porcentaje de contribución requerido para aprobar una solicitud</span>:&nbsp;</span
-            >
-            <span v-text="fund.minimumContributionPercentageRequired + '%'" />
-          </span>
-          <span class="info_explanation"
-            >Porcentaje mínimo de dinero que una entidad debe aportar al total
-            historico de contribuciones del fondo para poder aprobar una solicitud de retiro de dinero.</span
-          >
-        </p>
-        <p class="info">
-          <span class="info_info">
-            <span class="label"
-              ><span class="text-bold">Mínimo porcentaje de aprobaciones requerido para finalizar una solicitud</span
-              >:&nbsp;</span
-            >
-            <span v-text="fund.minimumApprovalsPercentageRequired + '%'" />
-          </span>
-          <span class="info_explanation"
-            >Porcentaje mínimo de aprobaciones necesarias para que la entidad que creó
-            una solicitud pueda finalmente retirar el dinero. El mismo se calcula en base a la cantidad de contibuyentes del
-            fondo, sumado al número de administradores, en el caso que también estén habilitados para aprobar solicitudes.</span
-          >
-        </p>
+        <div class="items-container">
+          <div class="item-container item-container-sm">
+            <div class="item">
+              <span class="value">
+                <span class="amount"><AppShowAddress type="fund" :address="fund.address" :forceShowAddress="true" /></span>
+                <span class="unit">Dirección</span>
+              </span>
+              <span class="description">Dirección del Smart Contract desplegado en la&nbsp;{{ validChainName }}.</span>
+            </div>
+          </div>
+
+          <div class="item-container item-container-md">
+            <div class="item">
+              <span class="value">
+                <span class="amount"
+                  ><button
+                    type="button"
+                    class="btn btn-link btn-creator"
+                    data-toggle="modal"
+                    :data-target="'#entityModal' + fund.creator"
+                  >
+                    <AppShowAddress
+                      class="address-creator"
+                      type="entity"
+                      :address="fund.creator"
+                      :allowCopyAddress="false"
+                    /></button
+                ></span>
+                <span class="unit">Creador</span>
+              </span>
+              <span class="description">Entidad creadora del fondo.</span>
+            </div>
+          </div>
+
+          <div class="item-container item-container-sm">
+            <div class="item">
+              <span class="value">
+                <span class="amount"
+                  ><AppShowEth :weis="fund.totalContributions" class="mr-3" />
+                  <button
+                    type="button"
+                    class="btn btn-link btn-show-contributors"
+                    data-toggle="modal"
+                    :data-target="'#contributorsModal' + fund.address"
+                  >
+                    Ver contribuyentes
+                  </button></span
+                >
+                <span class="unit" v-if="fundType.type !== 'Campaña'">Contribuciones totales</span>
+                <span class="unit" v-else>Dinero invertido</span>
+              </span>
+              <span class="description">La suma de todas las contribuciones hechas al fondo.</span>
+            </div>
+          </div>
+
+          <div class="item-container item-container-sm">
+            <div class="item">
+              <span class="value">
+                <span class="amount"><AppShowEth :weis="fund.balance" /></span>
+                <span class="unit">Balance actual</span>
+              </span>
+              <span class="description">Dinero disponible en el fondo actualmente.</span>
+            </div>
+          </div>
+
+          <div class="item-container item-container-md">
+            <div class="item">
+              <span class="value">
+                <span class="amount"><AppBadge :check="fund.managersCanBeAddedOrRemoved" /></span>
+                <span class="unit">Los administradores pueden ser agregados o removidos</span>
+              </span>
+              <span class="description"
+                >Si esta opción está activada los administradores actuales podrán agregar o remover a nuevos
+                administradores.</span
+              >
+            </div>
+          </div>
+
+          <div class="item-container item-container-md">
+            <div class="item">
+              <span class="value">
+                <span class="amount"><AppBadge :check="fund.managersCanTransferMoneyWithoutARequest" /></span>
+                <span class="unit">Los administradores pueden transferir dinero sin una solicitud</span>
+              </span>
+              <span class="description"
+                >Si esta opción esta activada los administradores podrán transferir el dinero del fondo sin crear una solicitud
+                previa.</span
+              >
+            </div>
+          </div>
+
+          <div class="item-container item-container-md">
+            <div class="item">
+              <span class="value">
+                <span class="amount"><AppBadge :check="fund.requestsCanBeCreated" /></span>
+                <span class="unit">Las solicitudes pueden ser creadas</span>
+              </span>
+              <span class="description"
+                >Si esta opción esta activada se encuentra habilitada la función de crear solicitudes para retirar dinero del
+                fondo. En caso contrario, solo podrán retirar dinero los administradores.</span
+              >
+            </div>
+          </div>
+
+          <div class="item-container item-container-md">
+            <div class="item">
+              <span class="value">
+                <span class="amount"><AppBadge :check="fund.onlyManagersCanCreateARequest" /></span>
+                <span class="unit">Solo los administradores pueden crear una solicitud</span>
+              </span>
+              <span class="description"
+                >Si esta opción esta activada solo los administradores podrán crear solicitudes para retirar dinero del fondo. En
+                caso contrario, cualquier entidad puede crear una solicitud que luego deberá ser aprobada para retirar el
+                dinero.</span
+              >
+            </div>
+          </div>
+
+          <div class="item-container item-container-md">
+            <div class="item">
+              <span class="value">
+                <span class="amount"><AppBadge :check="fund.onlyContributorsCanApproveARequest" /></span>
+                <span class="unit">Solo los contribuyentes pueden aprobar una solicitud</span>
+              </span>
+              <span class="description"
+                >Si esta opción esta activada solo los contribuyentes del fondo podrán aprobar una solicitud de retiro de dinero.
+                En caso contrario, los administradores también podrán hacerlo sin haber aportado al fondo previamente.</span
+              >
+            </div>
+          </div>
+
+          <div class="item-container item-container-lg">
+            <div class="item">
+              <span class="value">
+                <span class="amount"><span v-text="fund.minimumContributionPercentageRequired + '%'" /></span>
+                <span class="unit">Mínimo porcentaje de contribución requerido para aprobar una solicitud</span>
+              </span>
+              <span class="description"
+                >Porcentaje mínimo de dinero que una entidad debe aportar al total historico de contribuciones del fondo para
+                poder aprobar una solicitud de retiro de dinero.</span
+              >
+            </div>
+          </div>
+
+          <div class="item-container item-container-lg item-container-approvals-percentage">
+            <div class="item">
+              <span class="value">
+                <span class="amount"><span v-text="fund.minimumApprovalsPercentageRequired + '%'" /></span>
+                <span class="unit">Mínimo porcentaje de aprobaciones requerido para finalizar una solicitud</span>
+              </span>
+              <span class="description"
+                >Porcentaje mínimo de aprobaciones necesarias para que la entidad que creó una solicitud pueda finalmente retirar
+                el dinero. El mismo se calcula en base a la cantidad de contibuyentes del fondo, sumado al número de
+                administradores, en el caso que también estén habilitados para aprobar solicitudes.</span
+              >
+            </div>
+          </div>
+        </div>
         <hr />
         <div class="buttons">
           <button type="button" class="btn btn-managers" data-toggle="modal" data-target="#managersModal">
@@ -702,39 +731,49 @@ export default {
     border-radius: 5px;
   }
 
-  .info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  .items-container {
+    font-size: 0.85rem;
 
-    .info_info {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+    .btn {
+      font-size: 1em !important;
+    }
 
-      @media (max-width: 670px) {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+    .btn-show-contributors {
+      font-size: 0.85rem !important;
+    }
+
+    .item-container {
+      width: 33%;
+
+      @media (max-width: 980px) {
+        width: 50%;
       }
 
-      .btn-show-contributors {
-        font-size: 0.9rem;
-      }
-
-      .btn-show-contributors:focus {
-        box-shadow: none;
+      @media (max-width: 560px) {
+        width: 100%;
+        padding: 0.5em 0;
       }
     }
 
-    .info_explanation {
-      font-size: 0.85rem;
-      color: grey;
+    .item-container-lg {
+      width: 49.5%;
 
-      .icon {
-        font-size: 0.95rem;
-        color: rgba(128, 128, 128, 0.8);
-        margin-right: 0.4rem;
+      @media (max-width: 980px) {
+        width: 50%;
+      }
+
+      @media (max-width: 560px) {
+        width: 100%;
+      }
+    }
+
+    .item-container-approvals-percentage {
+      @media (max-width: 980px) {
+        width: 100%;
+      }
+
+      @media (max-width: 560px) {
+        width: 100%;
       }
     }
   }

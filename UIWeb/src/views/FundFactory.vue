@@ -1,8 +1,8 @@
 <template>
   <div>
     <p class="page-title">FundFactory</p>
-    <div class="fund-factory-container">
-      <div class="item-container owner-item-container">
+    <div class="items-container">
+      <div class="item-container item-container-owner">
         <div class="item">
           <span class="value">
             <span class="amount"><AppShowAddress type="entity" :address="deployer" :goToProfile="true" /></span>
@@ -62,7 +62,7 @@
           </button>
         </div>
       </div>
-      <div class="item-container fund-token-price-item-container">
+      <div class="item-container item-container-fund-token-price">
         <div class="item">
           <span class="value">
             <span class="amount-container" v-if="!editingFundTokenPrice">
@@ -260,17 +260,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fund-factory-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: stretch;
-
+.items-container {
   .item-container {
-    min-height: 100%;
     width: 33%;
-    padding: 0.5rem;
 
     @media (max-width: 980px) {
       width: 50%;
@@ -278,27 +270,11 @@ export default {
 
     @media (max-width: 560px) {
       width: 100%;
-      padding: 0.5rem 0;
+      padding: 0.5em 0;
     }
 
     .item {
-      height: 100%;
-      width: 100%;
-      padding: 1rem;
-      border: 1px solid rgb(145, 145, 145);
-      border-radius: 5px;
-      display: flex;
-      flex-direction: column;
-      justify-content: start;
-      align-items: start;
-      gap: 0.6rem;
-
       .value {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: start;
-
         .icon {
           cursor: pointer;
         }
@@ -307,17 +283,7 @@ export default {
           display: flex;
           flex-direction: row;
           align-items: center;
-          gap: 1.6rem;
-        }
-
-        .amount {
-          font-size: 1.6rem;
-          font-weight: bold;
-        }
-
-        .unit {
-          font-size: 0.95rem;
-          color: grey;
+          gap: 1.6em;
         }
 
         .new-fund-token-price-form-row {
@@ -325,17 +291,17 @@ export default {
           flex-direction: row;
           justify-content: start;
           align-items: stretch;
-          gap: 0.6rem;
+          gap: 0.6em;
 
           .new-fund-token-price-form-group {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: start;
-            gap: 0.2rem;
+            gap: 0.2em;
 
             input {
-              min-width: 18rem;
+              min-width: 18em;
 
               @media (max-width: 440px) {
                 min-width: 0;
@@ -344,8 +310,8 @@ export default {
           }
 
           #newFundTokenPriceUnitInput {
-            width: 6rem;
-            margin-right: 0.6rem;
+            width: 6em;
+            margin-right: 0.6em;
           }
 
           .command {
@@ -356,7 +322,7 @@ export default {
     }
   }
 
-  .owner-item-container {
+  .item-container-owner {
     width: 66%;
 
     @media (max-width: 980px) {
@@ -364,7 +330,7 @@ export default {
     }
   }
 
-  .fund-token-price-item-container {
+  .item-container-fund-token-price {
     width: 99%;
 
     @media (max-width: 980px) {

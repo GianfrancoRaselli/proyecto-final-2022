@@ -167,11 +167,16 @@ export default {
 
     @media (max-width: 680px) {
       width: 100%;
+      padding: 0.6rem 0;
     }
   }
 
   .big-question {
     width: 100%;
+
+    @media (max-width: 680px) {
+      padding: 0.6rem 0;
+    }
   }
 }
 </style>
