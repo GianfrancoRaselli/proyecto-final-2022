@@ -11,6 +11,7 @@
         <span class="address"
           ><AppShowAddress type="entity" :address="entity.address" :forceShowAddress="true" @copyAddressClick="copyAddressClick"
         /></span>
+        <span class="description" v-text="entity.description" />
       </div>
     </div>
   </div>
@@ -54,6 +55,12 @@ export default {
   align-items: center;
   gap: 0.5rem;
 
+  .img {
+    height: 8rem;
+    width: 8rem;
+    border-radius: 8rem;
+  }
+
   .type {
     margin-top: 0.9rem;
     color: rgb(76, 76, 76);
@@ -64,10 +71,11 @@ export default {
     font-weight: bold;
   }
 
-  .img {
-    height: 8rem;
-    width: 8rem;
-    border-radius: 8rem;
+  .description {
+    text-align: center;
+    font-size: 0.9rem;
+    color: rgb(50, 50, 50);
+    padding: 0.5rem 0;
   }
 }
 </style>

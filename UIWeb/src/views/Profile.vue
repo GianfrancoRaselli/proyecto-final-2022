@@ -21,6 +21,7 @@
             <span class="address"
               ><AppShowAddress type="entity" :address="$route.params.address" :forceShowAddress="true"
             /></span>
+            <span class="description" v-if="entity" v-text="entity.description" />
           </div>
           <div class="body" v-if="entity">
             <span class="location" v-if="entity.location"
@@ -630,7 +631,7 @@ export default {
     .information {
       display: flex;
       flex-direction: column;
-      gap: 1.3rem;
+      gap: 1rem;
 
       .header {
         display: flex;
@@ -649,6 +650,11 @@ export default {
         .address {
           font-size: 1.9rem;
           font-weight: bold;
+        }
+
+        .description {
+          color: rgb(50, 50, 50);
+          padding-top: 0.6rem;
         }
       }
 

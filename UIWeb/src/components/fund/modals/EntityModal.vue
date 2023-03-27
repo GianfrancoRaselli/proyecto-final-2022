@@ -22,6 +22,7 @@
             <span class="fullname" v-text="entity.fullname" />
             <span class="type" v-text="entity.type" />
             <span class="address"><AppShowAddress type="entity" :address="address" :forceShowAddress="true" /></span>
+            <span class="description" v-text="entity.description" />
             <span class="location" v-if="entity.location"
               ><fa-icon icon="location-dot" class="icon" />&nbsp;{{ entity.location }}</span
             >
@@ -101,6 +102,13 @@ export default {
   .address {
     font-size: 1.65rem;
     font-weight: bold;
+  }
+
+  .description {
+    text-align: center;
+    font-size: 0.95rem;
+    color: rgb(50, 50, 50);
+    padding: 0.5rem;
   }
 }
 </style>

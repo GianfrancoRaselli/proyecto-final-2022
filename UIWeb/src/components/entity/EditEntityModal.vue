@@ -34,6 +34,21 @@
             </div>
 
             <div class="form-group">
+              <label for="descriptionInput">Descripción</label>
+              <textarea
+                class="form-control"
+                :class="{ 'is-invalid': v$.data.description.$errors.length }"
+                id="descriptionInput"
+                rows="5"
+                aria-describedby="descriptionHelp"
+                v-model="data.description"
+                :disabled="loading"
+              ></textarea>
+              <small id="descriptionHelp" class="form-text text-muted"></small>
+              <AppInputErrors :errors="v$.data.description.$errors" />
+            </div>
+
+            <div class="form-group">
               <label for="emailInput">Correo electrónico</label>
               <input
                 type="text"
@@ -132,6 +147,7 @@ export default {
       data: {
         fullname: '',
         type: 'Persona',
+        description: '',
         email: '',
         phone: '',
         location: '',
@@ -158,6 +174,10 @@ export default {
           required: helpers.withMessage('Debe ingresar un valor', required),
           minLength: helpers.withMessage('La cantidad mínima de caracteres permitidos es 2', minLength(2)),
           maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 80', maxLength(80)),
+        },
+        description: {
+          required: helpers.withMessage('Debe ingresar un valor', required),
+          maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 1000', maxLength(1000)),
         },
         email: {
           required: helpers.withMessage('Debe ingresar un valor', required),
@@ -190,6 +210,7 @@ export default {
           await axios[this.entity ? 'put' : 'post']('entity', {
             fullname: this.data.fullname,
             type: this.data.type,
+            description: this.data.description,
             email: this.data.email,
             phone: this.data.phone,
             location: this.data.location,

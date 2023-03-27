@@ -29,6 +29,37 @@ const fundSchema = new Schema(
       type: Number,
       default: 0,
     },
+    history: {
+      type: String,
+      trim: true,
+      maxLength: 5000,
+    },
+    risks: {
+      type: String,
+      trim: true,
+      maxLength: 5000,
+    },
+    rewards: {
+      type: String,
+      trim: true,
+      maxLength: 5000,
+    },
+    images: [
+      {
+        type: String,
+      },
+    ],
+    imagesNumner: {
+      type: Number,
+      default: 0,
+    },
+    updates: [
+      {
+        type: String,
+        trim: true,
+        maxLength: 1000,
+      },
+    ],
   },
   { collection: "funds", timestamps: true }
 );
