@@ -24,10 +24,10 @@
           <span class="span" :class="{ 'span-active': images }">Imágenes</span>
           <div class="bar" :class="{ 'bar-active': images }"></div>
         </div> -->
-        <div class="item" @click="updates = true">
+        <!-- <div class="item" @click="updates = true">
           <span class="span" :class="{ 'span-active': updates }">Actualizaciones</span>
           <div class="bar" :class="{ 'bar-active': updates }"></div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="body">
@@ -37,7 +37,7 @@
         <FundExtraInformationRisks :isAManager="isAManager" :fund="fund" v-show="risks" />
         <FundExtraInformationRewards :isAManager="isAManager" :fund="fund" v-show="rewards" />
         <!-- <FundExtraInformationImages :isAManager="isAManager" :fund="fund" v-show="images" /> -->
-        <FundExtraInformationUpdates :isAManager="isAManager" :fund="fund" v-show="updates" />
+        <!-- <FundExtraInformationUpdates :isAManager="isAManager" :fund="fund" v-show="updates" /> -->
       </div>
     </div>
   </div>
@@ -51,7 +51,7 @@ import FundExtraInformationHistory from '@/components/fund/fundExtraInformation/
 import FundExtraInformationRisks from '@/components/fund/fundExtraInformation/contents/FundExtraInformationRisks';
 import FundExtraInformationRewards from '@/components/fund/fundExtraInformation/contents/FundExtraInformationRewards';
 // import FundExtraInformationImages from '@/components/fund/fundExtraInformation/contents/FundExtraInformationImages';
-import FundExtraInformationUpdates from '@/components/fund/fundExtraInformation/contents/FundExtraInformationUpdates';
+// import FundExtraInformationUpdates from '@/components/fund/fundExtraInformation/contents/FundExtraInformationUpdates';
 
 export default {
   name: 'FundExtraInformationComponent',
@@ -60,7 +60,7 @@ export default {
     FundExtraInformationRisks,
     FundExtraInformationRewards,
     // FundExtraInformationImages,
-    FundExtraInformationUpdates,
+    // FundExtraInformationUpdates,
   },
   props: {
     isAManager: { type: Boolean, required: true },
