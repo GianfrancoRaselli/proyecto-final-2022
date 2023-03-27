@@ -28,8 +28,10 @@
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(manager, index) in fund.managers" :key="index">
                   <div class="item-manager">
-                    <span v-text="index + 1 + '. '" />
-                    <AppShowAddress type="entity" :address="manager" :goToProfile="true" />
+                    <span>
+                      <span v-text="index + 1 + '. '" />
+                      <AppShowAddress type="entity" :address="manager" :goToProfile="true" />
+                    </span>
                     <AppMyAddress :addressToCompare="manager" />
                   </div>
                   <div class="item-buttons">

@@ -389,4 +389,95 @@ body {
     }
   }
 }
+
+.extra-information {
+  .header {
+    position: relative;
+    margin-bottom: 0.6rem;
+
+    .arrow {
+      position: absolute;
+      height: 2.5rem;
+      width: 2.5rem;
+      border-radius: 2.5rem;
+      color: white;
+      background-color: rgb(100, 100, 100);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      @media only screen and (hover: none) and (pointer: coarse) {
+        display: none !important;
+      }
+    }
+
+    .arrow:hover {
+      cursor: pointer;
+      background-color: rgb(125, 125, 125);
+    }
+
+    .arrow-left {
+      top: 50%;
+      left: 0.5rem;
+      transform: translateY(-50%);
+    }
+
+    .arrow-right {
+      top: 50%;
+      right: 0.5rem;
+      transform: translateY(-50%);
+    }
+
+    .header-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: start;
+      align-items: center;
+      overflow: auto;
+
+      .item {
+        min-width: fit-content;
+        padding: 0 1.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .span {
+          display: block;
+          font-size: 1.07rem;
+          color: rgb(70, 70, 70);
+          padding: 1rem 0;
+        }
+
+        .span-active {
+          font-weight: bold;
+          color: rgb(0, 0, 0);
+          padding-bottom: 0.6rem;
+        }
+
+        .bar {
+          display: none;
+          background-color: rgb(29, 155, 240);
+          height: 0.4rem;
+          width: 100%;
+          border-radius: 1rem;
+        }
+
+        .bar-active {
+          display: block;
+        }
+      }
+
+      .item:hover {
+        cursor: pointer;
+        background-color: rgb(235, 235, 235);
+      }
+    }
+
+    .header-container::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
 </style>

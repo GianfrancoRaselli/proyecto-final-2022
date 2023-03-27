@@ -24,8 +24,10 @@
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(contribution, index) in contributionsOrdered" :key="index">
                   <div class="item-fund">
-                    <span v-text="index + 1 + '. '" />
-                    <span class="hover" v-text="contribution.fundName" @click="goToFund(contribution.fundAddress)"></span>
+                    <span>
+                      <span v-text="index + 1 + '. '" />
+                      <span class="hover" v-text="contribution.fundName" @click="goToFund(contribution.fundAddress)"></span>
+                    </span>
                   </div>
                   <div class="item-amount">
                     <AppShowEth :weis="contribution.contribution" />

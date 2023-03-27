@@ -23,8 +23,10 @@
             <ul class="list-group list-group-flush" v-else>
               <li class="list-group-item" v-for="(contributor, index) in contributorsOrdered" :key="index">
                 <div class="item-address">
-                  <span v-text="index + 1 + '. '" />
-                  <AppShowAddress type="entity" :address="contributor.contributor" :goToProfile="true" />
+                  <span>
+                    <span v-text="index + 1 + '. '" />
+                    <AppShowAddress type="entity" :address="contributor.contributor" :goToProfile="true" />
+                  </span>
                   <AppMyAddress :addressToCompare="contributor.contributor" />
                 </div>
                 <div class="item-amount">

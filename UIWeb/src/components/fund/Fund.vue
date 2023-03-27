@@ -3,251 +3,256 @@
     <div class="loading" v-if="loading">
       <AppSpinner class="spinner" size="big" />
     </div>
-    <div class="card" v-else>
-      <div class="card-header text-center">
-        <span class="name" v-text="fund.name" />
-        <div class="fund-info">
-          <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="isMyFund">Mi fondo</span>
-          <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="body-header">
-          <div class="img-container">
-            <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund && fund.image" />
-            <img class="img" src="@/assets/imgs/fund.png" v-else />
-            <div class="icons" v-if="isMyFund">
-              <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" />
-              <fa-icon icon="trash" class="icon red" @click="openRemoveImage" v-if="fund && fund.image" />
-            </div>
+    <div v-else>
+      <div class="card">
+        <div class="card-header text-center">
+          <span class="name" v-text="fund.name" />
+          <div class="fund-info">
+            <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="isMyFund">Mi fondo</span>
+            <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
           </div>
-          <div class="description" v-if="isMyFund || fund.description">
-            <form class="form" @submit.prevent="handleEditDescriptionSubmit" v-if="isMyFund">
-              <div class="form-group">
-                <textarea
-                  class="form-control"
-                  :class="{ 'is-invalid': v$.editDescription.new.$errors.length }"
-                  id="descriptionInput"
-                  rows="12"
-                  aria-describedby="descriptionHelp"
-                  v-model="editDescription.new"
-                  :disabled="editDescription.loading"
-                ></textarea>
-                <AppInputErrors :errors="v$.editDescription.new.$errors" />
+        </div>
+        <div class="card-body">
+          <div class="body-header">
+            <div class="img-container">
+              <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund && fund.image" />
+              <img class="img" src="@/assets/imgs/fund.png" v-else />
+              <div class="icons" v-if="isMyFund">
+                <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" />
+                <fa-icon icon="trash" class="icon red" @click="openRemoveImage" v-if="fund && fund.image" />
               </div>
-
-              <button
-                type="submit"
-                class="btn btn-primary"
-                :disabled="fund.description === editDescription.new"
-                v-if="!editDescription.loading"
-              >
-                Actualizar descripción
-              </button>
-              <button class="btn btn-primary" type="button" disabled v-else>
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Actualizando...
-              </button>
-            </form>
-            <span v-text="fund.description" v-else />
-          </div>
-        </div>
-        <p class="h5 text-center my-3 information-text">Información</p>
-        <div class="items-container">
-          <div class="item-container item-container-sm">
-            <div class="item">
-              <span class="value">
-                <span class="amount"><AppShowAddress type="fund" :address="fund.address" :forceShowAddress="true" /></span>
-                <span class="unit">Dirección</span>
-              </span>
-              <span class="description">Dirección del Smart Contract desplegado en la&nbsp;{{ validChainName }}.</span>
             </div>
-          </div>
+            <div class="description" v-if="isMyFund || fund.description">
+              <form class="form" @submit.prevent="handleEditDescriptionSubmit" v-if="isMyFund">
+                <div class="form-group">
+                  <textarea
+                    class="form-control"
+                    :class="{ 'is-invalid': v$.editDescription.new.$errors.length }"
+                    id="descriptionInput"
+                    rows="12"
+                    aria-describedby="descriptionHelp"
+                    v-model="editDescription.new"
+                    :disabled="editDescription.loading"
+                  ></textarea>
+                  <AppInputErrors :errors="v$.editDescription.new.$errors" />
+                </div>
 
-          <div class="item-container item-container-md">
-            <div class="item">
-              <span class="value">
-                <span class="amount"
-                  ><button
-                    type="button"
-                    class="btn btn-link btn-creator"
-                    data-toggle="modal"
-                    :data-target="'#entityModal' + fund.creator"
-                  >
-                    <AppShowAddress
-                      class="address-creator"
-                      type="entity"
-                      :address="fund.creator"
-                      :allowCopyAddress="false"
-                    /></button
-                ></span>
-                <span class="unit">Creador</span>
-              </span>
-              <span class="description">Entidad creadora del fondo.</span>
-            </div>
-          </div>
-
-          <div class="item-container item-container-sm">
-            <div class="item">
-              <span class="value">
-                <span class="amount"
-                  ><AppShowEth :weis="fund.totalContributions" class="mr-3" />
-                  <button
-                    type="button"
-                    class="btn btn-link btn-show-contributors"
-                    data-toggle="modal"
-                    :data-target="'#contributorsModal' + fund.address"
-                  >
-                    Ver contribuyentes
-                  </button></span
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  :disabled="fund.description === editDescription.new"
+                  v-if="!editDescription.loading"
                 >
-                <span class="unit" v-if="fundType.type !== 'Campaña'">Contribuciones totales</span>
-                <span class="unit" v-else>Dinero invertido</span>
-              </span>
-              <span class="description">La suma de todas las contribuciones hechas al fondo.</span>
+                  Actualizar descripción
+                </button>
+                <button class="btn btn-primary" type="button" disabled v-else>
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Actualizando...
+                </button>
+              </form>
+              <span v-text="fund.description" v-else />
             </div>
           </div>
+          <p class="h5 text-center my-3 information-text">Información</p>
+          <div class="items-container">
+            <div class="item-container item-container-sm">
+              <div class="item">
+                <span class="value">
+                  <span class="amount"><AppShowAddress type="fund" :address="fund.address" :forceShowAddress="true" /></span>
+                  <span class="unit">Dirección</span>
+                </span>
+                <span class="description">Dirección del Smart Contract desplegado en la&nbsp;{{ validChainName }}.</span>
+              </div>
+            </div>
 
-          <div class="item-container item-container-sm">
-            <div class="item">
-              <span class="value">
-                <span class="amount"><AppShowEth :weis="fund.balance" /></span>
-                <span class="unit">Balance actual</span>
-              </span>
-              <span class="description">Dinero disponible en el fondo actualmente.</span>
+            <div class="item-container item-container-md">
+              <div class="item">
+                <span class="value">
+                  <span class="amount"
+                    ><button
+                      type="button"
+                      class="btn btn-link btn-creator"
+                      data-toggle="modal"
+                      :data-target="'#entityModal' + fund.creator"
+                    >
+                      <AppShowAddress
+                        class="address-creator"
+                        type="entity"
+                        :address="fund.creator"
+                        :allowCopyAddress="false"
+                      /></button
+                  ></span>
+                  <span class="unit">Creador</span>
+                </span>
+                <span class="description">Entidad creadora del fondo.</span>
+              </div>
+            </div>
+
+            <div class="item-container item-container-sm">
+              <div class="item">
+                <span class="value">
+                  <span class="amount"
+                    ><AppShowEth :weis="fund.totalContributions" class="mr-3" />
+                    <button
+                      type="button"
+                      class="btn btn-link btn-show-contributors"
+                      data-toggle="modal"
+                      :data-target="'#contributorsModal' + fund.address"
+                    >
+                      Ver contribuyentes
+                    </button></span
+                  >
+                  <span class="unit" v-if="fundType.type !== 'Campaña'">Contribuciones totales</span>
+                  <span class="unit" v-else>Dinero invertido</span>
+                </span>
+                <span class="description">La suma de todas las contribuciones hechas al fondo.</span>
+              </div>
+            </div>
+
+            <div class="item-container item-container-sm">
+              <div class="item">
+                <span class="value">
+                  <span class="amount"><AppShowEth :weis="fund.balance" /></span>
+                  <span class="unit">Balance actual</span>
+                </span>
+                <span class="description">Dinero disponible en el fondo actualmente.</span>
+              </div>
+            </div>
+
+            <div class="item-container item-container-md">
+              <div class="item">
+                <span class="value">
+                  <span class="amount"><AppBadge :check="fund.managersCanBeAddedOrRemoved" /></span>
+                  <span class="unit">Los administradores pueden ser agregados o removidos</span>
+                </span>
+                <span class="description"
+                  >Si esta opción está activada los administradores actuales podrán agregar o remover a nuevos
+                  administradores.</span
+                >
+              </div>
+            </div>
+
+            <div class="item-container item-container-md">
+              <div class="item">
+                <span class="value">
+                  <span class="amount"><AppBadge :check="fund.managersCanTransferMoneyWithoutARequest" /></span>
+                  <span class="unit">Los administradores pueden transferir dinero sin una solicitud</span>
+                </span>
+                <span class="description"
+                  >Si esta opción esta activada los administradores podrán transferir el dinero del fondo sin crear una solicitud
+                  previa.</span
+                >
+              </div>
+            </div>
+
+            <div class="item-container item-container-md">
+              <div class="item">
+                <span class="value">
+                  <span class="amount"><AppBadge :check="fund.requestsCanBeCreated" /></span>
+                  <span class="unit">Las solicitudes pueden ser creadas</span>
+                </span>
+                <span class="description"
+                  >Si esta opción esta activada se encuentra habilitada la función de crear solicitudes para retirar dinero del
+                  fondo. En caso contrario, solo podrán retirar dinero los administradores.</span
+                >
+              </div>
+            </div>
+
+            <div class="item-container item-container-md">
+              <div class="item">
+                <span class="value">
+                  <span class="amount"><AppBadge :check="fund.onlyManagersCanCreateARequest" /></span>
+                  <span class="unit">Solo los administradores pueden crear una solicitud</span>
+                </span>
+                <span class="description"
+                  >Si esta opción esta activada solo los administradores podrán crear solicitudes para retirar dinero del fondo.
+                  En caso contrario, cualquier entidad puede crear una solicitud que luego deberá ser aprobada para retirar el
+                  dinero.</span
+                >
+              </div>
+            </div>
+
+            <div class="item-container item-container-md">
+              <div class="item">
+                <span class="value">
+                  <span class="amount"><AppBadge :check="fund.onlyContributorsCanApproveARequest" /></span>
+                  <span class="unit">Solo los contribuyentes pueden aprobar una solicitud</span>
+                </span>
+                <span class="description"
+                  >Si esta opción esta activada solo los contribuyentes del fondo podrán aprobar una solicitud de retiro de
+                  dinero. En caso contrario, los administradores también podrán hacerlo sin haber aportado al fondo
+                  previamente.</span
+                >
+              </div>
+            </div>
+
+            <div class="item-container item-container-lg">
+              <div class="item">
+                <span class="value">
+                  <span class="amount"><span v-text="fund.minimumContributionPercentageRequired + '%'" /></span>
+                  <span class="unit">Mínimo porcentaje de contribución requerido para aprobar una solicitud</span>
+                </span>
+                <span class="description"
+                  >Porcentaje mínimo de dinero que una entidad debe aportar al total historico de contribuciones del fondo para
+                  poder aprobar una solicitud de retiro de dinero.</span
+                >
+              </div>
+            </div>
+
+            <div class="item-container item-container-lg item-container-approvals-percentage">
+              <div class="item">
+                <span class="value">
+                  <span class="amount"><span v-text="fund.minimumApprovalsPercentageRequired + '%'" /></span>
+                  <span class="unit">Mínimo porcentaje de aprobaciones requerido para finalizar una solicitud</span>
+                </span>
+                <span class="description"
+                  >Porcentaje mínimo de aprobaciones necesarias para que la entidad que creó una solicitud pueda finalmente
+                  retirar el dinero. El mismo se calcula en base a la cantidad de contibuyentes del fondo, sumado al número de
+                  administradores, en el caso que también estén habilitados para aprobar solicitudes.</span
+                >
+              </div>
             </div>
           </div>
-
-          <div class="item-container item-container-md">
-            <div class="item">
-              <span class="value">
-                <span class="amount"><AppBadge :check="fund.managersCanBeAddedOrRemoved" /></span>
-                <span class="unit">Los administradores pueden ser agregados o removidos</span>
-              </span>
-              <span class="description"
-                >Si esta opción está activada los administradores actuales podrán agregar o remover a nuevos
-                administradores.</span
-              >
-            </div>
-          </div>
-
-          <div class="item-container item-container-md">
-            <div class="item">
-              <span class="value">
-                <span class="amount"><AppBadge :check="fund.managersCanTransferMoneyWithoutARequest" /></span>
-                <span class="unit">Los administradores pueden transferir dinero sin una solicitud</span>
-              </span>
-              <span class="description"
-                >Si esta opción esta activada los administradores podrán transferir el dinero del fondo sin crear una solicitud
-                previa.</span
-              >
-            </div>
-          </div>
-
-          <div class="item-container item-container-md">
-            <div class="item">
-              <span class="value">
-                <span class="amount"><AppBadge :check="fund.requestsCanBeCreated" /></span>
-                <span class="unit">Las solicitudes pueden ser creadas</span>
-              </span>
-              <span class="description"
-                >Si esta opción esta activada se encuentra habilitada la función de crear solicitudes para retirar dinero del
-                fondo. En caso contrario, solo podrán retirar dinero los administradores.</span
-              >
-            </div>
-          </div>
-
-          <div class="item-container item-container-md">
-            <div class="item">
-              <span class="value">
-                <span class="amount"><AppBadge :check="fund.onlyManagersCanCreateARequest" /></span>
-                <span class="unit">Solo los administradores pueden crear una solicitud</span>
-              </span>
-              <span class="description"
-                >Si esta opción esta activada solo los administradores podrán crear solicitudes para retirar dinero del fondo. En
-                caso contrario, cualquier entidad puede crear una solicitud que luego deberá ser aprobada para retirar el
-                dinero.</span
-              >
-            </div>
-          </div>
-
-          <div class="item-container item-container-md">
-            <div class="item">
-              <span class="value">
-                <span class="amount"><AppBadge :check="fund.onlyContributorsCanApproveARequest" /></span>
-                <span class="unit">Solo los contribuyentes pueden aprobar una solicitud</span>
-              </span>
-              <span class="description"
-                >Si esta opción esta activada solo los contribuyentes del fondo podrán aprobar una solicitud de retiro de dinero.
-                En caso contrario, los administradores también podrán hacerlo sin haber aportado al fondo previamente.</span
-              >
-            </div>
-          </div>
-
-          <div class="item-container item-container-lg">
-            <div class="item">
-              <span class="value">
-                <span class="amount"><span v-text="fund.minimumContributionPercentageRequired + '%'" /></span>
-                <span class="unit">Mínimo porcentaje de contribución requerido para aprobar una solicitud</span>
-              </span>
-              <span class="description"
-                >Porcentaje mínimo de dinero que una entidad debe aportar al total historico de contribuciones del fondo para
-                poder aprobar una solicitud de retiro de dinero.</span
-              >
-            </div>
-          </div>
-
-          <div class="item-container item-container-lg item-container-approvals-percentage">
-            <div class="item">
-              <span class="value">
-                <span class="amount"><span v-text="fund.minimumApprovalsPercentageRequired + '%'" /></span>
-                <span class="unit">Mínimo porcentaje de aprobaciones requerido para finalizar una solicitud</span>
-              </span>
-              <span class="description"
-                >Porcentaje mínimo de aprobaciones necesarias para que la entidad que creó una solicitud pueda finalmente retirar
-                el dinero. El mismo se calcula en base a la cantidad de contibuyentes del fondo, sumado al número de
-                administradores, en el caso que también estén habilitados para aprobar solicitudes.</span
-              >
-            </div>
+          <hr />
+          <div class="buttons">
+            <button type="button" class="btn btn-managers" data-toggle="modal" data-target="#managersModal">
+              <fa-icon icon="person" class="icon mr-2" />Administradores
+            </button>
+            <button type="button" class="btn btn-contributions" data-toggle="modal" data-target="#contributionsModal">
+              <fa-icon icon="circle-dollar-to-slot" class="icon mr-2" />Contribuciones
+            </button>
+            <button
+              type="button"
+              class="btn btn-transfers"
+              data-toggle="modal"
+              data-target="#transfersModal"
+              v-if="fund.managersCanTransferMoneyWithoutARequest && isAManager"
+            >
+              <fa-icon icon="money-bill-transfer" class="icon mr-2" />Transferencias
+            </button>
+            <button type="button" class="btn btn-requests" data-toggle="modal" data-target="#requestsModal">
+              <fa-icon icon="list-check" class="icon mr-2" />Solicitudes
+            </button>
           </div>
         </div>
-        <hr />
-        <div class="buttons">
-          <button type="button" class="btn btn-managers" data-toggle="modal" data-target="#managersModal">
-            <fa-icon icon="person" class="icon mr-2" />Administradores
-          </button>
-          <button type="button" class="btn btn-contributions" data-toggle="modal" data-target="#contributionsModal">
-            <fa-icon icon="circle-dollar-to-slot" class="icon mr-2" />Contribuciones
-          </button>
-          <button
-            type="button"
-            class="btn btn-transfers"
-            data-toggle="modal"
-            data-target="#transfersModal"
-            v-if="fund.managersCanTransferMoneyWithoutARequest && isAManager"
-          >
-            <fa-icon icon="money-bill-transfer" class="icon mr-2" />Transferencias
-          </button>
-          <button type="button" class="btn btn-requests" data-toggle="modal" data-target="#requestsModal">
-            <fa-icon icon="list-check" class="icon mr-2" />Solicitudes
-          </button>
+        <div class="card-footer text-muted text-center">
+          <AppDate :date="createdAt" />
         </div>
-      </div>
-      <div class="card-footer text-muted text-center">
-        <AppDate :date="createdAt" />
+
+        <EntityModal :address="fund.creator" />
       </div>
 
-      <EntityModal :address="fund.creator" />
+      <FundExtraInformation />
+
+      <!-- modals -->
+      <CreateFundModal :fund="fund" />
+      <EditImageModal :fundAddress="fund.address" @update="updateImage" v-if="isMyFund" />
+      <ContributorsModal :fund="fund" :loading="loading" />
+      <ManagersModal :fund="fund" :isAManager="isAManager" />
+      <ContributionsModal :fund="fund" />
+      <TransfersModal :fund="fund" :isAManager="isAManager" />
+      <RequestsModal :loading="loading" :fund="fund" :isAManager="isAManager" />
     </div>
-
-    <!-- modals -->
-    <CreateFundModal :fund="fund" />
-    <EditImageModal :fundAddress="fund.address" @update="updateImage" v-if="isMyFund" />
-    <ContributorsModal :fund="fund" :loading="loading" />
-    <ManagersModal :fund="fund" :isAManager="isAManager" />
-    <ContributionsModal :fund="fund" />
-    <TransfersModal :fund="fund" :isAManager="isAManager" />
-    <RequestsModal :loading="loading" :fund="fund" :isAManager="isAManager" />
   </div>
 </template>
 
@@ -265,6 +270,8 @@ import { validateForm } from '@/helpers/helpers';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
+import FundExtraInformation from '@/components/fund/fundExtraInformation/FundExtraInformation';
+
 // modals
 import CreateFundModal from '@/components/fund/CreateFundModal';
 import EditImageModal from '@/components/EditImageModal';
@@ -281,6 +288,7 @@ export default {
     return { v$: useVuelidate({ $scope: false }) };
   },
   components: {
+    FundExtraInformation,
     CreateFundModal,
     EditImageModal,
     EntityModal,
