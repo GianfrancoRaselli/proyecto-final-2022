@@ -1,5 +1,7 @@
 <template>
-  <div class="fund-extra-information-content"></div>
+  <div class="fund-extra-information-content">
+    
+  </div>
 </template>
 
 <script>
@@ -7,6 +9,7 @@ export default {
   name: 'FundExtraInformationHistoryComponent',
   components: {},
   props: {
+    isAManager: { type: Boolean, required: true },
     fund: { type: Object, required: true },
   },
   data() {

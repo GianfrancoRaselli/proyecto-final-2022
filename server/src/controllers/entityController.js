@@ -127,7 +127,7 @@ const getAll = async (req, res) => {
 };
 
 const get = async (req, res) => {
-  const entity = await Entity.findOne({ address: req.params.address.toLowerCase() });
+  const entity = await Entity.findOne({ address: req.params.address });
   return res.status(200).json(entity);
 };
 

@@ -7,6 +7,7 @@ export default {
   name: 'FundExtraInformationRewardsComponent',
   components: {},
   props: {
+    isAManager: { type: Boolean, required: true },
     fund: { type: Object, required: true },
   },
   data() {

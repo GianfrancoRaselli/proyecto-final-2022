@@ -20,10 +20,10 @@
           <span class="span" :class="{ 'span-active': rewards }">Recompensas</span>
           <div class="bar" :class="{ 'bar-active': rewards }"></div>
         </div>
-        <div class="item" @click="images = true">
+        <!-- <div class="item" @click="images = true">
           <span class="span" :class="{ 'span-active': images }">Imágenes</span>
           <div class="bar" :class="{ 'bar-active': images }"></div>
-        </div>
+        </div> -->
         <div class="item" @click="updates = true">
           <span class="span" :class="{ 'span-active': updates }">Actualizaciones</span>
           <div class="bar" :class="{ 'bar-active': updates }"></div>
@@ -33,11 +33,11 @@
     <div class="body">
       <AppSpinner v-if="loading" />
       <div v-else>
-        <FundExtraInformationHistory :fund="fund" v-show="history" />
-        <FundExtraInformationRisks :fund="fund" v-show="risks" />
-        <FundExtraInformationRewards :fund="fund" v-show="rewards" />
-        <FundExtraInformationImages :fund="fund" v-show="images" />
-        <FundExtraInformationUpdates :fund="fund" v-show="updates" />
+        <FundExtraInformationHistory :isAManager="isAManager" :fund="fund" v-show="history" />
+        <FundExtraInformationRisks :isAManager="isAManager" :fund="fund" v-show="risks" />
+        <FundExtraInformationRewards :isAManager="isAManager" :fund="fund" v-show="rewards" />
+        <!-- <FundExtraInformationImages :isAManager="isAManager" :fund="fund" v-show="images" /> -->
+        <FundExtraInformationUpdates :isAManager="isAManager" :fund="fund" v-show="updates" />
       </div>
     </div>
   </div>
@@ -50,7 +50,7 @@ import axios from 'axios';
 import FundExtraInformationHistory from '@/components/fund/fundExtraInformation/contents/FundExtraInformationHistory';
 import FundExtraInformationRisks from '@/components/fund/fundExtraInformation/contents/FundExtraInformationRisks';
 import FundExtraInformationRewards from '@/components/fund/fundExtraInformation/contents/FundExtraInformationRewards';
-import FundExtraInformationImages from '@/components/fund/fundExtraInformation/contents/FundExtraInformationImages';
+// import FundExtraInformationImages from '@/components/fund/fundExtraInformation/contents/FundExtraInformationImages';
 import FundExtraInformationUpdates from '@/components/fund/fundExtraInformation/contents/FundExtraInformationUpdates';
 
 export default {
@@ -59,10 +59,12 @@ export default {
     FundExtraInformationHistory,
     FundExtraInformationRisks,
     FundExtraInformationRewards,
-    FundExtraInformationImages,
+    // FundExtraInformationImages,
     FundExtraInformationUpdates,
   },
-  props: {},
+  props: {
+    isAManager: { type: Boolean, required: true },
+  },
   data() {
     return {
       loading: true,
@@ -159,5 +161,13 @@ export default {
 <style lang="scss" scoped>
 .body {
   padding: 1rem 0;
+}
+</style>
+
+<style lang="scss">
+.fund-extra-information-content {
+  .edit-form {
+    min-height: 30rem;
+  }
 }
 </style>

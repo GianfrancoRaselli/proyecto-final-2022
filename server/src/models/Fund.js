@@ -32,32 +32,42 @@ const fundSchema = new Schema(
     history: {
       type: String,
       trim: true,
-      maxLength: 5000,
+      maxLength: 20000, // 5000
     },
     risks: {
       type: String,
       trim: true,
-      maxLength: 5000,
+      maxLength: 20000,
     },
     rewards: {
       type: String,
       trim: true,
-      maxLength: 5000,
+      maxLength: 20000,
     },
     images: [
       {
         type: String,
       },
     ],
-    imagesNumner: {
+    imagesAmount: {
       type: Number,
       default: 0,
     },
     updates: [
       {
-        type: String,
-        trim: true,
-        maxLength: 1000,
+        updater: {
+          type: String,
+          trim: true,
+          maxLength: 80,
+        },
+        description: {
+          type: String,
+          trim: true,
+          maxLength: 1000,
+        },
+        updatedAt: {
+          type: Date,
+        },
       },
     ],
   },

@@ -3,14 +3,13 @@ const multer = require("multer");
 const fs = require("fs");
 
 const create = async (req, res) => {
-  const { address, description } = req.body;
+  const { address } = req.body;
 
   if (!(await Fund.findOne({ address: address }))) {
     // new fund
     const fund = new Fund({
       address: address,
       creator: req.entityAddress,
-      description,
     });
 
     // save the fund in the DB
@@ -26,10 +25,19 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   let fundToUpdate = await Fund.findOne({ address: req.params.address });
   if (fundToUpdate) {
-    const { description } = req.body;
+    const { description, history, risks, rewards, update } = req.body;
 
     // update fields
-    fundToUpdate.description = description;
+    if (description) fundToUpdate.description = description;
+    if (history) fundToUpdate.history = history;
+    if (risks) fundToUpdate.risks = risks;
+    if (rewards) fundToUpdate.rewards = rewards;
+    if (update)
+      fundToUpdate.updates.push({
+        updater: req.entityAddress,
+        description: update,
+        updatedAt: new Date(),
+      });
 
     // save the fund in the DB
     const savedFund = await fundToUpdate.save();
@@ -106,7 +114,7 @@ const removeImage = async (req, res) => {
 };
 
 const get = async (req, res) => {
-  const fund = await Fund.findOne({ address: req.params.address.toLowerCase() });
+  const fund = await Fund.findOne({ address: req.params.address });
   return res.status(200).json(fund);
 };
 

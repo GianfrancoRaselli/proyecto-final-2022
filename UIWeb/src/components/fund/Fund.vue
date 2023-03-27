@@ -8,7 +8,7 @@
         <div class="card-header text-center">
           <span class="name" v-text="fund.name" />
           <div class="fund-info">
-            <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="isMyFund">Mi fondo</span>
+            <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="isTheCreator">Mi fondo</span>
             <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
           </div>
         </div>
@@ -17,13 +17,13 @@
             <div class="img-container">
               <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund && fund.image" />
               <img class="img" src="@/assets/imgs/fund.png" v-else />
-              <div class="icons" v-if="isMyFund">
+              <div class="icons" v-if="isAManager">
                 <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" />
                 <fa-icon icon="trash" class="icon red" @click="openRemoveImage" v-if="fund && fund.image" />
               </div>
             </div>
-            <div class="description" v-if="isMyFund || fund.description">
-              <form class="form" @submit.prevent="handleEditDescriptionSubmit" v-if="isMyFund">
+            <div class="description" v-if="isAManager || fund.description">
+              <form class="form" @submit.prevent="handleEditDescriptionSubmit" v-if="isAManager">
                 <div class="form-group">
                   <textarea
                     class="form-control"
@@ -241,11 +241,11 @@
         <EntityModal :address="fund.creator" />
       </div>
 
-      <FundExtraInformation />
+      <FundExtraInformation :isAManager="isAManager" />
 
       <!-- modals -->
       <CreateFundModal :fund="fund" />
-      <EditImageModal :fundAddress="fund.address" @update="updateImage" v-if="isMyFund" />
+      <EditImageModal :fundAddress="fund.address" @update="updateImage" v-if="isAManager" />
       <ContributorsModal :fund="fund" :loading="loading" />
       <ManagersModal :fund="fund" :isAManager="isAManager" />
       <ContributionsModal :fund="fund" />
@@ -340,7 +340,7 @@ export default {
     }),
     ...mapGetters(['address', 'validChainName']),
 
-    isMyFund() {
+    isTheCreator() {
       return compareAddresses(this.address, this.fund.creator);
     },
 
