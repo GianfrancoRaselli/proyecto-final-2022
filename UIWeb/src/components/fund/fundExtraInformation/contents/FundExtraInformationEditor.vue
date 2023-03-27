@@ -2,7 +2,12 @@
   <div class="editor-container">
     <vue-editor class="editor" :editorToolbar="customToolbar" :disabled="loading" v-model="editing"></vue-editor>
     <div class="length mt-2">
-      <span class="mr-1"><span class="number" v-text="editingLength"></span>/<span class="number">100.000</span></span>
+      <span class="mr-1"
+        ><span class="number" :class="{ error: editingLength > maxLength }" v-text="separateInteger(editingLength)"></span>/<span
+          class="number"
+          v-text="separateInteger(maxLength)"
+        ></span
+      ></span>
       <fa-icon
         icon="question"
         class="icon"
@@ -31,6 +36,7 @@
 <script>
 import $ from 'jquery';
 import axios from 'axios';
+import { separateInteger } from '@/helpers/helpers';
 import { addNotification } from '@/composables/useNotifications';
 import { VueEditor } from 'vue3-editor';
 
@@ -47,6 +53,7 @@ export default {
     return {
       loading: false,
       editing: '',
+      maxLength: 100000,
       customToolbar: [
         [{ header: [false, 1, 2, 3, 4, 5, 6] }],
         ['bold', 'italic', 'underline', 'strike'],
@@ -65,8 +72,10 @@ export default {
     },
   },
   methods: {
+    separateInteger,
+
     async handleSumbit() {
-      if (this.editingLength <= 100000) {
+      if (this.editingLength <= this.maxLength) {
         try {
           this.loading = true;
           let body = {};
@@ -110,13 +119,17 @@ export default {
   .number {
     padding: 0 0.1em;
   }
-}
 
-.icon {
-  height: 1em;
-  width: 1em;
-  border: 0.1px solid grey;
-  border-radius: 100%;
-  padding: 0.2em;
+  .error {
+    background-color: rgba(255, 206, 206, 0.756);
+  }
+
+  .icon {
+    height: 1em;
+    width: 1em;
+    border: 0.1px solid grey;
+    border-radius: 100%;
+    padding: 0.2em;
+  }
 }
 </style>

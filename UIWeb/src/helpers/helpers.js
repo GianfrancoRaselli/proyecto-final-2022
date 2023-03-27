@@ -174,6 +174,23 @@ const convertNumberToMaxDecimals = (number, maxNumOfDecimals) => {
   return number.toFixed(finalNumOfDecimals);
 };
 
+const separateInteger = (integer) => {
+  let numberToReturn = '';
+  let inverseNumberArray = integer.toString().split('').reverse();
+  let aux = 0;
+  let i = 0;
+  for (let number of inverseNumberArray) {
+    aux++;
+    i++;
+    numberToReturn += number;
+    if (aux === 3 && i < inverseNumberArray.length) {
+      numberToReturn += '.';
+      aux = 0;
+    }
+  }
+  return numberToReturn.split('').reverse().join('');
+};
+
 const areTheSameDates = (...args) => {
   args.forEach((date, index) => {
     if (typeof date === 'object') {
@@ -282,6 +299,7 @@ export {
   ethPriceInUSD,
   removeInitialZeros,
   convertNumberToMaxDecimals,
+  separateInteger,
   areTheSameDates,
   goToProfile,
   goToFund,
