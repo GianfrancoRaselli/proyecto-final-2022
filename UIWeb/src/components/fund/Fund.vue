@@ -244,14 +244,15 @@
       <FundExtraInformation :isAManager="isAManager" />
 
       <!-- modals -->
-      <CreateFundModal :fund="fund" />
       <EditImageModal :fundAddress="fund.address" @update="updateImage" v-if="isAManager" />
-      <ContributorsModal :fund="fund" :loading="loading" />
+      <ContributorsModal :loading="loading" :fund="fund" />
       <ManagersModal :fund="fund" :isAManager="isAManager" />
       <ContributionsModal :fund="fund" />
       <TransfersModal :fund="fund" :isAManager="isAManager" />
       <RequestsModal :loading="loading" :fund="fund" :isAManager="isAManager" />
     </div>
+
+    <CreateFundModal :loadingFund="loading" :fund="fund" />
   </div>
 </template>
 
@@ -615,6 +616,7 @@ export default {
   },
   mounted() {
     if (this.$route.query.nuevo) {
+      console.log('s');
       $('#createFundModal').modal('show');
     }
   },
