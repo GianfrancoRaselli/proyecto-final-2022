@@ -95,7 +95,7 @@
               <fa-icon
                 icon="check"
                 class="icon command"
-                @click="handleNewFundTokenPrice"
+                @click="handleNewFundTokenPriceSubmit"
                 v-if="v$.newFundTokenPrice.$errors.length === 0 && !newFundTokenPriceLoading"
               />
               <AppSpinner class="command" size="small" v-if="newFundTokenPriceLoading" />
@@ -198,7 +198,7 @@ export default {
       });
     },
 
-    async handleNewFundTokenPrice() {
+    async handleNewFundTokenPriceSubmit() {
       if (await validateForm(this.v$)) {
         const newFundTokenPriceInWeis =
           this.newFundTokenPriceUnit === 'Wei'

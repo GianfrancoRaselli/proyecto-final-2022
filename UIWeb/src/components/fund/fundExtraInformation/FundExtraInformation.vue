@@ -1,5 +1,5 @@
 <template>
-  <div class="extra-information fund-extra-information mt-3">
+  <div class="extra-information fund-extra-information mt-4">
     <div id="header" class="header" @mouseover="mouseOverHeader" @mouseleave="mouseLeaveHeader">
       <div class="arrow arrow-left" @click="goBack" v-if="activeGoBack">
         <fa-icon icon="arrow-left" class="icon" />
@@ -160,14 +160,28 @@ export default {
 
 <style lang="scss" scoped>
 .body {
-  padding: 1rem 0;
+  padding: 0.6rem 0;
 }
 </style>
 
-<style lang="scss">
-.fund-extra-information-content {
-  .edit-form {
-    min-height: 30rem;
-  }
+<style>
+.ql-align-left {
+  text-align: left;
+}
+.ql-align-right {
+  text-align: right;
+}
+.ql-align-center {
+  text-align: center;
+}
+.ql-align-justify {
+  text-align: justify;
+}
+
+blockquote {
+  background: #f9f9f9;
+  border-left: 5px solid #ccc;
+  margin: 20px 10px;
+  padding: 4px 16px;
 }
 </style>
