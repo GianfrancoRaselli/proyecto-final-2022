@@ -213,8 +213,7 @@
               </div>
             </div>
           </div>
-          <hr />
-          <div class="buttons">
+          <div class="buttons mt-3">
             <button type="button" class="btn btn-managers" data-toggle="modal" data-target="#managersModal">
               <fa-icon icon="person" class="icon mr-2" />Administradores
             </button>

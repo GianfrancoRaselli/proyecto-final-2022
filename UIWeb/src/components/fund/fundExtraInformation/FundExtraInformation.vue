@@ -1,5 +1,5 @@
 <template>
-  <div class="extra-information fund-extra-information">
+  <div class="extra-information fund-extra-information mt-3">
     <div id="header" class="header" @mouseover="mouseOverHeader" @mouseleave="mouseLeaveHeader">
       <div class="arrow arrow-left" @click="goBack" v-if="activeGoBack">
         <fa-icon icon="arrow-left" class="icon" />
@@ -9,36 +9,59 @@
       </div>
       <div id="header-container" class="header-container">
         <div class="item" @click="history = true">
-          <span class="span" :class="{ 'span-active': fundsCreated }">Historia</span>
-          <div class="bar" :class="{ 'bar-active': fundsCreated }"></div>
+          <span class="span" :class="{ 'span-active': history }">Historia</span>
+          <div class="bar" :class="{ 'bar-active': history }"></div>
         </div>
         <div class="item" @click="risks = true">
-          <span class="span" :class="{ 'span-active': fundsAdmin }">Riesgos</span>
-          <div class="bar" :class="{ 'bar-active': fundsAdmin }"></div>
+          <span class="span" :class="{ 'span-active': risks }">Riesgos</span>
+          <div class="bar" :class="{ 'bar-active': risks }"></div>
         </div>
         <div class="item" @click="rewards = true">
-          <span class="span" :class="{ 'span-active': contributions }">Recompensas</span>
-          <div class="bar" :class="{ 'bar-active': contributions }"></div>
+          <span class="span" :class="{ 'span-active': rewards }">Recompensas</span>
+          <div class="bar" :class="{ 'bar-active': rewards }"></div>
         </div>
         <div class="item" @click="images = true">
-          <span class="span" :class="{ 'span-active': transfersMade }">Imágenes</span>
-          <div class="bar" :class="{ 'bar-active': transfersMade }"></div>
+          <span class="span" :class="{ 'span-active': images }">Imágenes</span>
+          <div class="bar" :class="{ 'bar-active': images }"></div>
         </div>
         <div class="item" @click="updates = true">
-          <span class="span" :class="{ 'span-active': transferReceived }">Actualizaciones</span>
-          <div class="bar" :class="{ 'bar-active': transferReceived }"></div>
+          <span class="span" :class="{ 'span-active': updates }">Actualizaciones</span>
+          <div class="bar" :class="{ 'bar-active': updates }"></div>
         </div>
       </div>
     </div>
-    <div class="body"></div>
+    <div class="body">
+      <AppSpinner v-if="loading" />
+      <div v-else>
+        <FundExtraInformationHistory :fund="fund" v-show="history" />
+        <FundExtraInformationRisks :fund="fund" v-show="risks" />
+        <FundExtraInformationRewards :fund="fund" v-show="rewards" />
+        <FundExtraInformationImages :fund="fund" v-show="images" />
+        <FundExtraInformationUpdates :fund="fund" v-show="updates" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import $ from 'jquery';
+import axios from 'axios';
+
+import FundExtraInformationHistory from '@/components/fund/fundExtraInformation/contents/FundExtraInformationHistory';
+import FundExtraInformationRisks from '@/components/fund/fundExtraInformation/contents/FundExtraInformationRisks';
+import FundExtraInformationRewards from '@/components/fund/fundExtraInformation/contents/FundExtraInformationRewards';
+import FundExtraInformationImages from '@/components/fund/fundExtraInformation/contents/FundExtraInformationImages';
+import FundExtraInformationUpdates from '@/components/fund/fundExtraInformation/contents/FundExtraInformationUpdates';
 
 export default {
   name: 'FundExtraInformationComponent',
+  components: {
+    FundExtraInformationHistory,
+    FundExtraInformationRisks,
+    FundExtraInformationRewards,
+    FundExtraInformationImages,
+    FundExtraInformationUpdates,
+  },
   props: {},
   data() {
     return {
@@ -124,7 +147,17 @@ export default {
       );
     },
   },
+  created() {
+    axios.get('fund/' + this.$route.params.fundAddress).then((res) => {
+      this.fund = res.data;
+      this.loading = false;
+    });
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.body {
+  padding: 1rem 0;
+}
+</style>
