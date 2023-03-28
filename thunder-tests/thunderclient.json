@@ -20,12 +20,12 @@
     "method": "POST",
     "sortNum": 20000,
     "created": "2023-02-20T15:43:09.792Z",
-    "modified": "2023-02-28T22:23:04.620Z",
+    "modified": "2023-03-28T03:02:54.507Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"fullname\": \"Gianfranco Raselli\",\n  \"type\": \"Persona\",\n  \"email\": \"gianrase@hotmail.com\",\n  \"phone\": \"(3482) 334910\",\n  \"url\": \"https://www.instagram.com/gianfrancoraselli/\"\n}",
+      "raw": "{\n  \"fullname\": \"Gianfranco Raselli\",\n  \"type\": \"Persona\",\n  \"description\": \"Estudiante de Ingeniería en Sistemas de Información en la Facultad Regional Rosario de la UTN\",\n  \"email\": \"gianrase@hotmail.com\",\n  \"phone\": \"(3482) 334910\",\n  \"location\": \"Reconquista, Santa Fe, Argentina\",\n  \"url\": \"https://www.instagram.com/gianfrancoraselli/\"\n}",
       "form": []
     },
     "tests": []
