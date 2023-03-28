@@ -41,6 +41,7 @@ export default {
     goToFund: { type: Boolean, default: false },
     type: { type: String, default: 'entity' },
     allowCopyAddress: { type: Boolean, default: true },
+    listenNameChange: { type: Boolean, default: false },
   },
   emits: ['copyAddressClick'],
   data() {
@@ -67,7 +68,7 @@ export default {
 
     goTo() {
       if (this.goToProfile) goToProfile(this.address);
-      if (this.goToFund) goToFund(this.addres);
+      if (this.goToFund) goToFund(this.address);
     },
 
     async getName() {
@@ -91,6 +92,11 @@ export default {
     });
 
     this.getName();
+
+    if (this.listenNameChange)
+      this.emitter.on('update-entity-name', () => {
+        this.getName();
+      });
   },
 };
 </script>

@@ -218,6 +218,7 @@ export default {
           });
 
           this.$emit('update');
+          this.emitter.emit('update-entity-name');
           addNotification({
             message: 'Información guardada',
             type: 'success',
