@@ -9,6 +9,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 // initializations
+const { isLocalhost, dbName } = require("./config");
 const PORT = 4000;
 const app = express();
 
@@ -27,14 +28,15 @@ app.listen(process.env.PORT || PORT, () => {
   //connect to db
   mongoose
     .connect(process.env.MONGO_ATLAS_URI, {
-      dbName: process.env.IS_LOCALHOST === "true" ? "development" : "production",
+      dbName,
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
     .then(() => {
       console.log("--> Atlas DB Connected ✅.");
 
-      if (process.env.IS_LOCALHOST === "true" && process.env.SEED_DB === "true") seedDB();
+      // seed db
+      if (isLocalhost && process.env.SEED_DB === "true") seedDB();
     })
     .catch((err) => console.log(err));
 });

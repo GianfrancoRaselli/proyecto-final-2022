@@ -1,3 +1,4 @@
+const { infuraProvider } = require("../config");
 const { Fund } = require("../models/index");
 const Web3 = require("web3");
 const fundABI = require("../../abis/Fund");
@@ -6,11 +7,7 @@ const { compareAddresses } = require("web3-simple-helpers/methods/general");
 const isTheCreator = async (req, res, next) => {
   const fundAddress = req.params.address ? req.params.address : req.body.address;
   try {
-    const web3 = new Web3(
-      process.env.IS_LOCALHOST === "true"
-        ? "http://127.0.0.1:7545"
-        : "https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a"
-    );
+    const web3 = new Web3(infuraProvider);
     const fund = new web3.eth.Contract(fundABI, fundAddress);
     const creatorAddress = await fund.methods.creator().call();
     if (compareAddresses(creatorAddress, req.entityAddress)) {
@@ -29,11 +26,7 @@ const isTheCreator = async (req, res, next) => {
 const isAManager = async (req, res, next) => {
   const fundAddress = req.params.address ? req.params.address : req.body.address;
   try {
-    const web3 = new Web3(
-      process.env.IS_LOCALHOST === "true"
-        ? "http://127.0.0.1:7545"
-        : "https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a"
-    );
+    const web3 = new Web3(infuraProvider);
     const fund = new web3.eth.Contract(fundABI, fundAddress);
     const managers = await fund.methods.getManagers().call();
     if (managers.findIndex((manager) => compareAddresses(manager, req.entityAddress)) >= 0) {
