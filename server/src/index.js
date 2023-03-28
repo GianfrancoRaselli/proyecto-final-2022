@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const { seedDB } = require("./seeder");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -32,6 +33,8 @@ app.listen(process.env.PORT || PORT, () => {
     })
     .then(() => {
       console.log("--> Atlas DB Connected ✅.");
+
+      if (process.env.IS_LOCALHOST === "true" && process.env.SEED_DB === "true") seedDB();
     })
     .catch((err) => console.log(err));
 });

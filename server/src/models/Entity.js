@@ -51,13 +51,13 @@ const entitySchema = new Schema(
       maxLength: 320,
       default: undefined,
     },
-    image: {
-      type: String,
-      default: undefined,
-    },
     imageVersion: {
       type: Number,
       default: 0,
+    },
+    image: {
+      type: String,
+      default: undefined,
     },
   },
   { collection: "entities", timestamps: true }

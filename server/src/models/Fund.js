@@ -21,13 +21,13 @@ const fundSchema = new Schema(
       trim: true,
       maxLength: 1000,
     },
-    image: {
-      type: String,
-      default: undefined,
-    },
     imageVersion: {
       type: Number,
       default: 0,
+    },
+    image: {
+      type: String,
+      default: undefined,
     },
     history: {
       type: String,
@@ -41,15 +41,15 @@ const fundSchema = new Schema(
       type: String,
       maxLength: 100000,
     },
+    imagesAmount: {
+      type: Number,
+      default: 0,
+    },
     images: [
       {
         type: String,
       },
     ],
-    imagesAmount: {
-      type: Number,
-      default: 0,
-    },
     updates: [
       {
         updater: {
