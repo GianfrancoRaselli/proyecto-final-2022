@@ -559,7 +559,7 @@ export default {
 .entity-card {
   min-height: 15rem;
   background-color: rgb(248, 248, 248);
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   border: 1px solid rgb(209, 209, 209);
   border-radius: 10px;
   display: flex;
@@ -586,22 +586,22 @@ export default {
       align-items: center;
 
       .img-container {
-        height: 17rem;
-        width: 17rem;
+        height: 20rem;
+        width: 20rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
 
         .profile-img {
-          height: 15rem;
-          width: 15rem;
-          border-radius: 15rem;
+          height: 18rem;
+          width: 18rem;
+          border-radius: 100%;
         }
 
         .magnify-img:hover {
-          height: 17rem;
-          width: 17rem;
+          height: 20rem;
+          width: 20rem;
           border-radius: 1rem;
         }
       }
@@ -611,14 +611,14 @@ export default {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.3rem;
 
         .icon {
           user-select: none;
           height: 1.5rem;
           width: 1.5rem;
-          padding: 0.5rem;
-          border-radius: 1.5rem;
+          padding: 0.7rem;
+          border-radius: 100%;
         }
 
         .icon:hover {
