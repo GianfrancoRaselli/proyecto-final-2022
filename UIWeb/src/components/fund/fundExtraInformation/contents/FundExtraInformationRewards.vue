@@ -1,24 +1,28 @@
 <template>
   <div class="fund-extra-information-content">
-    <FundExtraInformationEditor :fund="fund" propertyToEdit="rewards" v-if="isAManager" />
-    <div v-html="fund.rewards" v-else></div>
+    <FundExtraInformationEditor :fund="fund" propertyToEdit="rewards" @showDisplay="edit = false" v-if="edit && isAManager" />
+    <FundExtraInformationDisplay :isAManager="isAManager" :html="fund.rewards" @showEditor="edit = true" v-else />
   </div>
 </template>
 
 <script>
 import FundExtraInformationEditor from '@/components/fund/fundExtraInformation/contents/FundExtraInformationEditor';
+import FundExtraInformationDisplay from '@/components/fund/fundExtraInformation/contents/FundExtraInformationDisplay';
 
 export default {
   name: 'FundExtraInformationRewardsComponent',
   components: {
     FundExtraInformationEditor,
+    FundExtraInformationDisplay,
   },
   props: {
     isAManager: { type: Boolean, required: true },
     fund: { type: Object, required: true },
   },
   data() {
-    return {};
+    return {
+      edit: true,
+    };
   },
   computed: {},
   watch: {},

@@ -1,5 +1,6 @@
 <template>
   <div class="editor-container">
+    <button class="btn btn-secondary mb-2" @click="$emit('showDisplay')">Ver presentación</button>
     <vue-editor class="editor" :editorToolbar="customToolbar" :disabled="loading" v-model="editing"></vue-editor>
     <div class="length mt-2">
       <span class="mr-1"
@@ -49,6 +50,7 @@ export default {
     fund: { type: Object, required: true },
     propertyToEdit: { type: Boolean, required: true },
   },
+  emits: ['showDisplay'],
   data() {
     return {
       loading: false,
