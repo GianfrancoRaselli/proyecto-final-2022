@@ -6,8 +6,9 @@
       <div class="entity-card-content" v-else>
         <div class="img-center">
           <div class="img-container">
+            <img class="not-found-img" src="@/assets/imgs/user-not-found.png" v-if="!entity" />
             <img class="profile-img magnify-img" :src="serverUrl + 'images/' + entity.image" v-if="entity && entity.image" />
-            <img class="profile-img" src="@/assets/imgs/user-not-found.png" v-else />
+            <img class="avatar-img" src="@/assets/imgs/user-avatar.png" v-if="entity && !entity.image" />
           </div>
           <div class="icons" v-if="isMyProfile">
             <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" v-if="entity" />
@@ -582,7 +583,7 @@ export default {
     .img-center {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
 
       .img-container {
@@ -593,10 +594,20 @@ export default {
         justify-content: center;
         align-items: center;
 
+        .not-found-img {
+          height: 16rem;
+          width: 16rem;
+        }
+
         .profile-img {
           height: 18rem;
           width: 18rem;
           border-radius: 100%;
+        }
+
+        .avatar-img {
+          height: 18rem;
+          width: 18rem;
         }
 
         .magnify-img:hover {
@@ -671,11 +682,11 @@ export default {
 
       .not-entity {
         .title {
-          font-size: 1.6rem;
+          font-size: 1.5rem;
         }
 
         .subtitle {
-          font-size: 1.2rem;
+          font-size: 1.16rem;
           color: rgb(35, 35, 35);
         }
       }
