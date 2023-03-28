@@ -323,6 +323,11 @@ export default {
           .fill()
           .map((element, index) => {
             return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, async (fund) => {
+              const extraSummary = await call({ name: 'Fund', address: fundsAddress[index] }, 'getExtraSummary');
+              fund = {
+                ...fund,
+                ...extraSummary,
+              };
               const { data: fundExtraInformation } = await axios.get('fund/' + fund.address);
               if (fundExtraInformation) {
                 const { description, image } = fundExtraInformation;
@@ -355,6 +360,11 @@ export default {
             .fill()
             .map((element, index) => {
               return call({ name: 'Fund', address: fundsAddress[index] }, 'getSummary', [], {}, async (fund) => {
+                const extraSummary = await call({ name: 'Fund', address: fundsAddress[index] }, 'getExtraSummary');
+                fund = {
+                  ...fund,
+                  ...extraSummary,
+                };
                 const { data: fundExtraInformation } = await axios.get('fund/' + fund.address);
                 if (fundExtraInformation) {
                   const { description, image } = fundExtraInformation;

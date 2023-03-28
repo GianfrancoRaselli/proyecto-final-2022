@@ -462,7 +462,7 @@ export default {
           this.data.requestsCanBeCreated = true;
           this.data.onlyManagersCanCreateARequest = false;
           this.data.onlyContributorsCanApproveARequest = false;
-          this.data.minimumContributionPercentageRequired = 0;
+          this.data.minimumContributionPercentageRequired = '0';
           break;
         case 'campaign':
           this.data.addMeAsAManager = true;
@@ -471,7 +471,7 @@ export default {
           this.data.requestsCanBeCreated = true;
           this.data.onlyManagersCanCreateARequest = true;
           this.data.onlyContributorsCanApproveARequest = true;
-          this.data.minimumContributionPercentageRequired = 5;
+          this.data.minimumContributionPercentageRequired = '5';
           break;
         case 'donation':
           this.data.addMeAsAManager = true;
@@ -480,7 +480,7 @@ export default {
           this.data.requestsCanBeCreated = true;
           this.data.onlyManagersCanCreateARequest = true;
           this.data.onlyContributorsCanApproveARequest = true;
-          this.data.minimumContributionPercentageRequired = 5;
+          this.data.minimumContributionPercentageRequired = '5';
           break;
       }
     },
@@ -489,11 +489,11 @@ export default {
       this.data.onlyManagersCanCreateARequest = false;
       this.data.onlyContributorsCanApproveARequest = false;
       if (newValue) {
-        this.data.minimumContributionPercentageRequired = 5;
-        this.data.minimumApprovalsPercentageRequired = 50;
+        this.data.minimumContributionPercentageRequired = '5';
+        this.data.minimumApprovalsPercentageRequired = '50';
       } else {
-        this.data.minimumContributionPercentageRequired = 0;
-        this.data.minimumApprovalsPercentageRequired = 0;
+        this.data.minimumContributionPercentageRequired = '0';
+        this.data.minimumApprovalsPercentageRequired = '0';
       }
     },
 

@@ -425,11 +425,28 @@ export default {
     const getSearchSummaryPromise = () => {
       return new Promise((resolve) => {
         const searchSummary = async () => {
-          const { requests, ...fundWithoutRequests } = await call(
-            { name: 'Fund', address: this.$route.params.fundAddress },
-            'getSummary',
-          );
-          console.log(requests);
+          let fundWithoutRequests = {};
+          await Promise.all([
+            call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getSummary', [], {}, (res) => {
+              fundWithoutRequests.address = res.address;
+              fundWithoutRequests.balance = res.balance;
+              fundWithoutRequests.name = res.name;
+              fundWithoutRequests.creator = res.creator;
+              fundWithoutRequests.createdAt = res.createdAt;
+            }),
+            call({ name: 'Fund', address: this.$route.params.fundAddress }, 'getExtraSummary', [], {}, (res) => {
+              fundWithoutRequests.managers = res.managers;
+              fundWithoutRequests.managersCanBeAddedOrRemoved = res.managersCanBeAddedOrRemoved;
+              fundWithoutRequests.contributors = res.contributors;
+              fundWithoutRequests.totalContributions = res.totalContributions;
+              fundWithoutRequests.managersCanTransferMoneyWithoutARequest = res.managersCanTransferMoneyWithoutARequest;
+              fundWithoutRequests.requestsCanBeCreated = res.requestsCanBeCreated;
+              fundWithoutRequests.onlyManagersCanCreateARequest = res.onlyManagersCanCreateARequest;
+              fundWithoutRequests.onlyContributorsCanApproveARequest = res.onlyContributorsCanApproveARequest;
+              fundWithoutRequests.minimumContributionPercentageRequired = res.minimumContributionPercentageRequired;
+              fundWithoutRequests.minimumApprovalsPercentageRequired = res.minimumApprovalsPercentageRequired;
+            }),
+          ]);
           this.fund = Object.assign(this.fund, fundWithoutRequests);
           const { data: fundExtraInformation } = await axios.get('fund/' + this.$route.params.fundAddress);
           if (fundExtraInformation) {
