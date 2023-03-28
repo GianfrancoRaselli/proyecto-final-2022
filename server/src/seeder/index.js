@@ -1,8 +1,10 @@
-const { seedEntity } = require("./entitySeeder");
-const { seedFund } = require("./fundSeeder");
+const { seedImages } = require("./imagesSeeder/imagesSeeder");
+const { seedEntity } = require("./entitySeeder/entitySeeder");
+const { seedFund } = require("./fundSeeder/fundSeeder");
 
 const seedDB = () => {
-  seedEntity();
+  // seedImages();
+  // seedEntity();
   seedFund();
 };
 

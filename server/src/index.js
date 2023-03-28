@@ -1,15 +1,15 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const { isLocalhost, dbName } = require("./config");
 const { seedDB } = require("./seeder");
 
-const dotenv = require("dotenv");
-dotenv.config();
-
 // initializations
-const { isLocalhost, dbName } = require("./config");
 const PORT = 4000;
 const app = express();
 
@@ -26,6 +26,7 @@ app.listen(process.env.PORT || PORT, () => {
   console.log("Server on port: " + (process.env.PORT || PORT));
 
   //connect to db
+  mongoose.set("strictQuery", true);
   mongoose
     .connect(process.env.MONGO_ATLAS_URI, {
       dbName,

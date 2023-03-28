@@ -291,12 +291,19 @@ contract Fund is ReentrancyGuard {
   function getSummary()
     public
     view
+    returns (address _address, uint256 _balance, string memory _name, address _creator, uint256 _createdAt)
+  {
+    _address = address(this);
+    _balance = balance();
+    _name = name;
+    _creator = creator;
+    _createdAt = createdAt;
+  }
+
+  function getExtraSummary()
+    public
+    view
     returns (
-      address _address,
-      uint256 _balance,
-      string memory _name,
-      address _creator,
-      uint256 _createdAt,
       address[] memory _managers,
       bool _managersCanBeAddedOrRemoved,
       address[] memory _contributors,
@@ -309,11 +316,6 @@ contract Fund is ReentrancyGuard {
       uint256 _minimumApprovalsPercentageRequired
     )
   {
-    _address = address(this);
-    _balance = balance();
-    _name = name;
-    _creator = creator;
-    _createdAt = createdAt;
     _managers = managers;
     _managersCanBeAddedOrRemoved = managersCanBeAddedOrRemoved;
     _contributors = contributors;

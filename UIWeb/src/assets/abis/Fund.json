@@ -387,6 +387,64 @@
   },
   {
     "inputs": [],
+    "name": "getExtraSummary",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "_managers",
+        "type": "address[]"
+      },
+      {
+        "internalType": "bool",
+        "name": "_managersCanBeAddedOrRemoved",
+        "type": "bool"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_contributors",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_totalContributions",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_managersCanTransferMoneyWithoutARequest",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "_requestsCanBeCreated",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "_onlyManagersCanCreateARequest",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "_onlyContributorsCanApproveARequest",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_minimumContributionPercentageRequired",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_minimumApprovalsPercentageRequired",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "getManagers",
     "outputs": [
       {
@@ -449,56 +507,6 @@
       {
         "internalType": "uint256",
         "name": "_createdAt",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address[]",
-        "name": "_managers",
-        "type": "address[]"
-      },
-      {
-        "internalType": "bool",
-        "name": "_managersCanBeAddedOrRemoved",
-        "type": "bool"
-      },
-      {
-        "internalType": "address[]",
-        "name": "_contributors",
-        "type": "address[]"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_totalContributions",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "_managersCanTransferMoneyWithoutARequest",
-        "type": "bool"
-      },
-      {
-        "internalType": "bool",
-        "name": "_requestsCanBeCreated",
-        "type": "bool"
-      },
-      {
-        "internalType": "bool",
-        "name": "_onlyManagersCanCreateARequest",
-        "type": "bool"
-      },
-      {
-        "internalType": "bool",
-        "name": "_onlyContributorsCanApproveARequest",
-        "type": "bool"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_minimumContributionPercentageRequired",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_minimumApprovalsPercentageRequired",
         "type": "uint256"
       }
     ],
