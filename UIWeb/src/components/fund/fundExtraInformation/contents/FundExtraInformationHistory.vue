@@ -1,7 +1,13 @@
 <template>
   <div class="fund-extra-information-content">
     <FundExtraInformationEditor :fund="fund" propertyToEdit="history" @showDisplay="edit = false" v-if="edit && isAManager" />
-    <FundExtraInformationDisplay :isAManager="isAManager" :html="fund.history" @showEditor="edit = true" v-else />
+    <FundExtraInformationDisplay
+      :isAManager="isAManager"
+      title="Historia"
+      :html="fund.history"
+      @showEditor="edit = true"
+      v-else
+    />
   </div>
 </template>
 

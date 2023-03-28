@@ -1,6 +1,10 @@
 <template>
   <div class="display-container">
-    <button class="btn btn-primary btn-block btn-edit mb-4" @click="$emit('showEditor')" v-if="isAManager">Editar</button>
+    <div class="header">
+      <span class="title" v-text="title"></span>
+      <button class="btn btn-primary" @click="$emit('showEditor')" v-if="isAManager">Editar</button>
+    </div>
+    <hr />
     <div v-html="html" v-if="html"></div>
     <div class="not-information" v-else>
       <fa-icon icon="xmark" class="icon" size="5x" />
@@ -15,6 +19,7 @@ export default {
   components: {},
   props: {
     isAManager: { type: Boolean, required: true },
+    title: { type: String, required: true },
     html: { type: String, required: true },
   },
   emits: ['showEditor'],
@@ -28,6 +33,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+
+  .title {
+    font-size: 1.8rem;
+  }
+}
+
 .not-information {
   font-size: 1.2rem;
   text-align: center;
