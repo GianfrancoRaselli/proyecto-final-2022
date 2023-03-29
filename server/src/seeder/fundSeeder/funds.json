@@ -58,5 +58,25 @@
     "history": "",
     "risks": "",
     "rewards": ""
+  },
+  {
+    "creator": "0x37065587f2BcA4201a5f58AF109797Ec70e6512B",
+    "name": "Doná a UNICEF y hacé la diferencia",
+    "description": "Gracias a personas como vos, UNICEF puede trabajar para que más niños, niñas y adolescentes reciban más y mejor salud, educación y protección en la Argentina y en el mundo",
+    "imageVersion": 1,
+    "image": "girl.jpeg",
+    "managers": [
+      "0x37065587f2BcA4201a5f58AF109797Ec70e6512B"
+    ],
+    "managersCanBeAddedOrRemoved": true,
+    "managersCanTransferMoneyWithoutARequest": true,
+    "requestsCanBeCreated": true,
+    "onlyManagersCanCreateARequest": true,
+    "onlyContributorsCanApproveARequest": true,
+    "minimumContributionPercentageRequired": 5,
+    "minimumApprovalsPercentageRequired": 50,
+    "history": "",
+    "risks": "",
+    "rewards": ""
   }
 ]

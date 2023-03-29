@@ -48,16 +48,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-header {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.card-header:hover {
-  white-space: normal;
-}
-
 .card-body {
   display: flex;
   flex-direction: column;

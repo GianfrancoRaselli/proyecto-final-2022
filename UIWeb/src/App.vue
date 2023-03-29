@@ -288,6 +288,16 @@ body {
     height: 99%;
     width: 99%;
     position: relative;
+
+    .card-header {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .card-header:hover {
+      white-space: normal;
+    }
   }
 
   .card:hover {
