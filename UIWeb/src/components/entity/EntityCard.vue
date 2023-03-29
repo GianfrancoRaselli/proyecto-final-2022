@@ -51,7 +51,7 @@ export default {
 .card-body {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: start;
   align-items: center;
   gap: 0.5rem;
 

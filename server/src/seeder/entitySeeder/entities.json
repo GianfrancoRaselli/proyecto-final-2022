@@ -45,5 +45,16 @@
     "url": "unicef.org/es",
     "imageVersion": 1,
     "image": "0x37065587f2BcA4201a5f58AF109797Ec70e6512Bv1.jpeg"
+  },
+  {
+    "address": "0xeA308c1e2Be69CCdCc83B0Bf10ccDdd092c02296",
+    "fullname": "Bautista Rodríguez",
+    "type": "Persona",
+    "description": "20 años. Me gustan los deportes y escuchar música.",
+    "email": "bau_rodr@gmail.com",
+    "phone": "341-9568743",
+    "location": "Rosario, Santa Fe, Argentina",
+    "imageVersion": 1,
+    "image": "0xeA308c1e2Be69CCdCc83B0Bf10ccDdd092c02296v1.jpeg"
   }
 ]
