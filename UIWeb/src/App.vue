@@ -39,8 +39,6 @@ export default {
     BuyFundTokensModal,
     TheFooter,
   },
-  computed: {},
-  watch: {},
   created() {
     connectToMetamask();
   },
