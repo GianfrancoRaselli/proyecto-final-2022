@@ -13,6 +13,7 @@ const isTheCreator = async (req, res, next) => {
       return next();
     }
   } catch (e) {
+    console.log(e);
     return res.status(401).send({
       message: "unauthorized",
     });
@@ -31,6 +32,7 @@ const isAManager = async (req, res, next) => {
       return next();
     }
   } catch (e) {
+    console.log(e);
     return res.status(401).send({
       message: "unauthorized",
     });

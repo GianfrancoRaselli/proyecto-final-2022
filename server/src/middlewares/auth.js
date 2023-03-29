@@ -11,6 +11,7 @@ const authenticate = async (req, res, next) => {
         req.entityAddress = await new Web3().eth.accounts.recover(message, signature);
         return next();
       } catch (e) {
+        console.log(e);
         return res.status(401).send({
           message: "unauthenticated",
         });

@@ -4,7 +4,7 @@ const forceProduction = false;
 const dbNameLocalhost = "development";
 const dbNameProduction = "production";
 
-const infuraProviderLocalhost = "http://localhost:7545";
+const infuraProviderLocalhost = "http://127.0.0.1:7545";
 const infuraProviderProduction = "https://goerli.infura.io/v3/c2c820555fad43838ab62145a03e4a2a";
 
 // computed
