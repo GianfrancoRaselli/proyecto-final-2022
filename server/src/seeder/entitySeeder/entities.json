@@ -48,12 +48,13 @@
   },
   {
     "address": "0xeA308c1e2Be69CCdCc83B0Bf10ccDdd092c02296",
-    "fullname": "Bautista Rodríguez",
+    "fullname": "Santiago Maratea",
     "type": "Persona",
-    "description": "20 años. Me gustan los deportes y escuchar música.",
-    "email": "bau_rodr@gmail.com",
-    "phone": "341-9568743",
-    "location": "Rosario, Santa Fe, Argentina",
+    "description": "30 años. Influencer.",
+    "email": "santi_maratea@gmail.com",
+    "phone": "4429568743",
+    "location": "Buenos Aires, Argentina",
+    "url": "santimaratea.com",
     "imageVersion": 1,
     "image": "0xeA308c1e2Be69CCdCc83B0Bf10ccDdd092c02296v1.jpeg"
   }

@@ -106,12 +106,15 @@ export default {
 
 <style lang="scss" scoped>
 .card-header {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   padding-left: 65px;
   padding-right: 65px;
+}
 
-  .name {
-    word-break: keep-all;
-  }
+.card-header:hover {
+  white-space: normal;
 }
 
 .fund-info {
