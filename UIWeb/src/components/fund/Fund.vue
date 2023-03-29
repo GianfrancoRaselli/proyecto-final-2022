@@ -14,7 +14,7 @@
         </div>
         <div class="card-body">
           <div class="body-header">
-            <div class="img-container">
+            <div class="img-center">
               <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund && fund.image" />
               <img class="img" src="@/assets/imgs/fund.png" v-else />
               <div class="icons" v-if="isAManager">
@@ -689,20 +689,21 @@ export default {
 
   .body-header {
     background-color: rgb(244, 244, 244);
-    padding: 20px;
-    border-radius: 10px;
+    padding: 1.5rem;
+    border-radius: 1rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
 
     @media (max-width: 1000px) {
-      padding: 5px;
+      padding: 1rem;
       display: flex;
       flex-direction: column;
     }
 
-    .img-container {
+    .img-center {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -710,9 +711,15 @@ export default {
       gap: 0.8rem;
 
       .img {
-        height: 20rem;
-        width: 20rem;
+        height: auto;
+        min-height: 19rem;
+        width: 32rem;
         border-radius: 1.5rem;
+
+        @media (max-width: 1000px) {
+          width: 100%;
+          max-width: 40rem;
+        }
       }
 
       .icons {
