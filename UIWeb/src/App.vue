@@ -55,7 +55,7 @@ export default {
 }
 
 html {
-  font-size: 82%;
+  font-size: 76%;
 }
 
 body {
@@ -99,7 +99,7 @@ body {
 
 @media (min-width: 768px) {
   html {
-    font-size: 95%;
+    font-size: 88%;
   }
 
   .header__mobile-navbar {
