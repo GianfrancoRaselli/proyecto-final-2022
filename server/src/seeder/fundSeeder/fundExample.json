@@ -1,0 +1,23 @@
+{
+  "creator": "",
+  "name": "",
+  "description": "",
+  "imageVersion": 1,
+  "image": "",
+  "managers": [
+    ""
+  ],
+  "managersCanBeAddedOrRemoved": true,
+  "managersCanTransferMoneyWithoutARequest": true,
+  "requestsCanBeCreated": true,
+  "onlyManagersCanCreateARequest": false,
+  "onlyContributorsCanApproveARequest": false,
+  "minimumContributionPercentageRequired": 5,
+  "minimumApprovalsPercentageRequired": 50,
+  "history": "",
+  "risks": "",
+  "rewards": "",
+  "contributions": [],
+  "transfers": [],
+  "requests": []
+}
