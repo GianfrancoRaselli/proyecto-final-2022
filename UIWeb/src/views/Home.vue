@@ -266,7 +266,7 @@ export default {
 
 .main-content {
   min-height: 100vh;
-  padding: 2rem 0.4rem;
+  padding: 2rem 0.5rem;
   padding-top: calc(2rem + var(--navbar-height));
   background: #38849550;
   /* fallback for old browsers */
@@ -282,7 +282,7 @@ export default {
   gap: 1rem;
 
   .title {
-    font-size: 3.1rem;
+    font-size: 3.3rem;
     font-weight: bold;
     font-family: 'Dancing Script', cursive;
     text-align: center;
@@ -306,7 +306,7 @@ export default {
     }
 
     .info {
-      font-size: 1.02rem;
+      font-size: 1.1rem;
       text-align: center;
       max-width: 650px;
       animation: fadeInLeftBig 1.8s;
@@ -317,7 +317,7 @@ export default {
 
       .header {
         .subtitle {
-          font-size: 2.2em;
+          font-size: 2.3em;
           font-weight: bold;
           font-family: 'Dancing Script', cursive;
         }
