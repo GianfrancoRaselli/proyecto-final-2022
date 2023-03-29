@@ -17,7 +17,29 @@
   "history": "",
   "risks": "",
   "rewards": "",
-  "contributions": [],
-  "transfers": [],
-  "requests": []
+  "contributions": [
+    {
+      "contributor": "",
+      "value": 100
+    }
+  ],
+  "transfers": [
+    {
+      "sender": "",
+      "to": "",
+      "value": 100
+    }
+  ],
+  "requests": [
+    {
+      "description": "",
+      "petitioner": "",
+      "recipient": "",
+      "valueToTransfer": 100,
+      "approvers": [
+        ""
+      ],
+      "finalize": ""
+    }
+  ]
 }

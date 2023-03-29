@@ -52,5 +52,38 @@
     "url": "santimaratea.com",
     "imageVersion": 1,
     "image": "santi.jpeg"
+  },
+  {
+    "fullname": "Todo A Pedido",
+    "type": "Empresa",
+    "description": "16 años vendiendo en Mercado Libre",
+    "email": "a_pedido@gmail.com",
+    "phone": "45689568743",
+    "location": "Buenos Aires, Argentina",
+    "url": "mercadolibre.com.ar/perfil/LIBERATE+TODO_A_PEDIDO",
+    "imageVersion": 1,
+    "image": "todo_a_pedido.jpeg"
+  },
+  {
+    "fullname": "PRIMARC SA",
+    "type": "Empresa",
+    "description": "Primeras marcas en materiales eléctricos",
+    "email": "primarc@hotmail.com",
+    "phone": "4427968743",
+    "location": "Ituzaingó, Buenos Aires, Argentina",
+    "url": "mercadolibre.com.ar/perfil/PRIMARC+SA",
+    "imageVersion": 1,
+    "image": "primarc.jpeg"
+  },
+  {
+    "fullname": "Search Values",
+    "type": "Empresa",
+    "description": "Sabemos cómo llegar a tus clientes potenciales para aumentar tus ventas o generar mayor reconocimiento de marca. Somos especialistas en medios digitales.",
+    "email": "s_values@gmail.com",
+    "phone": "4427968743",
+    "location": "San Francisco, California, Estados Unidos",
+    "url": "searchvalues.com/",
+    "imageVersion": 1,
+    "image": "search_values.jpeg"
   }
 ]

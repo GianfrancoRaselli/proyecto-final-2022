@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const { Fund } = require("../../models/index");
 const funds = require("./funds.json");
 const path = require("path");
@@ -12,13 +11,13 @@ const seedFund = async () => {
   console.log("Seeding fund...");
   if (process.env.COMPILE_CONTRACTS === "true") compileContracts();
   const provider = new HDWalletProvider(process.env.GANACHE_MNEMONIC_PHRASE.split("/").join(" "), infuraProvider);
-  const fundFactory = await deployNewFundFactoryContract(provider);
-  await mongoose.connection.db.dropCollection("funds");
+  const web3 = new Web3(provider);
+  const fundFactoryInstance = await deployNewFundFactoryContract(web3);
   for (let fund of funds) {
-    await fundFactory.methods
+    await fundFactoryInstance.methods
       .buyFundTokens(1)
-      .send({ from: fund.creator, value: await fundFactory.methods.fundTokenPrice().call() });
-    const tx = await fundFactory.methods
+      .send({ from: fund.creator, value: await fundFactoryInstance.methods.fundTokenPrice().call() });
+    const createFundTx = await fundFactoryInstance.methods
       .createFund(
         fund.name,
         fund.managers,
@@ -31,7 +30,7 @@ const seedFund = async () => {
         fund.minimumApprovalsPercentageRequired
       )
       .send({ from: fund.creator });
-    const address = tx.events.NewFund.returnValues.fundAddress;
+    const address = createFundTx.events.NewFund.returnValues.fundAddress;
     const image = address + "v" + fund.imageVersion + ".jpeg";
     fs.renameSync("uploads/" + fund.image, "uploads/" + image);
     new Fund({
@@ -44,6 +43,28 @@ const seedFund = async () => {
       risks: fund.risks,
       rewards: fund.rewards,
     }).save();
+    const FundContract = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../../build", "Fund.json"), "utf-8"));
+    const fundInstance = new web3.eth.Contract(FundContract.abi, address);
+    for (let contribution of fund.contributions) {
+      await fundInstance.methods.contribute().send({ from: contribution.contributor, value: contribution.value });
+    }
+    for (let transfer of fund.transfers) {
+      await fundInstance.methods.transfer(transfer.to, transfer.value).send({ from: transfer.sender });
+    }
+    for (let request of fund.requests) {
+      const createRequestTx = await fundInstance.methods
+        .createRequest(request.description, request.recipient, request.valueToTransfer)
+        .send({ from: request.petitioner });
+      for (let approver of request.approvers) {
+        await fundInstance.methods
+          .approveRequest(createRequestTx.events.NewRequest.returnValues.requestIndex)
+          .send({ from: approver });
+      }
+      if (request.finalize)
+        await fundInstance.methods
+          .finalizeRequest(createRequestTx.events.NewRequest.returnValues.requestIndex)
+          .send({ from: request.finalize });
+    }
   }
   provider.engine.stop();
   console.log("Fund seeded");
@@ -100,25 +121,25 @@ const compileContracts = () => {
   };
 
   compileFile("FundFactory.sol");
+  compileFile("Fund.sol");
 };
 
-const deployNewFundFactoryContract = async (provider) => {
-  const web3 = new Web3(provider);
-  const FundFactory = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../../build", "FundFactory.json"), "utf-8"));
-  const fundFactory = await new web3.eth.Contract(FundFactory.abi)
-    .deploy({ data: FundFactory.evm.bytecode.object, arguments: ["1000000000000000"] })
+const deployNewFundFactoryContract = async (web3) => {
+  const FundFactoryContract = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../../build", "FundFactory.json"), "utf-8"));
+  const fundFactoryInstance = await new web3.eth.Contract(FundFactoryContract.abi)
+    .deploy({ data: FundFactoryContract.evm.bytecode.object, arguments: ["1000000000000000"] })
     .send({ from: process.env.GANACHE_ADDRESS });
 
   // Save the last addresses deployed
   fs.writeFileSync(
     "../UIWeb/src/assets/addresses/ganache.json",
     JSON.stringify({
-      fundFactoryAddress: fundFactory.options.address,
-      fundTokenAddress: await fundFactory.methods.fundToken().call(),
+      fundFactoryAddress: fundFactoryInstance.options.address,
+      fundTokenAddress: await fundFactoryInstance.methods.fundToken().call(),
     })
   );
 
-  return fundFactory;
+  return fundFactoryInstance;
 };
 
 module.exports = { seedFund };

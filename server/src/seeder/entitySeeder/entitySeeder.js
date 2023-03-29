@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const { Entity } = require("../../models/index");
 const entities = require("./entities.json");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
@@ -8,7 +7,6 @@ const fs = require("fs-extra");
 
 const seedEntity = async () => {
   console.log("Seeding entity...");
-  await mongoose.connection.db.dropCollection("entities");
   const provider = new HDWalletProvider(process.env.GANACHE_MNEMONIC_PHRASE.split("/").join(" "), infuraProvider);
   const web3 = new Web3(provider);
   const accounts = await web3.eth.getAccounts();
