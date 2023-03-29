@@ -1,12 +1,12 @@
 [
   {
-    "creator": "0xA034eB35f261ada08351F4AdAa0F7562C4C503ca",
+    "creator": 2,
     "name": "Flux Keyboard - The Keyboard Reinvented",
     "description": "A transparent keyboard with integrated display that adapts to any software, any language and any style.",
     "imageVersion": 1,
     "image": "keyboard.jpeg",
     "managers": [
-      "0xA034eB35f261ada08351F4AdAa0F7562C4C503ca"
+      2
     ],
     "managersCanBeAddedOrRemoved": false,
     "managersCanTransferMoneyWithoutARequest": false,
@@ -20,23 +20,23 @@
     "rewards": "<h2><strong><u>Contribuir&nbsp;450 AU$&nbsp;o más</u></strong></h2><p><span style='color: rgb(101, 105, 105);'>APROX.&nbsp;300 $</span></p><p>Keyframe and module colour choice to be taken in post campaign survey.</p><p>INCLUYE:</p><ul><li>Flux Keyboard</li><li>1 Keyframe</li><li>1+2+3 slot Passive Module pack</li><li>USB C and USB A cables</li></ul><p>ENTREGA APROXIMADA<span style='color: rgb(101, 105, 105);'>: </span>nov 2023</p><p>ENVÍO A<span style='color: rgb(101, 105, 105);'>: </span>Cualquier parte del mundo</p><p><br></p><h2><strong><u>Contribuir&nbsp;495 AU$&nbsp;o más</u></strong></h2><p><span style='color: rgb(101, 105, 105);'>APROX.&nbsp;332 $</span></p><p>Keyframe and module colour choice to be taken in post campaign survey.</p><p>INCLUYE:</p><ul><li>2 Flux Keyboard</li><li>2 Keyframe</li><li>1+2+3 slot Passive Module pack</li><li>USB C and USB A cables</li></ul><p>ENTREGA APROXIMADA<span style='color: rgb(101, 105, 105);'>: </span>oct 2023</p><p>ENVÍO A<span style='color: rgb(101, 105, 105);'>: </span>Cualquier parte del mundo</p>",
     "contributions": [
       {
-        "contributor": "0x47E54345335d14A5FbC8EaA9eD10Dd5B9EC8392D",
+        "contributor": 0,
         "value": 59994
       },
       {
-        "contributor": "0x45C3438914D5B35A1dAaBD2DBBe56D0453b35FBd",
+        "contributor": 1,
         "value": 108000
       },
       {
-        "contributor": "0x47E54345335d14A5FbC8EaA9eD10Dd5B9EC8392D",
+        "contributor": 0,
         "value": 1050
       },
       {
-        "contributor": "0xeA308c1e2Be69CCdCc83B0Bf10ccDdd092c02296",
+        "contributor": 4,
         "value": 55555
       },
       {
-        "contributor": "0xF62B9F4E1cbe04b55edB24d1360A6500fc5ded57",
+        "contributor": 5,
         "value": 35988
       }
     ],
@@ -44,47 +44,47 @@
     "requests": [
       {
         "description": "Pago a proveedor de teclas",
-        "petitioner": "0xA034eB35f261ada08351F4AdAa0F7562C4C503ca",
-        "recipient": "0xF62B9F4E1cbe04b55edB24d1360A6500fc5ded57",
+        "petitioner": 2,
+        "recipient": 5,
         "valueToTransfer": 444,
         "approvers": [
-          "0x47E54345335d14A5FbC8EaA9eD10Dd5B9EC8392D"
+          0
         ],
-        "finalize": ""
+        "finalize": false
       },
       {
         "description": "Retiro de dinero para saldar cuentas con PRIMARC, quien nos prevee las baterias para las luces del teclado",
-        "petitioner": "0xA034eB35f261ada08351F4AdAa0F7562C4C503ca",
-        "recipient": "0x0EBb45518c8382c44276B9e2a66a23C85Aff7FA9",
+        "petitioner": 2,
+        "recipient": 6,
         "valueToTransfer": 50,
         "approvers": [
-          "0x47E54345335d14A5FbC8EaA9eD10Dd5B9EC8392D",
-          "0x45C3438914D5B35A1dAaBD2DBBe56D0453b35FBd",
-          "0xF62B9F4E1cbe04b55edB24d1360A6500fc5ded57"
+          0,
+          1,
+          5
         ],
-        "finalize": "0xA034eB35f261ada08351F4AdAa0F7562C4C503ca"
+        "finalize": true
       },
       {
         "description": "Adelanto de pago a empresa de marketing para comenzar la campaña de difusión del producto",
-        "petitioner": "0xA034eB35f261ada08351F4AdAa0F7562C4C503ca",
-        "recipient": "0x36caE119CB97983187201853F0cdD5f823A1dF4D",
+        "petitioner": 2,
+        "recipient": 7,
         "valueToTransfer": 909678,
         "approvers": [
-          "0x47E54345335d14A5FbC8EaA9eD10Dd5B9EC8392D",
-          "0x45C3438914D5B35A1dAaBD2DBBe56D0453b35FBd"
+          0,
+          1
         ],
-        "finalize": ""
+        "finalize": false
       }
     ]
   },
   {
-    "creator": "0x47E54345335d14A5FbC8EaA9eD10Dd5B9EC8392D",
+    "creator": 0,
     "name": "The Ultimate Digital Planner",
     "description": "Works with iPad and Android Tablets. Supported Annotation Apps: GoodNotes, ZoomNotes, NotesWriter, Notability, Noteshelf, and Xodo",
     "imageVersion": 1,
     "image": "digital-planner.jpeg",
     "managers": [
-      "0x47E54345335d14A5FbC8EaA9eD10Dd5B9EC8392D"
+      0
     ],
     "managersCanBeAddedOrRemoved": false,
     "managersCanTransferMoneyWithoutARequest": false,
@@ -101,13 +101,14 @@
     "requests": []
   },
   {
-    "creator": "0xeA308c1e2Be69CCdCc83B0Bf10ccDdd092c02296",
+    "creator": 4,
     "name": "Recaudación de fondos para los bomberos de Corrientes",
     "description": "Ayudanos a recaudar fondos para comprar nuevos equipos, alimentos, cosas de enfermería y más para los bomberos de Corrientes que se encuentra combatiendo los indencios",
     "imageVersion": 1,
     "image": "fire.jpeg",
     "managers": [
-      "0xeA308c1e2Be69CCdCc83B0Bf10ccDdd092c02296"
+      4,
+      3
     ],
     "managersCanBeAddedOrRemoved": true,
     "managersCanTransferMoneyWithoutARequest": true,
@@ -124,13 +125,13 @@
     "requests": []
   },
   {
-    "creator": "0x37065587f2BcA4201a5f58AF109797Ec70e6512B",
+    "creator": 3,
     "name": "Doná a UNICEF y hacé la diferencia",
     "description": "Gracias a personas como vos, UNICEF puede trabajar para que más niños, niñas y adolescentes reciban más y mejor salud, educación y protección en la Argentina y en el mundo",
     "imageVersion": 1,
     "image": "girl.jpeg",
     "managers": [
-      "0x37065587f2BcA4201a5f58AF109797Ec70e6512B"
+      3
     ],
     "managersCanBeAddedOrRemoved": true,
     "managersCanTransferMoneyWithoutARequest": true,
@@ -147,14 +148,14 @@
     "requests": []
   },
   {
-    "creator": "0x47E54345335d14A5FbC8EaA9eD10Dd5B9EC8392D",
+    "creator": 0,
     "name": "Vaca para jugar al padel",
     "description": "Fondo creado para juntar dinero para comprar pelotitas, paletas y alquilar canchas para jugar al padel",
     "imageVersion": 1,
     "image": "padel.jpeg",
     "managers": [
-      "0x47E54345335d14A5FbC8EaA9eD10Dd5B9EC8392D",
-      "0x45C3438914D5B35A1dAaBD2DBBe56D0453b35FBd"
+      0,
+      1
     ],
     "managersCanBeAddedOrRemoved": true,
     "managersCanTransferMoneyWithoutARequest": true,

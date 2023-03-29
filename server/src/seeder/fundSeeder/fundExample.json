@@ -1,11 +1,11 @@
 {
-  "creator": "",
+  "creator": 1,
   "name": "",
   "description": "",
   "imageVersion": 1,
   "image": "",
   "managers": [
-    ""
+    1
   ],
   "managersCanBeAddedOrRemoved": true,
   "managersCanTransferMoneyWithoutARequest": true,
@@ -19,27 +19,27 @@
   "rewards": "",
   "contributions": [
     {
-      "contributor": "",
+      "contributor": 1,
       "value": 100
     }
   ],
   "transfers": [
     {
-      "sender": "",
-      "to": "",
+      "sender": 1,
+      "to": 1,
       "value": 100
     }
   ],
   "requests": [
     {
       "description": "",
-      "petitioner": "",
-      "recipient": "",
+      "petitioner": 1,
+      "recipient": 1,
       "valueToTransfer": 100,
       "approvers": [
-        ""
+        1
       ],
-      "finalize": ""
+      "finalize": false
     }
   ]
 }

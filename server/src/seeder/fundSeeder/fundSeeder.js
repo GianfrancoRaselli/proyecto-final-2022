@@ -13,14 +13,17 @@ const seedFund = async () => {
   const provider = new HDWalletProvider(process.env.GANACHE_MNEMONIC_PHRASE.split("/").join(" "), infuraProvider);
   const web3 = new Web3(provider);
   const fundFactoryInstance = await deployNewFundFactoryContract(web3);
+  const accounts = await web3.eth.getAccounts();
   for (let fund of funds) {
     await fundFactoryInstance.methods
       .buyFundTokens(1)
-      .send({ from: fund.creator, value: await fundFactoryInstance.methods.fundTokenPrice().call() });
+      .send({ from: accounts[fund.creator], value: await fundFactoryInstance.methods.fundTokenPrice().call() });
     const createFundTx = await fundFactoryInstance.methods
       .createFund(
         fund.name,
-        fund.managers,
+        fund.managers.map((manager) => {
+          return accounts[manager];
+        }),
         fund.managersCanBeAddedOrRemoved,
         fund.managersCanTransferMoneyWithoutARequest,
         fund.requestsCanBeCreated,
@@ -29,13 +32,13 @@ const seedFund = async () => {
         fund.minimumContributionPercentageRequired,
         fund.minimumApprovalsPercentageRequired
       )
-      .send({ from: fund.creator });
+      .send({ from: accounts[fund.creator] });
     const address = createFundTx.events.NewFund.returnValues.fundAddress;
     const image = address + "v" + fund.imageVersion + ".jpeg";
     fs.renameSync("uploads/" + fund.image, "uploads/" + image);
     new Fund({
       address,
-      creator: fund.creator,
+      creator: accounts[fund.creator],
       description: fund.description,
       imageVersion: fund.imageVersion,
       image: image,
@@ -46,24 +49,24 @@ const seedFund = async () => {
     const FundContract = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../../build", "Fund.json"), "utf-8"));
     const fundInstance = new web3.eth.Contract(FundContract.abi, address);
     for (let contribution of fund.contributions) {
-      await fundInstance.methods.contribute().send({ from: contribution.contributor, value: contribution.value });
+      await fundInstance.methods.contribute().send({ from: accounts[contribution.contributor], value: contribution.value });
     }
     for (let transfer of fund.transfers) {
-      await fundInstance.methods.transfer(transfer.to, transfer.value).send({ from: transfer.sender });
+      await fundInstance.methods.transfer(accounts[transfer.to], transfer.value).send({ from: accounts[transfer.sender] });
     }
     for (let request of fund.requests) {
       const createRequestTx = await fundInstance.methods
-        .createRequest(request.description, request.recipient, request.valueToTransfer)
-        .send({ from: request.petitioner });
+        .createRequest(request.description, accounts[request.recipient], request.valueToTransfer)
+        .send({ from: accounts[request.petitioner] });
       for (let approver of request.approvers) {
         await fundInstance.methods
           .approveRequest(createRequestTx.events.NewRequest.returnValues.requestIndex)
-          .send({ from: approver });
+          .send({ from: accounts[approver] });
       }
       if (request.finalize)
         await fundInstance.methods
           .finalizeRequest(createRequestTx.events.NewRequest.returnValues.requestIndex)
-          .send({ from: request.finalize });
+          .send({ from: accounts[request.petitioner] });
     }
   }
   provider.engine.stop();
