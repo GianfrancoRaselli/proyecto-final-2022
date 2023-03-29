@@ -6,7 +6,7 @@
       </div>
       <div class="card-body">
         <img class="img" :src="serverUrl + 'images/' + entity.image" v-if="entity.image" />
-        <img class="img" src="@/assets/imgs/user-not-found.png" v-else />
+        <img class="img" src="@/assets/imgs/user-avatar.png" v-else />
         <span class="type" v-text="entity.type" />
         <span class="address"
           ><AppShowAddress type="entity" :address="entity.address" :forceShowAddress="true" @copyAddressClick="copyAddressClick"
@@ -56,9 +56,9 @@ export default {
   gap: 0.5rem;
 
   .img {
-    height: 8rem;
-    width: 8rem;
-    border-radius: 8rem;
+    height: 9.6rem;
+    width: 9.6rem;
+    border-radius: 100%;
   }
 
   .type {

@@ -18,7 +18,7 @@
           <div v-if="!entity">La entidad aún no ha sido creada</div>
           <div class="entity-information" v-else>
             <img class="profile-img" :src="serverUrl + 'images/' + entity.image" v-if="entity.image" />
-            <img class="profile-img" src="@/assets/imgs/user-not-found.png" v-else />
+            <img class="profile-img" src="@/assets/imgs/user-avatar.png" v-else />
             <span class="fullname" v-text="entity.fullname" />
             <span class="type" v-text="entity.type" />
             <span class="address"><AppShowAddress type="entity" :address="address" :forceShowAddress="true" /></span>
@@ -84,9 +84,9 @@ export default {
   gap: 1rem;
 
   .profile-img {
-    height: 10rem;
-    width: 10rem;
-    border-radius: 10rem;
+    height: 12rem;
+    width: 12rem;
+    border-radius: 100%;
   }
 
   .fullname {

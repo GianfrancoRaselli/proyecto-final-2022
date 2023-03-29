@@ -9,8 +9,10 @@
         </div>
       </div>
       <div class="card-body">
-        <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
-        <img class="img" src="@/assets/imgs/fund.png" v-else />
+        <div class="img-container">
+          <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
+          <img class="img" src="@/assets/imgs/fund.png" v-else />
+        </div>
         <div class="info">
           <p v-text="fund.description" v-if="fund.description" />
           <p>
@@ -127,10 +129,20 @@ export default {
   align-items: center;
   gap: 2rem;
 
-  .img {
-    height: 11.5rem;
-    width: 11.5rem;
-    border-radius: 1rem;
+  .img-container {
+    height: 14rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .img {
+      height: auto;
+      max-height: 100%;
+      width: 26rem;
+      max-width: 100%;
+      border-radius: 1rem;
+    }
   }
 
   .info {
