@@ -6,7 +6,7 @@ import { compareAddresses } from 'web3-simple-helpers/methods/general';
 const routes = [
   {
     name: 'Home',
-    path: '/',
+    path: '/inicio',
     component: () => import('@/views/Home'),
   },
   {

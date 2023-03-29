@@ -72,14 +72,19 @@ const connectToMetamask = async () => {
       if (!store.state.connection.signature) signMessage();
     }
   } else {
-    Swal.fire({
-      position: 'center',
-      icon: 'info',
-      title: 'MetaMask Wallet',
-      text: 'Necesitas tener metamask instalado en el navegador para utilizar la aplicación',
-      showConfirmButton: true,
-      confirmButtonText: 'Confirmar',
-    });
+    const fireSwal = () => {
+      Swal.fire({
+        position: 'center',
+        icon: 'info',
+        title: 'MetaMask Wallet',
+        text: 'Necesitas tener MetaMask instalado en el navegador para poder interactuar con la aplicación',
+        showConfirmButton: true,
+        confirmButtonText: 'Confirmar',
+      });
+    };
+
+    if (window.location.href.split('/').pop() === 'inicio') setTimeout(() => fireSwal(), 1500);
+    else fireSwal();
   }
 };
 
@@ -126,7 +131,7 @@ const handleAccountsChanged = (accounts) => {
     store.state.connection.provider.removeListener('accountsChanged', handleAccountsChanged);
     store.state.connection.provider.removeListener('chainChanged', handleChainChanged);
   }
-  
+
   store.commit('unsubscribeFromTransfersSubscription');
   store.commit('clearRecentTransactions');
   store.commit('setAddress', accounts[0]);
