@@ -9,6 +9,7 @@ const { infuraProvider } = require("../../config");
 const Web3 = require("web3");
 
 const seedFund = async () => {
+  console.log("Seeding fund...");
   if (process.env.COMPILE_CONTRACTS === "true") compileContracts();
   const provider = new HDWalletProvider(process.env.GANACHE_MNEMONIC_PHRASE.split("/").join(" "), infuraProvider);
   const fundFactory = await deployNewFundFactoryContract(provider);
@@ -45,6 +46,7 @@ const seedFund = async () => {
     }).save();
   }
   provider.engine.stop();
+  console.log("Fund seeded");
 };
 
 const compileContracts = () => {
