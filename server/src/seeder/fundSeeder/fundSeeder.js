@@ -80,7 +80,7 @@ const deployNewFundFactoryContract = async (provider) => {
 
   // Save the last addresses deployed
   fs.writeFileSync(
-    "../../../../UIWeb/src/assets/addresses/ganache.json",
+    "../UIWeb/src/assets/addresses/ganache.json",
     JSON.stringify({
       fundFactoryAddress: fundFactory.options.address,
       fundTokenAddress: await fundFactory.methods.fundToken().call(),
