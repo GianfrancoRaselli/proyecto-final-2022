@@ -14,6 +14,35 @@ const seedFund = async () => {
   const fundFactory = await deployNewFundFactoryContract(provider);
   await mongoose.connection.db.dropCollection("funds");
   for (let fund of funds) {
+    await fundFactory.methods
+      .buyFundTokens(1)
+      .send({ from: fund.creator, value: await fundFactory.methods.fundTokenPrice().call() });
+    const tx = await fundFactory.methods
+      .createFund(
+        fund.name,
+        fund.managers,
+        fund.managersCanBeAddedOrRemoved,
+        fund.managersCanTransferMoneyWithoutARequest,
+        fund.requestsCanBeCreated,
+        fund.onlyManagersCanCreateARequest,
+        fund.onlyContributorsCanApproveARequest,
+        fund.minimumContributionPercentageRequired,
+        fund.minimumApprovalsPercentageRequired
+      )
+      .send({ from: fund.creator });
+    const address = tx.events.NewFund.returnValues.fundAddress;
+    const image = address + "v" + fund.imageVersion + ".jpeg";
+    fs.renameSync("uploads/" + fund.image, "uploads/" + image);
+    new Fund({
+      address,
+      creator: fund.creator,
+      description: fund.description,
+      imageVersion: fund.imageVersion,
+      image: image,
+      history: fund.history,
+      risks: fund.risks,
+      rewards: fund.rewards,
+    }).save();
   }
   provider.engine.stop();
 };

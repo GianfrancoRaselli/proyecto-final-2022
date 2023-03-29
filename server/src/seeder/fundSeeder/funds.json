@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "creator": "0xA034eB35f261ada08351F4AdAa0F7562C4C503ca",
+    "name": "Flux Keyboard - The Keyboard Reinvented",
+    "description": "A transparent keyboard with integrated display that adapts to any software, any language and any style.",
+    "imageVersion": 1,
+    "image": "keyboard.jpeg",
+    "managers": ["0xA034eB35f261ada08351F4AdAa0F7562C4C503ca"],
+    "managersCanBeAddedOrRemoved": false,
+    "managersCanTransferMoneyWithoutARequest": false,
+    "requestsCanBeCreated": true,
+    "onlyManagersCanCreateARequest": true,
+    "onlyContributorsCanApproveARequest": true,
+    "minimumContributionPercentageRequired": 5,
+    "minimumApprovalsPercentageRequired": 50,
+    "history": null,
+    "risks": null,
+    "rewards": null
+  }
+]
