@@ -135,9 +135,9 @@ export default {
   gap: 2rem;
 
   .img {
-    height: 8rem;
-    width: 8rem;
-    border-radius: 1.2rem;
+    height: 11.5rem;
+    width: 11.5rem;
+    border-radius: 1rem;
   }
 
   .info {
