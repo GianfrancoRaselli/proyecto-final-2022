@@ -11,7 +11,7 @@
       <div class="card-body">
         <div class="img-container">
           <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
-          <img class="img" src="@/assets/imgs/fund.png" v-else />
+          <img class="img" src="@/assets/imgs/background-lg.jpg" v-else />
         </div>
         <div class="info">
           <p v-text="fund.description" v-if="fund.description" />

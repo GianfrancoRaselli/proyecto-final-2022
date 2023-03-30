@@ -16,7 +16,7 @@
           <div class="body-header">
             <div class="img-center">
               <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund && fund.image" />
-              <img class="img" src="@/assets/imgs/fund.png" v-else />
+              <img class="img" src="@/assets/imgs/background-lg.jpg" v-else />
               <div class="icons" v-if="isAManager">
                 <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" />
                 <fa-icon icon="trash" class="icon red" @click="openRemoveImage" v-if="fund && fund.image" />

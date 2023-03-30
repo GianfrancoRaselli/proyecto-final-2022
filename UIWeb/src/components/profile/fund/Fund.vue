@@ -2,7 +2,7 @@
   <div>
     <div class="fund" @click="redirect">
       <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
-      <img class="img" src="@/assets/imgs/fund.png" v-else />
+      <img class="img" src="@/assets/imgs/background-lg.jpg" v-else />
       <div class="content">
         <div class="top-line">
           <AppDate class="created-at" :date="createdAt" />
