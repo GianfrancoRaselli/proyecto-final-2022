@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <div class="header-info">
-            <h4 class="modal-title mr-2" id="buyFundTokensModalLabel">FundToken</h4>
+            <h4 class="modal-title" id="buyFundTokensModalLabel">FundToken</h4>
             <span class="add-token" @click="addFundTokenToMetaMask" v-if="hasMetamask">Agregar FundToken a MetaMask</span>
           </div>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -87,7 +87,7 @@ import {
   validateForm,
   addTokenToMetaMask,
   ethPriceInUSD,
-  removeInitialZeros,
+  removeInitialAndFinalZeros,
   convertNumberToMaxDecimals,
 } from '@/helpers/helpers';
 
@@ -129,8 +129,7 @@ export default {
   watch: {
     fundTokens(newValue) {
       if (newValue) {
-        newValue = newValue.replace(',', '.');
-        this.fundTokens = removeInitialZeros(newValue);
+        this.fundTokens = newValue.replace(',', '.');
       }
     },
   },
@@ -161,10 +160,14 @@ export default {
               value: this.fundTokens * this.fundTokenPriceInWeis,
             },
             true,
-            this.fundTokens + (this.fundTokens === '1' ? ' FundToken comprado' : ' FundTokens comprados'),
+            removeInitialAndFinalZeros(this.fundTokens) +
+              (removeInitialAndFinalZeros(this.fundTokens) === '1' ? ' FundToken comprado' : ' FundTokens comprados'),
           );
           addNotification({
-            message: 'Has comprado ' + this.fundTokens + (this.fundTokens === '1' ? ' FundToken' : ' FundTokens'),
+            message:
+              'Has comprado ' +
+              removeInitialAndFinalZeros(this.fundTokens) +
+              (removeInitialAndFinalZeros(this.fundTokens) === '1' ? ' FundToken' : ' FundTokens'),
             type: 'success',
           });
           this.fundTokens = '1';
@@ -199,10 +202,11 @@ export default {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
+  gap: 0.6rem;
 }
 
 .add-token {
-  font-size: small;
+  font-size: 0.9rem;
   cursor: pointer;
   color: #0645ad;
 }

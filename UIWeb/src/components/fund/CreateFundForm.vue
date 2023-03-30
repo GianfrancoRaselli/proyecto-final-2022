@@ -383,7 +383,7 @@ import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
-import { transaction, validateForm, removeInitialZeros } from '@/helpers/helpers';
+import { transaction, validateForm } from '@/helpers/helpers';
 import axios from 'axios';
 
 export default {
@@ -499,15 +499,13 @@ export default {
 
     'data.minimumContributionPercentageRequired'(newValue) {
       if (newValue) {
-        newValue = newValue.replace(',', '.');
-        this.data.minimumContributionPercentageRequired = removeInitialZeros(newValue);
+        this.data.minimumContributionPercentageRequired = newValue.replace(',', '.');
       }
     },
 
     'data.minimumApprovalsPercentageRequired'(newValue) {
       if (newValue) {
-        newValue = newValue.replace(',', '.');
-        this.data.minimumApprovalsPercentageRequired = removeInitialZeros(newValue);
+        this.data.minimumApprovalsPercentageRequired = newValue.replace(',', '.');
       }
     },
   },

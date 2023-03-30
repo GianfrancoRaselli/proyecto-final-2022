@@ -78,7 +78,7 @@ import Web3 from 'web3';
 import axios from 'axios';
 import { mapGetters } from 'vuex';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
-import { transaction, validateForm, removeInitialZeros } from '@/helpers/helpers';
+import { transaction, validateForm, removeInitialAndFinalZeros } from '@/helpers/helpers';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, numeric } from '@vuelidate/validators';
 import { addNotification } from '@/composables/useNotifications';
@@ -114,8 +114,7 @@ export default {
 
     value(newValue) {
       if (newValue) {
-        newValue = newValue.replace(',', '.');
-        this.value = removeInitialZeros(newValue);
+        this.value = newValue.replace(',', '.');
       }
     },
   },
@@ -166,7 +165,11 @@ export default {
             [this.receiver.trim(), this.unit === 'Wei' ? this.value.trim() : Web3.utils.toWei(this.value.trim(), 'ether')],
             undefined,
             true,
-            this.value.trim() + ' ' + this.unit + ' transferidos a ' + getSplitAddress(this.receiver.trim()),
+            removeInitialAndFinalZeros(this.value.trim()) +
+              ' ' +
+              this.unit +
+              ' transferidos a ' +
+              getSplitAddress(this.receiver.trim()),
           );
           // eslint-disable-next-line vue/no-mutating-props
           this.fund.totalContributions = BigNumber.sum(
@@ -174,7 +177,7 @@ export default {
             this.unit === 'Wei' ? this.value.trim() : Web3.utils.toWei(this.value.trim(), 'ether'),
           );
           addNotification({
-            message: 'Transferidos ' + this.value.trim() + ' ' + this.unit,
+            message: 'Transferidos ' + removeInitialAndFinalZeros(this.value.trim()) + ' ' + this.unit,
             type: 'success',
           });
           this.goBack();

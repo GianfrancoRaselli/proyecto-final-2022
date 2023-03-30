@@ -112,7 +112,7 @@
 <script>
 import Web3 from 'web3';
 import { mapGetters } from 'vuex';
-import { call, transaction, removeInitialZeros, validateForm } from '@/helpers/helpers';
+import { call, transaction, validateForm } from '@/helpers/helpers';
 import { addNotification } from '@/composables/useNotifications';
 import BigNumber from 'bignumber.js';
 import { useVuelidate } from '@vuelidate/core';
@@ -150,8 +150,7 @@ export default {
   watch: {
     newFundTokenPrice(newValue) {
       if (newValue) {
-        newValue = newValue.replace(',', '.');
-        this.newFundTokenPrice = removeInitialZeros(newValue);
+        this.newFundTokenPrice = newValue.replace(',', '.');
       }
     },
   },
@@ -207,9 +206,16 @@ export default {
         if (newFundTokenPriceInWeis !== this.fundTokenPriceInWeis) {
           try {
             this.newFundTokenPriceLoading = true;
-            await transaction('FundFactory', 'changeFundTokenPrice', [newFundTokenPriceInWeis], {}, true, 'FundToken modificado');
+            await transaction(
+              'FundFactory',
+              'changeFundTokenPrice',
+              [newFundTokenPriceInWeis],
+              {},
+              true,
+              'Precio del FundToken modificado',
+            );
             addNotification({
-              message: 'FundToken modificado',
+              message: 'Precio del FundToken modificado',
               type: 'success',
             });
             await this.getFundTokenPrice();

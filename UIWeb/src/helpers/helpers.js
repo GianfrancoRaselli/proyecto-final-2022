@@ -144,20 +144,38 @@ const ethPriceInUSD = async () => {
   return convertEthPrice('USD');
 };
 
+const removeInitialAndFinalZeros = (number) => {
+  const numberArray = number.split('.');
+  const initialNumberWithoutZeros = removeInitialZeros(numberArray[0]);
+  let finalNumberWithoutZeros = '';
+  if (numberArray[1]) finalNumberWithoutZeros = removeFinalZeros(numberArray[1]);
+  let numberToReturn = initialNumberWithoutZeros;
+  if (finalNumberWithoutZeros) numberToReturn = numberToReturn + '.' + finalNumberWithoutZeros;
+  return numberToReturn;
+};
+
 const removeInitialZeros = (number) => {
   let zerosToRemove = 0;
   for (let i = 0; i < number.length - 1; i++) {
     if (number.charAt(i) === '0') {
-      if (number.charAt(i + 1) !== '.') {
-        zerosToRemove++;
-      } else {
-        break;
-      }
+      zerosToRemove++;
     } else {
       break;
     }
   }
   return number.substring(zerosToRemove);
+};
+
+const removeFinalZeros = (number) => {
+  let zerosToRemove = 0;
+  for (let i = number.length - 1; i >= 0; i--) {
+    if (number.charAt(i) === '0') {
+      zerosToRemove++;
+    } else {
+      break;
+    }
+  }
+  return number.split('').reverse().join('').substring(zerosToRemove).split('').reverse().join('');
 };
 
 const convertNumberToMaxDecimals = (number, maxNumOfDecimals) => {
@@ -297,7 +315,9 @@ export {
   validateForm,
   addTokenToMetaMask,
   ethPriceInUSD,
+  removeInitialAndFinalZeros,
   removeInitialZeros,
+  removeFinalZeros,
   convertNumberToMaxDecimals,
   separateInteger,
   areTheSameDates,
