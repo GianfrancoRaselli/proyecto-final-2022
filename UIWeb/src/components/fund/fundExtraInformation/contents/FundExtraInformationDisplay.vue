@@ -33,18 +33,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.6rem;
-
-  .title {
-    font-size: 1.8rem;
-  }
-}
-
 .not-information {
   font-size: 1.2rem;
   text-align: center;

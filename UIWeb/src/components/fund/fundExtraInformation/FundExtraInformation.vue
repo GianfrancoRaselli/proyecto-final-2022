@@ -36,8 +36,7 @@
         <FundExtraInformationHistory :isAManager="isAManager" :fund="fund" v-show="history" />
         <FundExtraInformationRisks :isAManager="isAManager" :fund="fund" v-show="risks" />
         <FundExtraInformationRewards :isAManager="isAManager" :fund="fund" v-show="rewards" />
-        <!-- <FundExtraInformationImages :isAManager="isAManager" :fund="fund" v-show="images" /> -->
-        <!-- <FundExtraInformationUpdates :isAManager="isAManager" :fund="fund" v-show="updates" /> -->
+        <FundExtraInformationUpdates :isAManager="isAManager" :fund="fund" v-show="updates" />
       </div>
     </div>
   </div>
@@ -50,8 +49,7 @@ import axios from 'axios';
 import FundExtraInformationHistory from '@/components/fund/fundExtraInformation/contents/FundExtraInformationHistory';
 import FundExtraInformationRisks from '@/components/fund/fundExtraInformation/contents/FundExtraInformationRisks';
 import FundExtraInformationRewards from '@/components/fund/fundExtraInformation/contents/FundExtraInformationRewards';
-// import FundExtraInformationImages from '@/components/fund/fundExtraInformation/contents/FundExtraInformationImages';
-// import FundExtraInformationUpdates from '@/components/fund/fundExtraInformation/contents/FundExtraInformationUpdates';
+import FundExtraInformationUpdates from '@/components/fund/fundExtraInformation/contents/FundExtraInformationUpdates';
 
 export default {
   name: 'FundExtraInformationComponent',
@@ -59,8 +57,7 @@ export default {
     FundExtraInformationHistory,
     FundExtraInformationRisks,
     FundExtraInformationRewards,
-    // FundExtraInformationImages,
-    // FundExtraInformationUpdates,
+    FundExtraInformationUpdates,
   },
   props: {
     isAManager: { type: Boolean, required: true },
@@ -164,7 +161,19 @@ export default {
 }
 </style>
 
-<style>
+<style lang="scss">
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+
+  .title {
+    font-size: 1.8rem;
+  }
+}
+
 .ql-align-left {
   text-align: left;
 }

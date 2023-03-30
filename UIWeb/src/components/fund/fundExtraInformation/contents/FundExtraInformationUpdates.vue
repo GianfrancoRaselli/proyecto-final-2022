@@ -1,5 +1,10 @@
 <template>
-  <div class="fund-extra-information-content"></div>
+  <div class="fund-extra-information-content">
+    <div class="header">
+      <span class="title" text="Actualizaciones"></span>
+    </div>
+    <hr />
+  </div>
 </template>
 
 <script>
