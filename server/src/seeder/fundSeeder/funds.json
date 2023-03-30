@@ -21,23 +21,23 @@
     "contributions": [
       {
         "contributor": 0,
-        "value": 59994
+        "value": 1056209886250
       },
       {
         "contributor": 1,
-        "value": 108000
+        "value": 105620966956250
       },
       {
         "contributor": 0,
-        "value": 1050
+        "value": 105620955556250
       },
       {
         "contributor": 4,
-        "value": 55555
+        "value": 9966209556250
       },
       {
         "contributor": 5,
-        "value": 35988
+        "value": 105620955556250
       }
     ],
     "transfers": [],
@@ -46,7 +46,7 @@
         "description": "Pago a proveedor de teclas",
         "petitioner": 2,
         "recipient": 5,
-        "valueToTransfer": 444,
+        "valueToTransfer": 195609852545,
         "approvers": [
           0
         ],
@@ -56,7 +56,7 @@
         "description": "Retiro de dinero para saldar cuentas con PRIMARC, quien nos prevee las baterias para las luces del teclado",
         "petitioner": 2,
         "recipient": 6,
-        "valueToTransfer": 50,
+        "valueToTransfer": 50562566585,
         "approvers": [
           0,
           1,
@@ -68,7 +68,7 @@
         "description": "Adelanto de pago a empresa de marketing para comenzar la campaña de difusión del producto",
         "petitioner": 2,
         "recipient": 7,
-        "valueToTransfer": 909678,
+        "valueToTransfer": 9095556678,
         "approvers": [
           0,
           1
