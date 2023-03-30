@@ -1,5 +1,5 @@
 const { Entity } = require("../../models/index");
-const entities = require("./entities.json");
+const entitiesToCreate = require("./entities.json");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const { infuraProvider } = require("../../config");
 const Web3 = require("web3");
@@ -10,21 +10,21 @@ const seedEntity = async () => {
   const provider = new HDWalletProvider(process.env.GANACHE_MNEMONIC_PHRASE.split("/").join(" "), infuraProvider);
   const web3 = new Web3(provider);
   const accounts = await web3.eth.getAccounts();
-  for (let i = 0; i < entities.length; i++) {
-    const entity = entities[i];
+  for (let i = 0; i < entitiesToCreate.length; i++) {
+    const entityToCreate = entitiesToCreate[i];
     const address = accounts[i];
-    const image = address + "v" + entity.imageVersion + ".jpeg";
-    fs.renameSync("uploads/" + entity.image, "uploads/" + image);
+    const image = address + "v" + entityToCreate.imageVersion + ".jpeg";
+    fs.renameSync("uploads/" + entityToCreate.image, "uploads/" + image);
     new Entity({
       address,
-      fullname: entity.fullname,
-      type: entity.type,
-      description: entity.description,
-      email: entity.email,
-      phone: entity.phone,
-      location: entity.location,
-      url: entity.url,
-      imageVersion: entity.imageVersion,
+      fullname: entityToCreate.fullname,
+      type: entityToCreate.type,
+      description: entityToCreate.description,
+      email: entityToCreate.email,
+      phone: entityToCreate.phone,
+      location: entityToCreate.location,
+      url: entityToCreate.url,
+      imageVersion: entityToCreate.imageVersion,
       image: image,
     }).save();
   }

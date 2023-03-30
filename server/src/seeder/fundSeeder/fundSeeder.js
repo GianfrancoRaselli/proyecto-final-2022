@@ -1,5 +1,5 @@
 const { Fund } = require("../../models/index");
-const funds = require("./funds.json");
+const fundsToCreate = require("./funds.json");
 const path = require("path");
 const fs = require("fs-extra");
 const solc = require("solc");
@@ -14,47 +14,56 @@ const seedFund = async () => {
   const web3 = new Web3(provider);
   const fundFactoryInstance = await deployNewFundFactoryContract(web3);
   const accounts = await web3.eth.getAccounts();
-  for (let fund of funds) {
+  for (let fundToCreate of fundsToCreate) {
     await fundFactoryInstance.methods
       .buyFundTokens(1)
-      .send({ from: accounts[fund.creator], value: await fundFactoryInstance.methods.fundTokenPrice().call() });
+      .send({ from: accounts[fundToCreate.creator], value: await fundFactoryInstance.methods.fundTokenPrice().call() });
     const createFundTx = await fundFactoryInstance.methods
       .createFund(
-        fund.name,
-        fund.managers.map((manager) => {
+        fundToCreate.name,
+        fundToCreate.managers.map((manager) => {
           return accounts[manager];
         }),
-        fund.managersCanBeAddedOrRemoved,
-        fund.managersCanTransferMoneyWithoutARequest,
-        fund.requestsCanBeCreated,
-        fund.onlyManagersCanCreateARequest,
-        fund.onlyContributorsCanApproveARequest,
-        fund.minimumContributionPercentageRequired,
-        fund.minimumApprovalsPercentageRequired
+        fundToCreate.managersCanBeAddedOrRemoved,
+        fundToCreate.managersCanTransferMoneyWithoutARequest,
+        fundToCreate.requestsCanBeCreated,
+        fundToCreate.onlyManagersCanCreateARequest,
+        fundToCreate.onlyContributorsCanApproveARequest,
+        fundToCreate.minimumContributionPercentageRequired,
+        fundToCreate.minimumApprovalsPercentageRequired
       )
-      .send({ from: accounts[fund.creator] });
+      .send({ from: accounts[fundToCreate.creator] });
     const address = createFundTx.events.NewFund.returnValues.fundAddress;
-    const image = address + "v" + fund.imageVersion + ".jpeg";
-    fs.renameSync("uploads/" + fund.image, "uploads/" + image);
-    new Fund({
+    const image = address + "v" + fundToCreate.imageVersion + ".jpeg";
+    fs.renameSync("uploads/" + fundToCreate.image, "uploads/" + image);
+    let savedFund = await new Fund({
       address,
-      creator: accounts[fund.creator],
-      description: fund.description,
-      imageVersion: fund.imageVersion,
+      creator: accounts[fundToCreate.creator],
+      description: fundToCreate.description,
+      imageVersion: fundToCreate.imageVersion,
       image: image,
-      history: fund.history,
-      risks: fund.risks,
-      rewards: fund.rewards,
+      history: fundToCreate.history,
+      risks: fundToCreate.risks,
+      rewards: fundToCreate.rewards,
     }).save();
     const FundContract = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../../build", "Fund.json"), "utf-8"));
     const fundInstance = new web3.eth.Contract(FundContract.abi, address);
-    for (let contribution of fund.contributions) {
+    if (fundToCreate.updates.length > 0) {
+      for (let update of fundToCreate.updates) {
+        savedFund.updates.push({
+          updater: accounts[update.updater],
+          description: update.description,
+        });
+      }
+      await savedFund.save();
+    }
+    for (let contribution of fundToCreate.contributions) {
       await fundInstance.methods.contribute().send({ from: accounts[contribution.contributor], value: contribution.value });
     }
-    for (let transfer of fund.transfers) {
+    for (let transfer of fundToCreate.transfers) {
       await fundInstance.methods.transfer(accounts[transfer.to], transfer.value).send({ from: accounts[transfer.sender] });
     }
-    for (let request of fund.requests) {
+    for (let request of fundToCreate.requests) {
       const createRequestTx = await fundInstance.methods
         .createRequest(request.description, accounts[request.recipient], request.valueToTransfer)
         .send({ from: accounts[request.petitioner] });
