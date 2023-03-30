@@ -88,7 +88,7 @@
       </div>
     </div>
 
-    <div class="metamask-content">
+    <div class="metamask-fundtoken-content metamask-content">
       <img src="@/assets/imgs/metamask.png" />
       <div class="text">
         <p class="title">¡Instala MetaMask!</p>
@@ -101,7 +101,7 @@
       </div>
     </div>
 
-    <div class="fundtoken-content">
+    <div class="metamask-fundtoken-content fundtoken-content">
       <img src="@/assets/imgs/fundtoken.png" />
       <div class="text">
         <p class="title">FundToken</p>
@@ -221,7 +221,7 @@ export default {
       this.funds = funds;
       this.community.ethers = convertNumberToMaxDecimals(
         Number(Web3.utils.fromWei(weis.toLocaleString('fullwide', { useGrouping: false }), 'ether')),
-        0,
+        3,
       );
       this.loadingFunds = false;
     },
@@ -563,32 +563,31 @@ export default {
 }
 
 .metamask-content {
-  padding: 6rem;
   background: radial-gradient(circle at 10% 20%, rgb(248, 213, 214) 0%, rgb(243, 242, 229) 90%);
-
-  display: flex;
   flex-direction: row;
+}
+
+.fundtoken-content {
+  background-image: radial-gradient(73% 147%, #ece2df 59%, #eadfdf 100%),
+    radial-gradient(91% 146%, rgba(255, 255, 255, 0.5) 47%, rgba(0, 0, 0, 0.5) 100%);
+  background-blend-mode: screen;
+  flex-direction: row-reverse;
+}
+
+.metamask-fundtoken-content {
+  padding: 6rem;
+  display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.4rem;
-
-  @media (max-width: 1200px) {
-    padding: 6rem 2rem;
-    gap: 0.2rem;
-  }
+  gap: 8rem;
 
   @media (max-width: 1080px) {
     flex-direction: column;
-    gap: 4rem;
-
-    .text {
-      text-align: center;
-      max-width: 700px;
-    }
+    gap: 3rem;
   }
 
   img {
-    height: 300px;
+    height: 22rem;
     max-width: 100%;
 
     @media (max-width: 550px) {
@@ -597,6 +596,10 @@ export default {
   }
 
   .text {
+    @media (max-width: 1080px) {
+      text-align: center;
+    }
+
     .title {
       font-size: 2rem;
       font-weight: bold;
@@ -607,65 +610,7 @@ export default {
     }
 
     .secondary-description {
-      font-size: 0.9rem;
-      color: rgba(0, 0, 0, 0.856);
-    }
-
-    .btn {
-      margin-top: 0.8rem;
-    }
-  }
-}
-
-.fundtoken-content {
-  padding: 6rem;
-  background-image: radial-gradient(73% 147%, #ece2df 59%, #eadfdf 100%),
-    radial-gradient(91% 146%, rgba(255, 255, 255, 0.5) 47%, rgba(0, 0, 0, 0.5) 100%);
-  background-blend-mode: screen;
-
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
-  align-items: center;
-  gap: 0.4rem;
-
-  @media (max-width: 1200px) {
-    padding: 6rem 2rem;
-    gap: 0.2rem;
-  }
-
-  @media (max-width: 1080px) {
-    flex-direction: column;
-    gap: 2.2rem;
-
-    .text {
-      text-align: center;
-      max-width: 700px;
-    }
-  }
-
-  img {
-    height: 300px;
-    max-width: 100%;
-
-    @media (max-width: 550px) {
-      height: auto;
-    }
-  }
-
-  .text {
-    .title {
-      font-family: 'Dancing Script', cursive;
-      font-size: 3.4rem;
-      font-weight: bold;
-    }
-
-    .description {
-      font-size: 1.2rem;
-    }
-
-    .secondary-description {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: rgba(0, 0, 0, 0.856);
     }
 
