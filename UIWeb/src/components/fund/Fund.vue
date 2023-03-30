@@ -711,14 +711,15 @@ export default {
       gap: 0.8rem;
 
       .img {
-        height: auto;
-        min-height: 19rem;
-        width: 32rem;
+        height: 20rem;
+        width: auto;
+        max-width: 26rem;
         border-radius: 1.5rem;
 
         @media (max-width: 1000px) {
-          width: 100%;
-          max-width: 40rem;
+          height: auto;
+          max-height: 20rem;
+          max-width: 100%;
         }
       }
 
