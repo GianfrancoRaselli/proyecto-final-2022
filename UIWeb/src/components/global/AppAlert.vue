@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "AppAlertComponent",
+  name: 'AppAlertComponent',
   props: {
     msg: { type: String, required: true },
     type: { type: String, default: 'alert-primary' },
@@ -14,7 +14,8 @@ export default {
 
 <style scoped>
 .alert {
-  font-size: large;
+  font-size: 1.28rem;
   text-align: center;
+  padding: 1.2rem;
 }
 </style>

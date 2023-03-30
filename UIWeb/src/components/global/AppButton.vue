@@ -1,41 +1,42 @@
 <template>
   <button class="btn" :class="classes">
-    <fa-icon :icon="icon" class="icon mr-1" size="1x" v-if="icon" />
-    <span v-text="text"></span>
+    <div class="btn-container">
+      <fa-icon :icon="icon" class="icon" size="1x" v-if="icon" />
+      <span v-text="text"></span>
+    </div>
   </button>
 </template>
 
 <script>
 export default {
-  name: "AppButtonComponent",
+  name: 'AppButtonComponent',
   props: {
-    classes: { type: String, default: "btn-primary" },
+    classes: { type: String, default: 'btn-primary' },
     text: { type: String },
-    icon: { type: String }
+    icon: { type: String },
   },
 };
 </script>
 
 <style scoped>
-.btn {
+.btn-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 4px;
+  gap: 0.5rem;
 }
 
 .btn-sm {
-  padding: 4px;
-  font-size: small;
+  padding: 0.25rem;
+  font-size: 0.86rem;
 }
 
 .btn-md {
-  padding: 8px;
-  font-size: 14px;
+  padding: 0.4rem;
 }
 
 .btn-radius {
-  border-radius: 10px;
+  border-radius: 0.5rem;
 }
 </style>

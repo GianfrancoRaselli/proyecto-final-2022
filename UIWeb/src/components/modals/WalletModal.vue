@@ -16,18 +16,13 @@
             <span class="text-muted" v-if="!isConnected" v-text="disconnectedMsg" />
             <div class="first-line-btns">
               <AppButton
-                classes="btn-sm btn-warning btn-radius mr-2"
+                classes="btn-sm btn-warning btn-radius"
                 :text="changeMsg + ' ' + validChainName"
                 v-if="isConnected && !isConnectedToTheValidChain"
                 @click="changeToTheValidChain"
               />
               <AppButton classes="btn-sm btn-danger btn-radius" :text="disconnectMsg" v-if="isConnected" @click="disconnect" />
-              <AppButton
-                classes="btn-sm btn-success btn-radius"
-                :text="connectMetaMaskMsg"
-                v-if="!isConnected"
-                @click="connectToMetamask"
-              />
+              <AppButton classes="btn-sm btn-success btn-radius" :text="connectMetaMaskMsg" v-else @click="connectToMetamask" />
             </div>
           </div>
 
@@ -181,20 +176,22 @@ export default {
 
 <style lang="scss" scoped>
 .first-line {
-  font-size: small;
+  font-size: 0.86rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   .first-line-btns {
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    gap: 0.5rem;
   }
 }
 
 .center-line {
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-weight: bolder;
 }
 
