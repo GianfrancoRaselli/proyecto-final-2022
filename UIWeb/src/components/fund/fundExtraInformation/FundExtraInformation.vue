@@ -20,14 +20,10 @@
           <span class="span" :class="{ 'span-active': rewards }">Recompensas</span>
           <div class="bar" :class="{ 'bar-active': rewards }"></div>
         </div>
-        <!-- <div class="item" @click="images = true">
-          <span class="span" :class="{ 'span-active': images }">Imágenes</span>
-          <div class="bar" :class="{ 'bar-active': images }"></div>
-        </div> -->
-        <!-- <div class="item" @click="updates = true">
+        <div class="item" @click="updates = true">
           <span class="span" :class="{ 'span-active': updates }">Actualizaciones</span>
           <div class="bar" :class="{ 'bar-active': updates }"></div>
-        </div> -->
+        </div>
       </div>
     </div>
     <div class="body">
@@ -71,7 +67,6 @@ export default {
       history: true,
       risks: false,
       rewards: false,
-      images: false,
       updates: false,
     };
   },
@@ -81,7 +76,6 @@ export default {
       if (newValue) {
         this.risks = false;
         this.rewards = false;
-        this.images = false;
         this.updates = false;
       }
     },
@@ -89,7 +83,6 @@ export default {
       if (newValue) {
         this.history = false;
         this.rewards = false;
-        this.images = false;
         this.updates = false;
       }
     },
@@ -97,15 +90,6 @@ export default {
       if (newValue) {
         this.history = false;
         this.risks = false;
-        this.images = false;
-        this.updates = false;
-      }
-    },
-    images(newValue) {
-      if (newValue) {
-        this.history = false;
-        this.risks = false;
-        this.rewards = false;
         this.updates = false;
       }
     },
@@ -114,7 +98,6 @@ export default {
         this.history = false;
         this.risks = false;
         this.rewards = false;
-        this.images = false;
       }
     },
   },

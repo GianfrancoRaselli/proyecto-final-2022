@@ -2,6 +2,7 @@
   <div class="fund-extra-information-content">
     <div class="header">
       <span class="title" text="Actualizaciones"></span>
+      <button class="btn btn-primary" v-if="isAManager">Agregar actualización</button>
     </div>
     <hr />
   </div>
