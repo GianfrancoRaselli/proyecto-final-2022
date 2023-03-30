@@ -20,7 +20,7 @@ export default {
 <style scoped>
 .footer {
   font-family: 'Dancing Script', cursive;
-  font-size: 1.4rem;
+  font-size: 1.42rem;
   background-color: rgb(234, 234, 234);
   box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.65);
   border-radius: 2px;
