@@ -71,34 +71,43 @@
               </span>
               <fa-icon icon="pencil" class="icon" @click="editingFundTokenPrice = true" />
             </span>
-            <div class="new-fund-token-price-form-row" v-else>
-              <div class="new-fund-token-price-form-group">
-                <input
-                  type="text"
+            <div v-else>
+              <div class="new-fund-token-price-form-row">
+                <div class="new-fund-token-price-form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    :class="{ 'is-invalid': v$.newFundTokenPrice.$errors.length }"
+                    id="newFundTokenPriceInput"
+                    aria-describedby="newFundTokenPriceHelp"
+                    v-model="newFundTokenPrice"
+                    :disabled="newFundTokenPriceLoading"
+                  />
+                  <AppInputErrors :errors="v$.newFundTokenPrice.$errors" />
+                </div>
+                <select
+                  id="newFundTokenPriceUnitInput"
                   class="form-control"
-                  :class="{ 'is-invalid': v$.newFundTokenPrice.$errors.length }"
-                  id="newFundTokenPriceInput"
-                  aria-describedby="newFundTokenPriceHelp"
-                  v-model="newFundTokenPrice"
+                  v-model="newFundTokenPriceUnit"
                   :disabled="newFundTokenPriceLoading"
+                >
+                  <option v-for="(unit, i) in units" :key="i" v-text="unit" :value="unit"></option>
+                </select>
+                <fa-icon
+                  icon="check"
+                  class="icon command"
+                  @click="handleNewFundTokenPriceSubmit"
+                  v-if="v$.newFundTokenPrice.$errors.length === 0 && !newFundTokenPriceLoading"
                 />
-                <AppInputErrors :errors="v$.newFundTokenPrice.$errors" />
+                <AppSpinner class="command" size="small" v-if="newFundTokenPriceLoading" />
               </div>
-              <select
-                id="newFundTokenPriceUnitInput"
-                class="form-control"
-                v-model="newFundTokenPriceUnit"
-                :disabled="newFundTokenPriceLoading"
-              >
-                <option v-for="(unit, i) in units" :key="i" v-text="unit" :value="unit"></option>
-              </select>
-              <fa-icon
-                icon="check"
-                class="icon command"
-                @click="handleNewFundTokenPriceSubmit"
-                v-if="v$.newFundTokenPrice.$errors.length === 0 && !newFundTokenPriceLoading"
+              <AppShowUsd
+                :eth="
+                  newFundTokenPriceUnit === 'Ether'
+                    ? newFundTokenPrice.trim()
+                    : Web3.utils.fromWei(newFundTokenPrice.trim(), 'ether')
+                "
               />
-              <AppSpinner class="command" size="small" v-if="newFundTokenPriceLoading" />
             </div>
             <span class="unit">Precio FundToken</span>
           </span>
@@ -125,6 +134,7 @@ export default {
   },
   data() {
     return {
+      Web3,
       deployer: '',
       deployedFundsAmount: '0',
       fundTokenPriceInWeis: '0',

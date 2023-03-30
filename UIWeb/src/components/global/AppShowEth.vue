@@ -13,7 +13,7 @@ import { convertNumberToMaxDecimals, ethPriceInUSD } from '@/helpers/helpers';
 export default {
   name: 'AppShowEthComponent',
   props: {
-    weis: { type: Number, required: true },
+    weis: { type: [Number, String], required: true },
   },
   data() {
     return {

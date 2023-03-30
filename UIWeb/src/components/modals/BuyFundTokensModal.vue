@@ -120,10 +120,10 @@ export default {
       return parseFloat(Web3.utils.fromWei(this.fundTokenPriceInWeis, 'ether'));
     },
     fundTokenPriceInUSD() {
-      return convertNumberToMaxDecimals(this.fundTokenPriceInETH * this.ethPriceInUSD, 2);
+      return convertNumberToMaxDecimals(this.fundTokenPriceInETH * this.ethPriceInUSD, 3);
     },
     fundTokensPriceInUSD() {
-      return convertNumberToMaxDecimals(this.fundTokens * this.fundTokenPriceInETH * this.ethPriceInUSD, 2);
+      return convertNumberToMaxDecimals(this.fundTokens * this.fundTokenPriceInETH * this.ethPriceInUSD, 3);
     },
   },
   watch: {

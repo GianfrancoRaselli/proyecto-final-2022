@@ -51,6 +51,9 @@
                 </div>
               </div>
             </div>
+            <AppShowUsd
+              :eth="contributionUnit === 'Ether' ? contribution.trim() : Web3.utils.fromWei(contribution.trim(), 'ether')"
+            />
 
             <button type="submit" class="btn btn-primary" v-if="!loading">Contribuir</button>
             <button class="btn btn-primary" type="button" disabled v-if="loading">
@@ -86,6 +89,7 @@ export default {
   },
   data() {
     return {
+      Web3,
       loading: false,
       contributor: '',
       contributorName: '',

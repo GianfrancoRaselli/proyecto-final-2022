@@ -65,6 +65,13 @@
                 </div>
               </div>
             </div>
+            <AppShowUsd
+              :eth="
+                valueToTransferUnit === 'Ether'
+                  ? data.valueToTransfer.trim()
+                  : Web3.utils.fromWei(data.valueToTransfer.trim(), 'ether')
+              "
+            />
 
             <button type="submit" class="btn btn-primary" v-if="!loading">Crear solicitud</button>
             <button class="btn btn-primary" type="button" disabled v-if="loading">
@@ -100,6 +107,7 @@ export default {
   },
   data() {
     return {
+      Web3,
       loading: false,
       data: {
         description: '',
