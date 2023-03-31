@@ -1,4 +1,5 @@
 const { Entity } = require("../models/index");
+const { compareAddresses } = require("web3-simple-helpers/methods/general");
 const multer = require("multer");
 const fs = require("fs");
 
@@ -122,13 +123,25 @@ const saveFund = async (req, res) => {
     const { fund } = req.body;
 
     // update field
-    entityToUpdate.savedFunds.push(fund);
+    let index = -1;
+    for (let i = 0; i < entityToUpdate.savedFunds.length; i++) {
+      if (compareAddresses(fund, entityToUpdate.savedFunds[i])) {
+        index = i;
+        break;
+      }
+    }
+    if (index === -1) {
+      entityToUpdate.savedFunds.push(fund);
 
-    // save the entity in the DB
-    const savedEntity = await entityToUpdate.save();
+      // save the entity in the DB
+      const savedEntity = await entityToUpdate.save();
+
+      // return success
+      return res.status(200).json(savedEntity);
+    }
 
     // return success
-    return res.status(200).json(savedEntity);
+    return res.status(200).json(entityToUpdate);
   } else {
     return res.status(400).send({ message: "La entidad aún no ha sido creada" });
   }
@@ -140,14 +153,25 @@ const removeFund = async (req, res) => {
     const { fund } = req.body;
 
     // update field
-    const indexToRemove = entityToUpdate.savedFunds.indexOf(fund);
-    if (indexToRemove >= 0) entityToUpdate.savedFunds.splice(indexToRemove, 1);
+    let indexToRemove = -1;
+    for (let i = 0; i < entityToUpdate.savedFunds.length; i++) {
+      if (compareAddresses(fund, entityToUpdate.savedFunds[i])) {
+        indexToRemove = i;
+        break;
+      }
+    }
+    if (indexToRemove >= 0) {
+      entityToUpdate.savedFunds.splice(indexToRemove, 1);
 
-    // save the entity in the DB
-    const savedEntity = await entityToUpdate.save();
+      // save the entity in the DB
+      const savedEntity = await entityToUpdate.save();
+
+      // return success
+      return res.status(200).json(savedEntity);
+    }
 
     // return success
-    return res.status(200).json(savedEntity);
+    return res.status(200).json(entityToUpdate);
   } else {
     return res.status(400).send({ message: "La entidad aún no ha sido creada" });
   }

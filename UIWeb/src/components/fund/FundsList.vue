@@ -213,7 +213,14 @@
       <div v-else>
         <AppAlert msg="No se encontraron fondos con esos parámetros" v-if="fundsToShow.length === 0" />
         <div class="fund-card-list" v-else>
-          <FundCard class="fund-card" :fund="fund" v-for="(fund, index) in fundsToShow" :key="index" />
+          <FundCard
+            class="fund-card"
+            :fund="fund"
+            :savedFunds="savedFunds"
+            @updateSavedFunds="getSavedFunds"
+            v-for="(fund, index) in fundsToShow"
+            :key="index"
+          />
         </div>
       </div>
     </div>
@@ -257,6 +264,7 @@ export default {
       funds: [],
       fundsToAdd: [],
       newFundSubscription: null,
+      savedFunds: [],
     };
   },
   computed: {
@@ -287,6 +295,10 @@ export default {
     },
   },
   watch: {
+    address() {
+      this.getSavedFunds();
+    },
+
     'filters.fundsTypes.allFunds'(newValue) {
       if (newValue) {
         this.filters.fundsTypes.types.personalized = true;
@@ -456,8 +468,19 @@ export default {
     fundType(fund) {
       return getFundType(fund).id;
     },
+
+    async getSavedFunds() {
+      this.savedFunds = [];
+      if (this.address) {
+        axios.get('entity/' + this.address).then((res) => {
+          if (res.data) this.savedFunds = res.data.savedFunds;
+        });
+      }
+    },
   },
   async created() {
+    this.getSavedFunds();
+
     await this.searchFunds();
     this.newFundSubscription = await event('FundFactory', 'NewFund', undefined, async () => {
       await this.searchFundsToAdd();

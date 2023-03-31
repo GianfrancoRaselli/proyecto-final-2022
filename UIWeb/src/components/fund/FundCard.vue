@@ -80,13 +80,13 @@ export default {
   },
   props: {
     fund: { type: Object, required: true },
+    savedFunds: { type: Array, required: true },
   },
+  emits: ['updateSavedFunds'],
   data() {
     return {
       serverUrl,
       canRedirect: true,
-      forceSaved: false,
-      savedFunds: [],
     };
   },
   computed: {
@@ -105,9 +105,10 @@ export default {
     },
 
     isSaved() {
-      if (this.forceSaved) return true;
       if (this.address) {
-        if (this.savedFunds.indexOf(this.fund.address) >= 0) return true;
+        for (let fund of this.savedFunds) {
+          if (compareAddresses(fund, this.fund.address)) return true;
+        }
       }
       return false;
     },
@@ -116,11 +117,7 @@ export default {
       return fromUnixTimestampToDate(this.fund.createdAt);
     },
   },
-  watch: {
-    address() {
-      this.getSavedFunds();
-    },
-  },
+  watch: {},
   methods: {
     compareAddresses,
 
@@ -133,33 +130,21 @@ export default {
       this.canRedirect = true;
     },
 
-    async getSavedFunds() {
-      this.savedFunds = [];
-      if (this.address) {
-        try {
-          const { data } = await axios.get('entity/' + this.address);
-          if (data) this.savedFunds = data.savedFunds;
-        } finally {
-          this.forceSaved = false;
-        }
-      }
-    },
-
     async saveClick() {
       this.preventRedirect();
       if (!this.signature) await signMessage();
       try {
-        await axios[this.isSaved ? 'delete' : 'put']('entity/' + this.isSaved ? 'removeFund' : 'saveFund', {
+        await axios[this.isSaved ? 'delete' : 'put']('entity/' + (this.isSaved ? 'removeFund' : 'saveFund'), {
           fund: this.fund.address,
         });
         addNotification({
-          message: 'Fondo ' + this.isSaved ? 'removido' : 'guardado',
+          message: 'Fondo ' + (this.isSaved ? 'removido' : 'guardado'),
           type: 'success',
         });
-        this.forceSaved = true;
+        this.$emit('updateSavedFunds');
       } catch (e) {
         addNotification({
-          message: 'Error al ' + this.isSaved ? 'remover' : 'guardar' + ' fondo',
+          message: 'Error al ' + (this.isSaved ? 'remover' : 'guardar' + ' fondo'),
           type: 'error',
         });
       }
@@ -169,8 +154,6 @@ export default {
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
-
-    this.getSavedFunds();
   },
 };
 </script>
