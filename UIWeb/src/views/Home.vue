@@ -27,7 +27,14 @@
       <div v-else>
         <p class="no-funds" v-if="fundsToShow.length === 0">Aún no se ha creado ningún fondo.</p>
         <div class="funds" v-else>
-          <FundCard class="fund" :fund="fund" v-for="(fund, index) in fundsToShow" :key="index" />
+          <FundCard
+            class="fund"
+            :fund="fund"
+            :savedFunds="savedFunds"
+            @updateSavedFunds="getSavedFunds"
+            v-for="(fund, index) in fundsToShow"
+            :key="index"
+          />
         </div>
       </div>
     </div>
@@ -117,6 +124,7 @@
 
 <script>
 import BigNumber from 'bignumber.js';
+import { mapGetters } from 'vuex';
 import { hasMetamask } from '@/helpers/connection';
 import { call, addTokenToMetaMask, convertNumberToMaxDecimals } from '@/helpers/helpers';
 import { compareAddresses } from 'web3-simple-helpers/methods/general';
@@ -137,6 +145,7 @@ export default {
       loadingFunds: true,
       progressFunds: 0,
       funds: [],
+      savedFunds: [],
       loadingEntities: true,
       entitySearching: '',
       entitySearch: '',
@@ -149,6 +158,8 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['address']),
+
     hasMetamask,
 
     fundsToShow() {
@@ -175,6 +186,11 @@ export default {
         );
       }
       return entitiesToShow;
+    },
+  },
+  watch: {
+    address() {
+      this.getSavedFunds();
     },
   },
   methods: {
@@ -236,6 +252,15 @@ export default {
         .slice(0, 10);
     },
 
+    async getSavedFunds() {
+      this.savedFunds = [];
+      if (this.address) {
+        axios.get('entity/' + this.address).then((res) => {
+          if (res.data) this.savedFunds = res.data.savedFunds;
+        });
+      }
+    },
+
     async searchEntities() {
       this.loadingEntities = true;
       axios.get('entity').then((res) => {
@@ -251,6 +276,7 @@ export default {
     },
   },
   async created() {
+    this.getSavedFunds();
     this.searchFunds();
     this.searchEntities();
     this.searchUsers();
