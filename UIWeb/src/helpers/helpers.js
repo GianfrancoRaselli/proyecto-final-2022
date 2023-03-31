@@ -299,6 +299,7 @@ const getFundType = (fund) => {
   return {
     id: 'personalized',
     type: 'Personalizado',
+    class: 'dark',
   };
 };
 
