@@ -180,6 +180,13 @@ body {
   color: rgb(79, 79, 79);
 }
 
+.align-items-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+
 .page-title {
   font-size: 1.8rem;
   font-weight: bold;

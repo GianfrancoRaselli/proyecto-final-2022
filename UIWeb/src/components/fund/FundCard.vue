@@ -25,7 +25,7 @@
         </div>
         <div class="info">
           <p v-text="fund.description" v-if="fund.description" />
-          <p>
+          <p class="align-items-row">
             <span class="text-bold">Creador</span>:&nbsp;<button
               type="button"
               class="btn btn-link"
@@ -33,23 +33,25 @@
               data-toggle="modal"
               :data-target="'#entityModal' + fund.creator"
             >
-              <AppShowAddress
-                type="entity"
-                id="creatorAddress"
-                :address="fund.creator"
-                :showTooltip="false"
-                :allowCopyAddress="false"
-              />
+              <div class="align-items-row">
+                <AppShowAddress
+                  type="entity"
+                  id="creatorAddress"
+                  :address="fund.creator"
+                  :showTooltip="false"
+                  :allowCopyAddress="false"
+                />
+              </div>
             </button>
           </p>
           <p class="contributions-container">
-            <span>
+            <span class="align-items-row">
               <span class="text-bold" v-if="fundType.type !== 'Campaña'">Contribuciones totales</span>
               <span class="text-bold" v-else>Dinero invertido</span>
               <span>:&nbsp;</span>
               <AppShowEth :weis="fund.totalContributions" />
             </span>
-            <span class="amount" v-if="fund.contributors.length > 0">
+            <span class="amount align-items-row" v-if="fund.contributors.length > 0">
               (<AppShowAmount :amount="fund.contributors.length" singular="contribuyente" plural="contribuyentes" />)
             </span>
           </p>
