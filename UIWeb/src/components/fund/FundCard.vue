@@ -10,13 +10,14 @@
       </div>
       <div class="card-body">
         <FaIcon
-          class="save"
+          class="saved"
           :icon="[isSaved ? 'fas' : 'far', 'bookmark']"
           data-toggle="tooltip"
           data-placement="right"
           title=""
           :data-original-title="isSaved ? 'Remover' : 'Guardar'"
           @click="savedClick"
+          v-if="address"
         />
         <div class="img-container">
           <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
@@ -139,6 +140,7 @@ export default {
 
     async savedClick() {
       this.preventRedirect();
+      $('.tooltip').tooltip('hide');
       if (!this.signature) await signMessage();
       try {
         await axios[this.isSaved ? 'delete' : 'put'](
@@ -189,7 +191,8 @@ export default {
   align-items: center;
   gap: 2rem;
 
-  .save {
+  .saved {
+    user-select: none;
     font-size: 1.4rem;
     cursor: pointer;
     position: absolute;

@@ -238,6 +238,7 @@
               @click="savedClick"
               @mouseover="mouseOverSavedBtn = true"
               @mouseleave="mouseOverSavedBtn = false"
+              v-if="address"
             >
               <div class="btn-saved-container">
                 <FaIcon :icon="[isSaved ? 'fas' : 'far', 'bookmark']" class="icon" />

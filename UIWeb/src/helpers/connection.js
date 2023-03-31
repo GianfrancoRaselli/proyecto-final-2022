@@ -77,7 +77,7 @@ const connectToMetamask = async () => {
         position: 'center',
         icon: 'info',
         title: 'MetaMask Wallet',
-        text: 'Necesitas tener MetaMask instalado en el navegador para poder interactuar con la aplicación',
+        text: 'Necesitas contar con MetaMask instalado en el navegador para poder interactuar con la aplicación.',
         showConfirmButton: true,
         confirmButtonText: 'Confirmar',
       });
