@@ -263,14 +263,14 @@ export default {
     async searchEntities() {
       this.loadingEntities = true;
       axios.get('entity').then((res) => {
-        this.entities = res.data;
+        this.entities = res.data ? res.data : [];
         this.loadingEntities = false;
       });
     },
 
     async searchUsers() {
       axios.get('entity/amount').then((res) => {
-        this.community.users = res.data;
+        this.community.users = res.data ? res.data : 0;
       });
     },
   },
