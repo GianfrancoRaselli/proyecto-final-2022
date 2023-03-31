@@ -6,7 +6,7 @@
       <div class="content">
         <div class="top-line">
           <AppDate class="created-at" :date="createdAt" />
-          <span class="header">
+          <span class="top-line-header">
             <span class="name" v-text="fund.name"></span>
             <FaIcon icon="circle" class="icon" />
             <span class="type" v-text="type"></span>
@@ -260,7 +260,7 @@ export default {
         align-self: flex-start;
       }
 
-      .header {
+      .top-line-header {
         margin-right: auto;
         display: flex;
         flex-direction: row;
