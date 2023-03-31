@@ -45,28 +45,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import '~bootstrap/dist/css/bootstrap.min.css';
-@import 'animate.css';
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 76%;
-}
-
-body {
-  font-family: 'Roboto', monospace;
-  padding-right: 0 !important;
-
-  --navbar-height: 66px;
-  --mobile-navbar-height: 60px;
-  --footer-height: 60px;
-}
-
+<style lang="scss" scoped>
 .header {
   user-select: none;
 }
@@ -98,10 +77,6 @@ body {
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 88%;
-  }
-
   .header__mobile-navbar {
     display: none;
   }
@@ -137,6 +112,35 @@ body {
   width: 100%;
   justify-self: flex-end;
   z-index: 100;
+}
+</style>
+
+<style lang="scss">
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import 'animate.css';
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 76%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 88%;
+  }
+}
+
+body {
+  font-family: 'Roboto', monospace;
+  padding-right: 0 !important;
+
+  --navbar-height: 66px;
+  --mobile-navbar-height: 60px;
+  --footer-height: 60px;
 }
 
 /* animation styles */
