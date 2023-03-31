@@ -208,7 +208,7 @@ body {
 
     .extra-info {
       font-size: 0.8rem;
-      color: rgba(58, 58, 58, 0.816);
+      color: grey;
     }
   }
 

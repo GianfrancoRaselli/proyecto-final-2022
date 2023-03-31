@@ -713,7 +713,7 @@ export default {
 }
 
 .form-section {
-  color: rgb(62, 62, 62);
+  color: rgb(58, 58, 58);
   margin-top: 1rem;
   padding-bottom: 0.8rem;
   border-bottom: 1.5px solid rgba(110, 110, 110, 0.434);
@@ -730,7 +730,8 @@ export default {
   }
 
   .step {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
+    color: rgb(76, 76, 76);
     margin-left: auto;
   }
 }
