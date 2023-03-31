@@ -4,51 +4,29 @@
       <span class="title" v-text="title"></span>
     </div>
     <hr />
-    <button class="btn btn-secondary mb-3" @click="$emit('showDisplay')">Ver presentación</button>
-    <vue-editor class="editor" :editorToolbar="customToolbar" :disabled="loading" v-model="editing"></vue-editor>
-    <div class="length mt-2">
-      <span class="mr-1"
-        ><span class="number" :class="{ error: editingLength > maxLength }" v-text="separateInteger(editingLength)"></span>/<span
-          class="number"
-          v-text="separateInteger(maxLength)"
-        ></span
-      ></span>
-      <fa-icon
-        icon="question"
-        class="icon"
-        data-toggle="tooltip"
-        data-placement="right"
-        title=""
-        data-original-title="El texto se convierte a formato HTML para ser guardado, por lo tanto, la longitud puede no coincidir con la cantidad de caracteres."
-      />
-    </div>
-    <button
-      type="button"
-      class="btn btn-primary btn-block mt-3"
-      @click="handleSumbit"
-      :disabled="editing === fund[propertyToEdit]"
-      v-if="!loading"
-    >
-      Guardar
-    </button>
-    <button class="btn btn-primary btn-block mt-3" type="button" disabled v-else>
-      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      Guardando...
-    </button>
+    <MyEditor
+      :loading="loading"
+      :toEdit="editing"
+      :maxLength="maxLength"
+      :allowSubmit="editing !== fund[propertyToEdit]"
+      @close="$emit('showDisplay')"
+      @change="(newValue) => (editing = newValue)"
+      @submit="handleSubmit"
+    />
+    {{ propertyToEdit }}
   </div>
 </template>
 
 <script>
-import $ from 'jquery';
 import axios from 'axios';
-import { separateInteger } from '@/helpers/helpers';
 import { addNotification } from '@/composables/useNotifications';
-import { VueEditor } from 'vue3-editor';
+
+import MyEditor from '@/components/MyEditor';
 
 export default {
   name: 'FundExtraInformationEditorComponent',
   components: {
-    VueEditor,
+    MyEditor,
   },
   props: {
     title: { type: String, required: true },
@@ -61,82 +39,31 @@ export default {
       loading: false,
       editing: '',
       maxLength: 100000,
-      customToolbar: [
-        [{ header: [false, 1, 2, 3, 4, 5, 6] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
-        ['blockquote'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        [{ color: [] }, { background: [] }],
-        ['link' /*, 'image', 'video'*/],
-        ['clean'],
-      ],
     };
   },
-  computed: {
-    editingLength() {
-      return this.editing.length;
-    },
-  },
   methods: {
-    separateInteger,
-
-    async handleSumbit() {
-      if (this.editingLength <= this.maxLength) {
-        try {
-          this.loading = true;
-          let body = {};
-          body[this.propertyToEdit] = this.editing;
-          await axios.put('fund/' + this.fund.address, body);
-          // eslint-disable-next-line vue/no-mutating-props
-          this.fund[this.propertyToEdit] = this.editing;
-          addNotification({
-            message: 'Edición guardada',
-            type: 'success',
-          });
-        } finally {
-          this.loading = false;
-        }
-      } else {
+    async handleSubmit() {
+      try {
+        this.loading = true;
+        let body = {};
+        body[this.propertyToEdit] = this.editing;
+        await axios.put('fund/' + this.fund.address, body);
+        // eslint-disable-next-line vue/no-mutating-props
+        this.fund[this.propertyToEdit] = this.editing;
         addNotification({
-          message: 'Corrige la longitud del texto',
-          type: 'error',
+          message: 'Edición guardada',
+          type: 'success',
         });
+        this.$emit('showDisplay');
+      } finally {
+        this.loading = false;
       }
     },
   },
   created() {
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-
     if (this.fund[this.propertyToEdit]) this.editing = this.fund[this.propertyToEdit];
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.length {
-  font-size: 0.85rem;
-  color: gray;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  .number {
-    padding: 0 0.1em;
-  }
-
-  .error {
-    background-color: rgba(255, 206, 206, 0.756);
-  }
-
-  .icon {
-    height: 1em;
-    width: 1em;
-    border: 0.1px solid grey;
-    border-radius: 100%;
-    padding: 0.2em;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

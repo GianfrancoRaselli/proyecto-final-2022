@@ -694,13 +694,14 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     gap: 1rem;
 
     @media (max-width: 1000px) {
       padding: 1rem;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
 
     .img-center {
@@ -749,11 +750,11 @@ export default {
       word-wrap: break-word;
       word-break: break-word;
       width: 100%;
-      padding: 2rem;
+      padding: 0 1rem;
 
       @media (max-width: 1000px) {
         text-align: center;
-        padding: 1.5rem;
+        padding: 1.3rem 1.5rem 0 1.5rem;
       }
     }
   }

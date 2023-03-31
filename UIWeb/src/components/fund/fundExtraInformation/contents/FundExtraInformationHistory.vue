@@ -5,14 +5,14 @@
       :fund="fund"
       propertyToEdit="history"
       @showDisplay="edit = false"
-      v-if="edit && isAManager"
+      v-show="edit && isAManager"
     />
     <FundExtraInformationDisplay
       :isAManager="isAManager"
       title="Historia"
       :html="fund.history"
       @showEditor="edit = true"
-      v-else
+      v-show="!edit || !isAManager"
     />
   </div>
 </template>
@@ -33,7 +33,7 @@ export default {
   },
   data() {
     return {
-      edit: true,
+      edit: false,
     };
   },
   computed: {},

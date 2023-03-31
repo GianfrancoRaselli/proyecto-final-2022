@@ -5,9 +5,15 @@
       :fund="fund"
       propertyToEdit="risks"
       @showDisplay="edit = false"
-      v-if="edit && isAManager"
+      v-show="edit && isAManager"
     />
-    <FundExtraInformationDisplay :isAManager="isAManager" title="Riesgos" :html="fund.risks" @showEditor="edit = true" v-else />
+    <FundExtraInformationDisplay
+      :isAManager="isAManager"
+      title="Riesgos"
+      :html="fund.risks"
+      @showEditor="edit = true"
+      v-show="!edit || !isAManager"
+    />
   </div>
 </template>
 
@@ -27,7 +33,7 @@ export default {
   },
   data() {
     return {
-      edit: true,
+      edit: false,
     };
   },
   computed: {},

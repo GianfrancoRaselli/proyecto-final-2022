@@ -60,7 +60,7 @@ const fundSchema = new Schema(
         description: {
           type: String,
           trim: true,
-          maxLength: 1000,
+          maxLength: 25000,
         },
         updatedAt: {
           type: Date,

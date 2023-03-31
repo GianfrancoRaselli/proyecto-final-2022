@@ -37,7 +37,7 @@ const update = async (req, res) => {
         updater: req.entityAddress,
         description: update,
       });
-      
+
     // save the fund in the DB
     const savedFund = await fundToUpdate.save();
 

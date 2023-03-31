@@ -32,14 +32,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.not-information {
-  font-size: 1.2rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.8rem;
-}
-</style>
+<style lang="scss" scoped></style>
