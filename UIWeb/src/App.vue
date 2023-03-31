@@ -399,7 +399,9 @@ body {
 }
 
 .extra-information {
-  .header {
+  user-select: none;
+
+  .extra-information-header {
     position: relative;
     margin-bottom: 0.6rem;
 
@@ -437,7 +439,7 @@ body {
       transform: translateY(-50%);
     }
 
-    .header-container {
+    .extra-information-header-container {
       display: flex;
       flex-direction: row;
       justify-content: start;
@@ -483,7 +485,7 @@ body {
       }
     }
 
-    .header-container::-webkit-scrollbar {
+    .extra-information-header-container::-webkit-scrollbar {
       display: none;
     }
   }

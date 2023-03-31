@@ -82,14 +82,19 @@
     </div>
 
     <div class="extra-information profile-extra-information">
-      <div id="header" class="header" @mouseover="mouseOverHeader" @mouseleave="mouseLeaveHeader">
+      <div
+        id="extra-information-header"
+        class="extra-information-header"
+        @mouseover="mouseOverHeader"
+        @mouseleave="mouseLeaveHeader"
+      >
         <div class="arrow arrow-left" @click="goBack" v-if="extraInformation.activeGoBack">
           <FaIcon icon="arrow-left" class="icon" />
         </div>
         <div class="arrow arrow-right" @click="goForward" v-if="extraInformation.activeGoForward">
           <FaIcon icon="arrow-right" class="icon" />
         </div>
-        <div id="header-container" class="header-container">
+        <div id="extra-information-header-container" class="extra-information-header-container">
           <div class="item" @click="extraInformation.fundsCreated = true">
             <span class="span" :class="{ 'span-active': extraInformation.fundsCreated }">Fondos creados</span>
             <div class="bar" :class="{ 'bar-active': extraInformation.fundsCreated }"></div>
@@ -546,9 +551,9 @@ export default {
     },
 
     mouseOverHeader() {
-      const scrollLeft = document.getElementById('header-container').scrollLeft;
-      const offsetWidth = document.getElementById('header-container').offsetWidth;
-      const scrollWidth = document.getElementById('header-container').scrollWidth;
+      const scrollLeft = document.getElementById('extra-information-header-container').scrollLeft;
+      const offsetWidth = document.getElementById('extra-information-header-container').offsetWidth;
+      const scrollWidth = document.getElementById('extra-information-header-container').scrollWidth;
       if (scrollLeft > 5) this.extraInformation.activeGoBack = true;
       else this.extraInformation.activeGoBack = false;
       if (scrollWidth - (scrollLeft + offsetWidth) > 5) this.extraInformation.activeGoForward = true;
@@ -561,14 +566,18 @@ export default {
     },
 
     goBack() {
-      $('.header-container').animate({ scrollLeft: document.getElementById('header-container').scrollLeft - 300 }, 200, () =>
-        this.mouseOverHeader(),
+      $('.extra-information-header-container').animate(
+        { scrollLeft: document.getElementById('extra-information-header-container').scrollLeft - 300 },
+        200,
+        () => this.mouseOverHeader(),
       );
     },
 
     goForward() {
-      $('.header-container').animate({ scrollLeft: document.getElementById('header-container').scrollLeft + 300 }, 200, () =>
-        this.mouseOverHeader(),
+      $('.extra-information-header-container').animate(
+        { scrollLeft: document.getElementById('extra-information-header-container').scrollLeft + 300 },
+        200,
+        () => this.mouseOverHeader(),
       );
     },
 
