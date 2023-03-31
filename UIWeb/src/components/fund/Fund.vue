@@ -371,9 +371,7 @@ export default {
 
     isSaved() {
       if (this.address) {
-        for (let fund of this.savedFunds) {
-          if (compareAddresses(fund, this.fund.address)) return true;
-        }
+        if (this.savedFunds.findIndex((fund) => compareAddresses(fund, this.fund.address)) >= 0) return true;
       }
       return false;
     },
@@ -461,7 +459,7 @@ export default {
         });
       }
     },
-    
+
     async savedClick() {
       if (!this.signature) await signMessage();
       try {
