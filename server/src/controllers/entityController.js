@@ -120,18 +120,16 @@ const removeImage = async (req, res) => {
 const saveFund = async (req, res) => {
   let entityToUpdate = await Entity.findOne({ address: req.entityAddress });
   if (entityToUpdate) {
-    const { fund } = req.body;
-
     // update field
     let index = -1;
     for (let i = 0; i < entityToUpdate.savedFunds.length; i++) {
-      if (compareAddresses(fund, entityToUpdate.savedFunds[i])) {
+      if (compareAddresses(req.params.fundAddress, entityToUpdate.savedFunds[i])) {
         index = i;
         break;
       }
     }
     if (index === -1) {
-      entityToUpdate.savedFunds.push(fund);
+      entityToUpdate.savedFunds.push(req.params.fundAddress);
 
       // save the entity in the DB
       const savedEntity = await entityToUpdate.save();
@@ -150,12 +148,10 @@ const saveFund = async (req, res) => {
 const removeFund = async (req, res) => {
   let entityToUpdate = await Entity.findOne({ address: req.entityAddress });
   if (entityToUpdate) {
-    const { fund } = req.body;
-
     // update field
     let indexToRemove = -1;
     for (let i = 0; i < entityToUpdate.savedFunds.length; i++) {
-      if (compareAddresses(fund, entityToUpdate.savedFunds[i])) {
+      if (compareAddresses(req.params.fundAddress, entityToUpdate.savedFunds[i])) {
         indexToRemove = i;
         break;
       }

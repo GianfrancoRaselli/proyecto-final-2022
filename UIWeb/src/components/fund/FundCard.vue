@@ -134,9 +134,9 @@ export default {
       this.preventRedirect();
       if (!this.signature) await signMessage();
       try {
-        await axios[this.isSaved ? 'delete' : 'put']('entity/' + (this.isSaved ? 'removeFund' : 'saveFund'), {
-          fund: this.fund.address,
-        });
+        await axios[this.isSaved ? 'delete' : 'put'](
+          'entity/' + (this.isSaved ? 'removeFund' : 'saveFund') + '/' + this.fund.address,
+        );
         addNotification({
           message: 'Fondo ' + (this.isSaved ? 'removido' : 'guardado'),
           type: 'success',
