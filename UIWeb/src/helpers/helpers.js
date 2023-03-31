@@ -261,9 +261,11 @@ const getFundType = (fund) => {
   if (
     fund.managersCanBeAddedOrRemoved &&
     fund.managersCanTransferMoneyWithoutARequest &&
-    fund.requestsCanBeCreated &&
+    !fund.requestsCanBeCreated &&
     !fund.onlyManagersCanCreateARequest &&
-    !fund.onlyContributorsCanApproveARequest
+    !fund.onlyContributorsCanApproveARequest &&
+    fund.minimumContributionPercentageRequired === '0' &&
+    fund.minimumApprovalsPercentageRequired === '0'
   )
     return {
       id: 'friends',

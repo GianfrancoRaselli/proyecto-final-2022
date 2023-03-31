@@ -461,10 +461,11 @@ export default {
           this.data.addMeAsAManager = true;
           this.data.managersCanBeAddedOrRemoved = true;
           this.data.managersCanTransferMoneyWithoutARequest = true;
-          this.data.requestsCanBeCreated = true;
+          this.data.requestsCanBeCreated = false;
           this.data.onlyManagersCanCreateARequest = false;
           this.data.onlyContributorsCanApproveARequest = false;
           this.data.minimumContributionPercentageRequired = '0';
+          this.data.minimumApprovalsPercentageRequired = '0';
           break;
         case 'campaign':
           this.data.addMeAsAManager = true;
@@ -474,6 +475,7 @@ export default {
           this.data.onlyManagersCanCreateARequest = true;
           this.data.onlyContributorsCanApproveARequest = true;
           this.data.minimumContributionPercentageRequired = '5';
+          this.data.minimumApprovalsPercentageRequired = '50';
           break;
         case 'donation':
           this.data.addMeAsAManager = true;
@@ -483,6 +485,7 @@ export default {
           this.data.onlyManagersCanCreateARequest = true;
           this.data.onlyContributorsCanApproveARequest = true;
           this.data.minimumContributionPercentageRequired = '5';
+          this.data.minimumApprovalsPercentageRequired = '50';
           break;
       }
     },
