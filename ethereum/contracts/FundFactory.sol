@@ -47,9 +47,9 @@ contract FundFactory is Ownable {
   }
 
   function buyFundTokens(uint256 _fundTokens) public payable {
-    require(_fundTokens > 0, "At least 1 FundToken must be purchased");
+    require(_fundTokens > 0, "Se debe comprar al menos 1 FundToken");
     uint256 _fundTokenPrice = fundTokenPrice;
-    require(msg.value == _fundTokens * _fundTokenPrice, "Underpayment");
+    require(msg.value == _fundTokens * _fundTokenPrice, "Pago insuficiente");
 
     fundToken.mint(msg.sender, _fundTokens);
     earnedMoney += msg.value;
@@ -77,14 +77,14 @@ contract FundFactory is Ownable {
     uint256 _minimumContributionPercentageRequired,
     uint256 _minimumApprovalsPercentageRequired
   ) public {
-    require(bytes(_name).length != 0, "The name of the fund can not be empty");
+    require(bytes(_name).length != 0, "El nombre del fondo no puede estar vac\xc3\xado");
     require(
       (_managersCanTransferMoneyWithoutARequest && _managers.length > 0) ||
         (_requestsCanBeCreated && (!_onlyManagersCanCreateARequest || _managers.length > 0)),
-      "There would be no way to withdraw the money from the contract"
+      "No habr\xc3\xada manera de retirar el dinero del contrato"
     );
-    require(_minimumContributionPercentageRequired < 101, "Incorrect contribution percentage");
-    require(_minimumApprovalsPercentageRequired < 101, "Incorrect approvals percentage");
+    require(_minimumContributionPercentageRequired < 101, "Porcentaje de contribuci\xc3\xb3n incorrecto");
+    require(_minimumApprovalsPercentageRequired < 101, "Porcentaje de aprobaciones incorrecto");
 
     fundToken.burn(msg.sender, createFundPrice);
 

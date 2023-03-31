@@ -81,7 +81,7 @@ contract Fund is ReentrancyGuard {
   // Modifiers
 
   modifier onlyManagers() {
-    require(isManager[msg.sender], "Only managers can access");
+    require(isManager[msg.sender], "Solo los administradores pueden acceder");
     _;
   }
 
@@ -119,9 +119,9 @@ contract Fund is ReentrancyGuard {
   // Public functions
 
   function addNewManagers(address[] memory _managers) public {
-    require(managersCanBeAddedOrRemoved, "New managers can not be added");
-    require(isManager[msg.sender], "Only managers can access");
-    require(_managers.length > 0, "You have to send one or more addresses");
+    require(managersCanBeAddedOrRemoved, "No se pueden agregar nuevos administradores");
+    require(isManager[msg.sender], "Solo los administradores pueden acceder");
+    require(_managers.length > 0, "Tienes que enviar una o m\xc3\xa1s direcciones");
 
     for (uint256 i; i < _managers.length; ) {
       if (!isManager[_managers[i]]) {
@@ -138,12 +138,12 @@ contract Fund is ReentrancyGuard {
   }
 
   function removeManager(uint256 _index) public {
-    require(managersCanBeAddedOrRemoved, "Managers can not be removed");
-    require(isManager[msg.sender], "Only managers can access");
+    require(managersCanBeAddedOrRemoved, "Los administradores no pueden ser eliminados");
+    require(isManager[msg.sender], "Solo los administradores pueden acceder");
     uint256 _managersCount = managersCount();
     require(
       _managersCount > 1 || (requestsCanBeCreated && !onlyManagersCanCreateARequest),
-      "There would be no way to withdraw the money from the contract"
+      "No habr\xc3\xada manera de retirar el dinero del contrato"
     );
 
     address _manager = managers[_index];
@@ -188,8 +188,8 @@ contract Fund is ReentrancyGuard {
   }
 
   function transfer(address _to, uint256 _value) public {
-    require(managersCanTransferMoneyWithoutARequest, "Managers can not transfer money without a request");
-    require(isManager[msg.sender], "Only managers can access");
+    require(managersCanTransferMoneyWithoutARequest, "Los administradores no pueden transferir dinero sin una solicitud");
+    require(isManager[msg.sender], "Solo los administradores pueden acceder");
 
     payable(_to).transfer(_value);
 
@@ -197,12 +197,12 @@ contract Fund is ReentrancyGuard {
   }
 
   function createRequest(string memory _description, address _recipient, uint256 _valueToTransfer) public {
-    require(requestsCanBeCreated, "Requests can not be created");
+    require(requestsCanBeCreated, "No se pueden crear solicitudes");
 
     bool _isManager = isManager[msg.sender];
     require(
       !onlyManagersCanCreateARequest || (onlyManagersCanCreateARequest && _isManager),
-      "Only managers can create a request"
+      "Solo los administradores pueden crear una solicitud"
     );
 
     Request storage newRequest = requests.push();
@@ -228,8 +228,8 @@ contract Fund is ReentrancyGuard {
   function approveRequest(uint256 _index) public {
     Request storage request = requests[_index];
 
-    require(!request.complete, "The request has already been completed");
-    require(!request.approvals[msg.sender], "You have already approved this request");
+    require(!request.complete, "La solicitud ya ha sido completada");
+    require(!request.approvals[msg.sender], "Ya has aprobado esta solicitud");
     uint256 _minimumContributionPercentageRequired = minimumContributionPercentageRequired;
     uint256 _totalContributions = totalContributions;
     require(
@@ -237,7 +237,7 @@ contract Fund is ReentrancyGuard {
         _minimumContributionPercentageRequired == 0 ||
         (_totalContributions > 0 &&
           (contributions[msg.sender] * 100) / _totalContributions >= _minimumContributionPercentageRequired),
-      "Do not reach the minimum contribution percentage or you are not a manager"
+      "No alcanzas el porcentaje m\xc3\xadnimo de contribuci\xc3\xb3n y/o no eres administrador"
     );
 
     request.approvals[msg.sender] = true;
@@ -253,8 +253,8 @@ contract Fund is ReentrancyGuard {
   function finalizeRequest(uint256 _index) public nonReentrant {
     Request storage request = requests[_index];
 
-    require(request.petitioner == msg.sender, "You are not the petitioner of the request");
-    require(!request.complete, "The request has already been completed");
+    require(request.petitioner == msg.sender, "No eres el solicitante de la solicitud");
+    require(!request.complete, "La solicitud ya ha sido completada");
     uint256 _totalCount;
     if (onlyContributorsCanApproveARequest) {
       _totalCount = contributorsCount();
@@ -273,7 +273,7 @@ contract Fund is ReentrancyGuard {
     }
     require(
       _totalCount == 0 || (request.approvalsCount.current() * 100) / _totalCount >= minimumApprovalsPercentageRequired,
-      "The request has not been approved yet"
+      "La solicitud a\xc3\xban no ha sido aprobada"
     );
 
     uint256 _valueToTransfer = request.valueToTransfer;
@@ -331,7 +331,7 @@ contract Fund is ReentrancyGuard {
   // Private functions
 
   function _contribute(address _contributor) private {
-    require(msg.value > 0, "The contribution must be greater than zero");
+    require(msg.value > 0, "La contribuci\xc3\xb3n debe ser mayor a cero");
 
     if (contributions[_contributor] == 0) {
       contributors.push(_contributor);
