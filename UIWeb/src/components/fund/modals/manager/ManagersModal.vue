@@ -22,7 +22,6 @@
             >
               <FaIcon icon="plus" class="icon mr-2" />Agregar administrador
             </button>
-
             <div class="managers-list" :class="{ list: fund.managersCanBeAddedOrRemoved && isAManager }">
               <div class="no-items-modal" v-if="fund.managers && fund.managers.length === 0">Sin administradores</div>
               <ul class="list-group list-group-flush" v-else>

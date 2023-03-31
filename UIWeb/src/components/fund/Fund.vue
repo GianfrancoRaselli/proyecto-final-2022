@@ -225,11 +225,17 @@
               class="btn btn-transfers"
               data-toggle="modal"
               data-target="#transfersModal"
-              v-if="fund.managersCanTransferMoneyWithoutARequest && isAManager"
+              v-if="fund.managersCanTransferMoneyWithoutARequest"
             >
               <FaIcon icon="money-bill-transfer" class="icon mr-2" />Transferencias
             </button>
-            <button type="button" class="btn btn-requests" data-toggle="modal" data-target="#requestsModal">
+            <button
+              type="button"
+              class="btn btn-requests"
+              data-toggle="modal"
+              data-target="#requestsModal"
+              v-if="fund.requestsCanBeCreated"
+            >
               <FaIcon icon="list-check" class="icon mr-2" />Solicitudes
             </button>
             <button

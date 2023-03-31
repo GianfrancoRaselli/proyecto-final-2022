@@ -25,7 +25,6 @@
             >
               <FaIcon icon="plus" class="icon mr-2" />Crear solicitud
             </button>
-
             <RequestsList
               :class="{
                 list:
