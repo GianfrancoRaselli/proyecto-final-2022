@@ -186,8 +186,8 @@ export default {
     font-size: 1.4rem;
     cursor: pointer;
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 0.5rem;
+    right: 0.5rem;
   }
 
   .img-container {
@@ -201,7 +201,7 @@ export default {
       height: auto;
       max-height: 100%;
       width: 26rem;
-      max-width: 100%;
+      max-width: calc(100% - 1.8rem);
       border-radius: 1rem;
     }
   }
