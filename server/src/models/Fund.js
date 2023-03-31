@@ -64,7 +64,9 @@ const fundSchema = new Schema(
         },
         updatedAt: {
           type: Date,
-          default: new Date(),
+          default: () => {
+            return new Date();
+          },
         },
       },
     ],
