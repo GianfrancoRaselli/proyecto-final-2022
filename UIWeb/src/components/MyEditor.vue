@@ -8,7 +8,7 @@
         v-text="separateInteger(maxLength)"
       ></span
     ></span>
-    <fa-icon
+    <FaIcon
       icon="question"
       class="icon"
       data-toggle="tooltip"

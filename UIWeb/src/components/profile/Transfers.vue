@@ -3,7 +3,7 @@
     <AppSpinner class="spinner" size="medium" v-if="loading" />
     <div class="items" v-else>
       <div class="no-items" v-if="transfersOrdered.length === 0">
-        <fa-icon icon="xmark" class="icon" size="5x" />
+        <FaIcon icon="xmark" class="icon" size="5x" />
         <span v-if="filter === 'made'">La entidad no ha realizado ninguna transferencia aún.</span>
         <span v-if="filter === 'received'">La entidad no ha recibido ninguna transferencia aún.</span>
       </div>

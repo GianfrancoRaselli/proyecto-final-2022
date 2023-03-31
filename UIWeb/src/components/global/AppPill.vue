@@ -1,5 +1,5 @@
 <template>
-  <span class="pill" :class="'pill-' + type">{{ msg }}<fa-icon icon="xmark" class="icon" @click="$emit('close')" /></span>
+  <span class="pill" :class="'pill-' + type">{{ msg }}<FaIcon icon="xmark" class="icon" @click="$emit('close')" /></span>
 </template>
 
 <script>

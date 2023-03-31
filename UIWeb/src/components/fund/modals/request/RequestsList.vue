@@ -29,7 +29,7 @@
                 v-if="!approving(request.index)"
                 @click="approveRequest(request.index)"
               >
-                <fa-icon icon="thumbs-up" class="icon mr-2" />Aprobar
+                <FaIcon icon="thumbs-up" class="icon mr-2" />Aprobar
               </button>
               <button class="btn btn-primary btn-sm" type="button" disabled v-if="approving(request.index)">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
@@ -43,7 +43,7 @@
                 v-if="!finalizing(request.index)"
                 @click="finalizeRequest(request.index)"
               >
-                <fa-icon icon="square-arrow-up-right" class="icon mr-2" />Finalizar
+                <FaIcon icon="square-arrow-up-right" class="icon mr-2" />Finalizar
               </button>
               <button class="btn btn-dark btn-sm" type="button" disabled v-if="finalizing(request.index)">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />

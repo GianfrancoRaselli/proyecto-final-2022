@@ -3,7 +3,7 @@
     <AppSpinner class="spinner" size="medium" v-if="loading" />
     <div class="items" v-else>
       <div class="no-items" v-if="fundsToShow.length === 0">
-        <fa-icon icon="xmark" class="icon" size="5x" />
+        <FaIcon icon="xmark" class="icon" size="5x" />
         <span>La entidad no ha creado ningún fondo aún.</span>
       </div>
       <div v-else>

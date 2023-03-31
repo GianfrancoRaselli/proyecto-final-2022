@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="contributeModalLabel">Contribuir</h4>
-          <fa-icon icon="arrow-left" class="icon" @click="goBack" />
+          <FaIcon icon="arrow-left" class="icon" @click="goBack" />
         </div>
         <div class="modal-body">
           <form @submit.prevent="handleSubmit">

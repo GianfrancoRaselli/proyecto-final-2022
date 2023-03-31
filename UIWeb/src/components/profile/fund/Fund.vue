@@ -8,7 +8,7 @@
           <AppDate class="created-at" :date="createdAt" />
           <span class="header">
             <span class="name" v-text="fund.name"></span>
-            <fa-icon icon="circle" class="icon" />
+            <FaIcon icon="circle" class="icon" />
             <span class="type" v-text="type"></span>
           </span>
         </div>
@@ -24,7 +24,7 @@
             @mouseover="mouseOverManagers = true"
             @mouseleave="mouseOverManagers = false"
           >
-            <fa-icon icon="person" class="icon" :class="{ 'icon-managers-hover': mouseOverManagers }" /><span
+            <FaIcon icon="person" class="icon" :class="{ 'icon-managers-hover': mouseOverManagers }" /><span
               class="amount"
               v-text="fund.managers.length"
             ></span>
@@ -39,7 +39,7 @@
             @mouseover="mouseOverContributors = true"
             @mouseleave="mouseOverContributors = false"
           >
-            <fa-icon icon="receipt" class="icon" :class="{ 'icon-contributors-hover': mouseOverContributors }" /><span
+            <FaIcon icon="receipt" class="icon" :class="{ 'icon-contributors-hover': mouseOverContributors }" /><span
               class="amount"
               v-text="fund.contributors.length"
             ></span>
@@ -54,7 +54,7 @@
             @mouseover="mouseOverContributions = true"
             @mouseleave="mouseOverContributions = false"
           >
-            <fa-icon
+            <FaIcon
               icon="circle-dollar-to-slot"
               class="icon"
               :class="{ 'icon-contributions-hover': mouseOverContributions }"
@@ -74,7 +74,7 @@
             @mouseover="mouseOverTransfers = true"
             @mouseleave="mouseOverTransfers = false"
           >
-            <fa-icon icon="money-bill-transfer" class="icon" :class="{ 'icon-transfers-hover': mouseOverTransfers }" /><span
+            <FaIcon icon="money-bill-transfer" class="icon" :class="{ 'icon-transfers-hover': mouseOverTransfers }" /><span
               class="amount"
               v-text="amountOfTransfers"
               v-if="amountOfTransfers || amountOfTransfers === 0"
@@ -90,7 +90,7 @@
             @mouseover="mouseOverRequests = true"
             @mouseleave="mouseOverRequests = false"
           >
-            <fa-icon icon="list-check" class="icon" :class="{ 'icon-requests-hover': mouseOverRequests }" /><span
+            <FaIcon icon="list-check" class="icon" :class="{ 'icon-requests-hover': mouseOverRequests }" /><span
               class="amount"
               v-text="amountOfRequests"
               v-if="amountOfRequests || amountOfRequests === 0"

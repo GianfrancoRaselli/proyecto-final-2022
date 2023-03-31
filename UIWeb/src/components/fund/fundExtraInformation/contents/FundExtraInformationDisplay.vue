@@ -7,7 +7,7 @@
     <hr />
     <div v-html="html" v-if="html"></div>
     <div class="not-information" v-else>
-      <fa-icon icon="xmark" class="icon" size="5x" />
+      <FaIcon icon="xmark" class="icon" size="5x" />
       <span>Información aún no cargada.</span>
     </div>
   </div>

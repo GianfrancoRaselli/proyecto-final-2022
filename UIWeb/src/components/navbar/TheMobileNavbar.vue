@@ -5,31 +5,31 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <router-link class="item-link" :to="{ name: 'CreateFund' }" exact>
-              <fa-icon icon="plus" class="link-icon" size="2x"></fa-icon>
+              <FaIcon icon="plus" class="link-icon" size="2x"></FaIcon>
               <span class="link-text">Crear</span>
             </router-link>
           </li>
           <li class="nav-item">
             <router-link class="item-link" :to="{ name: 'Funds' }" exact>
-              <fa-icon icon="list" class="link-icon" size="2x"></fa-icon>
+              <FaIcon icon="list" class="link-icon" size="2x"></FaIcon>
               <span class="link-text">Fondos</span>
             </router-link>
           </li>
           <li class="nav-item">
             <a class="item-link" data-toggle="modal" data-target="#buyFundTokensModal">
-              <fa-icon icon="money-bill" class="link-icon" size="2x"></fa-icon>
+              <FaIcon icon="money-bill" class="link-icon" size="2x"></FaIcon>
               <span class="link-text">FundToken</span>
             </a>
           </li>
           <li class="nav-item">
             <router-link class="item-link" :to="{ name: 'AboutUs' }" exact>
-              <fa-icon icon="building" class="link-icon" size="2x"></fa-icon>
+              <FaIcon icon="building" class="link-icon" size="2x"></FaIcon>
               <span class="link-text">Nosotros</span>
             </router-link>
           </li>
           <li class="nav-item">
             <router-link class="item-link" :to="{ name: 'FrequentQuestions' }" exact>
-              <fa-icon icon="question" class="link-icon" size="2x"></fa-icon>
+              <FaIcon icon="question" class="link-icon" size="2x"></FaIcon>
               <span class="link-text">Preguntas</span>
             </router-link>
           </li>

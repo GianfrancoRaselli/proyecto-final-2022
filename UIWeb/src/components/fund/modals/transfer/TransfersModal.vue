@@ -20,7 +20,7 @@
               @click="transfer"
               v-if="fund.managersCanTransferMoneyWithoutARequest && isAManager"
             >
-              <fa-icon icon="plus" class="icon mr-2" />Transferir
+              <FaIcon icon="plus" class="icon mr-2" />Transferir
             </button>
             <TransfersList
               :class="{ list: fund.managersCanTransferMoneyWithoutARequest && isAManager }"

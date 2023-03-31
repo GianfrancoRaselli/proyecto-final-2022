@@ -24,18 +24,18 @@
             <span class="address"><AppShowAddress type="entity" :address="address" :forceShowAddress="true" /></span>
             <span class="description" v-text="entity.description" />
             <span class="location" v-if="entity.location"
-              ><fa-icon icon="location-dot" class="icon" />&nbsp;{{ entity.location }}</span
+              ><FaIcon icon="location-dot" class="icon" />&nbsp;{{ entity.location }}</span
             >
             <span class="email" v-if="entity.email">
-              <fa-icon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">
+              <FaIcon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">
                 {{ entity.email }}
               </a>
             </span>
             <span class="phone" v-if="entity.phone"
-              ><fa-icon icon="phone" class="icon" />&nbsp;<a :href="'tel:' + entity.phone"> {{ entity.phone }}</a>
+              ><FaIcon icon="phone" class="icon" />&nbsp;<a :href="'tel:' + entity.phone"> {{ entity.phone }}</a>
             </span>
             <span class="url" v-if="entity.url"
-              ><fa-icon icon="link" class="icon" />&nbsp;<a :href="entity.url" target="_blank">Sitio Web</a>
+              ><FaIcon icon="link" class="icon" />&nbsp;<a :href="entity.url" target="_blank">Sitio Web</a>
             </span>
             <AppButton classes="btn-secondary" text="Ver perfil completo" @click="goToProfile(address)" />
           </div>

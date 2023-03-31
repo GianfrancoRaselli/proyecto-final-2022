@@ -69,7 +69,7 @@
               <span class="amount">
                 <AppShowEth :weis="fundTokenPriceInWeis" />
               </span>
-              <fa-icon icon="pencil" class="icon" @click="editingFundTokenPrice = true" />
+              <FaIcon icon="pencil" class="icon" @click="editingFundTokenPrice = true" />
             </span>
             <div v-else>
               <div class="new-fund-token-price-form-row">
@@ -93,7 +93,7 @@
                 >
                   <option v-for="(unit, i) in units" :key="i" v-text="unit" :value="unit"></option>
                 </select>
-                <fa-icon
+                <FaIcon
                   icon="check"
                   class="icon command"
                   @click="handleNewFundTokenPriceSubmit"

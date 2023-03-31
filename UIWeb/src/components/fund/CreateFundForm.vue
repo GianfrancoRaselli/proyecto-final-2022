@@ -4,7 +4,7 @@
       <div class="information-title">Información importante</div>
       <div class="information-info">
         <div>
-          <fa-icon icon="angle-right" class="icon mr-2"></fa-icon
+          <FaIcon icon="angle-right" class="icon mr-2"></FaIcon
           ><span class="info"
             >Crear un nuevo fondo cuesta 1 FundToken. Por lo tanto, necesitas contar con dicho token en MetaMask, el cual será
             debitado automáticamente al crear el fondo.</span
@@ -12,7 +12,7 @@
         </div>
         <div class="separator"></div>
         <div>
-          <fa-icon icon="angle-right" class="icon mr-2"></fa-icon>
+          <FaIcon icon="angle-right" class="icon mr-2"></FaIcon>
           <span class="info"
             >Todos los datos que ingreses a continuación serán almacenados en la cadena de bloques. Por lo tanto, no podrán ser
             modificados una vez creado el fondo.</span
@@ -35,7 +35,7 @@
             <option v-for="(type, i) in types" :key="i" v-text="type.type" :value="type.value" :selected="type.selected"></option>
           </select>
           <div class="info">
-            <fa-icon icon="question" class="icon" :class="{ 'icon-active': info.type }" @click="info.type = !info.type" />
+            <FaIcon icon="question" class="icon" :class="{ 'icon-active': info.type }" @click="info.type = !info.type" />
             <div class="my-tooltip" v-if="info.type">
               Le ofrecemos la facilidad de seleccionar 3 tipos de fondos diferentes que vienen con diferentes parámetros ya
               configurados para su uso. En caso de querer una configuración al 100% puede optar por elegir un "fondo
@@ -59,7 +59,7 @@
             :disabled="loading"
           />
           <div class="info">
-            <fa-icon icon="question" class="icon" :class="{ 'icon-active': info.name }" @click="info.name = !info.name" />
+            <FaIcon icon="question" class="icon" :class="{ 'icon-active': info.name }" @click="info.name = !info.name" />
             <div class="my-tooltip" v-if="info.name">Nombre identificatorio del fondo.</div>
           </div>
         </div>
@@ -87,7 +87,7 @@
               <label class="custom-control-label" for="addMeAsAManagerInput">Agregarme como administrador</label>
             </div>
             <div class="info">
-              <fa-icon
+              <FaIcon
                 icon="question"
                 class="icon"
                 :class="{ 'icon-active': info.addMeAsAManager }"
@@ -115,7 +115,7 @@
               :disabled="loading"
             ></textarea>
             <div class="info">
-              <fa-icon
+              <FaIcon
                 icon="question"
                 class="icon"
                 :class="{ 'icon-active': info.managers }"
@@ -148,7 +148,7 @@
               >
             </div>
             <div class="info">
-              <fa-icon
+              <FaIcon
                 icon="question"
                 class="icon"
                 :class="{ 'icon-active': info.managersCanBeAddedOrRemoved }"
@@ -186,7 +186,7 @@
             >
           </div>
           <div class="info">
-            <fa-icon
+            <FaIcon
               icon="question"
               class="icon"
               :class="{ 'icon-active': info.managersCanTransferMoneyWithoutARequest }"
@@ -213,7 +213,7 @@
             <label class="custom-control-label" for="requestsCanBeCreatedInput">Las solicitudes pueden ser creadas</label>
           </div>
           <div class="info">
-            <fa-icon
+            <FaIcon
               icon="question"
               class="icon"
               :class="{ 'icon-active': info.requestsCanBeCreated }"
@@ -242,7 +242,7 @@
             >
           </div>
           <div class="info">
-            <fa-icon
+            <FaIcon
               icon="question"
               class="icon"
               :class="{ 'icon-active': info.onlyManagersCanCreateARequest }"
@@ -271,7 +271,7 @@
             >
           </div>
           <div class="info">
-            <fa-icon
+            <FaIcon
               icon="question"
               class="icon"
               :class="{ 'icon-active': info.onlyContributorsCanApproveARequest }"
@@ -310,7 +310,7 @@
             :disabled="!data.requestsCanBeCreated || loading"
           />
           <div class="info">
-            <fa-icon
+            <FaIcon
               icon="question"
               class="icon"
               :class="{ 'icon-active': info.minimumContributionPercentageRequired }"
@@ -350,7 +350,7 @@
             :disabled="!data.requestsCanBeCreated || loading"
           />
           <div class="info">
-            <fa-icon
+            <FaIcon
               icon="question"
               class="icon"
               :class="{ 'icon-active': info.minimumApprovalsPercentageRequired }"

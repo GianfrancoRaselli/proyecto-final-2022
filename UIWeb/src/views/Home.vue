@@ -14,7 +14,7 @@
           </div>
           <router-link class="button" :to="{ name: 'Funds', params: { animation: 'slide' } }">
             <button class="btn btn-primary btn-discover">
-              <span>Descubrir fondos</span><fa-icon icon="arrow-right" class="img-icon ml-3"></fa-icon>
+              <span>Descubrir fondos</span><FaIcon icon="arrow-right" class="img-icon ml-3"></FaIcon>
             </button>
           </router-link>
         </div>
@@ -49,7 +49,7 @@
                 @keydown.enter.prevent="entitySearch = entitySearching"
               />
               <div class="icon-container" @click="entitySearch = entitySearching">
-                <fa-icon icon="magnifying-glass" class="icon" />
+                <FaIcon icon="magnifying-glass" class="icon" />
               </div>
             </div>
           </form>
@@ -71,17 +71,17 @@
       </div>
       <div class="cards">
         <div class="card">
-          <fa-icon icon="users" class="icon purple" size="5x" />
+          <FaIcon icon="users" class="icon purple" size="5x" />
           <span class="number" v-text="community.users" />
           <span class="title"><span class="main purple">Usuarios</span> registrados</span>
         </div>
         <div class="card">
-          <fa-icon icon="list" class="icon light" size="5x" />
+          <FaIcon icon="list" class="icon light" size="5x" />
           <span class="number" v-text="community.funds" />
           <span class="title"><span class="main light">Fondos</span> creados</span>
         </div>
         <div class="card">
-          <fa-icon icon="money-bill" class="icon red" size="5x" />
+          <FaIcon icon="money-bill" class="icon red" size="5x" />
           <span class="number" v-text="community.ethers" />
           <span class="title"><span class="main red">ETH</span> depositados</span>
         </div>

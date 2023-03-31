@@ -3,7 +3,7 @@
     <AppSpinner class="spinner" size="medium" v-if="loading" />
     <div class="items" v-else>
       <div class="no-items" v-if="requestsToShow.length === 0">
-        <fa-icon icon="xmark" class="icon" size="5x" />
+        <FaIcon icon="xmark" class="icon" size="5x" />
         <span v-if="filter === 'petitioner'">La entidad no ha creado ninguna solicitud aún.</span>
         <span v-if="filter === 'recipient'">La entidad no ha sido receptora de ninguna solicitud aún.</span>
       </div>

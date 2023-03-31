@@ -9,7 +9,7 @@
       :data-original-title="showTooltip && !showAddressComplete ? address : ''"
       @click="goTo"
     ></span>
-    <fa-icon
+    <FaIcon
       icon="copy"
       class="icon"
       data-toggle="tooltip"

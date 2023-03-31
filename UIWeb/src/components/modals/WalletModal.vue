@@ -72,8 +72,8 @@
                   <div class="spinner-border text-primary" role="status" v-if="transaction.loading">
                     <span class="sr-only"></span>
                   </div>
-                  <fa-icon icon="circle-check" class="circle-check-icon" size="2x" v-else-if="transaction.success"></fa-icon>
-                  <fa-icon icon="circle-xmark" class="circle-xmark-icon" size="2x" v-else></fa-icon>
+                  <FaIcon icon="circle-check" class="circle-check-icon" size="2x" v-else-if="transaction.success"></FaIcon>
+                  <FaIcon icon="circle-xmark" class="circle-xmark-icon" size="2x" v-else></FaIcon>
                 </span>
                 <div class="transaction-info">
                   <AppDate class="date" :date="transaction.date" />
@@ -81,7 +81,7 @@
                 </div>
               </div>
               <a :href="validChainExplorer + '/tx/' + transaction.hash" target="_blank" v-if="transaction.hash">
-                <fa-icon icon="arrow-up-right-from-square" class="icon"></fa-icon>
+                <FaIcon icon="arrow-up-right-from-square" class="icon"></FaIcon>
               </a>
             </div>
           </div>

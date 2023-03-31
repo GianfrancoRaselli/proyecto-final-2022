@@ -2,10 +2,10 @@
   <div class="extra-information fund-extra-information mt-4">
     <div id="header" class="header" @mouseover="mouseOverHeader" @mouseleave="mouseLeaveHeader">
       <div class="arrow arrow-left" @click="goBack" v-if="activeGoBack">
-        <fa-icon icon="arrow-left" class="icon" />
+        <FaIcon icon="arrow-left" class="icon" />
       </div>
       <div class="arrow arrow-right" @click="goForward" v-if="activeGoForward">
-        <fa-icon icon="arrow-right" class="icon" />
+        <FaIcon icon="arrow-right" class="icon" />
       </div>
       <div id="header-container" class="header-container">
         <div class="item" @click="history = true">

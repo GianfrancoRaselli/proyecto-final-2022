@@ -42,6 +42,7 @@ import {
   faFileContract,
   faPencil,
   faLocationDot,
+  faBookmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faGlobe);
@@ -85,7 +86,8 @@ library.add(faReceipt);
 library.add(faFileContract);
 library.add(faPencil);
 library.add(faLocationDot);
+library.add(faBookmark);
 
 export default (app) => {
-  app.component('fa-icon', FontAwesomeIcon);
+  app.component('FaIcon', FontAwesomeIcon);
 };

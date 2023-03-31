@@ -20,7 +20,7 @@
               @click="addNewManagers"
               v-if="fund.managersCanBeAddedOrRemoved && isAManager"
             >
-              <fa-icon icon="plus" class="icon mr-2" />Agregar administrador
+              <FaIcon icon="plus" class="icon mr-2" />Agregar administrador
             </button>
 
             <div class="managers-list" :class="{ list: fund.managersCanBeAddedOrRemoved && isAManager }">
@@ -41,7 +41,7 @@
                       v-if="fund.managersCanBeAddedOrRemoved && isAManager && !removing(manager)"
                       @click="removeManager(manager)"
                     >
-                      <fa-icon icon="trash" class="icon mr-2" />Eliminar
+                      <FaIcon icon="trash" class="icon mr-2" />Eliminar
                     </button>
                     <button class="btn btn-danger btn-sm" type="button" disabled v-if="removing(manager)">
                       <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />

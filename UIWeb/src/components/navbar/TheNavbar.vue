@@ -42,8 +42,8 @@
       <div class="navbar--menu ml-auto align-items">
         <div v-if="hasMetamask">
           <button class="btn btn-light btn-wallet" data-toggle="modal" data-target="#walletModal" v-if="isConnected">
-            <fa-icon icon="wallet" class="icon mr-2 wallet-icon" size="2x" v-if="isConnectedToTheValidChain"></fa-icon>
-            <fa-icon icon="triangle-exclamation" class="icon mr-2 wallet-icon wallet-warning-icon" size="2x" v-else></fa-icon>
+            <FaIcon icon="wallet" class="icon mr-2 wallet-icon" size="2x" v-if="isConnectedToTheValidChain"></FaIcon>
+            <FaIcon icon="triangle-exclamation" class="icon mr-2 wallet-icon wallet-warning-icon" size="2x" v-else></FaIcon>
             <AppShowAddress
               class="address"
               type="entity"
@@ -59,7 +59,7 @@
         <div v-else v-text="installMetaMaskMsg"></div>
 
         <div class="dropdown ml-3" style="display: none">
-          <fa-icon
+          <FaIcon
             icon="globe"
             class="dropdown-toggle icon mr-1"
             size="1x"
@@ -68,7 +68,7 @@
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
-          ></fa-icon>
+          ></FaIcon>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
             <div
               class="dropdown-item dropdown-item--language"
@@ -77,7 +77,7 @@
               @click="changeLanguage(language)"
             >
               <span :class="{ 'text-bold': selectedLanguage === language }" v-text="language" />
-              <fa-icon
+              <FaIcon
                 icon="check"
                 class="dropdown-toggle icon mr-1"
                 size="1x"
@@ -87,7 +87,7 @@
                 aria-haspopup="true"
                 aria-expanded="false"
                 v-if="selectedLanguage === language"
-              ></fa-icon>
+              ></FaIcon>
             </div>
           </div>
         </div>

@@ -13,7 +13,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" v-if="!backTo">
             <span aria-hidden="true">&times;</span>
           </button>
-          <fa-icon icon="arrow-left" class="icon" @click="goBack" v-else />
+          <FaIcon icon="arrow-left" class="icon" @click="goBack" v-else />
         </div>
         <div class="modal-body">
           <div class="approvals-list" v-if="!loading">

@@ -18,7 +18,7 @@
                 @keydown.enter.prevent="search = searching"
               />
               <div class="icon-container" @click="search = searching">
-                <fa-icon icon="magnifying-glass" class="icon" />
+                <FaIcon icon="magnifying-glass" class="icon" />
               </div>
             </div>
           </form>
@@ -30,7 +30,7 @@
             data-toggle="modal"
             data-target="#filtersModal"
           >
-            <fa-icon icon="filter" class="icon mr-2" />Agregar filtro
+            <FaIcon icon="filter" class="icon mr-2" />Agregar filtro
           </button>
 
           <div class="modal fade" id="filtersModal" tabindex="-1" aria-labelledby="filtersModalLabel" aria-hidden="true">

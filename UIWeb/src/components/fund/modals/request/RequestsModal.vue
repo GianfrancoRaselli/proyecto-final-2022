@@ -23,7 +23,7 @@
                 (!fund.onlyManagersCanCreateARequest || (fund.onlyManagersCanCreateARequest && isAManager))
               "
             >
-              <fa-icon icon="plus" class="icon mr-2" />Crear solicitud
+              <FaIcon icon="plus" class="icon mr-2" />Crear solicitud
             </button>
 
             <RequestsList

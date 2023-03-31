@@ -11,8 +11,8 @@
             <img class="avatar-img" src="@/assets/imgs/user-avatar.png" v-if="entity && !entity.image" />
           </div>
           <div class="icons" v-if="isMyProfile">
-            <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" v-if="entity" />
-            <fa-icon icon="trash" class="icon red" @click="openRemoveImage" v-if="entity && entity.image" />
+            <FaIcon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" v-if="entity" />
+            <FaIcon icon="trash" class="icon red" @click="openRemoveImage" v-if="entity && entity.image" />
           </div>
         </div>
         <div class="information">
@@ -26,18 +26,18 @@
           </div>
           <div class="body" v-if="entity">
             <span class="location" v-if="entity.location"
-              ><fa-icon icon="location-dot" class="icon" />&nbsp;{{ entity.location }}</span
+              ><FaIcon icon="location-dot" class="icon" />&nbsp;{{ entity.location }}</span
             >
             <span class="email" v-if="entity.email"
-              ><fa-icon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">{{
+              ><FaIcon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">{{
                 entity.email
               }}</a></span
             >
             <span class="phone" v-if="entity.phone"
-              ><fa-icon icon="phone" class="icon" />&nbsp;<a :href="'tel:' + entity.phone">{{ entity.phone }}</a></span
+              ><FaIcon icon="phone" class="icon" />&nbsp;<a :href="'tel:' + entity.phone">{{ entity.phone }}</a></span
             >
             <span class="url" v-if="entity.url"
-              ><fa-icon icon="link" class="icon" />&nbsp;<a :href="entity.url" target="_blank">Sitio Web</a></span
+              ><FaIcon icon="link" class="icon" />&nbsp;<a :href="entity.url" target="_blank">Sitio Web</a></span
             >
             <AppButton
               classes="btn-secondary"
@@ -84,10 +84,10 @@
     <div class="extra-information profile-extra-information">
       <div id="header" class="header" @mouseover="mouseOverHeader" @mouseleave="mouseLeaveHeader">
         <div class="arrow arrow-left" @click="goBack" v-if="extraInformation.activeGoBack">
-          <fa-icon icon="arrow-left" class="icon" />
+          <FaIcon icon="arrow-left" class="icon" />
         </div>
         <div class="arrow arrow-right" @click="goForward" v-if="extraInformation.activeGoForward">
-          <fa-icon icon="arrow-right" class="icon" />
+          <FaIcon icon="arrow-right" class="icon" />
         </div>
         <div id="header-container" class="header-container">
           <div class="item" @click="extraInformation.fundsCreated = true">

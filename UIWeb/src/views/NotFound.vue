@@ -1,6 +1,6 @@
 <template>
   <div class="alert alert-danger error-alert" role="alert">
-    <fa-icon icon="circle-exclamation" class="icon" size="5x" />
+    <FaIcon icon="circle-exclamation" class="icon" size="5x" />
     <div class="error-msg large-screen">
       <p>¡Error <strong>404</strong> - Página no encontrada!</p>
     </div>

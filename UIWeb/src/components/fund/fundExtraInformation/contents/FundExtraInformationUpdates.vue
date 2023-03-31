@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="not-information" v-else>
-      <fa-icon icon="xmark" class="icon" size="5x" />
+      <FaIcon icon="xmark" class="icon" size="5x" />
       <span>No hay actualización por el momento.</span>
     </div>
   </div>

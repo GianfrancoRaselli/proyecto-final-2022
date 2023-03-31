@@ -19,7 +19,7 @@
               :class="{ 'margin-bottom': contributionsOrdered.length === 0 }"
               @click="contribute"
             >
-              <fa-icon icon="plus" class="icon mr-2" />Contribuir
+              <FaIcon icon="plus" class="icon mr-2" />Contribuir
             </button>
             <ContributionsList class="list" :loading="loading" :contributions="contributionsOrdered" />
           </div>

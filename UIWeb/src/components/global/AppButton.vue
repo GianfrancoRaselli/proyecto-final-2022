@@ -1,7 +1,7 @@
 <template>
   <button class="btn" :class="classes">
     <div class="btn-container">
-      <fa-icon :icon="icon" class="icon" size="1x" v-if="icon" />
+      <FaIcon :icon="icon" class="icon" size="1x" v-if="icon" />
       <span v-text="text"></span>
     </div>
   </button>

@@ -18,8 +18,8 @@
               <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund && fund.image" />
               <img class="img" src="@/assets/imgs/background-lg.jpg" v-else />
               <div class="icons" v-if="isAManager">
-                <fa-icon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" />
-                <fa-icon icon="trash" class="icon red" @click="openRemoveImage" v-if="fund && fund.image" />
+                <FaIcon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" />
+                <FaIcon icon="trash" class="icon red" @click="openRemoveImage" v-if="fund && fund.image" />
               </div>
             </div>
             <div class="description" v-if="isAManager || fund.description">
@@ -215,10 +215,10 @@
           </div>
           <div class="buttons mt-3">
             <button type="button" class="btn btn-managers" data-toggle="modal" data-target="#managersModal">
-              <fa-icon icon="person" class="icon mr-2" />Administradores
+              <FaIcon icon="person" class="icon mr-2" />Administradores
             </button>
             <button type="button" class="btn btn-contributions" data-toggle="modal" data-target="#contributionsModal">
-              <fa-icon icon="circle-dollar-to-slot" class="icon mr-2" />Contribuciones
+              <FaIcon icon="circle-dollar-to-slot" class="icon mr-2" />Contribuciones
             </button>
             <button
               type="button"
@@ -227,10 +227,10 @@
               data-target="#transfersModal"
               v-if="fund.managersCanTransferMoneyWithoutARequest && isAManager"
             >
-              <fa-icon icon="money-bill-transfer" class="icon mr-2" />Transferencias
+              <FaIcon icon="money-bill-transfer" class="icon mr-2" />Transferencias
             </button>
             <button type="button" class="btn btn-requests" data-toggle="modal" data-target="#requestsModal">
-              <fa-icon icon="list-check" class="icon mr-2" />Solicitudes
+              <FaIcon icon="list-check" class="icon mr-2" />Solicitudes
             </button>
           </div>
         </div>

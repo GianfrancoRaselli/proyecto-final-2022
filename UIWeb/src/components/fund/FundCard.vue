@@ -9,6 +9,7 @@
         </div>
       </div>
       <div class="card-body">
+        <FaIcon class="save" icon="bookmark" />
         <div class="img-container">
           <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
           <img class="img" src="@/assets/imgs/background-lg.jpg" v-else />
@@ -123,11 +124,20 @@ export default {
 }
 
 .card-body {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
   gap: 2rem;
+
+  .save {
+    font-size: 1.4rem;
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
 
   .img-container {
     height: 14rem;
