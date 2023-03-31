@@ -232,6 +232,18 @@
             <button type="button" class="btn btn-requests" data-toggle="modal" data-target="#requestsModal">
               <FaIcon icon="list-check" class="icon mr-2" />Solicitudes
             </button>
+            <button
+              type="button"
+              class="btn btn-light btn-saved"
+              @click="savedClick"
+              @mouseover="mouseOverSavedBtn = true"
+              @mouseleave="mouseOverSavedBtn = false"
+            >
+              <div class="btn-saved-container">
+                <FaIcon :icon="[isSaved ? 'fas' : 'far', 'bookmark']" class="icon" />
+                <span v-text="isSaved ? 'Remover' : 'Guardar'" v-if="mouseOverSavedBtn"></span>
+              </div>
+            </button>
           </div>
         </div>
         <div class="card-footer text-muted text-center">
@@ -302,6 +314,8 @@ export default {
     return {
       serverUrl,
       loading: true,
+      mouseOverSavedBtn: false,
+      savedFunds: [],
       fund: {
         address: '',
         balance: '0',
@@ -354,8 +368,22 @@ export default {
       return getFundType(this.fund);
     },
 
+    isSaved() {
+      if (this.address) {
+        for (let fund of this.savedFunds) {
+          if (compareAddresses(fund, this.fund.address)) return true;
+        }
+      }
+      return false;
+    },
+
     createdAt() {
       return fromUnixTimestampToDate(this.fund.createdAt);
+    },
+  },
+  watch: {
+    address() {
+      this.getSavedFunds();
     },
   },
   validations() {
@@ -415,13 +443,47 @@ export default {
           });
         } catch {
           this.editDescription.new = this.fund.description;
+          addNotification({
+            message: 'Descripción no actualizada',
+            type: 'error',
+          });
         } finally {
           this.editDescription.loading = false;
         }
       }
     },
+
+    getSavedFunds() {
+      this.savedFunds = [];
+      if (this.address) {
+        axios.get('entity/' + this.address).then((res) => {
+          if (res.data) this.savedFunds = res.data.savedFunds;
+        });
+      }
+    },
+
+    async savedClick() {
+      if (!this.signature) await signMessage();
+      try {
+        await axios[this.isSaved ? 'delete' : 'put'](
+          'entity/' + (this.isSaved ? 'removeFund' : 'saveFund') + '/' + this.fund.address,
+        );
+        addNotification({
+          message: 'Fondo ' + (this.isSaved ? 'removido' : 'guardado'),
+          type: 'success',
+        });
+        this.getSavedFunds();
+      } catch (e) {
+        addNotification({
+          message: 'Error al ' + (this.isSaved ? 'remover' : 'guardar') + ' fondo',
+          type: 'error',
+        });
+      }
+    },
   },
   async created() {
+    this.getSavedFunds();
+
     const getSearchSummaryPromise = () => {
       return new Promise((resolve) => {
         const searchSummary = async () => {
@@ -837,6 +899,16 @@ export default {
     .btn-requests {
       color: black;
       background-color: rgba(255, 166, 0, 0.935);
+    }
+
+    .btn-saved {
+      .btn-saved-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 0.6rem;
+      }
     }
   }
 }

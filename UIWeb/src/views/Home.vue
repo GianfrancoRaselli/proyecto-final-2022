@@ -252,7 +252,7 @@ export default {
         .slice(0, 10);
     },
 
-    async getSavedFunds() {
+    getSavedFunds() {
       this.savedFunds = [];
       if (this.address) {
         axios.get('entity/' + this.address).then((res) => {

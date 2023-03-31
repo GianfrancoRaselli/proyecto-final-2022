@@ -469,7 +469,7 @@ export default {
       return getFundType(fund).id;
     },
 
-    async getSavedFunds() {
+    getSavedFunds() {
       this.savedFunds = [];
       if (this.address) {
         axios.get('entity/' + this.address).then((res) => {

@@ -16,7 +16,7 @@
           data-placement="right"
           title=""
           :data-original-title="isSaved ? 'Remover' : 'Guardar'"
-          @click="saveClick"
+          @click="savedClick"
         />
         <div class="img-container">
           <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
@@ -130,7 +130,7 @@ export default {
       this.canRedirect = true;
     },
 
-    async saveClick() {
+    async savedClick() {
       this.preventRedirect();
       if (!this.signature) await signMessage();
       try {
@@ -144,7 +144,7 @@ export default {
         this.$emit('updateSavedFunds');
       } catch (e) {
         addNotification({
-          message: 'Error al ' + (this.isSaved ? 'remover' : 'guardar' + ' fondo'),
+          message: 'Error al ' + (this.isSaved ? 'remover' : 'guardar') + ' fondo',
           type: 'error',
         });
       }
