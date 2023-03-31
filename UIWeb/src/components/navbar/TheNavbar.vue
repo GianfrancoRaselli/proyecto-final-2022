@@ -1,9 +1,11 @@
 <template>
   <div class="content">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <router-link :to="{ name: 'Home' }" exact
-        ><img class="brand-logo" src="@/assets/imgs/logos/1/Fund-logos_white.png"
-      /></router-link>
+      <div class="brand-logo-container">
+        <router-link :to="{ name: 'Home' }" exact>
+          <img class="brand-logo" src="@/assets/imgs/logos/1/Fund-logos_white.png" />
+        </router-link>
+      </div>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto align-items">
@@ -133,7 +135,6 @@ export default {
 
 <style lang="scss" scoped>
 nav {
-  font-size: 1.04rem;
   color: white;
   height: 100%;
   padding: 0 6px;
@@ -141,18 +142,28 @@ nav {
   border-radius: 5px;
 }
 
-.brand-logo {
-  height: calc(var(--navbar-height) - 2px);
-  width: auto;
-  margin-right: 1rem;
+.brand-logo-container {
+  padding-right: 1rem;
+
+  .brand-logo {
+    height: calc(var(--navbar-height) - 2px);
+    width: auto;
+  }
+}
+
+.align-items {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
 }
 
 .navbar-nav {
-  gap: 0.4rem;
+  gap: 0.5rem;
 }
 
 .nav-item {
-  font-size: 14px;
+  font-size: 0.95rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -160,7 +171,12 @@ nav {
 }
 
 .nav-item-fund-token {
-  margin-left: 0.6rem;
+  padding-left: 0.6rem;
+}
+
+.nav-link-active {
+  font-size: 1.05rem;
+  color: white !important;
 }
 
 .nav-link-small {
@@ -177,18 +193,12 @@ nav {
   }
 }
 
-.align-items {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .btn-wallet {
   font-weight: bold;
   max-width: 15rem;
   position: relative;
   padding: 0.3rem 0.5rem 0.3rem 2.5rem;
-  border-radius: 6px;
+  border-radius: 5px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -240,7 +250,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding-left: 6px;
-  padding-right: 6px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 </style>

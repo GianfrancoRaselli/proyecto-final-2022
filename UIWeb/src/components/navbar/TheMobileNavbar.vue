@@ -84,15 +84,16 @@ nav {
 
   .nav-item {
     width: 16%;
-    padding: 0.3rem 0;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 8px, rgba(0, 0, 0, 0.24) 0px 0px 4px;
 
     .item-link {
       cursor: pointer;
-      color: white;
+      color: rgb(220, 220, 220);
       text-decoration: none;
       height: 100%;
+      width: 100%;
+      padding: 0.3rem 0;
+      border-radius: 5px;
+      box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 4px, rgba(0, 0, 0, 0.24) 0px 0px 2px;
 
       display: flex;
       flex-direction: column;
@@ -103,6 +104,11 @@ nav {
       .link-text {
         font-size: 0.8rem;
       }
+    }
+
+    .nav-link-active {
+      color: white;
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px, rgba(0, 0, 0, 0.4) 0px 0px 5px;
     }
   }
 }
