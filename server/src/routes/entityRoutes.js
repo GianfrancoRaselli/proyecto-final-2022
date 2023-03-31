@@ -9,7 +9,7 @@ const {
   uploadImage,
   removeImage,
   saveFund,
-  removeFund,
+  removeSavedFund,
   getAmount,
   getAll,
   get,
@@ -20,7 +20,7 @@ router.put("/", authenticate, update);
 router.put("/uploadImage", authenticate, uploadImage);
 router.delete("/removeImage", authenticate, removeImage);
 router.put("/saveFund/:fundAddress", authenticate, saveFund);
-router.delete("/removeFund/:fundAddress", authenticate, removeFund);
+router.delete("/removeSavedFund/:fundAddress", authenticate, removeSavedFund);
 router.get("/amount", getAmount);
 router.get("/", getAll);
 router.get("/:address", get);

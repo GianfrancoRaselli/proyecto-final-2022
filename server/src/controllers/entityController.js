@@ -138,7 +138,7 @@ const saveFund = async (req, res) => {
   }
 };
 
-const removeFund = async (req, res) => {
+const removeSavedFund = async (req, res) => {
   let entityToUpdate = await Entity.findOne({ address: req.entityAddress });
   if (entityToUpdate) {
     // update field
@@ -175,4 +175,4 @@ const get = async (req, res) => {
   return res.status(200).json(entity);
 };
 
-module.exports = { create, update, uploadImage, removeImage, saveFund, removeFund, getAmount, getAll, get };
+module.exports = { create, update, uploadImage, removeImage, saveFund, removeSavedFund, getAmount, getAll, get };

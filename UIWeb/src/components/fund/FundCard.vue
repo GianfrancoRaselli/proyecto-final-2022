@@ -142,7 +142,7 @@ export default {
       if (!this.signature) await signMessage();
       try {
         await axios[this.isSaved ? 'delete' : 'put'](
-          'entity/' + (this.isSaved ? 'removeFund' : 'saveFund') + '/' + this.fund.address,
+          'entity/' + (this.isSaved ? 'removeSavedFund' : 'saveFund') + '/' + this.fund.address,
         );
         addNotification({
           message: 'Fondo ' + (this.isSaved ? 'removido' : 'guardado'),
