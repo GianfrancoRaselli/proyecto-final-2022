@@ -28,7 +28,7 @@ const seedEntity = async () => {
       imageVersion: entityToCreate.imageVersion,
       image: image,
       savedFunds: entityToCreate.savedFunds.map((fund) => {
-        return funds[fund];
+        return funds[fund].address;
       }),
     }).save();
   }
