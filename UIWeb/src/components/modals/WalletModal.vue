@@ -134,7 +134,7 @@ export default {
         .sort((a, b) => {
           if (new Date(a.date).getTime() < new Date(b.date).getTime()) return 1;
           if (new Date(a.date).getTime() > new Date(b.date).getTime()) return -1;
-          return 0;
+          return -1;
         })
         .slice(0, 5); // take the first 5 transactions
     },

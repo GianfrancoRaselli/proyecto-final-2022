@@ -47,7 +47,7 @@ export default {
       fundsToFilter = fundsToFilter.sort((a, b) => {
         if (a.createdAt < b.createdAt) return 1;
         if (a.createdAt > b.createdAt) return -1;
-        return 0;
+        return -1;
       });
 
       return fundsToFilter;

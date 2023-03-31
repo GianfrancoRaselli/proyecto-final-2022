@@ -60,7 +60,7 @@ export default {
       return this.transfers.slice().sort((a, b) => {
         if (a.timestamp < b.timestamp) return 1;
         if (a.timestamp > b.timestamp) return -1;
-        return 0;
+        return -1;
       });
     },
   },

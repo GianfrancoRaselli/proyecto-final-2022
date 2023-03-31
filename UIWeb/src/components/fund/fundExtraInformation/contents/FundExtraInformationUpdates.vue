@@ -66,7 +66,7 @@ export default {
       return this.fund.updates.slice().sort((a, b) => {
         if (new Date(a.updatedAt).getTime() < new Date(b.updatedAt).getTime()) return 1;
         if (new Date(a.updatedAt).getTime() > new Date(b.updatedAt).getTime()) return -1;
-        return 0;
+        return -1;
       });
     },
   },

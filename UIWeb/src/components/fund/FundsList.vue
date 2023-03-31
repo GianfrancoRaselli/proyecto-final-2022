@@ -435,19 +435,19 @@ export default {
         fundsToFilter = fundsToFilter.sort((a, b) => {
           if (BigNumber(a.totalContributions).isLessThan(BigNumber(b.totalContributions))) return 1;
           if (BigNumber(a.totalContributions).isGreaterThan(BigNumber(b.totalContributions))) return -1;
-          return 0;
+          return -1;
         });
       if (this.filters.orderBy === 'últimosCreados')
         fundsToFilter = fundsToFilter.sort((a, b) => {
           if (a.createdAt < b.createdAt) return 1;
           if (a.createdAt > b.createdAt) return -1;
-          return 0;
+          return -1;
         });
       if (this.filters.orderBy === 'primerosCreados')
         fundsToFilter = fundsToFilter.sort((a, b) => {
           if (a.createdAt > b.createdAt) return 1;
           if (a.createdAt < b.createdAt) return -1;
-          return 0;
+          return -1;
         });
 
       return fundsToFilter;

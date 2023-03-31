@@ -21,6 +21,10 @@
     "updates": [
       {
         "updater": 2,
+        "description": "<h1><strong>PROYECTO COMENZADO!!!</strong></h1>"
+      },
+      {
+        "updater": 2,
         "description": "<h1><strong>See Flux Keyboard live and in action in Adelaide,&nbsp;Australia</strong></h1><p>Some of our team will be traveling to&nbsp;<strong>Adelaide&nbsp;</strong>to demo the Flux Keyboard live at the Adelaide Keebclub meetup on&nbsp;<strong>Sunday 26th March - 2PM -6PM.&nbsp;</strong><a href='https: //www.eventbrite.com.au/e/2023-semester-1-keyboard-meetup-adelaide-uni-tickets-535215553127?utm-campaign=social&amp;utm-content=attendeeshare&amp;utm-medium=discovery&amp;utm-term=listing&amp;utm-source=cp&amp;aff=escb' rel='noopener noreferrer' target='_blank' style='color: rgb(2, 136, 88);'>Event details here.</a></p><p>Hope to see you there if you are in the area.&nbsp;</p>"
       }
     ],
