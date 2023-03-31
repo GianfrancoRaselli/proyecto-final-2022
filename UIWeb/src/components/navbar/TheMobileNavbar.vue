@@ -4,15 +4,15 @@
       <div class="navbar" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link class="item-link" :to="{ name: 'CreateFund' }" exact>
-              <FaIcon icon="plus" class="link-icon" size="2x"></FaIcon>
-              <span class="link-text">Crear</span>
-            </router-link>
-          </li>
-          <li class="nav-item">
             <router-link class="item-link" :to="{ name: 'Funds' }" exact>
               <FaIcon icon="list" class="link-icon" size="2x"></FaIcon>
               <span class="link-text">Fondos</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="item-link" :to="{ name: 'CreateFund' }" exact>
+              <FaIcon icon="plus" class="link-icon" size="2x"></FaIcon>
+              <span class="link-text">Crear</span>
             </router-link>
           </li>
           <li class="nav-item">

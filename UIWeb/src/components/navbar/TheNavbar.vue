@@ -8,11 +8,11 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto align-items">
           <li class="nav-item">
-            <router-link class="nav-link nav-link-large" :to="{ name: 'CreateFund' }" exact text="Crear fondo" />
-            <router-link class="nav-link nav-link-small" :to="{ name: 'CreateFund' }" exact text="Crear" />
+            <router-link class="nav-link" :to="{ name: 'Funds' }" exact v-text="fundsMsg" />
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'Funds' }" exact v-text="fundsMsg" />
+            <router-link class="nav-link nav-link-large" :to="{ name: 'CreateFund' }" exact text="Crear fondo" />
+            <router-link class="nav-link nav-link-small" :to="{ name: 'CreateFund' }" exact text="Crear" />
           </li>
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'AboutUs' }" exact text="Nosotros" />
