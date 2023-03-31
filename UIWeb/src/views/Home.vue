@@ -5,7 +5,7 @@
       <div class="sub-content">
         <img class="fund-img" src="@/assets/imgs/logos/1/Fund-logos_transparent.png" />
         <div class="info">
-          <div class="header">
+          <div class="info-header">
             <p class="subtitle">Transformando la forma de financiación</p>
             <p class="description">
               Brindamos seguridad y autogestión a todos los que buscan una forma totalmente descentralizada de administrar fondos
@@ -338,11 +338,12 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 10px;
+      align-items: center;
+      gap: 1rem;
 
-      .header {
+      .info-header {
         .subtitle {
-          font-size: 2.3em;
+          font-size: 2.26em;
           font-weight: bold;
           font-family: 'Dancing Script', cursive;
         }
