@@ -1,5 +1,5 @@
 <template>
-  <form class="form" @submit.prevent="handleSubmit">
+  <form class="form mt-2" @submit.prevent="handleSubmit">
     <div class="information">
       <div class="information-title">Información importante</div>
       <div class="information-info">
