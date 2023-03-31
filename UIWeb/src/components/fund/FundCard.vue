@@ -96,7 +96,14 @@ export default {
     ...mapGetters(['address']),
 
     isAContributor() {
-      if (this.fund.contributors.findIndex((contributor) => compareAddresses(contributor, this.address)) >= 0) return true;
+      if (this.fund.contributors.length > 0) {
+        if (typeof this.fund.contributors[0] === 'string') {
+          if (this.fund.contributors.findIndex((contributor) => compareAddresses(contributor, this.address)) >= 0) return true;
+        } else {
+          if (this.fund.contributors.findIndex((contributor) => compareAddresses(contributor.contributor, this.address)) >= 0)
+            return true;
+        }
+      }
       return false;
     },
 

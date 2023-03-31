@@ -153,6 +153,20 @@
         />
       </div>
     </div>
+
+    <div class="saved-funds mt-5" v-if="address && compareAddresses(address, $route.params.address) && savedFunds.length > 0">
+      <p class="title">Fondos guardados</p>
+      <div class="saved-funds-list">
+        <FundCard
+          class="fund-card"
+          :fund="funds[funds.findIndex((fund) => compareAddresses(fund.address, savedFund))]"
+          :savedFunds="savedFunds"
+          @updateSavedFunds="getSavedFunds"
+          v-for="(savedFund, index) in savedFunds"
+          :key="index"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -179,6 +193,7 @@ import TransfersMade from '@/components/profile/TransfersMade';
 import TransferReceived from '@/components/profile/TransferReceived';
 import RequestsCreated from '@/components/profile/RequestsCreated';
 import RequestsReceiver from '@/components/profile/RequestsReceiver';
+import FundCard from '@/components/fund/FundCard';
 
 export default {
   name: 'ProfileView',
@@ -193,6 +208,7 @@ export default {
     TransferReceived,
     RequestsCreated,
     RequestsReceiver,
+    FundCard,
   },
   data() {
     return {
@@ -215,6 +231,7 @@ export default {
         requestsCreated: false,
         requestsReceiver: false,
       },
+      savedFunds: [],
     };
   },
   computed: {
@@ -333,6 +350,8 @@ export default {
     },
   },
   methods: {
+    compareAddresses,
+
     getEntityData() {
       this.loadingEntity = true;
       axios.get('entity/' + this.$route.params.address).then((res) => {
@@ -432,6 +451,7 @@ export default {
       } finally {
         this.loadingFunds = false;
         this.getAllRequests();
+        this.getSavedFunds();
       }
     },
 
@@ -546,6 +566,15 @@ export default {
       $('.header-container').animate({ scrollLeft: document.getElementById('header-container').scrollLeft + 300 }, 200, () =>
         this.mouseOverHeader(),
       );
+    },
+
+    getSavedFunds() {
+      this.savedFunds = [];
+      if (this.address) {
+        axios.get('entity/' + this.address).then((res) => {
+          if (res.data) this.savedFunds = res.data.savedFunds;
+        });
+      }
     },
   },
   async created() {
@@ -700,10 +729,10 @@ export default {
 }
 
 .investment-statistics {
-  padding: 2rem;
+  padding: 3rem;
 
   @media (max-width: 920px) {
-    padding: 2rem 0;
+    padding: 3rem 0;
   }
 
   display: flex;
@@ -768,6 +797,36 @@ export default {
     .description {
       .unit {
         color: #7645d9;
+      }
+    }
+  }
+}
+
+.saved-funds {
+  .title {
+    font-size: 2.2rem;
+    font-weight: bold;
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+  }
+
+  .saved-funds-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: stretch;
+
+    .fund-card {
+      width: 33.33%;
+
+      @media (max-width: 1150px) {
+        width: 50%;
+      }
+
+      @media (max-width: 680px) {
+        width: 100%;
+        padding: 0.5rem 0;
       }
     }
   }

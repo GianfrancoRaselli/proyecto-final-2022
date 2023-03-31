@@ -233,6 +233,7 @@ import { mapGetters } from 'vuex';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
 import { call, event, areTheSameDates, getFundType } from '@/helpers/helpers';
 import axios from 'axios';
+
 import FundCard from '@/components/fund/FundCard';
 
 export default {
