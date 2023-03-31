@@ -10,7 +10,8 @@
     "imageVersion": 1,
     "image": "yo.jpeg",
     "savedFunds": [
-      0
+      0,
+      4
     ]
   },
   {
@@ -54,7 +55,7 @@
     "description": "30 años. Influencer.",
     "email": "santi_maratea@gmail.com",
     "phone": "4429568743",
-    "location": "Buenos Aires, Argentina",
+    "location": "Capital Federal, Buenos Aires, Argentina",
     "url": "santimaratea.com",
     "imageVersion": 1,
     "image": "santi.jpeg",
@@ -95,5 +96,19 @@
     "imageVersion": 1,
     "image": "search_values.jpeg",
     "savedFunds": []
+  },
+  {
+    "fullname": "Asociacion Civil De Bomberos Voluntarios Ctes Cap.",
+    "type": "Organización",
+    "description": "Organización no gubernamental (ONG)",
+    "email": "bombvolcorrientes@hotmail.com",
+    "phone": "0379 444-0972",
+    "location": "Corrientes Capital, Corrientes, Argentina",
+    "url": "facebook.com/bomberosvoluntarioscorrientes/",
+    "imageVersion": 1,
+    "image": "bomberos.jpeg",
+    "savedFunds": [
+      2
+    ]
   }
 ]

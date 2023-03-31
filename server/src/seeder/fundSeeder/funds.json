@@ -31,23 +31,23 @@
     "contributions": [
       {
         "contributor": 0,
-        "value": 1056209886250
+        "value": 10562098862500
       },
       {
         "contributor": 1,
-        "value": 105620966956250
+        "value": 1056209669562500
       },
       {
         "contributor": 0,
-        "value": 105620955556250
+        "value": 1056209555562500
       },
       {
         "contributor": 4,
-        "value": 9966209556250
+        "value": 99662095562500
       },
       {
         "contributor": 5,
-        "value": 105620955556250
+        "value": 1056209555562500
       }
     ],
     "transfers": [],
@@ -132,8 +132,19 @@
     "risks": "",
     "rewards": "",
     "updates": [],
-    "contributions": [],
-    "transfers": [],
+    "contributions": [
+      {
+        "contributor": 0,
+        "value": 105620988625000
+      }
+    ],
+    "transfers": [
+      {
+        "sender": 4,
+        "to": 8,
+        "value": 5897589
+      }
+    ],
     "requests": []
   },
   {
@@ -172,11 +183,11 @@
     ],
     "managersCanBeAddedOrRemoved": true,
     "managersCanTransferMoneyWithoutARequest": true,
-    "requestsCanBeCreated": true,
+    "requestsCanBeCreated": false,
     "onlyManagersCanCreateARequest": false,
     "onlyContributorsCanApproveARequest": false,
     "minimumContributionPercentageRequired": 0,
-    "minimumApprovalsPercentageRequired": 99,
+    "minimumApprovalsPercentageRequired": 0,
     "history": "",
     "risks": "",
     "rewards": "",
