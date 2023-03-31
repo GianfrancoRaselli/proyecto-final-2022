@@ -69,13 +69,12 @@ nav {
   height: 100%;
   width: 100%;
   padding: 0;
-  padding-top: 2px;
 }
 
 .navbar-nav {
   height: 100%;
   width: 100%;
-  padding: 0 5px;
+  padding: 0;
 
   display: flex;
   flex-direction: row;
@@ -85,8 +84,8 @@ nav {
 
   .nav-item {
     width: 16%;
-    padding: 2px 0;
-    border-radius: 6px;
+    padding: 0.3rem 0;
+    border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 8px, rgba(0, 0, 0, 0.24) 0px 0px 4px;
 
     .item-link {
@@ -99,6 +98,7 @@ nav {
       flex-direction: column;
       justify-content: space-around;
       align-items: center;
+      gap: 0.28rem;
 
       .link-text {
         font-size: 0.8rem;
