@@ -162,7 +162,7 @@
           :fund="funds[funds.findIndex((fund) => compareAddresses(fund.address, savedFund))]"
           :savedFunds="savedFunds"
           @updateSavedFunds="getSavedFunds"
-          v-for="(savedFund, index) in savedFunds"
+          v-for="(savedFund, index) in savedFundsOrdered"
           :key="index"
         />
       </div>
@@ -275,6 +275,10 @@ export default {
 
     contributedFundsAmount() {
       return this.fundsContributions.length;
+    },
+
+    savedFundsOrdered() {
+      return this.savedFunds.slice().reverse();
     },
   },
   watch: {
@@ -569,7 +573,6 @@ export default {
     },
 
     getSavedFunds() {
-      this.savedFunds = [];
       if (this.address) {
         axios.get('entity/' + this.address).then((res) => {
           if (res.data) this.savedFunds = res.data.savedFunds;

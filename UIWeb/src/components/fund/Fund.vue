@@ -455,14 +455,13 @@ export default {
     },
 
     getSavedFunds() {
-      this.savedFunds = [];
       if (this.address) {
         axios.get('entity/' + this.address).then((res) => {
           if (res.data) this.savedFunds = res.data.savedFunds;
         });
       }
     },
-
+    
     async savedClick() {
       if (!this.signature) await signMessage();
       try {
