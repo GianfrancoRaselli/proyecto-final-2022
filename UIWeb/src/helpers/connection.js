@@ -171,7 +171,7 @@ const signMessage = async () => {
     console.log('Signature: ' + signature);
     store.commit('setSignature', signature);
   } catch (e) {
-    store.commit('setSignature', null);
+    store.commit('setSignature', undefined);
   }
 };
 

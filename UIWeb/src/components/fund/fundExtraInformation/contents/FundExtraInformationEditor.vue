@@ -19,6 +19,8 @@
 
 <script>
 import axios from 'axios';
+import { mapState } from 'vuex';
+import { signMessage } from '@/helpers/connection';
 import { addNotification } from '@/composables/useNotifications';
 
 import MyEditor from '@/components/MyEditor';
@@ -41,10 +43,16 @@ export default {
       maxLength: 100000,
     };
   },
+  computed: {
+    ...mapState({
+      signature: (state) => state.connection.signature,
+    }),
+  },
   methods: {
     async handleSubmit() {
       try {
         this.loading = true;
+        if (!this.signature) await signMessage();
         let body = {};
         body[this.propertyToEdit] = this.editing;
         await axios.put('fund/' + this.fund.address, body);

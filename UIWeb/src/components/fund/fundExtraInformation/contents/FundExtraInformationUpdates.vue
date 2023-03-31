@@ -32,7 +32,8 @@
 
 <script>
 import axios from 'axios';
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
+import { signMessage } from '@/helpers/connection';
 import { addNotification } from '@/composables/useNotifications';
 
 import UpdateHeader from '@/components/fund/fundExtraInformation/contents/UpdateHeader.vue';
@@ -56,6 +57,9 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      signature: (state) => state.connection.signature,
+    }),
     ...mapGetters(['address']),
 
     updatesOrdered() {
@@ -70,6 +74,7 @@ export default {
     async handleSubmit() {
       try {
         this.loading = true;
+        if (!this.signature) await signMessage();
         await axios.put('fund/' + this.fund.address, { update: this.newUpdate });
         // eslint-disable-next-line vue/no-mutating-props
         this.fund.updates.push({

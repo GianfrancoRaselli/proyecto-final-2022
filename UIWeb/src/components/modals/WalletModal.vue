@@ -153,7 +153,7 @@ export default {
 
     disconnect() {
       this.$store.commit('setDisconnected', true);
-      this.$store.commit('setSignature', null);
+      this.$store.commit('setSignature', undefined);
     },
 
     redirectToMyProfile() {

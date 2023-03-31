@@ -381,6 +381,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, minLength, integer, minValue, maxValue } from '@vuelidate/validators';
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
+import { signMessage } from '@/helpers/connection';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
 import { transaction, validateForm } from '@/helpers/helpers';
@@ -448,6 +449,7 @@ export default {
     ...getMessages(['']),
 
     ...mapState({
+      signature: (state) => state.connection.signature,
       fundTokensBalance: (state) => state.connection.fundTokensBalance,
     }),
     ...mapGetters(['address']),
@@ -602,6 +604,7 @@ export default {
       if (checkedFundTokensBalance && validatedForm) {
         try {
           this.loading = true;
+          if (!this.signature) await signMessage();
           const tx = await transaction(
             'FundFactory',
             'createFund',
