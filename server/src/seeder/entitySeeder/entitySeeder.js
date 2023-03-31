@@ -1,4 +1,4 @@
-const { Entity } = require("../../models/index");
+const { Entity, Fund } = require("../../models/index");
 const entitiesToCreate = require("./entities.json");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const { infuraProvider } = require("../../config");
@@ -10,6 +10,7 @@ const seedEntity = async () => {
   const provider = new HDWalletProvider(process.env.GANACHE_MNEMONIC_PHRASE.split("/").join(" "), infuraProvider);
   const web3 = new Web3(provider);
   const accounts = await web3.eth.getAccounts();
+  const funds = await Fund.find();
   for (let i = 0; i < entitiesToCreate.length; i++) {
     const entityToCreate = entitiesToCreate[i];
     const address = accounts[i];
@@ -26,6 +27,9 @@ const seedEntity = async () => {
       url: entityToCreate.url,
       imageVersion: entityToCreate.imageVersion,
       image: image,
+      savedFunds: entityToCreate.savedFunds.map((fund) => {
+        return funds[fund];
+      }),
     }).save();
   }
   provider.engine.stop();

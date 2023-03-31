@@ -9,7 +9,15 @@
         </div>
       </div>
       <div class="card-body">
-        <FaIcon class="save" icon="bookmark" />
+        <FaIcon
+          class="save"
+          :icon="[isSaved ? 'fas' : 'far', 'bookmark']"
+          data-toggle="tooltip"
+          data-placement="right"
+          title=""
+          :data-original-title="isSaved ? 'Remover' : 'Guardar'"
+          @click="saveClick"
+        />
         <div class="img-container">
           <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
           <img class="img" src="@/assets/imgs/background-lg.jpg" v-else />
@@ -20,7 +28,7 @@
             <span class="text-bold">Creador</span>:&nbsp;<button
               type="button"
               class="btn btn-link"
-              @click="openEntityModalClick"
+              @click="preventRedirect"
               data-toggle="modal"
               :data-target="'#entityModal' + fund.creator"
             >
@@ -54,10 +62,14 @@
 </template>
 
 <script>
+import $ from 'jquery';
 import { serverUrl } from '@/siteConfig';
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
+import { signMessage } from '@/helpers/connection';
 import { getFundType } from '@/helpers/helpers';
 import { compareAddresses, fromUnixTimestampToDate } from 'web3-simple-helpers/methods/general';
+import { addNotification } from '@/composables/useNotifications';
+import axios from 'axios';
 
 import EntityModal from '@/components/fund/modals/EntityModal';
 
@@ -73,9 +85,14 @@ export default {
     return {
       serverUrl,
       canRedirect: true,
+      forceSaved: false,
+      savedFunds: [],
     };
   },
   computed: {
+    ...mapState({
+      signature: (state) => state.connection.signature,
+    }),
     ...mapGetters(['address']),
 
     isAContributor() {
@@ -87,15 +104,27 @@ export default {
       return getFundType(this.fund);
     },
 
+    isSaved() {
+      if (this.forceSaved) return true;
+      if (this.address) {
+        if (this.savedFunds.indexOf(this.fund.address) >= 0) return true;
+      }
+      return false;
+    },
+
     createdAt() {
       return fromUnixTimestampToDate(this.fund.createdAt);
     },
   },
-  watch: {},
+  watch: {
+    address() {
+      this.getSavedFunds();
+    },
+  },
   methods: {
     compareAddresses,
 
-    openEntityModalClick() {
+    preventRedirect() {
       this.canRedirect = false;
     },
 
@@ -103,6 +132,45 @@ export default {
       if (this.canRedirect) this.$router.push({ name: 'Fund', params: { fundAddress: this.fund.address } });
       this.canRedirect = true;
     },
+
+    async getSavedFunds() {
+      this.savedFunds = [];
+      if (this.address) {
+        try {
+          const { data } = await axios.get('entity/' + this.address);
+          if (data) this.savedFunds = data.savedFunds;
+        } finally {
+          this.forceSaved = false;
+        }
+      }
+    },
+
+    async saveClick() {
+      this.preventRedirect();
+      if (!this.signature) await signMessage();
+      try {
+        await axios[this.isSaved ? 'delete' : 'put']('entity/' + this.isSaved ? 'removeFund' : 'saveFund', {
+          fund: this.fund.address,
+        });
+        addNotification({
+          message: 'Fondo ' + this.isSaved ? 'removido' : 'guardado',
+          type: 'success',
+        });
+        this.forceSaved = true;
+      } catch (e) {
+        addNotification({
+          message: 'Error al ' + this.isSaved ? 'remover' : 'guardar' + ' fondo',
+          type: 'error',
+        });
+      }
+    },
+  },
+  created() {
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    this.getSavedFunds();
   },
 };
 </script>

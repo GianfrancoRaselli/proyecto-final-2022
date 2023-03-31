@@ -116,6 +116,43 @@ const removeImage = async (req, res) => {
   }
 };
 
+const saveFund = async (req, res) => {
+  let entityToUpdate = await Entity.findOne({ address: req.entityAddress });
+  if (entityToUpdate) {
+    const { fund } = req.body;
+
+    // update field
+    entityToUpdate.savedFunds.push(fund);
+
+    // save the entity in the DB
+    const savedEntity = await entityToUpdate.save();
+
+    // return success
+    return res.status(200).json(savedEntity);
+  } else {
+    return res.status(400).send({ message: "La entidad aún no ha sido creada" });
+  }
+};
+
+const removeFund = async (req, res) => {
+  let entityToUpdate = await Entity.findOne({ address: req.entityAddress });
+  if (entityToUpdate) {
+    const { fund } = req.body;
+
+    // update field
+    const indexToRemove = entityToUpdate.savedFunds.indexOf(fund);
+    if (indexToRemove >= 0) entityToUpdate.savedFunds.splice(indexToRemove, 1);
+
+    // save the entity in the DB
+    const savedEntity = await entityToUpdate.save();
+
+    // return success
+    return res.status(200).json(savedEntity);
+  } else {
+    return res.status(400).send({ message: "La entidad aún no ha sido creada" });
+  }
+};
+
 const getAmount = async (req, res) => {
   const amount = await Entity.find().countDocuments();
   return res.status(200).json(amount);
@@ -131,4 +168,4 @@ const get = async (req, res) => {
   return res.status(200).json(entity);
 };
 
-module.exports = { create, update, uploadImage, removeImage, getAmount, getAll, get };
+module.exports = { create, update, uploadImage, removeImage, saveFund, removeFund, getAmount, getAll, get };

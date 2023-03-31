@@ -7,8 +7,8 @@ const { seedFund } = require("./fundSeeder/fundSeeder");
 const seedDB = async () => {
   seedImages();
   await dropCollections();
+  await seedFund();
   seedEntity();
-  seedFund();
 };
 
 const dropCollections = async () => {

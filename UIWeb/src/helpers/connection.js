@@ -134,7 +134,7 @@ const handleAccountsChanged = (accounts) => {
 
   store.commit('unsubscribeFromTransfersSubscription');
   store.commit('clearRecentTransactions');
-  store.commit('setAddress', accounts[0]);
+  store.commit('setAddress', accounts[0] ? accounts[0] : '');
   store.commit('setSignature', undefined);
   store.commit('setIsTheDeployer', false);
 

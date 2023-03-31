@@ -59,6 +59,11 @@ const entitySchema = new Schema(
       type: String,
       default: undefined,
     },
+    savedFunds: [
+      {
+        type: String,
+      },
+    ],
   },
   { collection: "entities", timestamps: true }
 );
