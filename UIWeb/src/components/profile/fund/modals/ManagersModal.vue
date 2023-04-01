@@ -21,7 +21,9 @@
           <div class="no-items-modal" v-if="managers.length === 0">Sin administradores</div>
           <ul class="list-group list-group-flush" v-else>
             <li class="list-group-item" v-for="(manager, index) in managers" :key="index">
-              <span><span v-text="index + 1 + '. '" /><AppShowAddress type="entity" :address="manager" /></span>
+              <span
+                ><span v-text="index + 1 + '. '" /><AppShowAddress type="entity" :address="manager" :goToProfile="true"
+              /></span>
               <AppMyAddress :addressToCompare="manager" />
             </li>
           </ul>
