@@ -220,6 +220,10 @@ nav {
     max-width: 14rem;
   }
 
+  @media (min-width: 1100px) {
+    max-width: 15.5rem;
+  }
+
   .wallet-icon {
     position: absolute;
     top: 50%;
