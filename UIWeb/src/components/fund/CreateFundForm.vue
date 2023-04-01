@@ -386,6 +386,7 @@ import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/g
 import { addNotification } from '@/composables/useNotifications';
 import { transaction, validateForm } from '@/helpers/helpers';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default {
   name: 'CreateFundFormComponent',
@@ -589,7 +590,7 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      const checkFundTokensBalance = () => {
+      const validateFundTokensBalanceFn = () => {
         if (this.fundTokensBalance >= 1) {
           return true;
         } else {
@@ -601,10 +602,30 @@ export default {
         }
       };
 
-      const checkedFundTokensBalance = checkFundTokensBalance();
-      const validatedForm = await validateForm(this.v$);
+      const validateCanWithdrawMoneyFn = () => {
+        if (
+          (this.data.managersCanTransferMoneyWithoutARequest && this.getArrayOfManagers().length > 0) ||
+          (this.data.requestsCanBeCreated && (!this.data.onlyManagersCanCreateARequest || this.getArrayOfManagers().length > 0))
+        ) {
+          return true;
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Crear fondo',
+            text: 'Con estos parámetros no es posible retirar dinero del fondo.',
+            showConfirmButton: true,
+            confirmButtonText: 'Confirmar',
+          });
+          return false;
+        }
+      };
 
-      if (checkedFundTokensBalance && validatedForm) {
+      const validateFundTokensBalance = validateFundTokensBalanceFn();
+      const validatedForm = await validateForm(this.v$);
+      const validateCanWithdrawMoney = validateCanWithdrawMoneyFn();
+
+      if (validateFundTokensBalance && validatedForm && validateCanWithdrawMoney) {
         try {
           this.loading = true;
           if (!this.signature) await signMessage();
