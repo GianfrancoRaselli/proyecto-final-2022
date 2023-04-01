@@ -5,7 +5,7 @@ const fs = require("fs");
 
 const create = async (req, res) => {
   if (!(await Entity.findOne({ address: req.entityAddress }))) {
-    const { fullname, type, description, email, phone, location, url } = req.body;
+    const { fullname, type, description, email, phone, country, region, url } = req.body;
 
     // new entity
     const entity = new Entity({
@@ -15,7 +15,8 @@ const create = async (req, res) => {
       description,
       email,
       phone,
-      location,
+      country,
+      region,
       url,
     });
 
@@ -32,7 +33,7 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   let entityToUpdate = await Entity.findOne({ address: req.entityAddress });
   if (entityToUpdate) {
-    const { fullname, type, description, email, phone, location, url } = req.body;
+    const { fullname, type, description, email, phone, country, region, url } = req.body;
 
     // update fields
     if (fullname) entityToUpdate.fullname = fullname;
@@ -40,7 +41,8 @@ const update = async (req, res) => {
     if (description) entityToUpdate.description = description;
     if (email) entityToUpdate.email = email;
     if (phone) entityToUpdate.phone = phone;
-    if (location) entityToUpdate.location = location;
+    if (country) entityToUpdate.country = country;
+    if (region) entityToUpdate.region = region;
     if (url) entityToUpdate.url = url;
 
     // save the entity in the DB

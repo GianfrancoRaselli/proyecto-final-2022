@@ -6,6 +6,7 @@ import router from '@/router';
 import store from '@/store';
 import Mitt from '@/plugins/Mitt';
 import FontAwesome from '@/plugins/FontAwesome';
+import CountryRegionSelect from '@/plugins/CountryRegionSelect';
 
 import AppNotifications from '@/components/global/AppNotifications';
 import AppDate from '@/components/global/AppDate';
@@ -30,6 +31,7 @@ app.use(router);
 app.use(store);
 app.use(Mitt);
 app.use(FontAwesome);
+app.use(CountryRegionSelect);
 
 app.component('AppNotifications', AppNotifications);
 app.component('AppDate', AppDate);

@@ -39,9 +39,13 @@ const entitySchema = new Schema(
       required: true,
       maxLength: 50,
     },
-    location: {
+    country: {
       type: String,
-      trim: true,
+      required: true,
+      maxLength: 100,
+    },
+    region: {
+      type: String,
       required: true,
       maxLength: 100,
     },

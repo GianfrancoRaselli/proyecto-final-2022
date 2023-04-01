@@ -78,19 +78,42 @@
               <AppInputErrors :errors="v$.data.phone.$errors" />
             </div>
 
-            <div class="form-group">
-              <label for="locationInput">Ubicación</label>
-              <input
-                type="text"
-                class="form-control"
-                :class="{ 'is-invalid': v$.data.location.$errors.length }"
-                id="locationInput"
-                aria-describedby="locationHelp"
-                v-model="data.location"
-                :disabled="loading"
-              />
-              <small id="locationHelp" class="form-text text-muted"></small>
-              <AppInputErrors :errors="v$.data.location.$errors" />
+            <div class="form-row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="contributionAmountInput">País</label>
+                  <country-select
+                    class="form-control"
+                    :class="{ 'is-invalid': v$.data.country.$errors.length }"
+                    id="countryInput"
+                    :disabled="loading"
+                    v-model="data.country"
+                    :country="data.country"
+                    topCountry="Argentina"
+                    :removePlaceholder="true"
+                    :countryName="true"
+                  />
+                  <AppInputErrors :errors="v$.data.country.$errors" />
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="contributionUnitInput">Región</label>
+                  <region-select
+                    class="form-control"
+                    :class="{ 'is-invalid': v$.data.region.$errors.length }"
+                    id="regionInput"
+                    :disabled="loading"
+                    v-model="data.region"
+                    :country="data.country"
+                    :region="data.region"
+                    :removePlaceholder="true"
+                    :countryName="true"
+                    :regionName="true"
+                  />
+                  <AppInputErrors :errors="v$.data.region.$errors" />
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
@@ -150,7 +173,8 @@ export default {
         description: '',
         email: '',
         phone: '',
-        location: '',
+        country: '',
+        region: '',
         url: '',
       },
     };
@@ -162,9 +186,18 @@ export default {
   },
   watch: {
     entity(newValue) {
-      this.data = {
-        ...newValue,
-      };
+      if (newValue) {
+        const { country, region, newValueWithoutLocation } = newValue;
+        this.data = {
+          ...newValueWithoutLocation,
+        };
+        this.data.country = country;
+        setTimeout(() => (this.data.region = region), 10);
+      } else {
+        this.data.type = 'Persona';
+        this.data.country = 'Argentina';
+        setTimeout(() => (this.data.region = 'Buenos Aires'), 10);
+      }
     },
   },
   validations() {
@@ -188,9 +221,11 @@ export default {
           required: helpers.withMessage('Debe ingresar un valor', required),
           maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 50', maxLength(50)),
         },
-        location: {
-          required: helpers.withMessage('Debe ingresar un valor', required),
-          maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 100', maxLength(100)),
+        country: {
+          required: helpers.withMessage('Debe seleccionar un valor', required),
+        },
+        region: {
+          required: helpers.withMessage('Debe seleccionar un valor', required),
         },
         url: {
           maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 320', maxLength(320)),
@@ -213,7 +248,8 @@ export default {
             description: this.data.description,
             email: this.data.email,
             phone: this.data.phone,
-            location: this.data.location,
+            country: this.data.country,
+            region: this.data.region,
             url: this.data.url,
           });
 
@@ -229,6 +265,10 @@ export default {
         }
       }
     },
+  },
+  mounted() {
+    this.data.country = 'Argentina';
+    setTimeout(() => (this.data.region = 'Buenos Aires'), 10);
   },
 };
 </script>
