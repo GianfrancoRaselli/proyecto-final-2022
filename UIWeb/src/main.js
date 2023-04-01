@@ -1,10 +1,9 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 
-import mitt from 'mitt';
-
 import router from '@/router';
 import store from '@/store';
+import Mitt from '@/plugins/Mitt';
 import FontAwesome from '@/plugins/FontAwesome';
 import '@/axios';
 
@@ -27,10 +26,9 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 
 const app = createApp(App);
 
-app.config.globalProperties.emitter = mitt();
-
 app.use(router);
 app.use(store);
+app.use(Mitt);
 app.use(FontAwesome);
 
 app.component('AppNotifications', AppNotifications);
