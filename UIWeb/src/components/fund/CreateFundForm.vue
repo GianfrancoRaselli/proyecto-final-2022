@@ -450,8 +450,8 @@ export default {
     ...getMessages(['']),
 
     ...mapState({
-      signature: (state) => state.connection.signature,
       fundTokensBalance: (state) => state.connection.fundTokensBalance,
+      signature: (state) => state.connection.signature,
     }),
     ...mapGetters(['address']),
   },
@@ -492,12 +492,12 @@ export default {
     },
 
     'data.requestsCanBeCreated'(newValue) {
-      this.data.onlyManagersCanCreateARequest = false;
-      this.data.onlyContributorsCanApproveARequest = false;
       if (newValue) {
         this.data.minimumContributionPercentageRequired = '5';
         this.data.minimumApprovalsPercentageRequired = '50';
       } else {
+        this.data.onlyManagersCanCreateARequest = false;
+        this.data.onlyContributorsCanApproveARequest = false;
         this.data.minimumContributionPercentageRequired = '0';
         this.data.minimumApprovalsPercentageRequired = '0';
       }
