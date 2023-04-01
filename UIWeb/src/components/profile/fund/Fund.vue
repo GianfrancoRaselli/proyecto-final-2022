@@ -6,14 +6,11 @@
       <div class="content">
         <div class="top-line">
           <AppDate class="created-at" :date="createdAt" />
-          <span class="top-line-header">
-            <span class="name" v-text="fund.name"></span>
-            <FaIcon icon="circle" class="icon" />
-            <span class="type" v-text="type"></span>
-          </span>
+          <span class="name" v-text="fund.name"></span>
+          <span class="type" v-text="type"></span>
         </div>
-        <div class="description" v-text="fund.description"></div>
-        <div class="bottom-line">
+        <div class="description mt-2" v-text="fund.description" v-if="fund.description"></div>
+        <div class="bottom-line mt-2">
           <div
             class="icon-container"
             :class="{ 'icon-container-managers-hover': mouseOverManagers }"
@@ -225,7 +222,7 @@ export default {
   border: 1px solid rgb(238, 238, 238);
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: start;
   align-items: start;
   gap: 1rem;
 
@@ -242,64 +239,31 @@ export default {
   }
 
   .content {
-    width: 100%;
-
     .top-line {
       display: flex;
-      flex-direction: row-reverse;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.2rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: start;
 
       .created-at {
         font-size: 0.8rem;
-        min-width: fit-content;
-        margin-left: auto;
-        padding-left: 0.8rem;
-        align-self: flex-start;
       }
 
-      .top-line-header {
-        margin-right: auto;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 0.3rem;
+      .name {
+        font-size: 1.2rem;
+        font-weight: bold;
+        word-wrap: break-word;
+        word-break: break-word;
+      }
 
-        @media (max-width: 600px) {
-          flex-direction: column;
-          justify-content: space-between;
-          align-items: flex-start;
-          gap: 0;
-        }
-
-        .name {
-          font-size: 1.15rem;
-          font-weight: bold;
-        }
-
-        .icon {
-          height: 0.2rem;
-          width: 0.2rem;
-          color: rgb(97, 97, 97);
-
-          @media (max-width: 600px) {
-            display: none;
-          }
-        }
-
-        .type {
-          font-size: 0.85rem;
-        }
+      .type {
+        font-size: 0.9rem;
       }
     }
 
     .description {
       word-wrap: break-word;
       word-break: break-word;
-      padding: 0.4rem 0;
     }
 
     .bottom-line {
