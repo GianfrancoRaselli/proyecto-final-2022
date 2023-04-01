@@ -8,7 +8,7 @@
       </div>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto align-items">
+        <ul class="align-items navbar-nav mr-auto">
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'Funds' }" exact v-text="fundsMsg" />
           </li>
@@ -41,7 +41,7 @@
         </ul>
       </div>
 
-      <div class="navbar--menu ml-auto align-items">
+      <div class="align-items ml-auto">
         <div v-if="hasMetamask">
           <button class="btn btn-light btn-wallet" data-toggle="modal" data-target="#walletModal" v-if="isConnected">
             <FaIcon icon="wallet" class="icon mr-2 wallet-icon" size="2x" v-if="isConnectedToTheValidChain"></FaIcon>
@@ -243,6 +243,12 @@ nav {
     overflow: hidden;
     white-space: nowrap;
   }
+}
+
+.btn-wallet:hover,
+.btn-wallet:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .dropdown-item--language {
