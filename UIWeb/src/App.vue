@@ -377,7 +377,7 @@ body {
 
       .amount {
         font-size: 1rem;
-        color: rgb(100, 100, 100);
+        color: rgb(50, 50, 50);
         padding: 0 0.4rem;
         margin-top: 0.5rem;
 
