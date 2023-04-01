@@ -77,7 +77,7 @@
                 </span>
                 <div class="transaction-info">
                   <AppDate class="date" :date="transaction.date" />
-                  <span v-text="transaction.message"></span>
+                  <span class="message" v-text="transaction.message"></span>
                 </div>
               </div>
               <a :href="validChainExplorer + '/tx/' + transaction.hash" target="_blank" v-if="transaction.hash">
@@ -220,14 +220,15 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
+  gap: 0.6rem;
 
   .transaction-body {
     display: flex;
     flex-direction: row;
     justify-content: start;
-    align-items: center;
-    gap: 0.5rem;
+    align-items: start;
+    gap: 0.6rem;
 
     .circle-check-icon {
       color: green;
@@ -240,6 +241,11 @@ export default {
     .transaction-info {
       display: flex;
       flex-direction: column;
+
+      .message {
+        word-wrap: break-word;
+        word-break: break-word;
+      }
     }
   }
 }

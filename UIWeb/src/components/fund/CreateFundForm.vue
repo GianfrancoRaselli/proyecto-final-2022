@@ -378,7 +378,7 @@
 <script>
 import Web3 from 'web3';
 import { useVuelidate } from '@vuelidate/core';
-import { helpers, required, minLength, integer, minValue, maxValue } from '@vuelidate/validators';
+import { helpers, required, minLength, maxLength, integer, minValue, maxValue } from '@vuelidate/validators';
 import { getMessages } from '@/dictionary';
 import { mapState, mapGetters } from 'vuex';
 import { signMessage } from '@/helpers/connection';
@@ -520,7 +520,8 @@ export default {
       data: {
         name: {
           required: helpers.withMessage('Debe ingresar un valor', required),
-          minLength: helpers.withMessage('Debe ingresar al menos un carácter', minLength(1)),
+          minLength: helpers.withMessage('La cantidad mínima de caracteres permitidos es 2', minLength(2)),
+          maxLength: helpers.withMessage('La cantidad máxima de caracteres permitidos es 80', maxLength(80)),
         },
         managers: {
           mustBeAddresses: helpers.withMessage('Algún valor no es una dirección válida', (value) => {
