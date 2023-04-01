@@ -435,9 +435,9 @@ export default {
 
     async handleEditDescriptionSubmit() {
       if (await validateForm(this.v$)) {
+        this.editDescription.loading = true;
+        if (!this.signature) await signMessage();
         try {
-          this.editDescription.loading = true;
-          if (!this.signature) await signMessage();
           await axios.put('fund/' + this.fund.address, {
             description: this.editDescription.new,
           });

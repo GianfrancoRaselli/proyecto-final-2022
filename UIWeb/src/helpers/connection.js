@@ -172,6 +172,7 @@ const signMessage = async () => {
     store.commit('setSignature', signature);
   } catch (e) {
     store.commit('setSignature', undefined);
+    throw e;
   }
 };
 
