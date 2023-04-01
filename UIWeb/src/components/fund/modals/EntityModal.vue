@@ -24,7 +24,11 @@
             <span class="address"><AppShowAddress type="entity" :address="address" :forceShowAddress="true" /></span>
             <span class="description" v-text="entity.description" />
             <span class="location" v-if="entity.country && entity.region"
-              ><FaIcon icon="location-dot" class="icon" />&nbsp;{{ entity.region }},&nbsp;{{ entity.country }}</span
+              ><FaIcon icon="location-dot" class="icon" />&nbsp;<a
+                :href="'https://www.google.com/maps?q=' + entity.region + ', ' + entity.country"
+                target="_blank"
+                >{{ entity.region }},&nbsp;{{ entity.country }}</a
+              ></span
             >
             <span class="email" v-if="entity.email">
               <FaIcon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">
