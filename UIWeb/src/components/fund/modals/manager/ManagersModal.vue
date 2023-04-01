@@ -23,7 +23,7 @@
               <FaIcon icon="plus" class="icon mr-2" />Agregar administrador
             </button>
             <div class="managers-list" :class="{ list: fund.managersCanBeAddedOrRemoved && isAManager }">
-              <div class="no-items-modal" v-if="fund.managers && fund.managers.length === 0">Sin administradores</div>
+              <div class="no-items-modal" v-if="fund.managers.length === 0">Sin administradores</div>
               <ul class="list-group list-group-flush" v-else>
                 <li class="list-group-item" v-for="(manager, index) in fund.managers" :key="index">
                   <div class="item-manager">
@@ -64,6 +64,7 @@ import { mapGetters } from 'vuex';
 import { transaction } from '@/helpers/helpers';
 import { getSplitAddress, compareAddresses } from 'web3-simple-helpers/methods/general';
 import { addNotification } from '@/composables/useNotifications';
+import Swal from 'sweetalert2';
 
 // modals
 import AddManagersModal from '@/components/fund/modals/manager/AddManagersModal.vue';
@@ -92,24 +93,35 @@ export default {
     },
 
     async removeManager(manager) {
-      try {
-        this.removingManagers.push(manager);
-        await transaction(
-          { name: 'Fund', address: this.$route.params.fundAddress },
-          'removeManager',
-          [this.fund.managers.findIndex((m) => compareAddresses(m, manager))],
-          {},
-          true,
-          'Administrador eliminado de ' + this.fund.name + ': ' + getSplitAddress(manager),
-        );
-        // eslint-disable-next-line vue/no-mutating-props
-        this.fund.managers = this.fund.managers.filter((m) => m.toLowerCase() !== manager.toLowerCase());
-        addNotification({
-          message: 'Aministrador ' + getSplitAddress(manager) + ' eliminado de ' + this.fund.name,
-          type: 'success',
+      if (this.fund.managers.length > 1 || (this.fund.requestsCanBeCreated && !this.fund.onlyManagersCanCreateARequest)) {
+        try {
+          this.removingManagers.push(manager);
+          await transaction(
+            { name: 'Fund', address: this.$route.params.fundAddress },
+            'removeManager',
+            [this.fund.managers.findIndex((m) => compareAddresses(m, manager))],
+            {},
+            true,
+            'Administrador eliminado de ' + this.fund.name + ': ' + getSplitAddress(manager),
+          );
+          // eslint-disable-next-line vue/no-mutating-props
+          this.fund.managers = this.fund.managers.filter((m) => m.toLowerCase() !== manager.toLowerCase());
+          addNotification({
+            message: 'Aministrador ' + getSplitAddress(manager) + ' eliminado de ' + this.fund.name,
+            type: 'success',
+          });
+        } finally {
+          this.removingManagers = this.removingManagers.filter((m) => m.toLowerCase() !== manager.toLowerCase());
+        }
+      } else {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Remover administrador',
+          text: 'El fondo no se puede quedar sin administradores porque no sería posible retirar dinero del mismo.',
+          showConfirmButton: true,
+          confirmButtonText: 'Confirmar',
         });
-      } finally {
-        this.removingManagers = this.removingManagers.filter((m) => m.toLowerCase() !== manager.toLowerCase());
       }
     },
 
