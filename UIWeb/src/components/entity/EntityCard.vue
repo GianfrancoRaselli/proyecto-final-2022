@@ -2,7 +2,7 @@
   <div class="card-container">
     <div class="card text-center" @click="redirect">
       <div class="card-header">
-        <span v-text="entity.fullname" />
+        <span class="name" v-text="entity.fullname" />
       </div>
       <div class="card-body">
         <img class="img" :src="serverUrl + 'images/' + entity.image" v-if="entity.image" />

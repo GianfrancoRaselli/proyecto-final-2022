@@ -294,7 +294,7 @@ const getFundType = (fund) => {
     return {
       id: 'donation',
       type: 'Donación',
-      class: 'secondary',
+      class: 'danger',
     };
   return {
     id: 'personalized',

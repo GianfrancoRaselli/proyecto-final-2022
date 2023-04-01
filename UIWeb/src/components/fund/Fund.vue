@@ -5,10 +5,11 @@
     </div>
     <div v-else>
       <div class="card">
-        <div class="card-header text-center">
+        <div class="card-header fund-card-header text-center">
           <span class="name" v-text="fund.name" />
-          <div class="fund-info">
-            <span class="badge badge-pill badge-primary my-fund-info mb-1" v-if="isTheCreator">Mi fondo</span>
+          <div class="fund-badges">
+            <span class="badge badge-pill badge-primary" v-if="isTheCreator">Mi fondo</span>
+            <span class="badge badge-pill badge-secondary" v-if="isAManager">Administrador</span>
             <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
           </div>
         </div>
@@ -731,25 +732,15 @@ export default {
   position: relative;
 
   .card-header {
-    padding-left: 80px;
-    padding-right: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
     .name {
-      word-break: keep-all;
+      overflow: hidden;
+      white-space: normal;
       font-size: 1.3rem;
-    }
-
-    .fund-info {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      display: flex;
-      flex-direction: column;
-      align-items: end;
-
-      .my-fund-info {
-        width: fit-content;
-      }
     }
   }
 

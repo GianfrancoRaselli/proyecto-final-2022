@@ -151,6 +151,10 @@
                       <label class="form-check-label" for="checkboxMyFunds">Mis fondos</label>
                     </div>
                     <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="checkboxAdminFunds" v-model="filters.adminFunds" />
+                      <label class="form-check-label" for="checkboxAdminFunds">Fondos administrados</label>
+                    </div>
+                    <div class="form-check">
                       <input
                         type="checkbox"
                         class="form-check-input"
@@ -191,11 +195,12 @@
           />
           <AppPill
             msg="Fondos de donaciones"
-            type="secondary"
+            type="danger"
             @close="filters.fundsTypes.types.donation = false"
             v-if="filters.fundsTypes.types.donation"
           />
           <AppPill msg="Mis fondos" type="primary" @close="filters.myFunds = false" v-if="filters.myFunds" />
+          <AppPill msg="Fondos administrados" type="secondary" @close="filters.adminFunds = false" v-if="filters.adminFunds" />
           <AppPill
             msg="Fondos contribuidos"
             type="info"
@@ -260,6 +265,7 @@ export default {
           },
         },
         myFunds: false,
+        adminFunds: false,
         contributedFunds: false,
       },
       funds: [],
@@ -436,6 +442,12 @@ export default {
 
       // my funds
       if (this.filters.myFunds) fundsToFilter = fundsToFilter.filter((fund) => compareAddresses(fund.creator, this.address));
+
+      // admin funds
+      if (this.filters.adminFunds)
+        fundsToFilter = fundsToFilter.filter(
+          (fund) => fund.managers.findIndex((manager) => compareAddresses(manager, this.address)) >= 0,
+        );
 
       // contributed funds
       if (this.filters.contributedFunds)

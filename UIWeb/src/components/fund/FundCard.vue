@@ -1,10 +1,15 @@
 <template>
   <div class="card-container">
     <div class="card text-center" @click="redirect">
-      <div class="card-header">
+      <div class="card-header fund-card-header">
         <span class="name" v-text="fund.name" />
-        <div class="fund-info">
-          <span class="badge badge-pill badge-primary mb-1" v-if="compareAddresses(address, fund.creator)">Mi fondo</span>
+        <div class="fund-badges">
+          <span class="badge badge-pill badge-primary" v-if="compareAddresses(address, fund.creator)">Mi fondo</span>
+          <span
+            class="badge badge-pill badge-secondary"
+            v-if="fund.managers.findIndex((manager) => compareAddresses(manager, address)) >= 0"
+            >Administrador</span
+          >
           <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
         </div>
       </div>
@@ -168,21 +173,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-header {
-  padding-left: 65px;
-  padding-right: 65px;
-}
-
-.fund-info {
-  font-size: 0.8rem;
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-}
-
 .card-body {
   position: relative;
   display: flex;

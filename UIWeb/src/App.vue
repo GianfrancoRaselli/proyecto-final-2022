@@ -305,13 +305,20 @@ body {
     position: relative;
 
     .card-header {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-    }
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
 
-    .card-header:hover {
-      white-space: normal;
+      .name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .name:hover {
+        white-space: normal;
+      }
     }
   }
 
@@ -320,6 +327,23 @@ body {
     height: 100%;
     width: 100%;
     box-shadow: 0 0 2px rgb(65, 65, 65);
+  }
+}
+
+.fund-card-header {
+  min-height: 3.66rem;
+  padding-left: 7rem;
+  padding-right: 7rem;
+
+  .fund-badges {
+    position: absolute;
+    top: 0.1rem;
+    right: 0.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: end;
+    gap: 0.15rem;
   }
 }
 

@@ -58,6 +58,11 @@ export default {
   background-color: #0dcaf0;
 }
 
+.pill-danger {
+  color: white;
+  background-color: #dc3545;
+}
+
 .icon {
   font-size: 1.38em;
 }
