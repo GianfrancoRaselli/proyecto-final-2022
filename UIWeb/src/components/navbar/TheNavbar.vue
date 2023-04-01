@@ -8,7 +8,7 @@
       </div>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="align-items navbar-nav mr-auto">
+        <ul class="nav-align-items navbar-nav mr-auto">
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'Funds' }" exact v-text="fundsMsg" />
           </li>
@@ -41,7 +41,7 @@
         </ul>
       </div>
 
-      <div class="align-items ml-auto">
+      <div class="nav-align-items ml-auto">
         <div v-if="hasMetamask">
           <button class="btn btn-light btn-wallet" data-toggle="modal" data-target="#walletModal" v-if="isConnected">
             <FaIcon icon="wallet" class="icon mr-2 wallet-icon" size="2x" v-if="isConnectedToTheValidChain"></FaIcon>
@@ -151,7 +151,7 @@ nav {
   }
 }
 
-.align-items {
+.nav-align-items {
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -159,7 +159,7 @@ nav {
 }
 
 .navbar-nav {
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .nav-item {
@@ -175,7 +175,7 @@ nav {
 }
 
 .nav-link-active {
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   color: white !important;
 }
 
@@ -204,20 +204,20 @@ nav {
   justify-content: center;
   align-items: center;
 
-  @media (max-width: 1000px) {
+  @media (min-width: 768px) {
     max-width: 10rem;
   }
 
-  @media (max-width: 940px) {
-    max-width: 15rem;
+  @media (min-width: 820px) {
+    max-width: 14rem;
   }
 
-  @media (max-width: 820px) {
+  @media (min-width: 940px) {
     max-width: 10rem;
   }
 
-  @media (max-width: 765px) {
-    max-width: 15rem;
+  @media (min-width: 1000px) {
+    max-width: 14rem;
   }
 
   .wallet-icon {
