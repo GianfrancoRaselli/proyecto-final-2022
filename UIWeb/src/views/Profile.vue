@@ -25,8 +25,8 @@
             <span class="description" v-if="entity" v-text="entity.description" />
           </div>
           <div class="body" v-if="entity">
-            <span class="location" v-if="entity.location"
-              ><FaIcon icon="location-dot" class="icon" />&nbsp;{{ entity.location }}</span
+            <span class="location" v-if="entity.country && entity.region"
+              ><FaIcon icon="location-dot" class="icon" />&nbsp;{{ entity.region }},&nbsp;{{ entity.country }}</span
             >
             <span class="email" v-if="entity.email"
               ><FaIcon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">{{
