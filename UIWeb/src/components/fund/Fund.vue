@@ -740,6 +740,8 @@ export default {
     .name {
       overflow: hidden;
       white-space: normal;
+      word-wrap: break-word;
+      word-break: break-word;
       font-size: 1.3rem;
     }
   }
