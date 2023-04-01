@@ -243,8 +243,8 @@ export default {
       flex-direction: column;
 
       .message {
-        word-wrap: break-word;
         word-break: break-word;
+        word-wrap: break-word;
       }
     }
   }

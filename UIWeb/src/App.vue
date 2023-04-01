@@ -298,8 +298,8 @@ body {
   align-items: center;
 
   .card {
-    word-wrap: break-word;
     word-break: break-word;
+    word-wrap: break-word;
     height: 99%;
     width: 99%;
     position: relative;

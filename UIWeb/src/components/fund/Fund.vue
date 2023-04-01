@@ -740,8 +740,8 @@ export default {
     .name {
       overflow: hidden;
       white-space: normal;
-      word-wrap: break-word;
       word-break: break-word;
+      word-wrap: break-word;
       font-size: 1.3rem;
     }
   }
@@ -806,8 +806,8 @@ export default {
     }
 
     .description {
-      word-wrap: break-word;
       word-break: break-word;
+      word-wrap: break-word;
       width: 100%;
       padding: 0 1rem;
 

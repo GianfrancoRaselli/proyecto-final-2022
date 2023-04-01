@@ -252,8 +252,8 @@ export default {
       .name {
         font-size: 1.2rem;
         font-weight: bold;
-        word-wrap: break-word;
         word-break: break-word;
+        word-wrap: break-word;
       }
 
       .type {
@@ -262,8 +262,8 @@ export default {
     }
 
     .description {
-      word-wrap: break-word;
       word-break: break-word;
+      word-wrap: break-word;
     }
 
     .bottom-line {
