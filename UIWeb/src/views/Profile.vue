@@ -25,13 +25,6 @@
             <span class="description" v-if="entity" v-text="entity.description" />
           </div>
           <div class="body" v-if="entity">
-            <span class="location" v-if="entity.country && entity.region"
-              ><FaIcon icon="location-dot" class="icon" />&nbsp;<a
-                :href="'https://www.google.com/maps?q=' + entity.region + ', ' + entity.country"
-                target="_blank"
-                >{{ entity.region }},&nbsp;{{ entity.country }}</a
-              ></span
-            >
             <span class="email" v-if="entity.email"
               ><FaIcon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">{{
                 entity.email
@@ -39,6 +32,13 @@
             >
             <span class="phone" v-if="entity.phone"
               ><FaIcon icon="phone" class="icon" />&nbsp;<a :href="'tel:' + entity.phone">{{ entity.phone }}</a></span
+            >
+            <span class="location" v-if="entity.country && entity.region"
+              ><FaIcon icon="location-dot" class="icon" />&nbsp;<a
+                :href="'https://www.google.com/maps?q=' + entity.region + ', ' + entity.country"
+                target="_blank"
+                >{{ entity.region }},&nbsp;{{ entity.country }}</a
+              ></span
             >
             <span class="url" v-if="entity.url"
               ><FaIcon icon="link" class="icon" />&nbsp;<a :href="entity.url" target="_blank">Sitio Web</a></span

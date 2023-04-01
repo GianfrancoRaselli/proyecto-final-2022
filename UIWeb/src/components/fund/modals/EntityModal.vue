@@ -23,13 +23,6 @@
             <span class="type" v-text="entity.type" />
             <span class="address"><AppShowAddress type="entity" :address="address" :forceShowAddress="true" /></span>
             <span class="description" v-text="entity.description" />
-            <span class="location" v-if="entity.country && entity.region"
-              ><FaIcon icon="location-dot" class="icon" />&nbsp;<a
-                :href="'https://www.google.com/maps?q=' + entity.region + ', ' + entity.country"
-                target="_blank"
-                >{{ entity.region }},&nbsp;{{ entity.country }}</a
-              ></span
-            >
             <span class="email" v-if="entity.email">
               <FaIcon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">
                 {{ entity.email }}
@@ -38,6 +31,13 @@
             <span class="phone" v-if="entity.phone"
               ><FaIcon icon="phone" class="icon" />&nbsp;<a :href="'tel:' + entity.phone"> {{ entity.phone }}</a>
             </span>
+            <span class="location" v-if="entity.country && entity.region"
+              ><FaIcon icon="location-dot" class="icon" />&nbsp;<a
+                :href="'https://www.google.com/maps?q=' + entity.region + ', ' + entity.country"
+                target="_blank"
+                >{{ entity.region }},&nbsp;{{ entity.country }}</a
+              ></span
+            >
             <span class="url" v-if="entity.url"
               ><FaIcon icon="link" class="icon" />&nbsp;<a :href="entity.url" target="_blank">Sitio Web</a>
             </span>
