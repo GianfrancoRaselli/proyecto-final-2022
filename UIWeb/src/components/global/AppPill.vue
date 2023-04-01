@@ -16,7 +16,8 @@ export default {
 <style scoped>
 .pill {
   font-size: 0.82rem;
-  background-color: rgba(200, 200, 200, 0.547);
+  color: black;
+  background-color: rgb(230, 230, 230);
   padding: 0.26rem 0.8rem;
   border-radius: 20px;
   user-select: none;
@@ -29,38 +30,38 @@ export default {
 }
 
 .pill-primary {
-  color: #fff;
+  color: white;
   background-color: #007bff;
 }
 
 .pill-secondary {
-  color: #fff;
+  color: white;
   background-color: #6c757d;
 }
 
-.pill-dark {
-  color: #fff;
-  background-color: #23272bf0;
-}
-
 .pill-success {
-  color: #fff;
+  color: white;
   background-color: #28a745;
-}
-
-.pill-warning {
-  color: #343a40;
-  background-color: #ffc107;
-}
-
-.pill-info {
-  color: black;
-  background-color: #0dcaf0;
 }
 
 .pill-danger {
   color: white;
   background-color: #dc3545;
+}
+
+.pill-warning {
+  color: #212529;
+  background-color: #ffc107;
+}
+
+.pill-info {
+  color: white;
+  background-color: #17a2b8;
+}
+
+.pill-dark {
+  color: white;
+  background-color: #343a40;
 }
 
 .icon {

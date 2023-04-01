@@ -60,7 +60,7 @@
               (<AppShowAmount :amount="fund.contributors.length" singular="contribuyente" plural="contribuyentes" />)
             </span>
           </p>
-          <span class="badge rounded-pill" v-if="isAContributor">Contribución realizada</span>
+          <span class="badge badge-pill badge-info badge-contribution" v-if="isAContributor">Contribución realizada</span>
         </div>
       </div>
       <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
@@ -225,10 +225,8 @@ export default {
       }
     }
 
-    .badge {
+    .badge-contribution {
       font-size: 0.85rem;
-      color: black;
-      background-color: #0dcaf0;
       width: fit-content;
       padding: 0.16rem 1rem;
     }
