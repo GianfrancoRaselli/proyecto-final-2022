@@ -184,6 +184,12 @@ body {
   color: rgb(79, 79, 79);
 }
 
+.btn-link:hover,
+.btn-link:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 .align-items-row {
   display: flex;
   flex-direction: row;

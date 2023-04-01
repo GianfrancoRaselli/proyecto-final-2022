@@ -144,10 +144,6 @@ export default {
   font-size: 0.92rem;
 }
 
-.btn-show-approvals:focus {
-  box-shadow: none;
-}
-
 @media (max-width: 620px) {
   .info {
     display: flex;
