@@ -40,7 +40,7 @@
               ><FaIcon icon="link" class="icon" />&nbsp;<a :href="entity.url" target="_blank">Sitio Web</a></span
             >
             <AppButton
-              classes="btn-secondary"
+              classes="btn-secondary btn-block"
               text="Actualizar datos"
               data-toggle="modal"
               data-target="#editEntityModal"
