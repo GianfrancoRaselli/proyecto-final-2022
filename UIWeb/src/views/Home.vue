@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="home-container">
     <div class="main-content">
       <p class="title">Sistema de administración de fondos comunes</p>
       <div class="sub-content">
@@ -284,7 +284,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content {
+.home-container {
   min-width: 100%;
   padding: 0;
 }

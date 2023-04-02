@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="funds-container">
     <p class="page-title">Explora todos los fondos</p>
     <FundsList />
   </div>
@@ -22,4 +22,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.funds-container {
+  max-width: 1300px;
+}
+</style>

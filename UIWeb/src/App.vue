@@ -96,13 +96,13 @@ export default {
 .main__page {
   width: 100%;
   max-width: 1200px;
-  padding: calc(var(--navbar-height) + 15px) 25px 20px 25px;
+  padding: calc(var(--navbar-height) + 1rem) 1.5rem 1.5rem 1.5rem;
 }
 
 @media (max-width: 600px) {
   .main__page {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 

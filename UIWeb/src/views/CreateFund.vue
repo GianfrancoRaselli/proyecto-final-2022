@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="create-fund-container">
     <p class="page-title">Crear nuevo fondo</p>
     <CreateFundForm />
   </div>
@@ -20,4 +20,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.create-fund-container {
+  max-width: 1100px;
+}
+</style>
