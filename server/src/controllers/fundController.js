@@ -76,7 +76,7 @@ const uploadImage = async (req, res) => {
 
       // save the name image in the DB
       fundToUpdate.image = nextImageName;
-      fundToUpdate.imageVersion = fundToUpdate.imageVersion + 1;
+      fundToUpdate.imageVersion++;
       const savedFund = await fundToUpdate.save();
 
       // return success
@@ -132,8 +132,8 @@ const uploadImageToImages = async (req, res) => {
       }
 
       // save the name image in the DB
-      fundToUpdate.image = nextImageName;
-      fundToUpdate.imageVersion = fundToUpdate.imagesAmount + 1;
+      fundToUpdate.images.push(nextImageName);
+      fundToUpdate.imagesAmount++;
       const savedFund = await fundToUpdate.save();
 
       // return success

@@ -58,10 +58,10 @@ const seedFund = async () => {
     if (fundToCreate.images && fundToCreate.images.length > 0) {
       let imageName;
       for (let image of fundToCreate.images) {
-        savedFund.imagesAmount++;
-        imageName = address + "Num" + savedFund.imagesAmount + ".jpeg";
+        imageName = address + "Num" + (savedFund.imagesAmount + 1) + ".jpeg";
         fs.renameSync("uploads/" + image, "uploads/" + imageName);
         savedFund.images.push(imageName);
+        savedFund.imagesAmount++;
       }
       await savedFund.save();
     }

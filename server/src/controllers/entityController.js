@@ -83,7 +83,7 @@ const uploadImage = async (req, res) => {
 
       // save the name image in the DB
       entityToUpdate.image = nextImageName;
-      entityToUpdate.imageVersion = entityToUpdate.imageVersion + 1;
+      entityToUpdate.imageVersion++;
       const savedEntity = await entityToUpdate.save();
 
       // return success
