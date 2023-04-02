@@ -357,7 +357,7 @@ export default {
   background-image: linear-gradient(135deg, #f5f7fa 0%, #dee4ed 100%);
 
   .title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: bold;
     font-family: 'Dancing Script', cursive;
     text-align: center;
@@ -409,7 +409,7 @@ export default {
   background-image: linear-gradient(-225deg, #fffeff 0%, #f3ffff 100%);
 
   .title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: bold;
     font-family: 'Dancing Script', cursive;
     text-align: center;
