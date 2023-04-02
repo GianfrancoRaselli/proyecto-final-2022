@@ -28,10 +28,10 @@ const update = async (req, res) => {
     const { description, history, risks, rewards, update } = req.body;
 
     // update fields
-    if (description) fundToUpdate.description = description;
-    if (history) fundToUpdate.history = history;
-    if (risks) fundToUpdate.risks = risks;
-    if (rewards) fundToUpdate.rewards = rewards;
+    if (description || description === "") fundToUpdate.description = description;
+    if (history || history === "") fundToUpdate.history = history;
+    if (risks || risks === "") fundToUpdate.risks = risks;
+    if (rewards || rewards === "") fundToUpdate.rewards = rewards;
     if (update)
       fundToUpdate.updates.push({
         updater: req.entityAddress,

@@ -43,7 +43,7 @@ const update = async (req, res) => {
     if (phone) entityToUpdate.phone = phone;
     if (country) entityToUpdate.country = country;
     if (region) entityToUpdate.region = region;
-    if (url) entityToUpdate.url = url;
+    if (url || url === "") entityToUpdate.url = url;
 
     // save the entity in the DB
     const savedEntity = await entityToUpdate.save();
