@@ -19,7 +19,22 @@
                 v-model="newManagers"
                 :disabled="loading"
               />
-              <small id="newManagersHelp" class="form-text text-muted">Ingrese la dirección de los administradores separadas por coma (,)</small>
+              <small id="newManagersHelp" class="form-text text-muted" v-if="arrayOfManagers.length === 0"
+                >Ingrese las direcciones de los administradores separadas por coma (,)</small
+              >
+              <small id="managersHelp" class="form-text text-muted" v-else
+                ><AppShowAddress
+                  class="managerAddress"
+                  type="entity"
+                  :address="manager"
+                  :showAddressComplete="true"
+                  :showTooltip="false"
+                  :allowCopyAddress="false"
+                  :showComma="i + 1 < arrayOfManagers.length ? true : false"
+                  :showSpace="i + 1 < arrayOfManagers.length ? true : false"
+                  v-for="(manager, i) in arrayOfManagers"
+                  :key="i"
+              /></small>
               <AppInputErrors :errors="v$.newManagers.$errors" />
             </div>
 
@@ -61,6 +76,15 @@ export default {
   },
   computed: {
     ...mapGetters(['address']),
+
+    arrayOfManagers() {
+      let managers = [];
+      this.newManagers.split(',').forEach((manager) => {
+        const newManagerAddress = manager.trim();
+        if (Web3.utils.isAddress(newManagerAddress)) managers.push(newManagerAddress);
+      });
+      return managers;
+    },
   },
   validations() {
     return {
@@ -161,13 +185,13 @@ export default {
           await transaction(
             { name: 'Fund', address: this.$route.params.fundAddress },
             'addNewManagers',
-            [this.getArrayOfManagers()],
+            [this.arrayOfManagers],
             undefined,
             true,
             'Nuevos administradores agregados a ' + this.fund.name,
           );
           // eslint-disable-next-line vue/no-mutating-props
-          this.fund.managers.concat(this.getArrayOfManagers());
+          this.fund.managers.concat(this.arrayOfManagers);
           addNotification({
             message: 'Nuevos administradores agregados a ' + this.fund.name,
             type: 'success',
@@ -180,15 +204,6 @@ export default {
       }
     },
 
-    getArrayOfManagers() {
-      let managers = [];
-      this.newManagers.split(',').forEach((manager) => {
-        const newManagerAddress = manager.trim();
-        if (Web3.utils.isAddress(newManagerAddress)) managers.push(newManagerAddress);
-      });
-      return managers;
-    },
-
     goBack() {
       $('#addManagersModal').on('hidden.bs.modal', function () {
         $('#managersModal').modal('show');
@@ -199,5 +214,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

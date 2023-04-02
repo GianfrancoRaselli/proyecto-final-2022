@@ -127,9 +127,25 @@
               </div>
             </div>
           </div>
-          <small id="managersHelp" class="form-text text-muted"
-            >Ingrese la dirección de los demás administradores separados por coma (,)</small
+          <small id="managersHelp" class="form-text text-muted" v-if="data.addMeAsAManager && arrayOfManagers.length === 1"
+            >Ingrese las direcciones de los demás administradores separadas por coma (,)</small
           >
+          <small id="managersHelp" class="form-text text-muted" v-else-if="!data.addMeAsAManager && arrayOfManagers.length === 0"
+            >Ingrese las direcciones de los administradores separadas por coma (,)</small
+          >
+          <small id="managersHelp" class="form-text text-muted" v-else
+            ><AppShowAddress
+              class="managerAddress"
+              type="entity"
+              :address="manager"
+              :showAddressComplete="true"
+              :showTooltip="false"
+              :allowCopyAddress="false"
+              :showComma="i + 1 < arrayOfManagers.length ? true : false"
+              :showSpace="i + 1 < arrayOfManagers.length ? true : false"
+              v-for="(manager, i) in arrayOfManagers"
+              :key="i"
+          /></small>
           <AppInputErrors :errors="v$.data.managers.$errors" />
         </div>
 
@@ -454,6 +470,17 @@ export default {
       signature: (state) => state.connection.signature,
     }),
     ...mapGetters(['address']),
+
+    arrayOfManagers() {
+      let managers = [];
+      if (this.data.addMeAsAManager) managers.push(this.address);
+      const otherManagers = this.data.managers.split(',');
+      otherManagers.forEach((manager) => {
+        const managerAddress = manager.trim();
+        if (Web3.utils.isAddress(managerAddress)) managers.push(managerAddress);
+      });
+      return managers;
+    },
   },
   watch: {
     'data.type'(newValue) {
@@ -605,8 +632,8 @@ export default {
 
       const validateCanWithdrawMoneyFn = () => {
         if (
-          (this.data.managersCanTransferMoneyWithoutARequest && this.getArrayOfManagers().length > 0) ||
-          (this.data.requestsCanBeCreated && (!this.data.onlyManagersCanCreateARequest || this.getArrayOfManagers().length > 0))
+          (this.data.managersCanTransferMoneyWithoutARequest && this.arrayOfManagers.length > 0) ||
+          (this.data.requestsCanBeCreated && (!this.data.onlyManagersCanCreateARequest || this.arrayOfManagers.length > 0))
         ) {
           return true;
         } else {
@@ -635,7 +662,7 @@ export default {
             'createFund',
             [
               this.data.name,
-              this.getArrayOfManagers(),
+              this.arrayOfManagers,
               this.data.managersCanBeAddedOrRemoved,
               this.data.managersCanTransferMoneyWithoutARequest,
               this.data.requestsCanBeCreated,
@@ -677,17 +704,6 @@ export default {
           this.loading = false;
         }
       }
-    },
-
-    getArrayOfManagers() {
-      let managers = [];
-      if (this.data.addMeAsAManager) managers.push(this.address);
-      const otherManagers = this.data.managers.split(',');
-      otherManagers.forEach((manager) => {
-        const managerAddress = manager.trim();
-        if (Web3.utils.isAddress(managerAddress)) managers.push(managerAddress);
-      });
-      return managers;
     },
   },
 };

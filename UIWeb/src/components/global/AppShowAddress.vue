@@ -1,5 +1,5 @@
 <template>
-  <span class="address-container">
+  <span class="address-container" :class="{ 'address-container-with-gap': !showComma }">
     <span
       :class="{ hover: goToProfile || goToFund }"
       v-text="forceShowAddress || name === '' ? addressToShow : name"
@@ -9,6 +9,8 @@
       :data-original-title="showTooltip && !showAddressComplete ? address : ''"
       @click="goTo"
     ></span>
+    <span v-if="showComma">,</span>
+    <span v-if="showSpace">&nbsp;</span>
     <FaIcon
       icon="copy"
       class="icon"
@@ -42,6 +44,8 @@ export default {
     type: { type: String, default: 'entity' },
     allowCopyAddress: { type: Boolean, default: true },
     listenNameChange: { type: Boolean, default: false },
+    showComma: { type: Boolean, default: false },
+    showSpace: { type: Boolean, default: false },
   },
   emits: ['copyAddressClick'],
   data() {
@@ -107,12 +111,15 @@ export default {
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  gap: 0.5rem;
 
   .icon {
     cursor: pointer;
     font-size: 0.8rem;
     margin-right: 0.52rem;
   }
+}
+
+.address-container-with-gap {
+  gap: 0.5rem;
 }
 </style>
