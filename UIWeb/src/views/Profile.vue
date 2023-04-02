@@ -720,7 +720,7 @@ export default {
 
         .description {
           color: rgb(50, 50, 50);
-          padding-top: 0.6rem;
+          margin-top: 0.6rem;
         }
       }
 
