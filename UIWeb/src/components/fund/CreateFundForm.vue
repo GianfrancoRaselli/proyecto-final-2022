@@ -122,8 +122,8 @@
                 @click="info.managers = !info.managers"
               />
               <div class="my-tooltip" v-if="info.managers">
-                Aquí puede agregar todos los administradores que desee, por ejemplo: 0x83bCaE28bdc13DA35617A1d648729CD373111dA9,
-                0x3Df8Aea0789c1007E5e6F6876773A1dce65b41Be.
+                Aquí puede agregar todos los administradores que desee, por ejemplo: 0x47E54345335d14A5FbC8EaA9eD10Dd5B9EC8392D,
+                0x45C3438914D5B35A1dAaBD2DBBe56D0453b35FBd.
               </div>
             </div>
           </div>
