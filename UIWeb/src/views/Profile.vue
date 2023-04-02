@@ -697,6 +697,11 @@ export default {
       .header {
         display: flex;
         flex-direction: column;
+        align-items: start;
+
+        @media (max-width: 680px) {
+          align-items: center;
+        }
 
         .fullname {
           font-size: 2.4rem;
@@ -723,7 +728,12 @@ export default {
         font-size: 1.1rem;
         display: flex;
         flex-direction: column;
+        align-items: start;
         gap: 0.6rem;
+
+        @media (max-width: 680px) {
+          align-items: center;
+        }
 
         .btn {
           margin-top: 0.7rem;
