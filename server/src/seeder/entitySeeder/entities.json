@@ -1,5 +1,6 @@
 [
   {
+    "num": 0,
     "fullname": "Gianfranco Raselli",
     "type": "Persona",
     "description": "Estudiante de Ingeniería en Sistemas de Información en la Facultad Regional Rosario de la UTN",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "num": 1,
     "fullname": "Juan Pérez",
     "type": "Persona",
     "description": "Profesor de física II",
@@ -28,6 +30,7 @@
     "savedFunds": []
   },
   {
+    "num": 2,
     "fullname": "Flux Group Pty. Ltd.",
     "type": "Empresa",
     "description": "Flux is a company based in Sydney, Australia. We have a growing team whose capabilities include industrial design, mechanical engineering, electrical engineering, UI/UX design and software development.",
@@ -41,6 +44,7 @@
     "savedFunds": []
   },
   {
+    "num": 3,
     "fullname": "UNICEF",
     "type": "Organización",
     "description": "El Fondo de las Naciones Unidas para la Infancia, en inglés, más conocido como Unicef, ​ es una agencia de la Organización de las Naciones Unidas con sede en Nueva York y que provee ayuda humanitaria y desarrollo a niños y madres en países en desarrollo.",
@@ -54,6 +58,7 @@
     "savedFunds": []
   },
   {
+    "num": 4,
     "fullname": "Santiago Maratea",
     "type": "Persona",
     "description": "30 años. Influencer.",
@@ -67,6 +72,7 @@
     "savedFunds": []
   },
   {
+    "num": 5,
     "fullname": "Todo A Pedido",
     "type": "Empresa",
     "description": "16 años vendiendo en Mercado Libre",
@@ -80,6 +86,7 @@
     "savedFunds": []
   },
   {
+    "num": 6,
     "fullname": "PRIMARC SA",
     "type": "Empresa",
     "description": "Primeras marcas en materiales eléctricos",
@@ -93,6 +100,7 @@
     "savedFunds": []
   },
   {
+    "num": 7,
     "fullname": "Search Values",
     "type": "Empresa",
     "description": "Sabemos cómo llegar a tus clientes potenciales para aumentar tus ventas o generar mayor reconocimiento de marca. Somos especialistas en medios digitales.",
@@ -106,6 +114,7 @@
     "savedFunds": []
   },
   {
+    "num": 8,
     "fullname": "Asociacion Civil De Bomberos Voluntarios Ctes Cap.",
     "type": "Organización",
     "description": "Organización no gubernamental (ONG)",

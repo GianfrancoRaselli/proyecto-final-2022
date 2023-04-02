@@ -1,5 +1,6 @@
 [
   {
+    "num": 0,
     "creator": 2,
     "name": "Flux Keyboard - The Keyboard Reinvented",
     "description": "A transparent keyboard with integrated display that adapts to any software, any language and any style.",
@@ -88,6 +89,7 @@
     ]
   },
   {
+    "num": 1,
     "creator": 0,
     "name": "The Ultimate Digital Planner",
     "description": "Works with iPad and Android Tablets. Supported Annotation Apps: GoodNotes, ZoomNotes, NotesWriter, Notability, Noteshelf, and Xodo",
@@ -112,6 +114,7 @@
     "requests": []
   },
   {
+    "num": 2,
     "creator": 4,
     "name": "Recaudación de fondos para los bomberos de Corrientes",
     "description": "Ayudanos a recaudar fondos para comprar nuevos equipos, alimentos, cosas de enfermería y más para los bomberos de Corrientes que se encuentra combatiendo los indencios",
@@ -148,6 +151,7 @@
     "requests": []
   },
   {
+    "num": 3,
     "creator": 3,
     "name": "Doná a UNICEF y hacé la diferencia",
     "description": "Gracias a personas como vos, UNICEF puede trabajar para que más niños, niñas y adolescentes reciban más y mejor salud, educación y protección en la Argentina y en el mundo",
@@ -172,6 +176,7 @@
     "requests": []
   },
   {
+    "num": 4,
     "creator": 0,
     "name": "Vaca para jugar al padel",
     "description": "Fondo creado para juntar dinero para comprar pelotitas, paletas y alquilar canchas para jugar al padel",
@@ -179,7 +184,8 @@
     "image": "padel.jpeg",
     "managers": [
       0,
-      1
+      1,
+      4
     ],
     "managersCanBeAddedOrRemoved": true,
     "managersCanTransferMoneyWithoutARequest": true,
