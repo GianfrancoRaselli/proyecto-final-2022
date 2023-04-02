@@ -95,7 +95,7 @@ export default {
 
 .main__page {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1300px;
   padding: calc(var(--navbar-height) + 1rem) 1.5rem 1.5rem 1.5rem;
 }
 

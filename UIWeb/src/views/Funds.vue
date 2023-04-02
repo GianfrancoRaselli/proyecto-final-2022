@@ -22,8 +22,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.funds-container {
-  max-width: 1300px;
-}
-</style>
+<style scoped></style>
