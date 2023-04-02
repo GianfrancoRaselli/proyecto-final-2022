@@ -128,7 +128,7 @@
             </div>
           </div>
           <small id="managersHelp" class="form-text text-muted"
-            >Ingrese la dirección de otros administradores separados por coma (,)</small
+            >Ingrese la dirección de los demás administradores separados por coma (,)</small
           >
           <AppInputErrors :errors="v$.data.managers.$errors" />
         </div>
