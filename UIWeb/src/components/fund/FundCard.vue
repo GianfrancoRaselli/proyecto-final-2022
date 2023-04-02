@@ -1,70 +1,76 @@
 <template>
   <div class="card-container">
-    <div class="card text-center" @click="redirect">
-      <div class="card-header fund-card-header">
-        <span class="name" v-text="fund.name" />
-        <div class="fund-badges">
-          <span class="badge badge-pill badge-primary" v-if="compareAddresses(address, fund.creator)">Mi fondo</span>
-          <span
-            class="badge badge-pill badge-secondary"
-            v-if="fund.managers.findIndex((manager) => compareAddresses(manager, address)) >= 0"
-            >Administrador</span
-          >
-          <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
-        </div>
-      </div>
-      <div class="card-body">
-        <FaIcon
-          class="saved"
-          :icon="[isSaved ? 'fas' : 'far', 'bookmark']"
-          data-toggle="tooltip"
-          data-placement="right"
-          title=""
-          :data-original-title="isSaved ? 'Remover' : 'Guardar'"
-          @click="savedClick"
-          v-if="address"
-        />
-        <div class="img-container">
-          <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
-          <img class="img" src="@/assets/imgs/background-lg.jpg" v-else />
-        </div>
-        <div class="info">
-          <p v-text="fund.description" v-if="fund.description" />
-          <p class="align-items-row">
-            <span class="text-bold">Creador</span>:&nbsp;<button
-              type="button"
-              class="btn btn-link"
-              @click="preventRedirect"
-              data-toggle="modal"
-              :data-target="'#entityModal' + fund.creator"
+    <router-link
+      class="router-link"
+      :to="{ name: canRedirect ? 'Fund' : '', params: { fundAddress: fund.address } }"
+      @click="canRedirect = true"
+    >
+      <div class="card text-center">
+        <div class="card-header fund-card-header">
+          <span class="name" v-text="fund.name" />
+          <div class="fund-badges">
+            <span class="badge badge-pill badge-primary" v-if="compareAddresses(address, fund.creator)">Mi fondo</span>
+            <span
+              class="badge badge-pill badge-secondary"
+              v-if="fund.managers.findIndex((manager) => compareAddresses(manager, address)) >= 0"
+              >Administrador</span
             >
-              <div class="align-items-row">
-                <AppShowAddress
-                  type="entity"
-                  id="creatorAddress"
-                  :address="fund.creator"
-                  :showTooltip="false"
-                  :allowCopyAddress="false"
-                />
-              </div>
-            </button>
-          </p>
-          <p class="contributions-container">
-            <span class="align-items-row">
-              <span class="text-bold" v-if="fundType.type !== 'Campaña'">Contribuciones totales</span>
-              <span class="text-bold" v-else>Dinero invertido</span>
-              <span>:&nbsp;</span>
-              <AppShowEth :weis="fund.totalContributions" />
-            </span>
-            <span class="amount align-items-row" v-if="fund.contributors.length > 0">
-              (<AppShowAmount :amount="fund.contributors.length" singular="contribuyente" plural="contribuyentes" />)
-            </span>
-          </p>
-          <span class="badge badge-pill badge-info badge-contribution" v-if="isAContributor">Contribución realizada</span>
+            <span class="badge badge-pill" :class="'badge-' + fundType.class" v-if="fundType" v-text="fundType.type" />
+          </div>
         </div>
+        <div class="card-body">
+          <FaIcon
+            class="saved"
+            :icon="[isSaved ? 'fas' : 'far', 'bookmark']"
+            data-toggle="tooltip"
+            data-placement="right"
+            title=""
+            :data-original-title="isSaved ? 'Remover' : 'Guardar'"
+            @click="savedClick"
+            v-if="address"
+          />
+          <div class="img-container">
+            <img class="img" :src="serverUrl + 'images/' + fund.image" v-if="fund.image" />
+            <img class="img" src="@/assets/imgs/background-lg.jpg" v-else />
+          </div>
+          <div class="info">
+            <p v-text="fund.description" v-if="fund.description" />
+            <p class="align-items-row">
+              <span class="text-bold">Creador</span>:&nbsp;<button
+                type="button"
+                class="btn btn-link"
+                @click="preventRedirect"
+                data-toggle="modal"
+                :data-target="'#entityModal' + fund.creator"
+              >
+                <div class="align-items-row">
+                  <AppShowAddress
+                    type="entity"
+                    id="creatorAddress"
+                    :address="fund.creator"
+                    :showTooltip="false"
+                    :allowCopyAddress="false"
+                  />
+                </div>
+              </button>
+            </p>
+            <p class="contributions-container">
+              <span class="align-items-row">
+                <span class="text-bold" v-if="fundType.type !== 'Campaña'">Contribuciones totales</span>
+                <span class="text-bold" v-else>Dinero invertido</span>
+                <span>:&nbsp;</span>
+                <AppShowEth :weis="fund.totalContributions" />
+              </span>
+              <span class="amount align-items-row" v-if="fund.contributors.length > 0">
+                (<AppShowAmount :amount="fund.contributors.length" singular="contribuyente" plural="contribuyentes" />)
+              </span>
+            </p>
+            <span class="badge badge-pill badge-info badge-contribution" v-if="isAContributor">Contribución realizada</span>
+          </div>
+        </div>
+        <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
       </div>
-      <div class="card-footer text-muted"><AppDate :date="createdAt" /></div>
-    </div>
+    </router-link>
     <EntityModal :address="fund.creator" />
   </div>
 </template>
@@ -136,11 +142,6 @@ export default {
 
     preventRedirect() {
       this.canRedirect = false;
-    },
-
-    redirect() {
-      if (this.canRedirect) this.$router.push({ name: 'Fund', params: { fundAddress: this.fund.address } });
-      this.canRedirect = true;
     },
 
     async savedClick() {

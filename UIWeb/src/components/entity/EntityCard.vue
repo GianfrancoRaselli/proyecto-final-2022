@@ -1,19 +1,29 @@
 <template>
   <div class="card-container">
-    <div class="card text-center" @click="redirect">
-      <div class="card-header">
-        <span class="name" v-text="entity.fullname" />
+    <router-link
+      class="router-link"
+      :to="{ name: canRedirect ? 'Profile' : '', params: { address: this.entity.address } }"
+      @click="canRedirect = true"
+    >
+      <div class="card text-center">
+        <div class="card-header">
+          <span class="name" v-text="entity.fullname" />
+        </div>
+        <div class="card-body">
+          <img class="img" :src="serverUrl + 'images/' + entity.image" v-if="entity.image" />
+          <img class="img" src="@/assets/imgs/user-avatar.png" v-else />
+          <span class="type" v-text="entity.type" />
+          <span class="address"
+            ><AppShowAddress
+              type="entity"
+              :address="entity.address"
+              :forceShowAddress="true"
+              @copyAddressClick="canRedirect = false"
+          /></span>
+          <span class="description" v-text="entity.description" />
+        </div>
       </div>
-      <div class="card-body">
-        <img class="img" :src="serverUrl + 'images/' + entity.image" v-if="entity.image" />
-        <img class="img" src="@/assets/imgs/user-avatar.png" v-else />
-        <span class="type" v-text="entity.type" />
-        <span class="address"
-          ><AppShowAddress type="entity" :address="entity.address" :forceShowAddress="true" @copyAddressClick="copyAddressClick"
-        /></span>
-        <span class="description" v-text="entity.description" />
-      </div>
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -34,16 +44,7 @@ export default {
   },
   computed: {},
   watch: {},
-  methods: {
-    copyAddressClick() {
-      this.canRedirect = false;
-    },
-
-    redirect() {
-      if (this.canRedirect) this.$router.push({ name: 'Profile', params: { address: this.entity.address } });
-      this.canRedirect = true;
-    },
-  },
+  methods: {},
 };
 </script>
 

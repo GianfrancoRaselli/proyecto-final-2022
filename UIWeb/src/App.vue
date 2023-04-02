@@ -297,6 +297,17 @@ body {
   justify-content: center;
   align-items: center;
 
+  .router-link {
+    color: black;
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+
+  .router-link:hover {
+    text-decoration: none;
+  }
+
   .card {
     word-break: break-word;
     word-wrap: break-word;

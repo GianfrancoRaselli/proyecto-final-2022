@@ -58,10 +58,9 @@ const router = createRouter({
   history: createWebHistory(),
   linkActiveClass: 'nav-link-active',
   routes,
-  scrollBehavior(/*to*/) {
-    const scroll = {
-      top: 0,
-    };
+  scrollBehavior(to, from) {
+    const scroll = {};
+    if (to.fullPath !== from.fullPath) scroll.top = 0;
     // if (to.hash) {
     //   scroll.el = to.hash;
     //   scroll.behavior = 'smooth';
