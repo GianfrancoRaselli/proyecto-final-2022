@@ -302,6 +302,10 @@ body {
     display: block;
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .router-link:hover {
