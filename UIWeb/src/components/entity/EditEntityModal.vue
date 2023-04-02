@@ -187,7 +187,7 @@ export default {
   watch: {
     entity(newValue) {
       if (newValue) {
-        const { country, region, newValueWithoutLocation } = newValue;
+        const { country, region, ...newValueWithoutLocation } = newValue;
         this.data = {
           ...newValueWithoutLocation,
         };
