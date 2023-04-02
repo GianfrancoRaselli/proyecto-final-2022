@@ -21,7 +21,7 @@ export default {
 .footer {
   font-family: 'Dancing Script', cursive;
   font-size: 1.42rem;
-  background-color: rgb(234, 234, 234);
+  background-color: rgb(245, 245, 245);
   box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.65);
   border-radius: 2px;
   display: flex;
