@@ -1,6 +1,6 @@
 <template>
   <div class="editor-container">
-    <div class="header">
+    <div class="fund-extra-information-header">
       <span class="title" v-text="title"></span>
     </div>
     <hr />

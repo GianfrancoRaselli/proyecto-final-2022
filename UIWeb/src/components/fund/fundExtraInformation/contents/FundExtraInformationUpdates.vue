@@ -1,6 +1,6 @@
 <template>
   <div class="fund-extra-information-content">
-    <div class="header">
+    <div class="fund-extra-information-header">
       <span class="title">Actualizaciones</span>
       <button class="btn btn-primary" @click="addUpdate = true" v-if="isAManager && !addUpdate">Agregar actualización</button>
     </div>

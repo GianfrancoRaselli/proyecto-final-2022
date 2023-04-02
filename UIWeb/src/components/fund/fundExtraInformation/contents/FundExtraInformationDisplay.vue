@@ -1,6 +1,6 @@
 <template>
   <div class="display-container">
-    <div class="header">
+    <div class="fund-extra-information-header">
       <span class="title" v-text="title"></span>
       <button class="btn btn-primary" @click="$emit('showEditor')" v-if="isAManager">Editar</button>
     </div>

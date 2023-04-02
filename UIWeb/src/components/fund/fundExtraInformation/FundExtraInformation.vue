@@ -155,7 +155,7 @@ export default {
 </style>
 
 <style lang="scss">
-.header {
+.fund-extra-information-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
