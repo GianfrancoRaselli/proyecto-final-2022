@@ -54,7 +54,7 @@
     "transfers": [],
     "requests": [
       {
-        "description": "Pago a proveedor de teclas",
+        "description": "Pago a proveedor de teclas.",
         "petitioner": 2,
         "recipient": 5,
         "valueToTransfer": 195609852545,
@@ -64,7 +64,7 @@
         "finalize": false
       },
       {
-        "description": "Retiro de dinero para saldar cuentas con PRIMARC, quien nos prevee las baterias para las luces del teclado",
+        "description": "Retiro de dinero para saldar cuentas con PRIMARC, quien nos prevee las baterias para las luces del teclado.",
         "petitioner": 2,
         "recipient": 6,
         "valueToTransfer": 50562566585,
@@ -76,7 +76,7 @@
         "finalize": true
       },
       {
-        "description": "Adelanto de pago a empresa de marketing para comenzar la campaña de difusión del producto",
+        "description": "Adelanto de pago a empresa de marketing para comenzar la campaña de difusión del producto.",
         "petitioner": 2,
         "recipient": 7,
         "valueToTransfer": 9095556678,
@@ -92,7 +92,7 @@
     "num": 1,
     "creator": 0,
     "name": "The Ultimate Digital Planner",
-    "description": "Works with iPad and Android Tablets. Supported Annotation Apps: GoodNotes, ZoomNotes, NotesWriter, Notability, Noteshelf, and Xodo",
+    "description": "Works with iPad and Android Tablets. Supported Annotation Apps: GoodNotes, ZoomNotes, NotesWriter, Notability, Noteshelf, and Xodo.",
     "imageVersion": 1,
     "image": "digital-planner.jpeg",
     "managers": [
@@ -117,7 +117,7 @@
     "num": 2,
     "creator": 4,
     "name": "Recaudación de fondos para los bomberos de Corrientes",
-    "description": "Ayudanos a recaudar fondos para comprar nuevos equipos, alimentos, cosas de enfermería y más para los bomberos de Corrientes que se encuentra combatiendo los indencios",
+    "description": "Ayudanos a recaudar fondos para comprar nuevos equipos, alimentos, cosas de enfermería y más para los bomberos de Corrientes que se encuentra combatiendo los incendios.",
     "imageVersion": 1,
     "image": "fire.jpeg",
     "managers": [
@@ -154,7 +154,7 @@
     "num": 3,
     "creator": 3,
     "name": "Doná a UNICEF y hacé la diferencia",
-    "description": "Gracias a personas como vos, UNICEF puede trabajar para que más niños, niñas y adolescentes reciban más y mejor salud, educación y protección en la Argentina y en el mundo",
+    "description": "Gracias a personas como vos, UNICEF puede trabajar para que más niños, niñas y adolescentes reciban más y mejor salud, educación y protección en la Argentina y en el mundo.",
     "imageVersion": 1,
     "image": "girl.jpeg",
     "managers": [
@@ -179,7 +179,7 @@
     "num": 4,
     "creator": 0,
     "name": "Vaca para jugar al padel",
-    "description": "Fondo creado para juntar dinero para comprar pelotitas, paletas y alquilar canchas para jugar al padel",
+    "description": "Fondo creado para juntar dinero para comprar pelotitas, paletas y alquilar canchas para jugar al padel.",
     "imageVersion": 1,
     "image": "padel.jpeg",
     "managers": [
