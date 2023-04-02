@@ -34,21 +34,38 @@ const seedFund = async () => {
       )
       .send({ from: accounts[fundToCreate.creator] });
     const address = createFundTx.events.NewFund.returnValues.fundAddress;
-    const image = address + "v" + fundToCreate.imageVersion + ".jpeg";
-    fs.renameSync("uploads/" + fundToCreate.image, "uploads/" + image);
+    let imageVersion = 0;
+    let image = null;
+    if (fundToCreate.image) {
+      imageVersion++;
+      image = address + "V" + imageVersion + ".jpeg";
+      fs.renameSync("uploads/" + fundToCreate.image, "uploads/" + image);
+    }
     let savedFund = await new Fund({
       address,
       creator: accounts[fundToCreate.creator],
       description: fundToCreate.description,
-      imageVersion: fundToCreate.imageVersion,
-      image: image,
+      imageVersion,
+      image,
       history: fundToCreate.history,
       risks: fundToCreate.risks,
       rewards: fundToCreate.rewards,
+      imagesAmount: 0,
+      images: [],
     }).save();
     const FundContract = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../../build", "Fund.json"), "utf-8"));
     const fundInstance = new web3.eth.Contract(FundContract.abi, address);
-    if (fundToCreate.updates.length > 0) {
+    if (fundToCreate.images && fundToCreate.images.length > 0) {
+      let imageName;
+      for (let image of fundToCreate.images) {
+        savedFund.imagesAmount++;
+        imageName = address + "V" + savedFund.imagesAmount + ".jpeg";
+        fs.renameSync("uploads/" + image, "uploads/" + imageName);
+        savedFund.images.push(imageName);
+      }
+      await savedFund.save();
+    }
+    if (fundToCreate.updates && fundToCreate.updates.length > 0) {
       for (let update of fundToCreate.updates) {
         savedFund.updates.push({
           updater: accounts[update.updater],
@@ -57,25 +74,33 @@ const seedFund = async () => {
       }
       await savedFund.save();
     }
-    for (let contribution of fundToCreate.contributions) {
-      await fundInstance.methods.contribute().send({ from: accounts[contribution.contributor], value: contribution.value });
-    }
-    for (let transfer of fundToCreate.transfers) {
-      await fundInstance.methods.transfer(accounts[transfer.to], transfer.value).send({ from: accounts[transfer.sender] });
-    }
-    for (let request of fundToCreate.requests) {
-      const createRequestTx = await fundInstance.methods
-        .createRequest(request.description, accounts[request.recipient], request.valueToTransfer)
-        .send({ from: accounts[request.petitioner] });
-      for (let approver of request.approvers) {
-        await fundInstance.methods
-          .approveRequest(createRequestTx.events.NewRequest.returnValues.requestIndex)
-          .send({ from: accounts[approver] });
+    if (fundToCreate.contributions) {
+      for (let contribution of fundToCreate.contributions) {
+        await fundInstance.methods.contribute().send({ from: accounts[contribution.contributor], value: contribution.value });
       }
-      if (request.finalize)
-        await fundInstance.methods
-          .finalizeRequest(createRequestTx.events.NewRequest.returnValues.requestIndex)
+    }
+    if (fundToCreate.transfers) {
+      for (let transfer of fundToCreate.transfers) {
+        await fundInstance.methods.transfer(accounts[transfer.to], transfer.value).send({ from: accounts[transfer.sender] });
+      }
+    }
+    if (fundToCreate.requests) {
+      for (let request of fundToCreate.requests) {
+        const createRequestTx = await fundInstance.methods
+          .createRequest(request.description, accounts[request.recipient], request.valueToTransfer)
           .send({ from: accounts[request.petitioner] });
+        if (request.approvers) {
+          for (let approver of request.approvers) {
+            await fundInstance.methods
+              .approveRequest(createRequestTx.events.NewRequest.returnValues.requestIndex)
+              .send({ from: accounts[approver] });
+          }
+        }
+        if (request.finalize)
+          await fundInstance.methods
+            .finalizeRequest(createRequestTx.events.NewRequest.returnValues.requestIndex)
+            .send({ from: accounts[request.petitioner] });
+      }
     }
   }
   provider.engine.stop();

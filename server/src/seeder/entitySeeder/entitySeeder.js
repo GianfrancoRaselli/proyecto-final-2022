@@ -14,8 +14,13 @@ const seedEntity = async () => {
   for (let i = 0; i < entitiesToCreate.length; i++) {
     const entityToCreate = entitiesToCreate[i];
     const address = accounts[i];
-    const image = address + "v" + entityToCreate.imageVersion + ".jpeg";
-    fs.renameSync("uploads/" + entityToCreate.image, "uploads/" + image);
+    let imageVersion = 0;
+    let image = null;
+    if (entityToCreate.image) {
+      imageVersion++;
+      image = address + "V" + imageVersion + ".jpeg";
+      fs.renameSync("uploads/" + entityToCreate.image, "uploads/" + image);
+    }
     new Entity({
       address,
       fullname: entityToCreate.fullname,
@@ -26,11 +31,13 @@ const seedEntity = async () => {
       country: entityToCreate.country,
       region: entityToCreate.region,
       url: entityToCreate.url,
-      imageVersion: entityToCreate.imageVersion,
-      image: image,
-      savedFunds: entityToCreate.savedFunds.map((fund) => {
-        return funds[fund].address;
-      }),
+      imageVersion,
+      image,
+      savedFunds: entityToCreate.savedFunds
+        ? entityToCreate.savedFunds.map((fund) => {
+            return funds[fund].address;
+          })
+        : [],
     }).save();
   }
   provider.engine.stop();

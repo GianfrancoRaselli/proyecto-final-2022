@@ -9,7 +9,6 @@
     "country": "Argentina",
     "region": "Santa Fe",
     "url": "https://www.instagram.com/gianfrancoraselli/",
-    "imageVersion": 1,
     "image": "yo.jpeg",
     "savedFunds": [
       0,
@@ -25,7 +24,6 @@
     "phone": "341-3876691",
     "country": "Argentina",
     "region": "Santa Fe",
-    "imageVersion": 1,
     "image": "juan.jpeg",
     "savedFunds": []
   },
@@ -39,7 +37,6 @@
     "country": "Australia",
     "region": "New South Wales",
     "url": "https://www.fluxkeyboard.com",
-    "imageVersion": 1,
     "image": "flux.jpeg",
     "savedFunds": []
   },
@@ -53,7 +50,6 @@
     "country": "United States",
     "region": "New Yoork",
     "url": "https://www.unicef.org/es",
-    "imageVersion": 1,
     "image": "unicef.jpeg",
     "savedFunds": []
   },
@@ -67,7 +63,6 @@
     "country": "Argentina",
     "region": "Capital Federal",
     "url": "https://www.santimaratea.com",
-    "imageVersion": 1,
     "image": "santi.jpeg",
     "savedFunds": []
   },
@@ -81,7 +76,6 @@
     "country": "Argentina",
     "region": "Buenos Aires",
     "url": "https://www.mercadolibre.com.ar/perfil/LIBERATE+TODO_A_PEDIDO",
-    "imageVersion": 1,
     "image": "todo_a_pedido.jpeg",
     "savedFunds": []
   },
@@ -95,7 +89,6 @@
     "country": "Argentina",
     "region": "Buenos Aires",
     "url": "https://www.mercadolibre.com.ar/perfil/PRIMARC+SA",
-    "imageVersion": 1,
     "image": "primarc.jpeg",
     "savedFunds": []
   },
@@ -109,7 +102,6 @@
     "country": "United States",
     "region": "California",
     "url": "https://www.searchvalues.com/",
-    "imageVersion": 1,
     "image": "search_values.jpeg",
     "savedFunds": []
   },
@@ -123,7 +115,6 @@
     "country": "Argentina",
     "region": "Corrientes",
     "url": "https://www.facebook.com/bomberosvoluntarioscorrientes/",
-    "imageVersion": 1,
     "image": "bomberos.jpeg",
     "savedFunds": [
       2

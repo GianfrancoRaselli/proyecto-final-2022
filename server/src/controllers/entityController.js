@@ -66,7 +66,7 @@ const uploadImage = async (req, res) => {
     }
 
     // set next image name
-    nextImageName = req.entityAddress + "v" + (entityToUpdate.imageVersion + 1) + ".jpeg";
+    const nextImageName = req.entityAddress + "V" + (entityToUpdate.imageVersion + 1) + ".jpeg";
 
     // save the image in disk
     multer({

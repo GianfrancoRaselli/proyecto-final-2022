@@ -59,7 +59,7 @@ const uploadImage = async (req, res) => {
     }
 
     // set next image name
-    nextImageName = req.params.address + "v" + (fundToUpdate.imageVersion + 1) + ".jpeg";
+    const nextImageName = req.params.address + "V" + (fundToUpdate.imageVersion + 1) + ".jpeg";
 
     // save the image in disk
     multer({
@@ -112,9 +112,67 @@ const removeImage = async (req, res) => {
   }
 };
 
+const uploadImageToImages = async (req, res) => {
+  let fundToUpdate = await Fund.findOne({ address: req.params.address });
+  if (fundToUpdate) {
+    // set next image name
+    const nextImageName = req.params.address + "Num" + (fundToUpdate.imagesAmount + 1) + ".jpeg";
+
+    // save the image in disk
+    multer({
+      storage: multer.diskStorage({
+        destination: "./uploads",
+        filename(_, file, cb) {
+          return cb(null, nextImageName);
+        },
+      }),
+    }).single("image")(req, res, async (err) => {
+      if (err) {
+        return res.send(400).send({ message: "Error al guardar la imagen" });
+      }
+
+      // save the name image in the DB
+      fundToUpdate.image = nextImageName;
+      fundToUpdate.imageVersion = fundToUpdate.imagesAmount + 1;
+      const savedFund = await fundToUpdate.save();
+
+      // return success
+      return res.status(200).json(savedFund);
+    });
+  } else {
+    return res.status(400).send({ message: "El fondo aún no ha sido creado" });
+  }
+};
+
+const removeImageFromImages = async (req, res) => {
+  let fundToUpdate = await Fund.findOne({ address: req.params.address });
+  if (fundToUpdate) {
+    const indexToRemove = fundToUpdate.images.findIndex((image) => image === req.params.imageName);
+    if (indexToRemove >= 0) {
+      // remove image
+      fs.unlink("uploads/" + fundToUpdate.images[indexToRemove], (err) => {
+        if (err) console.log(err);
+      });
+
+      // update field
+      fundToUpdate.images.splice(indexToRemove, 1);
+
+      // save the entity in the DB
+      const savedFund = await fundToUpdate.save();
+
+      // return success
+      return res.status(200).json(savedFund);
+    } else {
+      return res.status(200).json(fundToUpdate);
+    }
+  } else {
+    return res.status(400).send({ message: "El fondo aún no ha sido creado" });
+  }
+};
+
 const get = async (req, res) => {
   const fund = await Fund.findOne({ address: req.params.address });
   return res.status(200).json(fund);
 };
 
-module.exports = { create, update, uploadImage, removeImage, get };
+module.exports = { create, update, uploadImage, removeImage, uploadImageToImages, removeImageFromImages, get };
