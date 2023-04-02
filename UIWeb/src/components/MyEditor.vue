@@ -1,6 +1,6 @@
 <template>
   <button class="btn btn-secondary mb-3" @click="$emit('close')">Cerrar edición</button>
-  <vue-editor class="my-editor" :editorToolbar="customToolbar" :disabled="loading" v-model="editing"></vue-editor>
+  <vue-editor class="my-editor" :editorToolbar="customToolbar" v-model="editing" :disabled="loading"></vue-editor>
   <div class="length mt-2">
     <span class="mr-1"
       ><span class="number" :class="{ error: editingLength > maxLength }" v-text="separateInteger(editingLength)"></span>/<span

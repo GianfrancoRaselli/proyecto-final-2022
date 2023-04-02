@@ -149,6 +149,7 @@ export default {
 
 <style lang="scss" scoped>
 .body {
+  user-select: text;
   padding: 0.6rem 0;
 }
 </style>

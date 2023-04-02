@@ -184,6 +184,10 @@ body {
   color: rgb(79, 79, 79);
 }
 
+.btn {
+  user-select: none;
+}
+
 .btn-link:hover,
 .btn-link:focus {
   outline: none !important;

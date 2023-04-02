@@ -69,7 +69,7 @@ export default {
     },
   },
   created() {
-    if (this.fund[this.propertyToEdit]) this.editing = this.fund[this.propertyToEdit];
+    if (this.fund && this.fund[this.propertyToEdit]) this.editing = this.fund[this.propertyToEdit];
   },
 };
 </script>
