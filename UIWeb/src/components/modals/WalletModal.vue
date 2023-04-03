@@ -44,20 +44,24 @@
               </a>
             </div>
             <div class="user">
-              <AppButton
-                classes="btn-sm btn-link btn-radius btn-profile"
-                text="Ver mi perfil"
-                icon="user"
-                @click="redirectToMyProfile"
-              />
+              <router-link class="router-link" :to="{ name: 'Profile', params: { address } }" @click="hideModal">
+                <AppButton
+                  classes="btn-sm btn-link btn-radius btn-profile"
+                  text="Ver mi perfil"
+                  icon="user"
+                  @click="redirectToMyProfile"
+                />
+              </router-link>
             </div>
             <div class="fund-factory" v-if="isTheDeployer">
-              <AppButton
-                classes="btn-sm btn-link btn-radius btn-fund-factory"
-                text="Administrar FundFactory"
-                icon="file-contract"
-                @click="redirectToFundFactory"
-              />
+              <router-link class="router-link" :to="{ name: 'FundFactory' }" @click="hideModal">
+                <AppButton
+                  classes="btn-sm btn-link btn-radius btn-fund-factory"
+                  text="Administrar FundFactory"
+                  icon="file-contract"
+                  @click="redirectToFundFactory"
+                />
+              </router-link>
             </div>
           </div>
 
@@ -156,19 +160,8 @@ export default {
       this.$store.commit('setSignature', undefined);
     },
 
-    redirectToMyProfile() {
+    hideModal() {
       $('#walletModal').modal('hide');
-      this.$router.push({
-        name: 'Profile',
-        params: { address: this.address },
-      });
-    },
-
-    redirectToFundFactory() {
-      $('#walletModal').modal('hide');
-      this.$router.push({
-        name: 'FundFactory',
-      });
     },
   },
 };
