@@ -1,5 +1,5 @@
 <template>
-  <span class="amount" v-text="amount + ' ' + (amount == 1 ? singular : plural ? plural : singular)" />
+  <span class="show-amount" v-text="amount + ' ' + (amount == 1 ? singular : plural ? plural : singular)" />
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style scoped>
-.amount {
+.show-amount {
   display: inline-block;
   max-width: max-content;
   min-width: max-content;
