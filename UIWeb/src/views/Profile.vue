@@ -68,6 +68,7 @@
       <div class="item item-red">
         <div
           class="amount"
+          :class="{ 'amount-clickable': contributedFundsAmount > 0 }"
           data-toggle="tooltip"
           data-placement="bottom"
           title=""
@@ -78,7 +79,12 @@
         <span class="description"><span class="unit">ETH</span> contribuidos</span>
       </div>
       <div class="item item-purple">
-        <div class="amount" v-text="contributedFundsAmount" @click="openFundsContributedModal"></div>
+        <div
+          class="amount"
+          :class="{ 'amount-clickable': contributedFundsAmount > 0 }"
+          v-text="contributedFundsAmount"
+          @click="openFundsContributedModal"
+        ></div>
         <span class="description"><span class="unit">Fondos</span> contribuidos</span>
       </div>
 
@@ -780,7 +786,6 @@ export default {
     gap: 0.6rem;
 
     .amount {
-      cursor: pointer;
       font-size: 3rem;
       word-break: break-word;
       height: 12rem;
@@ -792,6 +797,10 @@ export default {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+    }
+
+    .amount-clickable {
+      cursor: pointer;
     }
 
     .description {
