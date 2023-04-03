@@ -1,9 +1,19 @@
 <template>
-  <div class="modal fade" id="editImageModal" tabindex="-1" aria-labelledby="editImageModalLabel" aria-hidden="true">
+  <div
+    class="modal fade"
+    :id="!editImages ? 'editImageModal' : 'addImageModal'"
+    tabindex="-1"
+    :aria-labelledby="!editImages ? 'editImageModalLabel' : 'addImageModalLabel'"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="editImageModalLabel">Actualizar imagen</h4>
+          <h4
+            class="modal-title"
+            :id="!editImages ? 'editImageModalLabel' : 'addImageModalLabel'"
+            v-text="!editImages ? 'Actualizar imagen' : 'Agregar imagen'"
+          ></h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -25,10 +35,15 @@
               <AppInputErrors :errors="v$.image.$errors" />
             </div>
 
-            <button type="submit" class="btn btn-primary" v-if="!loading">Actualizar</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              v-if="!loading"
+              v-text="!editImages ? 'Actualizar' : 'Agregar'"
+            ></button>
             <button class="btn btn-primary" type="button" disabled v-if="loading">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Actualizando...
+              {{ !editImages ? 'Actualizando...' : 'Agregando...' }}
             </button>
           </form>
         </div>
@@ -55,8 +70,9 @@ export default {
   components: {},
   props: {
     fundAddress: { type: String, default: undefined },
+    editImages: { type: Boolean, default: false },
   },
-  emits: ['update'],
+  emits: ['submit'],
   data() {
     return {
       loading: false,
@@ -97,15 +113,20 @@ export default {
           formData.append('image', this.image);
 
           let imageName;
-          if (!this.fundAddress) imageName = (await axios.put('entity/uploadImage', formData)).data.image;
-          else imageName = (await axios.put('fund/uploadImage/' + this.fundAddress, formData)).data.image;
+          if (this.editImages) {
+            const { data } = await axios.put('fund/uploadImageToImages/' + this.fundAddress, formData);
+            imageName = data.images[data.images.length - 1];
+          } else {
+            if (!this.fundAddress) imageName = (await axios.put('entity/uploadImage', formData)).data.image;
+            else imageName = (await axios.put('fund/uploadImage/' + this.fundAddress, formData)).data.image;
+          }
 
-          this.$emit('update', imageName);
+          this.$emit('submit', imageName);
           addNotification({
-            message: 'Imagen actualizada',
+            message: !this.editImages ? 'Imagen actualizada' : 'Imagen agregada',
             type: 'success',
           });
-          $('#editImageModal').modal('hide');
+          $(!this.editImages ? '#editImageModal' : '#addImageModal').modal('hide');
           this.$refs['imageInput'].value = '';
           this.image = undefined;
         } finally {

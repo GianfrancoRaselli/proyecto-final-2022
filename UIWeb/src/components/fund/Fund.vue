@@ -264,7 +264,7 @@
       <FundExtraInformation :isAManager="isAManager" />
 
       <!-- modals -->
-      <EditImageModal :fundAddress="fund.address" @update="updateImage" v-if="isAManager" />
+      <EditImageModal :fundAddress="fund.address" @submit="updateImage" v-if="isAManager" />
       <ContributorsModal :loading="loading" :fund="fund" />
       <ManagersModal :fund="fund" :isAManager="isAManager" />
       <ContributionsModal :fund="fund" />

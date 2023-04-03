@@ -61,7 +61,7 @@
       </div>
 
       <EditEntityModal :entity="entity" @update="getEntityData" />
-      <EditImageModal @update="updateImage" />
+      <EditImageModal @submit="updateImage" />
     </div>
 
     <div class="investment-statistics">

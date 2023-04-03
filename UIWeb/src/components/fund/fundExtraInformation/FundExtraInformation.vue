@@ -25,6 +25,10 @@
           <span class="span" :class="{ 'span-active': rewards }">Recompensas</span>
           <div class="bar" :class="{ 'bar-active': rewards }"></div>
         </div>
+        <div class="item" @click="images = true">
+          <span class="span" :class="{ 'span-active': images }">Imágenes</span>
+          <div class="bar" :class="{ 'bar-active': images }"></div>
+        </div>
         <div class="item" @click="updates = true">
           <span class="span" :class="{ 'span-active': updates }">Actualizaciones</span>
           <div class="bar" :class="{ 'bar-active': updates }"></div>
@@ -37,6 +41,7 @@
         <FundExtraInformationHistory :isAManager="isAManager" :fund="fund" v-show="history" />
         <FundExtraInformationRisks :isAManager="isAManager" :fund="fund" v-show="risks" />
         <FundExtraInformationRewards :isAManager="isAManager" :fund="fund" v-show="rewards" />
+        <FundExtraInformationImages :isAManager="isAManager" :fund="fund" v-show="images" />
         <FundExtraInformationUpdates :isAManager="isAManager" :fund="fund" v-show="updates" />
       </div>
     </div>
@@ -50,6 +55,7 @@ import axios from 'axios';
 import FundExtraInformationHistory from '@/components/fund/fundExtraInformation/contents/FundExtraInformationHistory';
 import FundExtraInformationRisks from '@/components/fund/fundExtraInformation/contents/FundExtraInformationRisks';
 import FundExtraInformationRewards from '@/components/fund/fundExtraInformation/contents/FundExtraInformationRewards';
+import FundExtraInformationImages from '@/components/fund/fundExtraInformation/contents/FundExtraInformationImages';
 import FundExtraInformationUpdates from '@/components/fund/fundExtraInformation/contents/FundExtraInformationUpdates';
 
 export default {
@@ -58,6 +64,7 @@ export default {
     FundExtraInformationHistory,
     FundExtraInformationRisks,
     FundExtraInformationRewards,
+    FundExtraInformationImages,
     FundExtraInformationUpdates,
   },
   props: {
@@ -72,6 +79,7 @@ export default {
       history: true,
       risks: false,
       rewards: false,
+      images: false,
       updates: false,
     };
   },
@@ -81,6 +89,7 @@ export default {
       if (newValue) {
         this.risks = false;
         this.rewards = false;
+        this.images = false;
         this.updates = false;
       }
     },
@@ -88,6 +97,7 @@ export default {
       if (newValue) {
         this.history = false;
         this.rewards = false;
+        this.images = false;
         this.updates = false;
       }
     },
@@ -95,6 +105,15 @@ export default {
       if (newValue) {
         this.history = false;
         this.risks = false;
+        this.images = false;
+        this.updates = false;
+      }
+    },
+    images(newValue) {
+      if (newValue) {
+        this.history = false;
+        this.risks = false;
+        this.rewards = false;
         this.updates = false;
       }
     },
@@ -103,6 +122,7 @@ export default {
         this.history = false;
         this.risks = false;
         this.rewards = false;
+        this.images = false;
       }
     },
   },
