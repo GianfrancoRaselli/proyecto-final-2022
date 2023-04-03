@@ -871,7 +871,7 @@ export default {
     }
 
     .btn-show-contributors {
-      font-size: 0.85rem !important;
+      font-size: 0.92rem !important;
     }
 
     .item-container {

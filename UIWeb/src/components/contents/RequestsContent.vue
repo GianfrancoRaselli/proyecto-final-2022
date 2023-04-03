@@ -141,7 +141,7 @@ export default {
 }
 
 .btn-show-approvals {
-  font-size: 0.92rem;
+  font-size: 0.95rem;
 }
 
 @media (max-width: 620px) {
