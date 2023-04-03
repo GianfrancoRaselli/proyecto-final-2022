@@ -5,7 +5,7 @@
       <div class="item-container item-container-owner">
         <div class="item">
           <span class="value">
-            <span class="amount"><AppShowAddress type="entity" :address="deployer" :goToProfile="true" /></span>
+            <span class="amount"><AppShowAddress type="entity" :address="deployer" :goToProfile="true" v-if="deployer" /></span>
             <span class="unit">Propietario del FundFactory</span>
           </span>
           <span class="description"
