@@ -1,5 +1,5 @@
 <template>
-  <span v-text="amount + ' ' + (amount == 1 ? singular : plural ? plural : singular)" />
+  <span class="amount" v-text="amount + ' ' + (amount == 1 ? singular : plural ? plural : singular)" />
 </template>
 
 <script>
@@ -13,4 +13,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.amount {
+  display: inline-block;
+  max-width: max-content;
+  min-width: max-content;
+}
+</style>

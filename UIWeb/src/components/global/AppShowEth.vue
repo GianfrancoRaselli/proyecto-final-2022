@@ -1,5 +1,5 @@
 <template>
-  <span data-toggle="tooltip" data-placement="right" title="" :data-original-title="'≈ ' + amountInUSD + ' USD'">
+  <span class="show-eth" data-toggle="tooltip" data-placement="right" title="" :data-original-title="'≈ ' + amountInUSD + ' USD'">
     <AppShowAmount :amount="weis" singular="Wei" plural="Weis" v-if="showWeis" />
     <AppShowAmount :amount="amountInEth" singular="ETH" v-else />
   </span>
@@ -48,4 +48,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.show-eth {
+  display: inline-block;
+  max-width: max-content;
+  min-width: max-content;
+}
+</style>

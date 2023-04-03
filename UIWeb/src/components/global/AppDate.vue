@@ -44,7 +44,8 @@ export default {
 
 <style scoped>
 .date {
-  max-width: fit-content;
-  min-width: fit-content;
+  display: inline-block;
+  max-width: max-content;
+  min-width: max-content;
 }
 </style>
