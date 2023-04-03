@@ -36,6 +36,7 @@ export default {
   name: 'ProfileContributionsComponent',
   components: {},
   props: {
+    loadingFunds: { type: Boolean, required: true },
     funds: { type: Array, required: true },
   },
   data() {
@@ -54,7 +55,7 @@ export default {
     },
   },
   watch: {
-    funds() {
+    loadingFunds() {
       this.getContributions();
     },
   },

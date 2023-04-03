@@ -26,11 +26,11 @@
             <span class="hover" v-text="transfer.fundName" @click="goToFund(transfer.fundAddress)"></span>
           </span>
           <span v-if="filter === 'received'">
-            <AppShowAddress type="entity" class="address" :address="transfer.sender" />
+            <AppShowAddress type="entity" class="address" :address="transfer.to" :goToProfile="true" />
             <span>recibió&nbsp;</span>
             <AppShowEth :weis="transfer.value" />
             <span>&nbsp;de&nbsp;</span>
-            <AppShowAddress type="entity" class="address" :address="transfer.to" />
+            <AppShowAddress type="entity" class="address" :address="transfer.sender" :goToProfile="true" />
             <span>del fondo:&nbsp;</span>
             <span class="hover" v-text="transfer.fundName" @click="goToFund(transfer.fundAddress)"></span>
           </span>

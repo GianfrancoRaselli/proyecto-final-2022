@@ -13,6 +13,7 @@ export default {
     Transfers,
   },
   props: {
+    loadingFunds: { type: Boolean, required: true },
     funds: { type: Array, required: true },
   },
   data() {
@@ -23,7 +24,7 @@ export default {
   },
   computed: {},
   watch: {
-    funds() {
+    loadingFunds() {
       this.getTransfers();
     },
   },

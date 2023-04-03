@@ -152,13 +152,13 @@
           <FundsAdmin :loading="loadingFunds" :funds="funds" v-show="extraInformation.fundsAdmin" />
 
           <!-- Contribuciones -->
-          <Contributions :funds="funds" v-show="extraInformation.contributions" />
+          <Contributions :loadingFunds="loadingFunds" :funds="funds" v-show="extraInformation.contributions" />
 
           <!-- Transferencias realizadas -->
-          <TransfersMade :funds="funds" v-show="extraInformation.transfersMade" />
+          <TransfersMade :loadingFunds="loadingFunds" :funds="funds" v-show="extraInformation.transfersMade" />
 
           <!-- Transferencias recibidas -->
-          <TransferReceived :funds="funds" v-show="extraInformation.transferReceived" />
+          <TransferReceived :loadingFunds="loadingFunds" :funds="funds" v-show="extraInformation.transferReceived" />
 
           <!-- Solicitudes creadas -->
           <RequestsCreated
