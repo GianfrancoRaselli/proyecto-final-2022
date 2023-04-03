@@ -9,7 +9,7 @@ const serverUrlProduction = 'https://proyecto-final-2022-server.onrender.com/';
 
 const ganacheNetwork = {
   id: '0x539',
-  name: 'Ganache',
+  name: 'Ganache Testnet',
   coin: 'ETH',
   explorer: '',
 };
