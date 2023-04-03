@@ -1,185 +1,195 @@
 <template>
   <div>
     <p class="page-title">Perfil de la entidad</p>
-    <div class="entity-card">
-      <AppSpinner class="spinner" size="big" v-if="loadingEntity" />
-      <div class="entity-card-content" v-else>
-        <div class="img-center">
-          <div class="img-container">
-            <img class="not-found-img" src="@/assets/imgs/user-not-found.png" v-if="!entity" />
-            <img class="profile-img magnify-img" :src="serverUrl + 'images/' + entity.image" v-if="entity && entity.image" />
-            <img class="avatar-img" src="@/assets/imgs/user-avatar.png" v-if="entity && !entity.image" />
-          </div>
-          <div class="icons" v-if="isMyProfile">
-            <FaIcon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" v-if="entity" />
-            <FaIcon icon="trash" class="icon red" @click="openRemoveImage" v-if="entity && entity.image" />
-          </div>
-        </div>
-        <div class="information">
-          <div class="header">
-            <span class="fullname" v-if="entity" v-text="entity.fullname" />
-            <span class="type" v-if="entity" v-text="entity.type" />
-            <span class="address"
-              ><AppShowAddress type="entity" :address="$route.params.address" :forceShowAddress="true"
-            /></span>
-            <span class="description" v-if="entity" v-text="entity.description" />
-          </div>
-          <div class="body" v-if="entity">
-            <span class="email" v-if="entity.email"
-              ><FaIcon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">{{
-                entity.email
-              }}</a></span
-            >
-            <span class="phone" v-if="entity.phone"
-              ><FaIcon icon="phone" class="icon" />&nbsp;<a :href="'tel:' + entity.phone">{{ entity.phone }}</a></span
-            >
-            <span class="location" v-if="entity.country && entity.region"
-              ><FaIcon icon="location-dot" class="icon" />&nbsp;<a
-                :href="'https://www.google.com/maps?q=' + entity.region + ', ' + entity.country"
-                target="_blank"
-                >{{ entity.region }},&nbsp;{{ entity.country }}</a
-              ></span
-            >
-            <span class="url" v-if="entity.url"
-              ><FaIcon icon="link" class="icon" />&nbsp;<a :href="entity.url" target="_blank">Sitio Web</a></span
-            >
-            <AppButton
-              classes="btn-secondary btn-block"
-              text="Actualizar datos"
-              data-toggle="modal"
-              data-target="#editEntityModal"
-              v-if="isMyProfile"
-            />
-          </div>
-          <div class="not-entity" v-else>
-            <p class="title" v-if="!isMyProfile">La entidad no existe o aún no ha sido creada.</p>
-            <p class="title" v-else>La entidad aún no ha sido creada.</p>
-            <p class="subtitle" v-if="!isMyProfile">¡Inténtelo nuevamente más tarde!</p>
-            <AppButton classes="btn-primary" text="Crear entidad" data-toggle="modal" data-target="#editEntityModal" v-else />
-          </div>
+    <div class="error-alert-container" v-if="!isAValidAddress">
+      <div class="alert alert-danger error-alert" role="alert">
+        <FaIcon icon="circle-exclamation" class="icon" size="5x" />
+        <div class="error-msg">
+          <p>¡La address no es válida!</p>
         </div>
       </div>
-
-      <EditEntityModal :entity="entity" @update="getEntityData" />
-      <EditImageModal @submit="updateImage" />
     </div>
+    <div v-else>
+      <div class="entity-card">
+        <AppSpinner class="spinner" size="big" v-if="loadingEntity" />
+        <div class="entity-card-content" v-else>
+          <div class="img-center">
+            <div class="img-container">
+              <img class="not-found-img" src="@/assets/imgs/user-not-found.png" v-if="!entity" />
+              <img class="profile-img magnify-img" :src="serverUrl + 'images/' + entity.image" v-if="entity && entity.image" />
+              <img class="avatar-img" src="@/assets/imgs/user-avatar.png" v-if="entity && !entity.image" />
+            </div>
+            <div class="icons" v-if="isMyProfile">
+              <FaIcon icon="plus" class="icon light" data-toggle="modal" data-target="#editImageModal" v-if="entity" />
+              <FaIcon icon="trash" class="icon red" @click="openRemoveImage" v-if="entity && entity.image" />
+            </div>
+          </div>
+          <div class="information">
+            <div class="header">
+              <span class="fullname" v-if="entity" v-text="entity.fullname" />
+              <span class="type" v-if="entity" v-text="entity.type" />
+              <span class="address"
+                ><AppShowAddress type="entity" :address="$route.params.address" :forceShowAddress="true"
+              /></span>
+              <span class="description" v-if="entity" v-text="entity.description" />
+            </div>
+            <div class="body" v-if="entity">
+              <span class="email" v-if="entity.email"
+                ><FaIcon icon="envelope" class="icon" />&nbsp;<a :href="'mailto:' + entity.email + '?Subject=Fund'">{{
+                  entity.email
+                }}</a></span
+              >
+              <span class="phone" v-if="entity.phone"
+                ><FaIcon icon="phone" class="icon" />&nbsp;<a :href="'tel:' + entity.phone">{{ entity.phone }}</a></span
+              >
+              <span class="location" v-if="entity.country && entity.region"
+                ><FaIcon icon="location-dot" class="icon" />&nbsp;<a
+                  :href="'https://www.google.com/maps?q=' + entity.region + ', ' + entity.country"
+                  target="_blank"
+                  >{{ entity.region }},&nbsp;{{ entity.country }}</a
+                ></span
+              >
+              <span class="url" v-if="entity.url"
+                ><FaIcon icon="link" class="icon" />&nbsp;<a :href="entity.url" target="_blank">Sitio Web</a></span
+              >
+              <AppButton
+                classes="btn-secondary btn-block"
+                text="Actualizar datos"
+                data-toggle="modal"
+                data-target="#editEntityModal"
+                v-if="isMyProfile"
+              />
+            </div>
+            <div class="not-entity" v-else>
+              <p class="title" v-if="!isMyProfile">La entidad no existe o aún no ha sido creada.</p>
+              <p class="title" v-else>La entidad aún no ha sido creada.</p>
+              <p class="subtitle" v-if="!isMyProfile">¡Inténtelo nuevamente más tarde!</p>
+              <AppButton classes="btn-primary" text="Crear entidad" data-toggle="modal" data-target="#editEntityModal" v-else />
+            </div>
+          </div>
+        </div>
 
-    <div class="investment-statistics">
-      <div class="item item-red">
+        <EditEntityModal :entity="entity" @update="getEntityData" />
+        <EditImageModal @submit="updateImage" />
+      </div>
+
+      <div class="investment-statistics">
+        <div class="item item-red">
+          <div
+            class="amount"
+            :class="{ 'amount-clickable': contributedFundsAmount > 0 }"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title=""
+            :data-original-title="'≈ ' + usdContributed + ' USD'"
+            v-text="ethContributed"
+            @click="openFundsContributedModal"
+          ></div>
+          <span class="description"><span class="unit">ETH</span> contribuidos</span>
+        </div>
+        <div class="item item-purple">
+          <div
+            class="amount"
+            :class="{ 'amount-clickable': contributedFundsAmount > 0 }"
+            v-text="contributedFundsAmount"
+            @click="openFundsContributedModal"
+          ></div>
+          <span class="description"><span class="unit">Fondos</span> contribuidos</span>
+        </div>
+
+        <FundsContributedModal :loading="loading" :contributions="fundsContributions" v-if="contributedFundsAmount > 0" />
+      </div>
+
+      <div class="extra-information profile-extra-information">
         <div
-          class="amount"
-          :class="{ 'amount-clickable': contributedFundsAmount > 0 }"
-          data-toggle="tooltip"
-          data-placement="bottom"
-          title=""
-          :data-original-title="'≈ ' + usdContributed + ' USD'"
-          v-text="ethContributed"
-          @click="openFundsContributedModal"
-        ></div>
-        <span class="description"><span class="unit">ETH</span> contribuidos</span>
-      </div>
-      <div class="item item-purple">
-        <div
-          class="amount"
-          :class="{ 'amount-clickable': contributedFundsAmount > 0 }"
-          v-text="contributedFundsAmount"
-          @click="openFundsContributedModal"
-        ></div>
-        <span class="description"><span class="unit">Fondos</span> contribuidos</span>
-      </div>
-
-      <FundsContributedModal :loading="loading" :contributions="fundsContributions" v-if="contributedFundsAmount > 0" />
-    </div>
-
-    <div class="extra-information profile-extra-information">
-      <div
-        id="extra-information-header"
-        class="extra-information-header"
-        @mouseover="mouseOverHeader"
-        @mouseleave="mouseLeaveHeader"
-      >
-        <div class="arrow arrow-left" @click="goBack" v-if="extraInformation.activeGoBack">
-          <FaIcon icon="arrow-left" class="icon" />
-        </div>
-        <div class="arrow arrow-right" @click="goForward" v-if="extraInformation.activeGoForward">
-          <FaIcon icon="arrow-right" class="icon" />
-        </div>
-        <div id="extra-information-header-container" class="extra-information-header-container">
-          <div class="item" @click="extraInformation.fundsCreated = true">
-            <span class="span" :class="{ 'span-active': extraInformation.fundsCreated }">Fondos creados</span>
-            <div class="bar" :class="{ 'bar-active': extraInformation.fundsCreated }"></div>
+          id="extra-information-header"
+          class="extra-information-header"
+          @mouseover="mouseOverHeader"
+          @mouseleave="mouseLeaveHeader"
+        >
+          <div class="arrow arrow-left" @click="goBack" v-if="extraInformation.activeGoBack">
+            <FaIcon icon="arrow-left" class="icon" />
           </div>
-          <div class="item" @click="extraInformation.fundsAdmin = true">
-            <span class="span" :class="{ 'span-active': extraInformation.fundsAdmin }">Administrador</span>
-            <div class="bar" :class="{ 'bar-active': extraInformation.fundsAdmin }"></div>
+          <div class="arrow arrow-right" @click="goForward" v-if="extraInformation.activeGoForward">
+            <FaIcon icon="arrow-right" class="icon" />
           </div>
-          <div class="item" @click="extraInformation.contributions = true">
-            <span class="span" :class="{ 'span-active': extraInformation.contributions }">Contribuciones</span>
-            <div class="bar" :class="{ 'bar-active': extraInformation.contributions }"></div>
-          </div>
-          <div class="item" @click="extraInformation.transfersMade = true">
-            <span class="span" :class="{ 'span-active': extraInformation.transfersMade }">Transferencias realizadas</span>
-            <div class="bar" :class="{ 'bar-active': extraInformation.transfersMade }"></div>
-          </div>
-          <div class="item" @click="extraInformation.transferReceived = true">
-            <span class="span" :class="{ 'span-active': extraInformation.transferReceived }">Transferencias recibidas</span>
-            <div class="bar" :class="{ 'bar-active': extraInformation.transferReceived }"></div>
-          </div>
-          <div class="item" @click="extraInformation.requestsCreated = true">
-            <span class="span" :class="{ 'span-active': extraInformation.requestsCreated }">Solicitudes creadas</span>
-            <div class="bar" :class="{ 'bar-active': extraInformation.requestsCreated }"></div>
-          </div>
-          <div class="item" @click="extraInformation.requestsReceiver = true">
-            <span class="span" :class="{ 'span-active': extraInformation.requestsReceiver }">Destinatario</span>
-            <div class="bar" :class="{ 'bar-active': extraInformation.requestsReceiver }"></div>
+          <div id="extra-information-header-container" class="extra-information-header-container">
+            <div class="item" @click="extraInformation.fundsCreated = true">
+              <span class="span" :class="{ 'span-active': extraInformation.fundsCreated }">Fondos creados</span>
+              <div class="bar" :class="{ 'bar-active': extraInformation.fundsCreated }"></div>
+            </div>
+            <div class="item" @click="extraInformation.fundsAdmin = true">
+              <span class="span" :class="{ 'span-active': extraInformation.fundsAdmin }">Administrador</span>
+              <div class="bar" :class="{ 'bar-active': extraInformation.fundsAdmin }"></div>
+            </div>
+            <div class="item" @click="extraInformation.contributions = true">
+              <span class="span" :class="{ 'span-active': extraInformation.contributions }">Contribuciones</span>
+              <div class="bar" :class="{ 'bar-active': extraInformation.contributions }"></div>
+            </div>
+            <div class="item" @click="extraInformation.transfersMade = true">
+              <span class="span" :class="{ 'span-active': extraInformation.transfersMade }">Transferencias realizadas</span>
+              <div class="bar" :class="{ 'bar-active': extraInformation.transfersMade }"></div>
+            </div>
+            <div class="item" @click="extraInformation.transferReceived = true">
+              <span class="span" :class="{ 'span-active': extraInformation.transferReceived }">Transferencias recibidas</span>
+              <div class="bar" :class="{ 'bar-active': extraInformation.transferReceived }"></div>
+            </div>
+            <div class="item" @click="extraInformation.requestsCreated = true">
+              <span class="span" :class="{ 'span-active': extraInformation.requestsCreated }">Solicitudes creadas</span>
+              <div class="bar" :class="{ 'bar-active': extraInformation.requestsCreated }"></div>
+            </div>
+            <div class="item" @click="extraInformation.requestsReceiver = true">
+              <span class="span" :class="{ 'span-active': extraInformation.requestsReceiver }">Destinatario</span>
+              <div class="bar" :class="{ 'bar-active': extraInformation.requestsReceiver }"></div>
+            </div>
           </div>
         </div>
+        <div class="body">
+          <!-- Fondos creados -->
+          <FundsCreated :loading="loadingFunds" :funds="funds" v-show="extraInformation.fundsCreated" />
+
+          <!-- Fondos en los que es administrador -->
+          <FundsAdmin :loading="loadingFunds" :funds="funds" v-show="extraInformation.fundsAdmin" />
+
+          <!-- Contribuciones -->
+          <Contributions :funds="funds" v-show="extraInformation.contributions" />
+
+          <!-- Transferencias realizadas -->
+          <TransfersMade :funds="funds" v-show="extraInformation.transfersMade" />
+
+          <!-- Transferencias recibidas -->
+          <TransferReceived :funds="funds" v-show="extraInformation.transferReceived" />
+
+          <!-- Solicitudes creadas -->
+          <RequestsCreated
+            :funds="funds"
+            :loading="loadingRequests"
+            :requests="requests"
+            v-show="extraInformation.requestsCreated"
+          />
+
+          <!-- Solicitudes en la que es destinatario -->
+          <RequestsReceiver
+            :funds="funds"
+            :loading="loadingRequests"
+            :requests="requests"
+            v-show="extraInformation.requestsReceiver"
+          />
+        </div>
       </div>
-      <div class="body">
-        <!-- Fondos creados -->
-        <FundsCreated :loading="loadingFunds" :funds="funds" v-show="extraInformation.fundsCreated" />
 
-        <!-- Fondos en los que es administrador -->
-        <FundsAdmin :loading="loadingFunds" :funds="funds" v-show="extraInformation.fundsAdmin" />
-
-        <!-- Contribuciones -->
-        <Contributions :funds="funds" v-show="extraInformation.contributions" />
-
-        <!-- Transferencias realizadas -->
-        <TransfersMade :funds="funds" v-show="extraInformation.transfersMade" />
-
-        <!-- Transferencias recibidas -->
-        <TransferReceived :funds="funds" v-show="extraInformation.transferReceived" />
-
-        <!-- Solicitudes creadas -->
-        <RequestsCreated
-          :funds="funds"
-          :loading="loadingRequests"
-          :requests="requests"
-          v-show="extraInformation.requestsCreated"
-        />
-
-        <!-- Solicitudes en la que es destinatario -->
-        <RequestsReceiver
-          :funds="funds"
-          :loading="loadingRequests"
-          :requests="requests"
-          v-show="extraInformation.requestsReceiver"
-        />
-      </div>
-    </div>
-
-    <div class="saved-funds mt-5" v-if="address && compareAddresses(address, $route.params.address) && savedFunds.length > 0">
-      <p class="title">Fondos guardados</p>
-      <div class="saved-funds-list">
-        <FundCard
-          class="fund-card"
-          :fund="funds[funds.findIndex((fund) => compareAddresses(fund.address, savedFund))]"
-          :savedFunds="savedFunds"
-          @updateSavedFunds="getSavedFunds"
-          v-for="(savedFund, index) in savedFundsOrdered"
-          :key="index"
-        />
+      <div class="saved-funds mt-5" v-if="address && compareAddresses(address, $route.params.address) && savedFunds.length > 0">
+        <p class="title">Fondos guardados</p>
+        <div class="saved-funds-list">
+          <FundCard
+            class="fund-card"
+            :fund="funds[funds.findIndex((fund) => compareAddresses(fund.address, savedFund))]"
+            :savedFunds="savedFunds"
+            @updateSavedFunds="getSavedFunds"
+            v-for="(savedFund, index) in savedFundsOrdered"
+            :key="index"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -228,6 +238,7 @@ export default {
   data() {
     return {
       serverUrl,
+      isAValidAddress: false,
       ethPriceInUSD: 0,
       loadingEntity: true,
       entity: null,
@@ -600,14 +611,18 @@ export default {
     },
   },
   async created() {
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
+    if (Web3.utils.isAddress(this.$route.params.address)) {
+      this.isAValidAddress = true;
 
-    this.ethPriceInUSD = await ethPriceInUSD();
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
 
-    this.getEntityData();
-    this.getAllFunds();
+      this.ethPriceInUSD = await ethPriceInUSD();
+
+      this.getEntityData();
+      this.getAllFunds();
+    }
   },
 };
 </script>

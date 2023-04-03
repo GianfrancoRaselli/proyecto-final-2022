@@ -212,6 +212,31 @@ body {
   display: inline-flex;
 }
 
+.error-alert-container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  .error-alert {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 1rem;
+    border-radius: 15px;
+
+    .error-msg {
+      margin-top: 2rem;
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    .redirect {
+      margin-top: 1.5rem;
+      font-size: 1.26rem;
+    }
+  }
+}
+
 .form-group {
   label {
     color: rgba(22, 22, 22, 0.922);
