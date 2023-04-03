@@ -164,12 +164,13 @@ const checkValidChain = () => {
 
 const signMessage = async () => {
   try {
+    const address = store.getters.address;
     const signature = await store.state.connection.web3.eth.personal.sign(
       'Firme este mensaje para validar que tiene acceso a esta billetera para iniciar sesión.\n\nEsto no le costará ningún Ether.',
-      store.getters.address,
+      address,
     );
     console.log('Signature: ' + signature);
-    store.commit('setSignature', signature);
+    store.commit('setSignature', compareAddresses(address, store.getters.address) ? signature : undefined);
   } catch (e) {
     store.commit('setSignature', undefined);
     throw e;
