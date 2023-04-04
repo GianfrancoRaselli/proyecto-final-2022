@@ -152,7 +152,7 @@ export default {
               { name: 'Fund', address: this.$route.params.fundAddress },
               'approveRequest',
               [index],
-              {},
+              undefined,
               true,
               'Solicitud ' + (index + 1) + ' de ' + this.fund.name + ' aprobada',
             );
@@ -213,7 +213,7 @@ export default {
             { name: 'Fund', address: this.$route.params.fundAddress },
             'finalizeRequest',
             [index],
-            {},
+            undefined,
             true,
             'Solicitud ' + (index + 1) + ' de ' + this.fund.name + ' aprobada',
           );

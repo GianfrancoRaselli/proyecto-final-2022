@@ -220,7 +220,7 @@ export default {
               'FundFactory',
               'changeFundTokenPrice',
               [newFundTokenPriceInWeis],
-              {},
+              undefined,
               true,
               'Precio del FundToken modificado',
             );
@@ -242,7 +242,7 @@ export default {
     async withdrawMoney() {
       try {
         this.withdrawMoneyLoading = true;
-        await transaction('FundFactory', 'withdrawMoney', [], {}, true, 'Dinero retirado');
+        await transaction('FundFactory', 'withdrawMoney', [], undefined, true, 'Dinero retirado');
         addNotification({
           message: 'Dinero retirado',
           type: 'success',

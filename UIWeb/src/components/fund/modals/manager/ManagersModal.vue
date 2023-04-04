@@ -100,7 +100,7 @@ export default {
             { name: 'Fund', address: this.$route.params.fundAddress },
             'removeManager',
             [this.fund.managers.findIndex((m) => compareAddresses(m, manager))],
-            {},
+            undefined,
             true,
             'Administrador eliminado de ' + this.fund.name + ': ' + getSplitAddress(manager),
           );
