@@ -188,12 +188,12 @@ export default {
             [this.arrayOfManagers],
             undefined,
             true,
-            'Nuevos administradores agregados a ' + this.fund.name,
+            'Nuevos administradores agregados a: ' + this.fund.name,
           );
           // eslint-disable-next-line vue/no-mutating-props
           this.fund.managers.concat(this.arrayOfManagers);
           addNotification({
-            message: 'Nuevos administradores agregados a ' + this.fund.name,
+            message: 'Nuevos administradores agregados a: ' + this.fund.name,
             type: 'success',
           });
           this.goBack();

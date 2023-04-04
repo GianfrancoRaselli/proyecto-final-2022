@@ -44,7 +44,7 @@
                     </button>
                     <button class="btn btn-danger btn-sm" type="button" disabled v-if="removing(manager)">
                       <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-                      Removing...
+                      Eliminando...
                     </button>
                   </div>
                 </li>
@@ -102,12 +102,12 @@ export default {
             [this.fund.managers.findIndex((m) => compareAddresses(m, manager))],
             undefined,
             true,
-            'Administrador eliminado de ' + this.fund.name + ': ' + getSplitAddress(manager),
+            'Aministrador ' + getSplitAddress(manager) + ' eliminado de: ' + this.fund.name,
           );
           // eslint-disable-next-line vue/no-mutating-props
           this.fund.managers = this.fund.managers.filter((m) => m.toLowerCase() !== manager.toLowerCase());
           addNotification({
-            message: 'Aministrador ' + getSplitAddress(manager) + ' eliminado de ' + this.fund.name,
+            message: 'Aministrador ' + getSplitAddress(manager) + ' eliminado de: ' + this.fund.name,
             type: 'success',
           });
         } finally {

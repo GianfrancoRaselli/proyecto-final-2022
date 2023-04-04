@@ -167,18 +167,21 @@ export default {
             this.approvingRequests = this.approvingRequests.filter((i) => i !== index);
           }
         } else {
-          let message = 'You have not contributed to the fund yet';
+          let message = 'No has contribuido al fondo aún';
           if (this.fund.totalContributions > 0) {
             message =
-              'You have contributed ' +
-              ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address))
-                ? this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution
-                : 0) /
-                this.fund.totalContributions) *
-                100 +
-              '% of the ' +
+              'Solo has contribuido ' +
+              convertNumberToMaxDecimals(
+                ((this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address))
+                  ? this.fund.contributors.find((c) => compareAddresses(c.contributor, this.address)).contribution
+                  : 0) /
+                  this.fund.totalContributions) *
+                  100,
+                3,
+              ) +
+              '% del ' +
               this.fund.minimumContributionPercentageRequired +
-              '% required to approve a request';
+              '% requerido para poder aprobar una solicitud';
           }
           addNotification({
             message,
