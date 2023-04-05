@@ -4,11 +4,13 @@ const { seedImages } = require("./imagesSeeder/imagesSeeder");
 const { seedEntity } = require("./entitySeeder/entitySeeder");
 const { seedFund } = require("./fundSeeder/fundSeeder");
 
-const seedDB = async () => {
-  seedImages();
-  await dropCollections();
-  await seedFund();
-  seedEntity();
+const seed = async () => {
+  if (process.env.SEED_IMAGES === "true") seedImages();
+  if (process.env.SEED_DB === "true") {
+    await dropCollections();
+    await seedFund();
+    await seedEntity();
+  }
 };
 
 const dropCollections = async () => {
@@ -19,4 +21,4 @@ const dropCollections = async () => {
   console.log("Collections dropped");
 };
 
-module.exports = { seedDB };
+module.exports = { seed };

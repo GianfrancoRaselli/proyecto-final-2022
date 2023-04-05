@@ -4,13 +4,16 @@ const path = require("path");
 const fs = require("fs-extra");
 const solc = require("solc");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-const { infuraProvider } = require("../../config");
+const { isLocalhost, infuraProvider } = require("../../config");
 const Web3 = require("web3");
 
 const seedFund = async () => {
   console.log("Seeding fund...");
   if (process.env.COMPILE_CONTRACTS === "true") compileContracts();
-  const provider = new HDWalletProvider(process.env.GANACHE_MNEMONIC_PHRASE.split("/").join(" "), infuraProvider);
+  const provider = new HDWalletProvider(
+    isLocalhost ? process.env.GANACHE_MNEMONIC_PHRASE.split("/").join(" ") : process.env.MNEMONIC_PHRASE.split("/").join(" "),
+    infuraProvider
+  );
   const web3 = new Web3(provider);
   const fundFactoryInstance = await deployNewFundFactoryContract(web3);
   const accounts = await web3.eth.getAccounts();
@@ -165,7 +168,7 @@ const deployNewFundFactoryContract = async (web3) => {
   const FundFactoryContract = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../../build", "FundFactory.json"), "utf-8"));
   const fundFactoryInstance = await new web3.eth.Contract(FundFactoryContract.abi)
     .deploy({ data: FundFactoryContract.evm.bytecode.object, arguments: ["1000000000000000"] })
-    .send({ from: process.env.GANACHE_ADDRESS });
+    .send({ from: isLocalhost ? process.env.GANACHE_ADDRESS : process.env.ADDRESS });
 
   // Save the last addresses deployed
   fs.writeFileSync(
