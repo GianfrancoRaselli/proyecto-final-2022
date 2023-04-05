@@ -142,7 +142,7 @@ const handleAccountsChanged = (accounts) => {
   if (store.getters.address) {
     searchIsTheDeployer();
     searchFundTokensBalance();
-    if (!store.state.connection.disconnected) signMessage();
+    signMessage();
   }
 };
 
