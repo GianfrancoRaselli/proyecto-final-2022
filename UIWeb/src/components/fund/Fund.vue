@@ -73,7 +73,7 @@
                 </div>
               </div>
               <p class="h5 text-center my-3 information-text">Información</p>
-              <div class="items-container">
+              <div class="items-square-container items-container">
                 <div class="item-container item-container-sm">
                   <div class="item">
                     <span class="value">

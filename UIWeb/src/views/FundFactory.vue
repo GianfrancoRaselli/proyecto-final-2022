@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="page-title">FundFactory</p>
-    <div class="items-container">
+    <div class="items-square-container items-container">
       <div class="item-container item-container-owner">
         <div class="item">
           <span class="value">

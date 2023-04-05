@@ -343,8 +343,8 @@ body {
   .card {
     word-break: break-word;
     word-wrap: break-word;
-    height: 99%;
-    width: 99%;
+    height: 98%;
+    width: 98%;
     position: relative;
 
     .card-header {
@@ -367,8 +367,8 @@ body {
 
   .card:hover {
     cursor: pointer;
-    height: 100%;
-    width: 100%;
+    height: 99%;
+    width: 99%;
     box-shadow: 0 0 2px rgb(65, 65, 65);
   }
 }
@@ -433,7 +433,7 @@ body {
   }
 }
 
-.items-container {
+.items-square-container {
   font-size: 1rem;
   display: flex;
   flex-direction: row;
