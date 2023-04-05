@@ -7,8 +7,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const { dbName } = require("./config");
-const { seed } = require("./seeder");
+const { isLocalhost, dbName } = require("./config");
+const { seedDB } = require("./seeder");
 
 // initializations
 const PORT = 4000;
@@ -37,8 +37,8 @@ app.listen(process.env.PORT || PORT, () => {
     .then(() => {
       console.log("--> Atlas DB Connected ✅.");
 
-      // seed
-      seed();
+      // seed db
+      if (isLocalhost && process.env.SEED_DB) seedDB();
     })
     .catch((err) => console.log(err));
 });
