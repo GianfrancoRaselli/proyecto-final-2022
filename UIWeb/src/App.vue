@@ -328,7 +328,6 @@ body {
 
   .router-link {
     color: black;
-    display: block;
     height: 100%;
     width: 100%;
     display: flex;
