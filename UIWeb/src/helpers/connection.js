@@ -137,6 +137,7 @@ const handleAccountsChanged = (accounts) => {
   store.commit('setAddress', accounts[0] ? accounts[0] : '');
   store.commit('setSignature', undefined);
   store.commit('setIsTheDeployer', false);
+  store.commit('setFundTokensBalance', 0);
 
   if (store.getters.address) {
     searchIsTheDeployer();
