@@ -22,23 +22,23 @@ app.use(bodyParser.json());
 // routes
 app.use("/", require("./routes"));
 
-// starting the server
-app.listen(process.env.PORT || PORT, () => {
-  console.log("Server on port: " + (process.env.PORT || PORT));
+//connect to db
+mongoose.set("strictQuery", true);
+mongoose
+  .connect(process.env.MONGO_ATLAS_URI, {
+    dbName,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(async () => {
+    console.log("--> Atlas DB Connected ✅.");
 
-  //connect to db
-  mongoose.set("strictQuery", true);
-  mongoose
-    .connect(process.env.MONGO_ATLAS_URI, {
-      dbName,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-    .then(() => {
-      console.log("--> Atlas DB Connected ✅.");
+    // seed db
+    if (isLocalhost && process.env.SEED_DB) await seedDB();
 
-      // seed db
-      if (isLocalhost && process.env.SEED_DB) seedDB();
-    })
-    .catch((err) => console.log(err));
-});
+    // starting the server
+    app.listen(process.env.PORT || PORT, () => {
+      console.log("Server on port: " + (process.env.PORT || PORT));
+    });
+  })
+  .catch((err) => console.log(err));
