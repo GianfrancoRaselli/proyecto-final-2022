@@ -468,7 +468,7 @@ body {
           font-weight: bold;
 
           .btn:first-child {
-            font-size: 1.6em;
+            font-size: 1em !important;
             font-weight: bold;
           }
         }

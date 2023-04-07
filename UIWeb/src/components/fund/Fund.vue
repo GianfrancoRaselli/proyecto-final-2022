@@ -94,12 +94,14 @@
                           data-toggle="modal"
                           :data-target="'#entityModal' + fund.creator"
                         >
-                          <AppShowAddress
-                            class="address-creator"
-                            type="entity"
-                            :address="fund.creator"
-                            :allowCopyAddress="false"
-                          /></button
+                          <div class="align-items-row">
+                            <AppShowAddress
+                              class="address-creator"
+                              type="entity"
+                              :address="fund.creator"
+                              :allowCopyAddress="false"
+                            />
+                          </div></button
                       ></span>
                       <span class="unit">Creador</span>
                     </span>
@@ -865,10 +867,6 @@ export default {
 
   .items-container {
     font-size: 0.85rem;
-
-    .btn {
-      font-size: 1em !important;
-    }
 
     .btn-show-contributors {
       font-size: 0.92rem !important;
