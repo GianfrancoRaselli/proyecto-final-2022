@@ -34,7 +34,7 @@ mongoose
     console.log("--> Atlas DB Connected ✅.");
 
     // seed db
-    if (process.env.SEED_DB) await seedDB();
+    if (process.env.SEED_DB === "true") await seedDB();
 
     // start the server
     app.listen(process.env.PORT || PORT, () => {
