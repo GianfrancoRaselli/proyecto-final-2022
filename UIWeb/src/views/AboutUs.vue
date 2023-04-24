@@ -76,8 +76,8 @@
             <div class="item bottom-bar">
               <p class="title">Privacidad</p>
               <p>
-                Las direcciones de las cuentas no están ligadas a las identidades de las personas. Para poder operar en la cadenad
-                e bloques es necesario disponer del par de claves pública y privada.
+                Las direcciones de las cuentas no están ligadas a las identidades de las personas. Para poder operar en la cadena
+                de bloques es necesario disponer del par de claves pública y privada.
               </p>
             </div>
             <div class="item not-padding-bottom">
