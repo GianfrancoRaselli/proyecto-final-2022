@@ -4,7 +4,7 @@
     <div class="questions-container">
       <Question ask="¿Qué se necesita para comenzar a utilizar la aplicación?" color="red">
         <p>
-          Todo lo que se necesita para comenzar a iteractuar con la aplicación es contar con la billetera MetaMask instalada en el
+          Todo lo que se necesita para comenzar a interactuar con la aplicación es contar con la billetera MetaMask instalada en el
           navegador.
         </p>
         <p>
