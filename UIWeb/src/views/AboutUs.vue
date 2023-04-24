@@ -40,7 +40,7 @@
           <p class="answer">
             La aplicación cuenta con distintos usos prácticos, la misma permite gestionar los fondos de donaciones, pensiones,
             seguros, campañas de inversiones, entre varios usos más que cada entidad le puede asignar personalizando diferentes
-            parámetros a su medidad durante la creación de los mismos.
+            parámetros a su medida durante la creación de los mismos.
           </p>
         </div>
       </div>
