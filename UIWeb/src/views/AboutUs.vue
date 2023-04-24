@@ -14,7 +14,7 @@
 
       <div class="question-container small-question">
         <div class="question">
-          <p class="ask light">¿Qúe tipo de aplicación es?</p>
+          <p class="ask light">¿Qué tipo de aplicación es?</p>
           <p class="answer">
             El sistema de administración de fondos comunes es una aplicación descentralizada que funciona sobre la cadena de
             bloques (Blockchain) de Ethereum.
