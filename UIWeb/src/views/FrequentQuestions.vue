@@ -133,7 +133,7 @@
         cualquier fondo.
       </Question>
 
-      <Question ask="¿Cómo crear un fondo?" color="red">
+      <Question ask="¿Cómo crear un nuevo fondo?" color="red">
         <div class="steps">
           <div class="step">
             <div class="number">1</div>
