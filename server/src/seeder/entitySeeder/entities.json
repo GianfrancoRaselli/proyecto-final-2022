@@ -119,5 +119,17 @@
     "savedFunds": [
       2
     ]
+  },
+  {
+    "num": 9,
+    "fullname": "Administrador del sistema",
+    "type": "Empresa",
+    "description": "Entidad encargada de administrar las ganancias de los FundTokens.",
+    "email": "admin@hotmail.com",
+    "phone": "0587 896-4272",
+    "country": "Argentina",
+    "region": "Santa Fe",
+    "url": "https://proyecto-final-blockchain.netlify.app/inicio",
+    "image": "admin.jpeg"
   }
 ]
