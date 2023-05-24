@@ -13,7 +13,6 @@
       @change="(newValue) => (editing = newValue)"
       @submit="handleSubmit"
     />
-    {{ propertyToEdit }}
   </div>
 </template>
 
