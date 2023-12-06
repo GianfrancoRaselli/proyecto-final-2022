@@ -59,6 +59,9 @@ const connectToMetamask = async () => {
       store.commit('unsubscribeFromTransfersSubscription');
       searchFundTokensBalance();
 
+      console.log(await store.state.connection.provider.request({
+        method: 'eth_chainId',
+      }))
       store.commit(
         'setChainId',
         await store.state.connection.provider.request({
