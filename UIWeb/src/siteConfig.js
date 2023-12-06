@@ -14,7 +14,7 @@ const ganacheNetwork = {
   explorer: '',
 };
 const sepoliaNetwork = {
-  id: '0x11155111',
+  id: '0xaa36a7',
   name: 'Sepolia Testnet',
   coin: 'SepoliaETH',
   explorer: 'https://sepolia.etherscan.io',
