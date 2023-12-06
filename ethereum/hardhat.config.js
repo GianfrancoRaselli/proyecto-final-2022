@@ -33,8 +33,8 @@ module.exports = {
       url: 'http://127.0.0.1:7545',
       accounts: [process.env.GANACHE_PRIVATE_KEY],
     },
-    goerli: {
-      url: `https://goerli.infura.io/v3/${process.env.INFURA_KEY}`,
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${process.env.INFURA_KEY}`,
       accounts: [process.env.PRIVATE_KEY],
     },
   },
@@ -64,15 +64,15 @@ module.exports = {
   ],
   etherscan: {
     apiKey: {
-      goerli: process.env.ETHERSCAN_KEY,
+      sepolia: process.env.ETHERSCAN_KEY,
     },
     customChains: [
       {
-        network: 'goerli',
-        chainId: 5,
+        network: 'sepolia',
+        chainId: 11155111,
         urls: {
-          apiURL: 'https://api-goerli.etherscan.io/api',
-          browserURL: 'https://goerli.etherscan.io',
+          apiURL: 'https://api-sepolia.etherscan.io/api',
+          browserURL: 'https://sepolia.etherscan.io',
         },
       },
     ],
